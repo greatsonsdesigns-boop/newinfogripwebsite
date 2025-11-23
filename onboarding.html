@@ -1,1 +1,961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Onboarding - InfoGrip Media Solution</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --primary-light: #3b82f6;
+            --secondary: #10b981;
+            --dark: #0c1a3a;
+            --light: #f8f9fa;
+            --error: #e74c3c;
+            --success: #10b981;
+            --text: #333;
+            --text-light: #666;
+            --border: #e1e5ee;
+            --shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+            --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--dark), var(--primary), var(--primary-light));
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .form-container {
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            width: 100%;
+            max-width: 700px;
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .form-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 20px;
+            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .logo {
+            height: 100px;
+            width: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1));
+        }
+        
+        .form-header h1 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-weight: 700;
+            font-size: 32px;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .form-header p {
+            color: var(--text-light);
+            font-size: 16px;
+            font-weight: 400;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 60px 40px;
+            background: white;
+            border-radius: 15px;
+        }
+        
+        .loading-spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 25px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .loading p {
+            font-size: 18px;
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text);
+            font-weight: 600;
+            font-size: 14px;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-size: 15px;
+            transition: var(--transition);
+            background-color: var(--light);
+            font-family: 'Inter', sans-serif;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            background-color: white;
+            box-shadow: 0 0 0 4px rgba(30, 58, 138, 0.15);
+            transform: translateY(-2px);
+        }
+        
+        select:hover, input:hover {
+            border-color: var(--primary-light);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .input-icon {
+            position: absolute;
+            right: 18px;
+            top: 42px;
+            color: var(--text-light);
+            transition: var(--transition);
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            border: none;
+            padding: 16px 25px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: var(--transition);
+            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Poppins', sans-serif;
+            letter-spacing: 0.5px;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(30, 58, 138, 0.3);
+            background: linear-gradient(135deg, var(--primary-light), var(--primary));
+        }
+        
+        .submit-btn:active {
+            transform: translateY(-1px);
+        }
+        
+        .error {
+            color: var(--error);
+            font-size: 13px;
+            margin-top: 6px;
+            display: none;
+            font-weight: 500;
+            animation: shake 0.5s ease-in-out;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        .success-message {
+            background: linear-gradient(135deg, var(--success), #059669);
+            color: white;
+            padding: 40px 30px;
+            border-radius: 20px;
+            text-align: center;
+            margin-top: 20px;
+            display: none;
+            animation: slideUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+            box-shadow: 0 20px 40px rgba(16, 185, 129, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .success-message::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            animation: pulse 3s infinite;
+        }
+        
+        @keyframes slideUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(40px) scale(0.95);
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0) scale(1);
+            }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(0.8); opacity: 0.5; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+            100% { transform: scale(0.8); opacity: 0.5; }
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .form-footer {
+            text-align: center;
+            margin-top: 25px;
+            color: var(--text-light);
+            font-size: 14px;
+            font-weight: 400;
+        }
+        
+        .whatsapp-icon {
+            color: #25D366;
+        }
+        
+        .email-icon {
+            color: #D44638;
+        }
+        
+        .success-icon {
+            font-size: 70px;
+            margin-bottom: 20px;
+            color: white;
+            animation: bounceIn 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards, float 3s ease-in-out infinite;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.2));
+            position: relative;
+            z-index: 2;
+        }
+        
+        @keyframes bounceIn {
+            0% { 
+                opacity: 0; 
+                transform: scale(0.3) rotate(-180deg);
+            }
+            50% { 
+                opacity: 1; 
+                transform: scale(1.1) rotate(10deg);
+            }
+            70% { 
+                transform: scale(0.9) rotate(-5deg);
+            }
+            100% { 
+                opacity: 1; 
+                transform: scale(1) rotate(0deg);
+            }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: var(--light);
+            opacity: 0.8;
+            animation: confettiFall 5s linear forwards;
+        }
+        
+        @keyframes confettiFall {
+            0% { 
+                transform: translateY(-100px) rotate(0deg); 
+                opacity: 1;
+            }
+            100% { 
+                transform: translateY(500px) rotate(720deg); 
+                opacity: 0;
+            }
+        }
+        
+        .success-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .success-content h2 {
+            font-size: 28px;
+            margin-bottom: 15px;
+            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+            letter-spacing: 0.5px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .success-content p {
+            font-size: 16px;
+            margin: 12px 0;
+            font-weight: 400;
+            line-height: 1.6;
+        }
+        
+        .highlight {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 600;
+        }
+        
+        .contact-info {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 18px;
+            border-radius: 12px;
+            margin: 20px 0;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .next-steps {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .step {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px 16px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 500;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            animation: fadeInUp 0.6s ease-out forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        .step:nth-child(1) { animation-delay: 0.5s; }
+        .step:nth-child(2) { animation-delay: 0.7s; }
+        .step:nth-child(3) { animation-delay: 0.9s; }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .option-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .option-item {
+            flex: 1 0 calc(50% - 10px);
+            min-width: 180px;
+        }
+        
+        @media (max-width: 600px) {
+            .form-container {
+                padding: 25px 20px;
+            }
+            
+            .logo-container {
+                padding: 15px;
+            }
+            
+            .logo {
+                height: 80px;
+            }
+            
+            .form-header h1 {
+                font-size: 24px;
+            }
+            
+            .success-message {
+                padding: 30px 20px;
+            }
+            
+            .success-content h2 {
+                font-size: 24px;
+            }
+            
+            .option-item {
+                flex: 1 0 100%;
+            }
+            
+            .next-steps {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <div class="form-header">
+            <div class="logo-container">
+                <img src="https://i.postimg.cc/Z5ZRL1rZ/Infogrip-Medi-Soluiton-(Social-Media)-(1).png" alt="InfoGrip Media Solution" class="logo">
+            </div>
+            <h1>Client Onboarding Form</h1>
+            <p>Fill out the form below and we'll get back to you soon</p>
+        </div>
+        
+        <!-- Loading Spinner -->
+        <div class="loading" id="loading">
+            <div class="loading-spinner"></div>
+            <p>Submitting your form to InfoGrip...</p>
+        </div>
+        
+        <form id="onboardingForm">
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" placeholder="Enter your full name">
+                <i class="fas fa-user input-icon"></i>
+                <div class="error" id="nameError">Please enter your full name</div>
+            </div>
+            
+            <div class="form-group">
+                <label for="whatsapp">WhatsApp Number</label>
+                <input type="tel" id="whatsapp" name="whatsapp" placeholder="+91 XXXXX XXXXX">
+                <i class="fab fa-whatsapp whatsapp-icon input-icon"></i>
+                <div class="error" id="whatsappError">Please enter a valid 10-digit WhatsApp number starting with +91</div>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email ID</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email address">
+                <i class="fas fa-envelope email-icon input-icon"></i>
+                <div class="error" id="emailError">Please enter a valid email address with @ symbol</div>
+            </div>
+            
+            <div class="form-group">
+                <label for="category">Category</label>
+                <select id="category" name="category">
+                    <option value="">Select your category</option>
+                    <option value="Politician">Politician</option>
+                    <option value="Business Owner">Business Owner</option>
+                    <option value="NGO">NGO</option>
+                    <option value="Personal Branding">Personal Branding</option>
+                    <option value="Other">Other</option>
+                </select>
+                <i class="fas fa-chevron-down input-icon"></i>
+                <div class="error" id="categoryError">Please select a category</div>
+            </div>
+            
+            <!-- Business Fields (Conditional) -->
+            <div class="form-group hidden" id="businessTypeGroup">
+                <label for="businessType">Type Of Business</label>
+                <select id="businessType" name="businessType">
+                    <option value="">Select your business type</option>
+                    <option value="Gym / Fitness Center">Gym / Fitness Center</option>
+                    <option value="Salon / Beauty Parlour">Salon / Beauty Parlour</option>
+                    <option value="Real Estate / Property Dealer">Real Estate / Property Dealer</option>
+                    <option value="Clothing Store / Boutique">Clothing Store / Boutique</option>
+                    <option value="Restaurant / Café">Restaurant / Café</option>
+                    <option value="Coaching Institute / Tuition Center">Coaching Institute / Tuition Center</option>
+                    <option value="Automobile / Bike Showroom">Automobile / Bike Showroom</option>
+                    <option value="Wholesaler">Wholesaler</option>
+                    <option value="Other">Other</option>
+                </select>
+                <i class="fas fa-chevron-down input-icon"></i>
+                <div class="error" id="businessTypeError">Please select a business type</div>
+            </div>
+            
+            <div class="form-group hidden" id="otherBusinessGroup">
+                <label for="otherBusiness">Other Business Type</label>
+                <input type="text" id="otherBusiness" name="otherBusiness" placeholder="Enter your business type">
+                <div class="error" id="otherBusinessError">Please enter your business type</div>
+            </div>
+            
+            <div class="form-group hidden" id="businessNameGroup">
+                <label for="businessName">Business Name (Optional)</label>
+                <input type="text" id="businessName" name="businessName" placeholder="Enter your business name">
+                <i class="fas fa-building input-icon"></i>
+            </div>
+            
+            <!-- Political Party Fields (Conditional) -->
+            <div class="form-group hidden" id="partyGroup">
+                <label for="party">Party Name</label>
+                <select id="party" name="party">
+                    <option value="">Select your party</option>
+                    <option value="Indian National Congress (अखिल भारतीय कांग्रेस)">Indian National Congress (अखिल भारतीय कांग्रेस)</option>
+                    <option value="Bhartiya Janta Party (भारतीय जनता पार्टी)">Bhartiya Janta Party (भारतीय जनता पार्टी)</option>
+                    <option value="Aam Aadmi Party (आम आदमी पार्टी)">Aam Aadmi Party (आम आदमी पार्टी)</option>
+                    <option value="Samajwadi Party (समाजवादी पार्टी)">Samajwadi Party (समाजवादी पार्टी)</option>
+                    <option value="Other">Other</option>
+                </select>
+                <i class="fas fa-chevron-down input-icon"></i>
+                <div class="error" id="partyError">Please select a party</div>
+            </div>
+            
+            <div class="form-group hidden" id="otherPartyGroup">
+                <label for="otherParty">Other Party Name</label>
+                <input type="text" id="otherParty" name="otherParty" placeholder="Enter your party name">
+                <div class="error" id="otherPartyError">Please enter your party name</div>
+            </div>
+            
+            <!-- Political Role Fields (Conditional) -->
+            <div class="form-group hidden" id="roleGroup">
+                <label for="role">Political Role</label>
+                <select id="role" name="role">
+                    <option value="">Select your role</option>
+                    <option value="MLA (विधायक)">MLA (विधायक)</option>
+                    <option value="MP (सांसद)">MP (सांसद)</option>
+                    <option value="Party Leader (पार्टी नेता)">Party Leader (पार्टी नेता)</option>
+                    <option value="Councillor (पार्षद)">Councillor (पार्षद)</option>
+                    <option value="Village head (सरपंच)">Village head (सरपंच)</option>
+                    <option value="Social Worker (समाज सेवक)">Social Worker (समाज सेवक)</option>
+                    <option value="Youth Leader (युवा नेता)">Youth Leader (युवा नेता)</option>
+                    <option value="Other">Other</option>
+                </select>
+                <i class="fas fa-chevron-down input-icon"></i>
+                <div class="error" id="roleError">Please select your role</div>
+            </div>
+            
+            <div class="form-group hidden" id="otherRoleGroup">
+                <label for="otherRole">Other Role</label>
+                <input type="text" id="otherRole" name="otherRole" placeholder="Enter your political role">
+                <div class="error" id="otherRoleError">Please enter your role</div>
+            </div>
+            
+            <!-- Services Section -->
+            <div class="form-group">
+                <label for="service">Required Service</label>
+                <select id="service" name="service">
+                    <option value="">Select a service</option>
+                    <option value="Complete Social Media Management">Complete Social Media Management</option>
+                    <option value="Website Development">Website Development</option>
+                    <option value="Online Ad Campaign">Online Ad Campaign</option>
+                </select>
+                <i class="fas fa-chevron-down input-icon"></i>
+                <div class="error" id="serviceError">Please select a service</div>
+            </div>
+            
+            <div class="form-group hidden" id="budgetGroup">
+                <label for="budget">Budget (per month)</label>
+                <select id="budget" name="budget">
+                    <option value="">Select your budget</option>
+                    <option value="₹2,000">₹2,000</option>
+                    <option value="₹5,000">₹5,000</option>
+                    <option value="₹10,000">₹10,000</option>
+                    <option value="₹15,000">₹15,000</option>
+                </select>
+                <i class="fas fa-chevron-down input-icon"></i>
+                <div class="error" id="budgetError">Please select a budget</div>
+            </div>
+            
+            <button type="submit" class="submit-btn">
+                <i class="fas fa-paper-plane"></i> Submit Form
+            </button>
+        </form>
+        
+        <div class="success-message" id="successMessage">
+            <div class="success-content">
+                <i class="fas fa-check-circle success-icon"></i>
+                <h2>Submission Successful!</h2>
+                <p>Thank you for choosing <span class="highlight">InfoGrip Media Solution</span></p>
+                
+                <div class="contact-info">
+                    <p><i class="fas fa-clock" style="margin-right: 8px;"></i> Our team will contact you within <strong>24 hours</strong></p>
+                    <p><i class="fas fa-envelope" style="margin-right: 8px;"></i> Check your email for confirmation</p>
+                </div>
+                
+                <p style="font-size: 16px; opacity: 0.9;">We're excited to help grow your digital presence!</p>
+                
+                <div class="next-steps">
+                    <div class="step">📞 Phone Consultation</div>
+                    <div class="step">🎯 Strategy Session</div>
+                    <div class="step">🚀 Project Kickoff</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="form-footer">
+            <p>Your digital success journey starts here</p>
+        </div>
+    </div>
 
+    <script>
+        // Updated Web App URL for Google Sheets integration
+        const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxedc7dXfl51XZr7whZKYkxtXbI-_ItRpPb-7FWwASyMt-cb_3m4magscw_2fnUCGM56w/exec';
+
+        // DOM Elements
+        const elements = {
+            form: document.getElementById('onboardingForm'),
+            loading: document.getElementById('loading'),
+            successMessage: document.getElementById('successMessage'),
+            category: document.getElementById('category'),
+            businessType: document.getElementById('businessType'),
+            party: document.getElementById('party'),
+            role: document.getElementById('role'),
+            service: document.getElementById('service'),
+            businessTypeGroup: document.getElementById('businessTypeGroup'),
+            businessNameGroup: document.getElementById('businessNameGroup'),
+            otherBusinessGroup: document.getElementById('otherBusinessGroup'),
+            partyGroup: document.getElementById('partyGroup'),
+            otherPartyGroup: document.getElementById('otherPartyGroup'),
+            roleGroup: document.getElementById('roleGroup'),
+            otherRoleGroup: document.getElementById('otherRoleGroup'),
+            budgetGroup: document.getElementById('budgetGroup')
+        };
+
+        // Helper function to check if element is visible
+        function isVisible(element) {
+            return !element.classList.contains('hidden');
+        }
+
+        // Format WhatsApp number and validate digits only
+        document.getElementById('whatsapp').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            
+            // Remove any existing formatting
+            value = value.replace(/\s/g, '');
+            
+            // Ensure it starts with 91 for India
+            if (value.startsWith('91')) {
+                value = value.substring(2);
+            }
+            
+            // Format as +91 XXXXX XXXXX
+            if (value.length > 0) {
+                value = '+91 ' + value;
+            }
+            
+            if (value.length > 6) {
+                value = value.substring(0, 6) + ' ' + value.substring(6);
+            }
+            
+            if (value.length > 11) {
+                value = value.substring(0, 11) + ' ' + value.substring(11);
+            }
+            
+            e.target.value = value.substring(0, 16);
+        });
+
+        // Show/hide fields based on category
+        elements.category.addEventListener('change', function() {
+            // Hide all conditional fields first
+            document.querySelectorAll('.form-group').forEach(group => {
+                if (group.id.includes('Group') && group.id !== 'budgetGroup') {
+                    group.classList.add('hidden');
+                }
+            });
+            
+            // Show relevant fields based on category
+            if (this.value === 'Business Owner') {
+                elements.businessTypeGroup.classList.remove('hidden');
+                elements.businessNameGroup.classList.remove('hidden');
+            } else if (this.value === 'Politician') {
+                elements.partyGroup.classList.remove('hidden');
+                elements.roleGroup.classList.remove('hidden');
+            }
+        });
+
+        // Show/hide other business type field
+        elements.businessType.addEventListener('change', function() {
+            if (this.value === 'Other') {
+                elements.otherBusinessGroup.classList.remove('hidden');
+            } else {
+                elements.otherBusinessGroup.classList.add('hidden');
+            }
+        });
+
+        // Show/hide other party field
+        elements.party.addEventListener('change', function() {
+            if (this.value === 'Other') {
+                elements.otherPartyGroup.classList.remove('hidden');
+            } else {
+                elements.otherPartyGroup.classList.add('hidden');
+            }
+        });
+
+        // Show/hide other role field
+        elements.role.addEventListener('change', function() {
+            if (this.value === 'Other') {
+                elements.otherRoleGroup.classList.remove('hidden');
+            } else {
+                elements.otherRoleGroup.classList.add('hidden');
+            }
+        });
+
+        // Show/hide budget based on service selection
+        elements.service.addEventListener('change', function() {
+            if (this.value === 'Complete Social Media Management') {
+                elements.budgetGroup.classList.remove('hidden');
+            } else {
+                elements.budgetGroup.classList.add('hidden');
+            }
+        });
+
+        // Form submission with Google Sheets integration
+        elements.form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Reset errors
+            document.querySelectorAll('.error').forEach(error => {
+                error.style.display = 'none';
+            });
+            
+            // Get form values
+            const formData = {
+                name: document.getElementById('name').value.trim(),
+                whatsapp: document.getElementById('whatsapp').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                category: elements.category.value,
+                businessType: elements.businessType.value,
+                otherBusiness: document.getElementById('otherBusiness').value.trim(),
+                businessName: document.getElementById('businessName').value.trim(),
+                party: elements.party.value,
+                otherParty: document.getElementById('otherParty').value.trim(),
+                role: elements.role.value,
+                otherRole: document.getElementById('otherRole').value.trim(),
+                service: elements.service.value,
+                budget: document.getElementById('budget').value
+            };
+            
+            let isValid = validateForm(formData);
+            
+            // If form is valid, send data to Google Sheets
+            if (isValid) {
+                submitForm(formData);
+            }
+        });
+
+        // Form validation function
+        function validateForm(formData) {
+            let isValid = true;
+            
+            // Validate name
+            if (formData.name === '') {
+                document.getElementById('nameError').style.display = 'block';
+                isValid = false;
+            }
+            
+            // Validate WhatsApp (should be +91 followed by 10 digits)
+            const whatsappValue = formData.whatsapp.replace(/\s/g, '');
+            const whatsappRegex = /^\+91\d{10}$/;
+            
+            if (!whatsappRegex.test(whatsappValue)) {
+                document.getElementById('whatsappError').style.display = 'block';
+                isValid = false;
+            }
+            
+            // Validate email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(formData.email)) {
+                document.getElementById('emailError').style.display = 'block';
+                isValid = false;
+            }
+            
+            // Validate category
+            if (formData.category === '') {
+                document.getElementById('categoryError').style.display = 'block';
+                isValid = false;
+            }
+            
+            // Validate business fields ONLY if category is Business Owner AND fields are visible
+            if (formData.category === 'Business Owner') {
+                if (isVisible(elements.businessTypeGroup) && formData.businessType === '') {
+                    document.getElementById('businessTypeError').style.display = 'block';
+                    isValid = false;
+                }
+                
+                if (isVisible(elements.otherBusinessGroup) && formData.otherBusiness === '') {
+                    document.getElementById('otherBusinessError').style.display = 'block';
+                    isValid = false;
+                }
+            }
+            
+            // Validate political fields ONLY if category is Politician AND fields are visible
+            if (formData.category === 'Politician') {
+                if (isVisible(elements.partyGroup) && formData.party === '') {
+                    document.getElementById('partyError').style.display = 'block';
+                    isValid = false;
+                }
+                
+                if (isVisible(elements.otherPartyGroup) && formData.otherParty === '') {
+                    document.getElementById('otherPartyError').style.display = 'block';
+                    isValid = false;
+                }
+                
+                if (isVisible(elements.roleGroup) && formData.role === '') {
+                    document.getElementById('roleError').style.display = 'block';
+                    isValid = false;
+                }
+                
+                if (isVisible(elements.otherRoleGroup) && formData.otherRole === '') {
+                    document.getElementById('otherRoleError').style.display = 'block';
+                    isValid = false;
+                }
+            }
+            
+            // Validate service
+            if (formData.service === '') {
+                document.getElementById('serviceError').style.display = 'block';
+                isValid = false;
+            }
+            
+            // Validate budget ONLY if service is Social Media Management AND budget field is visible
+            if (formData.service === 'Complete Social Media Management' && isVisible(elements.budgetGroup) && formData.budget === '') {
+                document.getElementById('budgetError').style.display = 'block';
+                isValid = false;
+            }
+            
+            return isValid;
+        }
+
+        // Function to submit form data
+        function submitForm(formData) {
+            // Show loading
+            elements.loading.style.display = 'block';
+            elements.form.style.display = 'none';
+
+            // Prepare data for Google Sheets
+            const submissionData = {
+                timestamp: new Date().toLocaleString(),
+                name: formData.name,
+                whatsapp: formData.whatsapp,
+                email: formData.email,
+                category: formData.category,
+                businessType: formData.category === 'Business Owner' ? 
+                    (formData.businessType === 'Other' ? formData.otherBusiness : formData.businessType) : 'N/A',
+                businessName: formData.category === 'Business Owner' ? formData.businessName : 'N/A',
+                party: formData.category === 'Politician' ? 
+                    (formData.party === 'Other' ? formData.otherParty : formData.party) : 'N/A',
+                role: formData.category === 'Politician' ? 
+                    (formData.role === 'Other' ? formData.otherRole : formData.role) : 'N/A',
+                service: formData.service,
+                budget: formData.service === 'Complete Social Media Management' ? formData.budget : 'N/A'
+            };
+
+            // Submit using Fetch API
+            submitUsingFetch(submissionData);
+        }
+
+        // Function to submit data using Fetch API
+        function submitUsingFetch(formData) {
+            // Create URL parameters
+            const params = new URLSearchParams();
+            for (const key in formData) {
+                params.append(key, formData[key]);
+            }
+            
+            // Submit using fetch with proper error handling
+            fetch(WEB_APP_URL, {
+                method: 'POST',
+                mode: 'no-cors', // Important for Google Apps Script
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: params
+            })
+            .then(() => {
+                // Since we're using no-cors mode, we can't read the response
+                // But we assume it was successful if no error was thrown
+                showSuccessMessage();
+            })
+            .catch(error => {
+                console.error('Error submitting form:', error);
+                // Even if there's an error, show success to the user
+                // This prevents users from resubmitting the same data
+                showSuccessMessage();
+            });
+        }
+
+        // Function to show success message
+        function showSuccessMessage() {
+            elements.loading.style.display = 'none';
+            elements.successMessage.style.display = 'block';
+            createConfetti();
+            
+            // Reset form
+            elements.form.reset();
+            resetConditionalFields();
+        }
+
+        // Function to reset all conditional fields
+        function resetConditionalFields() {
+            document.querySelectorAll('.form-group').forEach(group => {
+                if (group.id.includes('Group') && group.id !== 'budgetGroup') {
+                    group.classList.add('hidden');
+                }
+            });
+        }
+
+        // Confetti effect function
+        function createConfetti() {
+            const successMessage = document.getElementById('successMessage');
+            const colors = ['#10b981', '#f59e0b', '#3b82f6', '#ef4444', '#8b5cf6'];
+            
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.width = Math.random() * 10 + 5 + 'px';
+                confetti.style.height = Math.random() * 10 + 5 + 'px';
+                confetti.style.animationDelay = Math.random() * 5 + 's';
+                successMessage.appendChild(confetti);
+                
+                // Remove confetti after animation
+                setTimeout(() => {
+                    if (confetti.parentNode) {
+                        confetti.parentNode.removeChild(confetti);
+                    }
+                }, 5000);
+            }
+        }
+    </script>
+</body>
+</html>
