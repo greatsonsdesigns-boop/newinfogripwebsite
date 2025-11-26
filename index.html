@@ -321,7 +321,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 0;
+            padding: 8px 0;
         }
 
         .logo {
@@ -400,7 +400,7 @@
 
         /* Hero Section */
         .hero {
-            background: linear-gradient(135deg, var(--dark-blue) 0%, var(--blue) 100%);
+            background: linear-gradient(135deg, #001c4f 0%, #07217c 100%); /* Dark blue gradient */
             color: var(--white);
             padding: 180px 0 120px;
             position: relative;
@@ -461,7 +461,7 @@
         }
 
         .hero h1 {
-            font-size: 3.5rem;
+            font-size: 4rem;
             margin-bottom: 20px;
             line-height: 1.1;
         }
@@ -489,43 +489,23 @@
         }
 
         .hero-shapes {
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 50%;
-            height: 100%;
-            opacity: 0.1;
+            display: none; /* This hides the shapes */
         }
 
         .shape {
-            position: absolute;
-            border-radius: 50%;
-            background: var(--orange);
-            animation: float 6s ease-in-out infinite;
+           display: none;
         }
 
         .shape-1 {
-            width: 300px;
-            height: 300px;
-            top: 10%;
-            right: 10%;
-            animation-delay: 0s;
+             display: none;
         }
 
         .shape-2 {
-            width: 200px;
-            height: 200px;
-            top: 50%;
-            right: 20%;
-            animation-delay: 2s;
+             display: none;
         }
 
         .shape-3 {
-            width: 150px;
-            height: 150px;
-            top: 70%;
-            right: 30%;
-            animation-delay: 4s;
+            display: none;
         }
 
         @keyframes float {
