@@ -137,8 +137,54 @@
             transform: translateY(-3px);
         }
 
+        /* Glow Pulse Button Animation */
+        .btn-glow-pulse {
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn-glow-pulse::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--orange), #ff9d00, var(--orange));
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            border-radius: 50px;
+        }
+
+        .btn-glow-pulse:hover::before {
+            opacity: 1;
+            animation: glow-pulse 2s infinite;
+        }
+
+        @keyframes glow-pulse {
+            0% {
+                box-shadow: 0 0 5px rgba(253, 203, 84, 0.7);
+            }
+            50% {
+                box-shadow: 0 0 20px rgba(253, 203, 84, 0.9), 0 0 30px rgba(253, 203, 84, 0.6);
+            }
+            100% {
+                box-shadow: 0 0 5px rgba(253, 203, 84, 0.7);
+            }
+        }
+
         section {
             padding: 80px 0;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        section.fade-in {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .section-title {
@@ -170,6 +216,45 @@
             color: var(--blue);
             max-width: 700px;
             margin: 0 auto;
+        }
+
+        /* Scrolling Text Strip */
+        .scrolling-strip {
+            background: linear-gradient(135deg, var(--dark-blue) 0%, var(--blue) 100%);
+            color: white;
+            padding: 15px 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .scrolling-content {
+            display: flex;
+            white-space: nowrap;
+            animation: scroll 30s linear infinite;
+        }
+
+        .scrolling-item {
+            display: inline-block;
+            padding: 0 40px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            position: relative;
+        }
+
+        .scrolling-item:not(:last-child)::after {
+            content: '•';
+            position: absolute;
+            right: -5px;
+            color: var(--orange);
+        }
+
+        @keyframes scroll {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
         }
 
         /* Custom Cursor */
@@ -245,7 +330,7 @@
         }
 
         .logo img {
-            height: 60px; /* Increased logo size */
+            height: 80px; /* Increased logo size */
         }
 
         .nav-menu {
@@ -331,6 +416,31 @@
             height: 100%;
             background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" opacity="0.05"><path d="M0,0V800H1200V0ZM200,400C200,533,333,600,400,600S600,533,600,400,467,200,400,200,200,267,200,400Z" fill="white"/></svg>');
             background-size: cover;
+        }
+
+        /* Moving Gradient Wave */
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 300%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255,255,255,0.1), 
+                transparent);
+            animation: wave 8s linear infinite;
+            z-index: 0;
+        }
+
+        @keyframes wave {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(50%);
+            }
         }
 
         .hero-video {
@@ -427,6 +537,16 @@
             }
         }
 
+        /* Particle Background */
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+
         /* Stats Section */
         .stats {
             background-color: var(--section-bg);
@@ -485,7 +605,7 @@
             font-weight: 600;
         }
 
-        /* Services Section */
+        /* Services Section - Premium Redesign */
         .services-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -502,6 +622,7 @@
             z-index: 1;
             backdrop-filter: blur(10px);
             border: 1px solid var(--glass-border);
+            cursor: pointer;
         }
 
         .service-card::before {
@@ -518,8 +639,8 @@
         }
 
         .service-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
         }
 
         .service-card:hover::before {
@@ -533,11 +654,29 @@
         .service-card:hover .service-icon {
             background-color: var(--orange);
             color: var(--dark-blue);
+            transform: rotateY(180deg);
         }
 
         .service-img {
             height: 200px;
             overflow: hidden;
+            position: relative;
+        }
+
+        .service-img::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: linear-gradient(to top, rgba(0, 28, 79, 0.7), transparent);
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .service-card:hover .service-img::after {
+            opacity: 1;
         }
 
         .service-img img {
@@ -554,6 +693,7 @@
         .service-content {
             padding: 25px;
             transition: var(--transition);
+            position: relative;
         }
 
         .service-icon {
@@ -601,7 +741,7 @@
             transform: translateX(5px);
         }
 
-        /* Features Section */
+        /* Features Section with Floating Animation */
         .features {
             background-color: var(--section-bg);
         }
@@ -620,12 +760,43 @@
             box-shadow: var(--shadow);
             transition: var(--transition);
             border: 1px solid transparent;
+            animation: float-card 6s ease-in-out infinite;
+        }
+
+        .feature-card:nth-child(2) {
+            animation-delay: 1s;
+        }
+
+        .feature-card:nth-child(3) {
+            animation-delay: 2s;
+        }
+
+        .feature-card:nth-child(4) {
+            animation-delay: 3s;
+        }
+
+        .feature-card:nth-child(5) {
+            animation-delay: 4s;
+        }
+
+        .feature-card:nth-child(6) {
+            animation-delay: 5s;
+        }
+
+        @keyframes float-card {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
         }
 
         .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            transform: translateY(-5px) scale(1.03);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
             border-color: var(--orange);
+            animation: none;
         }
 
         .feature-icon {
@@ -1449,6 +1620,35 @@
             box-shadow: 0 4px 8px rgba(7, 33, 124, 0.3);
         }
 
+        /* Action Buttons in Chat */
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            background: var(--orange);
+            color: var(--dark-blue);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .action-btn:hover {
+            background: var(--dark-blue);
+            color: white;
+            transform: translateY(-2px);
+        }
+
         /* Responsive Styles */
         @media (max-width: 992px) {
             .hero h1 {
@@ -1555,6 +1755,11 @@
                 height: 40px;
                 font-size: 1rem;
             }
+
+            .scrolling-item {
+                padding: 0 20px;
+                font-size: 1rem;
+            }
         }
 
         @media (max-width: 576px) {
@@ -1598,7 +1803,7 @@
             }
 
             .logo img {
-                height: 50px;
+                height: 60px;
             }
 
             .stats-container {
@@ -1612,6 +1817,11 @@
 
             .testimonial-card {
                 padding: 20px;
+            }
+
+            .scrolling-item {
+                padding: 0 15px;
+                font-size: 0.9rem;
             }
         }
 
@@ -1660,6 +1870,7 @@
 
     <!-- Hero Section -->
     <section class="hero" id="home">
+        <div id="particles-js"></div>
         <video class="hero-video" autoplay muted loop>
             <source src="https://assets.mixkit.co/videos/preview/mixkit-city-traffic-at-night-3455-large.mp4" type="video/mp4">
             Your browser does not support the video tag.
@@ -1669,7 +1880,7 @@
                 <h1>Most Affordable Digital Marketing Agency in <span class="typing-text" id="typing-text"></span></h1>
                 <p>We specialize in social media management, website development, political & personal branding, and ads campaign management.</p>
                 <div class="hero-btns">
-                    <a href="#" class="btn btn-primary" id="chatbot-open">Let's Talk</a>
+                    <a href="#" class="btn btn-primary btn-glow-pulse" id="chatbot-open">Let's Talk</a>
                     <a href="onboarding.html" class="btn btn-secondary">Onboarding Form</a>
                 </div>
             </div>
@@ -1680,6 +1891,22 @@
             <div class="shape shape-3"></div>
         </div>
     </section>
+
+    <!-- Scrolling Text Strip -->
+    <div class="scrolling-strip">
+        <div class="scrolling-content">
+            <div class="scrolling-item">Web Development</div>
+            <div class="scrolling-item">Social Media</div>
+            <div class="scrolling-item">Ads Management</div>
+            <div class="scrolling-item">Branding</div>
+            <div class="scrolling-item">Political Campaigns</div>
+            <div class="scrolling-item">Web Development</div>
+            <div class="scrolling-item">Social Media</div>
+            <div class="scrolling-item">Ads Management</div>
+            <div class="scrolling-item">Branding</div>
+            <div class="scrolling-item">Political Campaigns</div>
+        </div>
+    </div>
 
     <!-- Stats Section -->
     <section class="stats">
@@ -1717,7 +1944,7 @@
                 <p>We offer comprehensive digital marketing solutions to help your business grow online</p>
             </div>
             <div class="services-grid">
-                <div class="service-card">
+                <div class="service-card" onclick="window.location.href='political-branding.html'">
                     <div class="service-img">
                         <img src="https://i.postimg.cc/mZKS05PD/About-Us-(2).png" alt="Political & Personal Branding">
                     </div>
@@ -1730,7 +1957,7 @@
                         <a href="political-branding.html" class="service-link">Learn More <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
-                <div class="service-card">
+                <div class="service-card" onclick="window.location.href='website-development.html'">
                     <div class="service-img">
                         <img src="https://i.postimg.cc/PqFD1CZw/About-Us-(3).png" alt="Website Development">
                     </div>
@@ -1743,7 +1970,7 @@
                         <a href="website-development.html" class="service-link">Learn More <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
-                <div class="service-card">
+                <div class="service-card" onclick="window.location.href='social-media-management.html'">
                     <div class="service-img">
                         <img src="https://i.postimg.cc/tCHxdQ16/About-Us-(1).png" alt="Social Media Management">
                     </div>
@@ -1756,7 +1983,7 @@
                         <a href="social-media-management.html" class="service-link">Learn More <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
-                <div class="service-card">
+                <div class="service-card" onclick="window.location.href='ads-campaign-management.html'">
                     <div class="service-img">
                         <img src="https://i.postimg.cc/vTwcvfms/About-Us-(4).png" alt="Ads Campaign Management">
                     </div>
@@ -1779,7 +2006,7 @@
             <div class="cta-content">
                 <h2>Ready to Transform Your Digital Presence?</h2>
                 <p>Join hundreds of successful businesses and politicians who trust InfoGrip with their digital marketing</p>
-                <a href="onboarding.html" class="btn btn-primary">Start Work With Us</a>
+                <a href="onboarding.html" class="btn btn-primary btn-glow-pulse">Start Work With Us</a>
             </div>
         </div>
     </section>
@@ -1942,7 +2169,7 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-col">
-                    <img src="https://i.postimg.cc/Nj3bmPwC/Infogrip-Medi-Soluiton-(Social-Media)-(1).png" alt="InfoGrip Media Solution" style="height: 60px; margin-bottom: 20px;">
+                    <img src="https://i.postimg.cc/Nj3bmPwC/Infogrip-Medi-Soluiton-(Social-Media)-(1).png" alt="InfoGrip Media Solution" style="height: 70px; margin-bottom: 20px;">
                     <p>Need Expert Help? We're Just a Message Away!</p>
                     <a href="onboarding.html" class="btn btn-outline">Let's Connect</a>
                     <div class="social-links">
@@ -1968,9 +2195,9 @@
                 <div class="footer-col">
                     <h3>Documentation</h3>
                     <ul class="footer-links">
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms & Conditions</a></li>
-                        <li><a href="#">Refund Policy</a></li>
+                        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                        <li><a href="terms-conditions.html">Terms & Conditions</a></li>
+                        <li><a href="refund-policy.html">Refund Policy</a></li>
                         <li><a href="onboarding.html">Onboarding Process</a></li>
                     </ul>
                 </div>
@@ -1988,9 +2215,9 @@
             <div class="footer-bottom">
                 <p>&copy; InfoGrip Media Solution Ltd. All Rights Reserved 2025</p>
                 <div class="footer-bottom-links">
-                    <a href="#">Privacy Policy</a>
-                    <a href="#">Terms & Conditions</a>
-                    <a href="#">Refund Policy</a>
+                    <a href="privacy-policy.html">Privacy Policy</a>
+                    <a href="terms-conditions.html">Terms & Conditions</a>
+                    <a href="refund-policy.html">Refund Policy</a>
                 </div>
             </div>
         </div>
@@ -2017,7 +2244,7 @@
                 <button class="popup-close" id="popup-close">&times;</button>
             </div>
             <p>Want to grow your Social Media, Website or Ads? Fill our Onboarding Form!</p>
-            <a href="onboarding.html" class="btn btn-primary">Get Started Now</a>
+            <a href="onboarding.html" class="btn btn-primary btn-glow-pulse">Get Started Now</a>
         </div>
     </div>
 
@@ -2071,7 +2298,102 @@
         </div>
     </div>
 
+    <!-- Particle.js Library -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    
     <script>
+        // Initialize Particles.js
+        document.addEventListener('DOMContentLoaded', function() {
+            particlesJS('particles-js', {
+                particles: {
+                    number: {
+                        value: 80,
+                        density: {
+                            enable: true,
+                            value_area: 800
+                        }
+                    },
+                    color: {
+                        value: "#fdcb54"
+                    },
+                    shape: {
+                        type: "circle",
+                        stroke: {
+                            width: 0,
+                            color: "#000000"
+                        }
+                    },
+                    opacity: {
+                        value: 0.5,
+                        random: true,
+                        anim: {
+                            enable: true,
+                            speed: 1,
+                            opacity_min: 0.1,
+                            sync: false
+                        }
+                    },
+                    size: {
+                        value: 3,
+                        random: true,
+                        anim: {
+                            enable: true,
+                            speed: 2,
+                            size_min: 0.1,
+                            sync: false
+                        }
+                    },
+                    line_linked: {
+                        enable: true,
+                        distance: 150,
+                        color: "#fdcb54",
+                        opacity: 0.4,
+                        width: 1
+                    },
+                    move: {
+                        enable: true,
+                        speed: 1,
+                        direction: "none",
+                        random: true,
+                        straight: false,
+                        out_mode: "out",
+                        bounce: false,
+                        attract: {
+                            enable: false,
+                            rotateX: 600,
+                            rotateY: 1200
+                        }
+                    }
+                },
+                interactivity: {
+                    detect_on: "canvas",
+                    events: {
+                        onhover: {
+                            enable: true,
+                            mode: "grab"
+                        },
+                        onclick: {
+                            enable: true,
+                            mode: "push"
+                        },
+                        resize: true
+                    },
+                    modes: {
+                        grab: {
+                            distance: 140,
+                            line_linked: {
+                                opacity: 1
+                            }
+                        },
+                        push: {
+                            particles_nb: 4
+                        }
+                    }
+                },
+                retina_detect: true
+            });
+        });
+
         // Custom Cursor
         const cursor = document.querySelector('.cursor');
         const cursorFollower = document.querySelector('.cursor-follower');
@@ -2257,44 +2579,80 @@
             const conversationDB = {
                 greetings: {
                     patterns: ['hi', 'hello', 'hey', 'good morning', 'good afternoon', 'good evening'],
-                    responses: [
-                        "Hey there! 👋 How can I help you today?",
-                        "Hello! Great to see you here. What's on your mind?",
-                        "Hi! Ready to boost your business? What can I assist with?",
-                        "Hey! Lovely to chat with you. How can I help?"
-                    ]
+                    responses: {
+                        english: [
+                            "Hey there! 👋 How can I help you today?",
+                            "Hello! Great to see you here. What's on your mind?",
+                            "Hi! Ready to boost your business? What can I assist with?",
+                            "Hey! Lovely to chat with you. How can I help?"
+                        ],
+                        hindi: [
+                            "नमस्ते! 👋 आज मैं आपकी क्या मदद कर सकता हूं?",
+                            "हैलो! आपको यहां देखकर बहुत अच्छा लगा। आप क्या जानना चाहते हैं?",
+                            "हाय! अपने व्यवसाय को बढ़ाने के लिए तैयार? मैं आपकी क्या सहायता कर सकता हूं?",
+                            "अरे! आपसे बात करके अच्छा लगा। मैं कैसे मदद कर सकता हूं?"
+                        ]
+                    }
                 },
                 howAreYou: {
                     patterns: ['how are you', "how's it going", "how do you do", "what's up"],
-                    responses: [
-                        "I'm doing great, thanks for asking! 😊 Just here helping businesses grow. How about you?",
-                        "Doing wonderful! Helping clients with their marketing always puts me in a good mood. How are things on your end?",
-                        "I'm fantastic! Been having some great conversations about business growth today. How are you doing?"
-                    ]
+                    responses: {
+                        english: [
+                            "I'm doing great, thanks for asking! 😊 Just here helping businesses grow. How about you?",
+                            "Doing wonderful! Helping clients with their marketing always puts me in a good mood. How are things on your end?",
+                            "I'm fantastic! Been having some great conversations about business growth today. How are you doing?"
+                        ],
+                        hindi: [
+                            "मैं बहुत अच्छा कर रहा हूं, पूछने के लिए धन्यवाद! 😊 बस यहां व्यवसायों को बढ़ने में मदद कर रहा हूं। आप कैसे हैं?",
+                            "बहुत अच्छा कर रहा हूं! ग्राहकों को उनकी मार्केटिंग में मदद करना हमेशा मुझे अच्छे मूड में रखता है। आपके यहां चीजें कैसी चल रही हैं?",
+                            "मैं शानदार हूं! आज व्यवसाय विकास के बारे में कुछ शानदार बातचीत हो रही है। आप कैसे हैं?"
+                        ]
+                    }
                 },
                 thanks: {
                     patterns: ['thanks', 'thank you', 'appreciate it', 'thx'],
-                    responses: [
-                        "You're very welcome! 😊 Happy to help.",
-                        "My pleasure! Is there anything else you'd like to know?",
-                        "Anytime! Let me know if you need more information."
-                    ]
+                    responses: {
+                        english: [
+                            "You're very welcome! 😊 Happy to help.",
+                            "My pleasure! Is there anything else you'd like to know?",
+                            "Anytime! Let me know if you need more information."
+                        ],
+                        hindi: [
+                            "आपका स्वागत है! 😊 मदद करके खुशी हुई।",
+                            "मेरी खुशी! क्या आप कुछ और जानना चाहेंगे?",
+                            "कभी भी! अगर आपको और जानकारी चाहिए तो मुझे बताएं।"
+                        ]
+                    }
                 },
                 compliments: {
                     patterns: ['good bot', 'you are helpful', 'you are smart', 'awesome', 'great help'],
-                    responses: [
-                        "Aww, thanks! I'm just doing my best to help. 😊",
-                        "That means a lot! I'm here to make your life easier.",
-                        "Thank you! I'm constantly learning to be more helpful."
-                    ]
+                    responses: {
+                        english: [
+                            "Aww, thanks! I'm just doing my best to help. 😊",
+                            "That means a lot! I'm here to make your life easier.",
+                            "Thank you! I'm constantly learning to be more helpful."
+                        ],
+                        hindi: [
+                            "अरे, धन्यवाद! मैं बस मदद करने की पूरी कोशिश कर रहा हूं। 😊",
+                            "इसका मतलब बहुत कुछ है! मैं आपकी जिंदगी आसान बनाने के लिए यहां हूं।",
+                            "धन्यवाद! मैं लगातार अधिक मददगार बनने के लिए सीख रहा हूं।"
+                        ]
+                    }
                 },
                 smallTalk: {
                     patterns: ['weather', 'weekend', 'day', 'today'],
-                    responses: [
-                        "I'm focused on helping businesses grow, but I hope you're having a great day! 😊",
-                        "As a bot, every day is a good day for helping entrepreneurs! How's your day going?",
-                        "I don't experience time like humans do, but I'm here whenever you need me!"
-                    ]
+                    responses: {
+                        english: [
+                            "I'm focused on helping businesses grow, but I hope you're having a great day! 😊",
+                            "As a bot, every day is a good day for helping entrepreneurs! How's your day going?",
+                            "I don't experience time like humans do, but I'm here whenever you need me!"
+                        ],
+                        hindi: [
+                            "मैं व्यवसायों को बढ़ने में मदद करने पर केंद्रित हूं, लेकिन मुझे आशा है कि आपका दिन अच्छा चल रहा है! 😊",
+                            "एक बॉट के रूप में, उद्यमियों की मदद करने के लिए हर दिन एक अच्छा दिन है! आपका दिन कैसा चल रहा है?",
+                            "मैं मनुष्यों की तरह समय का अनुभव नहीं करता, लेकिन जब भी आपको मेरी जरूरत हो, मैं यहां हूं!"
+                        ]
+                    }
                 }
             };
 
@@ -2302,40 +2660,103 @@
             const knowledgeBase = {
                 services: {
                     socialMedia: {
-                        description: "We create engaging content that actually converts followers into customers",
-                        benefits: ["3-5x more engagement", "Consistent brand voice", "Data-driven strategy"],
+                        description: {
+                            english: "We create engaging content that actually converts followers into customers",
+                            hindi: "हम आकर्षक सामग्री बनाते हैं जो वास्तव में अनुयायियों को ग्राहकों में बदल देती है"
+                        },
+                        benefits: {
+                            english: ["3-5x more engagement", "Consistent brand voice", "Data-driven strategy"],
+                            hindi: ["3-5x अधिक जुड़ाव", "सुसंगत ब्रांड आवाज", "डेटा-संचालित रणनीति"]
+                        },
                         questions: {
-                            'how often': "We recommend 3-5 posts per week for optimal engagement",
-                            'content types': "We create reels, stories, carousels, and engaging static posts",
-                            'platforms': "We specialize in Instagram, Facebook, LinkedIn, and Twitter"
+                            'how often': {
+                                english: "We recommend 3-5 posts per week for optimal engagement",
+                                hindi: "इष्टतम जुड़ाव के लिए हम प्रति सप्ताह 3-5 पोस्ट की सलाह देते हैं"
+                            },
+                            'content types': {
+                                english: "We create reels, stories, carousels, and engaging static posts",
+                                hindi: "हम रील्स, स्टोरीज़, कैरोसेल और आकर्षक स्थिर पोस्ट बनाते हैं"
+                            },
+                            'platforms': {
+                                english: "We specialize in Instagram, Facebook, LinkedIn, and Twitter",
+                                hindi: "हम इंस्टाग्राम, फेसबुक, लिंक्डइन और ट्विटर में माहिर हैं"
+                            }
                         }
                     },
                     website: {
-                        description: "Fast, beautiful websites that convert visitors into leads",
-                        benefits: ["Mobile-optimized", "SEO-friendly", "Lightning fast"],
+                        description: {
+                            english: "Fast, beautiful websites that convert visitors into leads",
+                            hindi: "तेज, सुंदर वेबसाइटें जो आगंतुकों को लीड में बदल देती हैं"
+                        },
+                        benefits: {
+                            english: ["Mobile-optimized", "SEO-friendly", "Lightning fast"],
+                            hindi: ["मोबाइल-अनुकूलित", "एसईओ-अनुकूल", "बिजली की तरह तेज"]
+                        },
                         questions: {
-                            'timeline': "Typically 2-4 weeks depending on complexity",
-                            'cost': "Starts at ₹15,000 for basic sites, up to ₹50,000+ for e-commerce",
-                            'hosting': "We provide managed hosting with 99.9% uptime"
+                            'timeline': {
+                                english: "Typically 2-4 weeks depending on complexity",
+                                hindi: "जटिलता के आधार पर आमतौर पर 2-4 सप्ताह"
+                            },
+                            'cost': {
+                                english: "Starts at ₹15,000 for basic sites, up to ₹50,000+ for e-commerce",
+                                hindi: "बुनियादी साइटों के लिए ₹15,000 से शुरू, ई-कॉमर्स के लिए ₹50,000+ तक"
+                            },
+                            'hosting': {
+                                english: "We provide managed hosting with 99.9% uptime",
+                                hindi: "हम 99.9% अपटाइम के साथ प्रबंधित होस्टिंग प्रदान करते हैं"
+                            }
                         }
                     },
                     ads: {
-                        description: "Targeted advertising that gets real results, not just clicks",
-                        benefits: ["Lead generation focused", "ROI tracking", "A/B testing"],
+                        description: {
+                            english: "Targeted advertising that gets real results, not just clicks",
+                            hindi: "लक्षित विज्ञापन जो वास्तविक परिणाम प्राप्त करते हैं, न कि केवल क्लिक"
+                        },
+                        benefits: {
+                            english: ["Lead generation focused", "ROI tracking", "A/B testing"],
+                            hindi: ["लीड जनरेशन पर केंद्रित", "आरओआई ट्रैकिंग", "ए/बी परीक्षण"]
+                        },
                         questions: {
-                            'budget': "We recommend starting with ₹5,000-10,000/month for testing",
-                            'platforms': "Facebook, Instagram, Google Ads, and LinkedIn",
-                            'results': "Most clients see 3-5x return on ad spend"
+                            'budget': {
+                                english: "We recommend starting with ₹5,000-10,000/month for testing",
+                                hindi: "हम परीक्षण के लिए ₹5,000-10,000/माह से शुरू करने की सलाह देते हैं"
+                            },
+                            'platforms': {
+                                english: "Facebook, Instagram, Google Ads, and LinkedIn",
+                                hindi: "फेसबुक, इंस्टाग्राम, गूगल ऐड्स और लिंक्डइन"
+                            },
+                            'results': {
+                                english: "Most clients see 3-5x return on ad spend",
+                                hindi: "अधिकांश ग्राहकों को विज्ञापन खर्च पर 3-5x रिटर्न दिखता है"
+                            }
                         }
                     }
                 },
                 commonQuestions: {
-                    'how long': "It depends on the service! Social media usually shows results in 2-3 months, websites in 2-4 weeks, and ads can show results in days.",
-                    'how much': "Our pricing is customized based on your needs. Social media starts at ₹8,000/month, websites from ₹15,000, and ads management from ₹5,000/month.",
-                    'why choose': "We focus on results, not just deliverables. We become your marketing partner and care about your business growth as much as you do!",
-                    'experience': "We've worked with 50+ clients across industries - from restaurants to politicians to e-commerce stores.",
-                    'process': "We start with understanding your goals, then create a custom strategy, execute with excellence, and track results continuously.",
-                    'contact': "You can reach us at +91 6367556906, email info@infogrip.com, or fill out our onboarding form at infogrip.com/onboarding.html"
+                    'how long': {
+                        english: "It depends on the service! Social media usually shows results in 2-3 months, websites in 2-4 weeks, and ads can show results in days.",
+                        hindi: "यह सेवा पर निर्भर करता है! सोशल मीडिया आमतौर पर 2-3 महीने में परिणाम दिखाता है, वेबसाइटें 2-4 सप्ताह में, और विज्ञापन दिनों में परिणाम दिखा सकते हैं।"
+                    },
+                    'how much': {
+                        english: "Our pricing is customized based on your needs. Social media starts at ₹8,000/month, websites from ₹15,000, and ads management from ₹5,000/month.",
+                        hindi: "हमारी कीमतें आपकी जरूरतों के आधार पर अनुकूलित हैं। सोशल मीडिया ₹8,000/माह से शुरू, वेबसाइटें ₹15,000 से, और विज्ञापन प्रबंधन ₹5,000/माह से।"
+                    },
+                    'why choose': {
+                        english: "We focus on results, not just deliverables. We become your marketing partner and care about your business growth as much as you do!",
+                        hindi: "हम परिणामों पर ध्यान केंद्रित करते हैं, न कि केवल डिलिवरेबल्स पर। हम आपके मार्केटिंग पार्टनर बन जाते हैं और आपके व्यवसाय की वृद्धि की परवाह करते हैं जितना आप करते हैं!"
+                    },
+                    'experience': {
+                        english: "We've worked with 50+ clients across industries - from restaurants to politicians to e-commerce stores.",
+                        hindi: "हमने 50+ ग्राहकों के साथ काम किया है - रेस्तरां से लेकर राजनेताओं तक और ई-कॉमर्स स्टोर तक।"
+                    },
+                    'process': {
+                        english: "We start with understanding your goals, then create a custom strategy, execute with excellence, and track results continuously.",
+                        hindi: "हम आपके लक्ष्यों को समझने से शुरू करते हैं, फिर एक कस्टम रणनीति बनाते हैं, उत्कृष्टता के साथ निष्पादित करते हैं, और परिणामों को लगातार ट्रैक करते हैं।"
+                    },
+                    'contact': {
+                        english: "You can reach us at +91 6367556906, email info@infogrip.com, or fill out our onboarding form at infogrip.com/onboarding.html",
+                        hindi: "आप हमें +91 6367556906 पर, ईमेल info@infogrip.com पर, या infogrip.com/onboarding.html पर हमारा ऑनबोर्डिंग फॉर्म भरकर संपर्क कर सकते हैं"
+                    }
                 }
             };
 
@@ -2442,6 +2863,22 @@
                     }
                 }
                 
+                // Check for onboarding intent
+                if (lowerMessage.includes('onboarding') || lowerMessage.includes('form') || lowerMessage.includes('get started') || lowerMessage.includes('sign up')) {
+                    return {
+                        type: 'onboarding',
+                        confidence: 0.9
+                    };
+                }
+                
+                // Check for contact intent
+                if (lowerMessage.includes('contact') || lowerMessage.includes('call') || lowerMessage.includes('phone') || lowerMessage.includes('email')) {
+                    return {
+                        type: 'contact',
+                        confidence: 0.9
+                    };
+                }
+                
                 // Default to general inquiry
                 return {
                     type: 'general',
@@ -2455,36 +2892,88 @@
                 
                 switch (intent.type) {
                     case 'conversation':
-                        const responses = conversationDB[intent.category].responses;
+                        const responses = conversationDB[intent.category].responses[selectedLanguage];
                         return responses[Math.floor(Math.random() * responses.length)];
                         
                     case 'service':
                         const service = knowledgeBase.services[intent.service];
-                        let response = `For ${intent.service.replace(/([A-Z])/g, ' $1').toLowerCase()}, ${service.description}. `;
+                        let response = selectedLanguage === 'english' 
+                            ? `For ${intent.service.replace(/([A-Z])/g, ' $1').toLowerCase()}, ${service.description.english}. `
+                            : `${intent.service.replace(/([A-Z])/g, ' $1').toLowerCase()} के लिए, ${service.description.hindi}. `;
                         
                         // Add relevant benefits
-                        response += `You'll get ${service.benefits.join(', ')}. `;
+                        const benefits = service.benefits[selectedLanguage];
+                        response += selectedLanguage === 'english'
+                            ? `You'll get ${benefits.join(', ')}. `
+                            : `आपको ${benefits.join(', ')} मिलेगा। `;
                         
                         // Ask engaging follow-up question
-                        const followUps = [
-                            "What specific goals are you trying to achieve?",
-                            "How's your current presence in this area?",
-                            "What's your timeline for getting started?"
-                        ];
-                        response += followUps[Math.floor(Math.random() * followUps.length)];
+                        const followUps = {
+                            english: [
+                                "What specific goals are you trying to achieve?",
+                                "How's your current presence in this area?",
+                                "What's your timeline for getting started?"
+                            ],
+                            hindi: [
+                                "आप कौन से विशिष्ट लक्ष्य हासिल करने की कोशिश कर रहे हैं?",
+                                "इस क्षेत्र में आपकी वर्तमान उपस्थिति कैसी है?",
+                                "शुरुआत करने के लिए आपकी समयसीमा क्या है?"
+                            ]
+                        };
+                        response += followUps[selectedLanguage][Math.floor(Math.random() * followUps[selectedLanguage].length)];
                         
                         return response;
                         
                     case 'commonQuestion':
-                        return knowledgeBase.commonQuestions[intent.question];
+                        return knowledgeBase.commonQuestions[intent.question][selectedLanguage];
+                        
+                    case 'onboarding':
+                        const onboardingResponse = {
+                            english: "Great! I'd love to help you get started. Our onboarding process is simple and helps us understand your business needs better. Would you like me to direct you to our onboarding form?",
+                            hindi: "बढ़िया! मैं आपकी शुरुआत में मदद करना चाहूंगा। हमारी ऑनबोर्डिंग प्रक्रिया सरल है और हमें आपकी व्यावसायिक आवश्यकताओं को बेहतर ढंग से समझने में मदद करती है। क्या आप चाहेंगे कि मैं आपको हमारे ऑनबोर्डिंग फॉर्म पर निर्देशित करूं?"
+                        };
+                        return onboardingResponse[selectedLanguage];
+                        
+                    case 'contact':
+                        const contactResponse = {
+                            english: "You can reach us at +91 6367556906, email info@infogrip.com, or fill out our onboarding form. We'd love to hear from you!",
+                            hindi: "आप हमें +91 6367556906 पर, ईमेल info@infogrip.com पर, या हमारा ऑनबोर्डिंग फॉर्म भरकर संपर्क कर सकते हैं। हम आपसे सुनकर खुश होंगे!"
+                        };
+                        return contactResponse[selectedLanguage];
                         
                     case 'general':
                         if (lowerMessage.includes('?')) {
-                            return "That's an interesting question! While I specialize in marketing services, I'd be happy to connect you with our team who can give you a detailed answer. Is there anything specific about our services you'd like to know?";
+                            const generalResponse = {
+                                english: "That's an interesting question! While I specialize in marketing services, I'd be happy to connect you with our team who can give you a detailed answer. Is there anything specific about our services you'd like to know?",
+                                hindi: "यह एक दिलचस्प सवाल है! हालांकि मैं मार्केटिंग सेवाओं में माहिर हूं, मैं आपको हमारी टीम से जोड़कर खुश होऊंगा जो आपको विस्तृत जवाब दे सकती है। क्या हमारी सेवाओं के बारे में कुछ विशिष्ट है जो आप जानना चाहेंगे?"
+                            };
+                            return generalResponse[selectedLanguage];
                         } else {
-                            return "Thanks for sharing that! I'm here to help with your marketing needs. Would you like to know about our services, pricing, or see some examples of our work?";
+                            const generalResponse2 = {
+                                english: "Thanks for sharing that! I'm here to help with your marketing needs. Would you like to know about our services, pricing, or see some examples of our work?",
+                                hindi: "यह साझा करने के लिए धन्यवाद! मैं आपकी मार्केटिंग आवश्यकताओं में मदद करने के लिए यहां हूं। क्या आप हमारी सेवाओं, मूल्य निर्धारण के बारे में जानना चाहेंगे, या हमारे काम के कुछ उदाहरण देखना चाहेंगे?"
+                            };
+                            return generalResponse2[selectedLanguage];
                         }
                 }
+            }
+
+            // Add action buttons to the chat
+            function addActionButtons() {
+                const buttonsHTML = `
+                    <div class="action-buttons">
+                        <button class="action-btn" onclick="window.open('onboarding.html', '_blank')">
+                            <i class="fas fa-file-alt"></i> Fill Onboarding Form
+                        </button>
+                        <button class="action-btn" onclick="window.open('tel:+916367556906')">
+                            <i class="fas fa-phone"></i> Call Us
+                        </button>
+                        <button class="action-btn" onclick="window.open('https://wa.me/916367556906', '_blank')">
+                            <i class="fab fa-whatsapp"></i> WhatsApp
+                        </button>
+                    </div>
+                `;
+                return buttonsHTML;
             }
 
             // Advanced conversation flow
@@ -2501,10 +2990,15 @@
                 const intent = understandIntent(message);
                 
                 // Generate response
-                const response = generateResponse(intent, message);
+                let response = generateResponse(intent, message);
                 
-                // Add bot response
-                addMessage(response);
+                // Add action buttons for specific intents
+                if (intent.type === 'onboarding' || intent.type === 'contact' || conversationContext.conversationDepth > 3) {
+                    response += addActionButtons();
+                    addMessage(response, false, true);
+                } else {
+                    addMessage(response);
+                }
                 
                 // Update conversation context
                 conversationContext.currentTopic = intent.type === 'service' ? intent.service : intent.type;
@@ -2522,9 +3016,16 @@
                     
                     // Update message
                     const messageDiv = document.querySelector('.bot-message');
+                    const greeting = selectedLanguage === 'english' 
+                        ? "Great! Let's continue in English." 
+                        : "बढ़िया! हिंदी में बातचीत जारी रखते हैं।";
+                    const followUp = selectedLanguage === 'english'
+                        ? "I'm here to have a natural conversation about your business needs. What would you like to know?"
+                        : "मैं आपकी व्यावसायिक आवश्यकताओं के बारे में एक प्राकृतिक बातचीत करने के लिए यहां हूं। आप क्या जानना चाहेंगे?";
+                    
                     messageDiv.innerHTML = `
-                        <p>Great! Let's continue in ${selectedLanguage === 'english' ? 'English' : 'Hindi'}.
-                        <p>I'm here to have a natural conversation about your business needs. What would you like to know?</p>
+                        <p>${greeting}</p>
+                        <p>${followUp}</p>
                         <div class="timestamp">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
                     `;
                 });
@@ -2538,16 +3039,24 @@
                     
                     switch(action) {
                         case 'services':
-                            message = "Can you tell me about your services?";
+                            message = selectedLanguage === 'english' 
+                                ? "Can you tell me about your services?" 
+                                : "क्या आप मुझे अपनी सेवाओं के बारे में बता सकते हैं?";
                             break;
                         case 'pricing':
-                            message = "What are your prices?";
+                            message = selectedLanguage === 'english' 
+                                ? "What are your prices?" 
+                                : "आपकी कीमतें क्या हैं?";
                             break;
                         case 'portfolio':
-                            message = "Can I see some examples of your work?";
+                            message = selectedLanguage === 'english' 
+                                ? "Can I see some examples of your work?" 
+                                : "क्या मैं आपके काम के कुछ उदाहरण देख सकता हूं?";
                             break;
                         case 'contact':
-                            message = "How can I contact you?";
+                            message = selectedLanguage === 'english' 
+                                ? "How can I contact you?" 
+                                : "मैं आपसे कैसे संपर्क कर सकता हूं?";
                             break;
                     }
                     
@@ -2803,6 +3312,23 @@
             element.style.opacity = "0";
             element.style.transform = "translateY(20px)";
             element.style.transition = "opacity 0.5s ease, transform 0.5s ease";
+        });
+
+        // Section fade-in on scroll
+        const sections = document.querySelectorAll('section');
+
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        sections.forEach(section => {
+            sectionObserver.observe(section);
         });
 
         window.addEventListener('scroll', fadeInOnScroll);
