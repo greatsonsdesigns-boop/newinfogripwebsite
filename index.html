@@ -446,6 +446,25 @@
             padding: 30px 20px;
             box-shadow: var(--shadow);
             transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(135deg, var(--dark-blue) 0%, var(--blue) 100%);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s ease;
+        }
+
+        .stat-card:hover::before {
+            transform: scaleX(1);
         }
 
         .stat-card:hover {
@@ -654,68 +673,59 @@
             color: rgba(255, 255, 255, 0.8);
         }
 
-        /* Testimonial Wall */
-        .testimonial-wall {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-            margin-top: 50px;
+        /* Testimonial Carousel */
+        .testimonial-carousel {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+            overflow: hidden;
         }
 
-        .testimonial-wall-item {
+        .testimonial-track {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .testimonial-slide {
+            min-width: 100%;
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+
+        .testimonial-card {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             border-radius: 15px;
-            padding: 25px;
+            padding: 30px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
-            height: 200px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto;
         }
 
-        .testimonial-wall-item:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
-            height: auto;
-            min-height: 200px;
-        }
-
-        .testimonial-wall-stars {
+        .testimonial-stars {
             color: var(--orange);
-            font-size: 1rem;
-            margin-bottom: 15px;
-        }
-
-        .testimonial-wall-text {
-            font-size: 0.9rem;
-            font-style: italic;
+            font-size: 1.2rem;
             margin-bottom: 20px;
-            line-height: 1.5;
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
         }
 
-        .testimonial-wall-item:hover .testimonial-wall-text {
-            -webkit-line-clamp: unset;
+        .testimonial-text {
+            font-size: 1.1rem;
+            font-style: italic;
+            margin-bottom: 25px;
+            line-height: 1.6;
         }
 
-        .testimonial-wall-author {
+        .testimonial-author {
             display: flex;
             align-items: center;
-            margin-top: auto;
+            justify-content: center;
         }
 
-        .testimonial-wall-avatar {
-            width: 40px;
-            height: 40px;
+        .testimonial-avatar {
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             background: var(--orange);
             display: flex;
@@ -724,18 +734,69 @@
             margin-right: 15px;
             font-weight: bold;
             color: var(--dark-blue);
-            font-size: 0.9rem;
+            font-size: 1.1rem;
         }
 
-        .testimonial-wall-info h4 {
-            font-size: 1rem;
+        .testimonial-info h4 {
+            font-size: 1.2rem;
             margin-bottom: 5px;
         }
 
-        .testimonial-wall-info p {
-            font-size: 0.8rem;
+        .testimonial-info p {
+            font-size: 0.9rem;
             opacity: 0.8;
             margin: 0;
+        }
+
+        .carousel-nav {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+            gap: 15px;
+        }
+
+        .carousel-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .carousel-dot.active {
+            background: var(--orange);
+            transform: scale(1.2);
+        }
+
+        .carousel-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .carousel-arrow:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .carousel-arrow.prev {
+            left: 10px;
+        }
+
+        .carousel-arrow.next {
+            right: 10px;
         }
 
         /* FAQ Section */
@@ -969,14 +1030,14 @@
         }
 
         .floating-btn {
-            width: 60px;
-            height: 60px;
+            width: 65px;
+            height: 65px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--white);
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             transition: var(--transition);
             position: relative;
@@ -1071,14 +1132,14 @@
         .social-proof-popup {
             position: fixed;
             bottom: 120px;
-            right: 30px;
+            left: 30px;
             background: var(--card-bg);
             border-radius: 10px;
             padding: 15px;
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
             z-index: 999;
             max-width: 300px;
-            transform: translateX(100%);
+            transform: translateX(-100%);
             opacity: 0;
             transition: transform 0.5s ease, opacity 0.5s ease;
             border-left: 4px solid var(--orange);
@@ -1461,9 +1522,9 @@
             }
 
             .floating-btn {
-                width: 50px;
-                height: 50px;
-                font-size: 1.2rem;
+                width: 55px;
+                height: 55px;
+                font-size: 1.4rem;
             }
 
             .chatbot-container {
@@ -1472,9 +1533,27 @@
             }
 
             .social-proof-popup {
-                right: 20px;
+                left: 20px;
                 bottom: 100px;
                 max-width: 250px;
+            }
+
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .stat-card {
+                padding: 20px 15px;
+            }
+
+            .stat-number {
+                font-size: 2.5rem;
+            }
+
+            .carousel-arrow {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
             }
         }
 
@@ -1522,8 +1601,24 @@
                 height: 50px;
             }
 
-            .testimonial-wall {
+            .stats-container {
                 grid-template-columns: 1fr;
+            }
+
+            .carousel-arrow {
+                width: 35px;
+                height: 35px;
+            }
+
+            .testimonial-card {
+                padding: 20px;
+            }
+        }
+
+        /* Hide cursor on mobile devices */
+        @media (max-width: 768px) {
+            .cursor, .cursor-follower {
+                display: none;
             }
         }
     </style>
@@ -1543,6 +1638,7 @@
                 <ul class="nav-menu">
                     <li><a href="#home">Home</a></li>
                     <li><a href="#services">Services</a></li>
+                    <li><a href="#about">About</a></li>
                     <li><a href="#testimonials">Testimonials</a></li>
                     <li><a href="#faq">FAQ</a></li>
                     <li><a href="#contact">Contact</a></li>
@@ -1631,7 +1727,7 @@
                         </div>
                         <h3>Political & Personal Branding</h3>
                         <p>Build a strong personal or political brand with strategic positioning and consistent messaging across platforms.</p>
-                        <a href="#" class="service-link">Learn More <i class="fas fa-arrow-right"></i></a>
+                        <a href="political-branding.html" class="service-link">Learn More <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
                 <div class="service-card">
@@ -1644,7 +1740,7 @@
                         </div>
                         <h3>Website Development</h3>
                         <p>Create stunning, responsive websites that convert visitors into customers with seamless user experience.</p>
-                        <a href="#" class="service-link">Learn More <i class="fas fa-arrow-right"></i></a>
+                        <a href="website-development.html" class="service-link">Learn More <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
                 <div class="service-card">
@@ -1657,7 +1753,7 @@
                         </div>
                         <h3>Complete Social Media Management</h3>
                         <p>Manage your social media presence with engaging content, community management, and growth strategies.</p>
-                        <a href="#" class="service-link">Learn More <i class="fas fa-arrow-right"></i></a>
+                        <a href="social-media-management.html" class="service-link">Learn More <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
                 <div class="service-card">
@@ -1670,9 +1766,20 @@
                         </div>
                         <h3>Ads Campaign Management</h3>
                         <p>Run targeted ad campaigns across platforms to reach your ideal audience and maximize ROI.</p>
-                        <a href="#" class="service-link">Learn More <i class="fas fa-arrow-right"></i></a>
+                        <a href="ads-campaign-management.html" class="service-link">Learn More <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Ready to Transform Your Digital Presence?</h2>
+                <p>Join hundreds of successful businesses and politicians who trust InfoGrip with their digital marketing</p>
+                <a href="onboarding.html" class="btn btn-primary">Start Work With Us</a>
             </div>
         </div>
     </section>
@@ -1738,8 +1845,19 @@
                 <h2>What Our Clients Say</h2>
                 <p>Real results from real businesses we've helped grow</p>
             </div>
-            <div class="testimonial-wall" id="testimonial-wall">
-                <!-- Testimonials will be added dynamically -->
+            <div class="testimonial-carousel">
+                <button class="carousel-arrow prev">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="carousel-arrow next">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+                <div class="testimonial-track" id="testimonial-track">
+                    <!-- Testimonials will be added dynamically -->
+                </div>
+                <div class="carousel-nav" id="carousel-nav">
+                    <!-- Navigation dots will be added dynamically -->
+                </div>
             </div>
         </div>
     </section>
@@ -1819,17 +1937,6 @@
         </div>
     </section>
 
-    <!-- CTA Section -->
-    <section class="cta">
-        <div class="container">
-            <div class="cta-content">
-                <h2>Ready to Transform Your Digital Presence?</h2>
-                <p>Join hundreds of successful businesses and politicians who trust InfoGrip with their digital marketing</p>
-                <a href="onboarding.html" class="btn btn-primary">Start Work With Us</a>
-            </div>
-        </div>
-    </section>
-
     <!-- Footer -->
     <footer id="contact">
         <div class="container">
@@ -1851,9 +1958,11 @@
                     <ul class="footer-links">
                         <li><a href="#home">Home</a></li>
                         <li><a href="#services">Services</a></li>
+                        <li><a href="about.html">About</a></li>
                         <li><a href="#testimonials">Testimonials</a></li>
                         <li><a href="#faq">FAQ</a></li>
                         <li><a href="#contact">Contact</a></li>
+                        <li><a href="portfolio.html">Portfolio</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
@@ -1967,43 +2076,46 @@
         const cursor = document.querySelector('.cursor');
         const cursorFollower = document.querySelector('.cursor-follower');
 
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-            
-            setTimeout(() => {
-                cursorFollower.style.left = e.clientX + 'px';
-                cursorFollower.style.top = e.clientY + 'px';
-            }, 100);
-        });
+        // Only initialize cursor on non-mobile devices
+        if (window.innerWidth > 768) {
+            document.addEventListener('mousemove', (e) => {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
+                
+                setTimeout(() => {
+                    cursorFollower.style.left = e.clientX + 'px';
+                    cursorFollower.style.top = e.clientY + 'px';
+                }, 100);
+            });
 
-        // Add hover effects for buttons and links
-        const interactiveElements = document.querySelectorAll('button, a, .btn, .service-card, .feature-card, .faq-question');
-        
-        interactiveElements.forEach(element => {
-            element.addEventListener('mouseenter', () => {
-                cursor.classList.add('hover');
-                cursorFollower.classList.add('hover');
-            });
+            // Add hover effects for buttons and links
+            const interactiveElements = document.querySelectorAll('button, a, .btn, .service-card, .feature-card, .faq-question');
             
-            element.addEventListener('mouseleave', () => {
-                cursor.classList.remove('hover');
-                cursorFollower.classList.remove('hover');
+            interactiveElements.forEach(element => {
+                element.addEventListener('mouseenter', () => {
+                    cursor.classList.add('hover');
+                    cursorFollower.classList.add('hover');
+                });
+                
+                element.addEventListener('mouseleave', () => {
+                    cursor.classList.remove('hover');
+                    cursorFollower.classList.remove('hover');
+                });
             });
-        });
 
-        // Add text hover effect
-        const textElements = document.querySelectorAll('h1, h2, h3, h4, h5, h6, p, span, li');
-        
-        textElements.forEach(element => {
-            element.addEventListener('mouseenter', () => {
-                cursor.classList.add('text-hover');
-            });
+            // Add text hover effect
+            const textElements = document.querySelectorAll('h1, h2, h3, h4, h5, h6, p, span, li');
             
-            element.addEventListener('mouseleave', () => {
-                cursor.classList.remove('text-hover');
+            textElements.forEach(element => {
+                element.addEventListener('mouseenter', () => {
+                    cursor.classList.add('text-hover');
+                });
+                
+                element.addEventListener('mouseleave', () => {
+                    cursor.classList.remove('text-hover');
+                });
             });
-        });
+        }
 
         // Theme Toggle
         const themeToggle = document.getElementById('theme-toggle');
@@ -2524,7 +2636,7 @@
         // Start typing effect
         typeText();
 
-        // Testimonial Wall
+        // Testimonial Carousel
         const testimonials = [
             {
                 text: "InfoGrip transformed my gym completely. I used to get 5–7 enquiries a week, now I get 40+ consistent leads every single week.",
@@ -2555,64 +2667,75 @@
                 text: "The team is super supportive. They helped me redesign my website and guided me on how to scale my business online.",
                 author: "Megha Arora",
                 role: "Boutique Owner"
-            },
-            {
-                text: "I tested 3 agencies before, but InfoGrip is the only one that actually delivered real leads, not just 'likes'.",
-                author: "Yash Verma",
-                role: "Automobile Dealer"
-            },
-            {
-                text: "Very professional workflow. They gave me a full marketing plan, creatives, and ads setup within just 72 hours.",
-                author: "Harshit Jain",
-                role: "Startup Founder"
-            },
-            {
-                text: "Our sales increased by 60% after consistent social media posting done by InfoGrip.",
-                author: "Priya Singh",
-                role: "Home Decor Brand"
-            },
-            {
-                text: "InfoGrip Media Solution helped us manage our digital outreach during our local constituency campaign. Their team handled reels, public awareness creatives, and WhatsApp broadcasting with great professionalism.",
-                author: "Arjun Pratap Singh",
-                role: "MLA Candidate"
-            },
-            {
-                text: "Their team built an excellent voter outreach funnel for our awareness drive. Highly reliable and fast execution.",
-                author: "Farhan Ali",
-                role: "Youth Political Wing Coordinator"
-            },
-            {
-                text: "The website they built for my restaurant increased online orders by 200% in just 2 months. Highly recommended!",
-                author: "Vikram Singh",
-                role: "Restaurant Owner"
             }
         ];
 
-        const testimonialWall = document.getElementById('testimonial-wall');
+        const testimonialTrack = document.getElementById('testimonial-track');
+        const carouselNav = document.getElementById('carousel-nav');
+        let currentSlide = 0;
 
-        // Create testimonial wall items
+        // Create testimonial slides
         testimonials.forEach((testimonial, index) => {
-            const item = document.createElement('div');
-            item.className = 'testimonial-wall-item';
-            item.innerHTML = `
-                <div class="testimonial-wall-stars">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                </div>
-                <p class="testimonial-wall-text">"${testimonial.text}"</p>
-                <div class="testimonial-wall-author">
-                    <div class="testimonial-wall-avatar">${testimonial.author.charAt(0)}</div>
-                    <div class="testimonial-wall-info">
-                        <h4>${testimonial.author}</h4>
-                        <p>${testimonial.role}</p>
+            const slide = document.createElement('div');
+            slide.className = 'testimonial-slide';
+            slide.innerHTML = `
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">"${testimonial.text}"</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">${testimonial.author.charAt(0)}</div>
+                        <div class="testimonial-info">
+                            <h4>${testimonial.author}</h4>
+                            <p>${testimonial.role}</p>
+                        </div>
                     </div>
                 </div>
             `;
-            testimonialWall.appendChild(item);
+            testimonialTrack.appendChild(slide);
+
+            // Create navigation dots
+            const dot = document.createElement('div');
+            dot.className = 'carousel-dot';
+            if (index === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => {
+                goToSlide(index);
+            });
+            carouselNav.appendChild(dot);
         });
+
+        // Carousel navigation functions
+        function goToSlide(index) {
+            currentSlide = index;
+            testimonialTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+            
+            // Update active dot
+            document.querySelectorAll('.carousel-dot').forEach((dot, i) => {
+                dot.classList.toggle('active', i === currentSlide);
+            });
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % testimonials.length;
+            goToSlide(currentSlide);
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + testimonials.length) % testimonials.length;
+            goToSlide(currentSlide);
+        }
+
+        // Auto-advance carousel
+        setInterval(nextSlide, 5000);
+
+        // Add event listeners for arrow buttons
+        document.querySelector('.carousel-arrow.prev').addEventListener('click', prevSlide);
+        document.querySelector('.carousel-arrow.next').addEventListener('click', nextSlide);
 
         // Social Proof Popups
         const socialProofMessages = [
