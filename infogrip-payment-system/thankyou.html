@@ -1,1 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Successful - InfoGrip Media Solution</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="thankyou-body">
+    <!-- Header -->
+    <header class="thankyou-header">
+        <div class="container">
+            <nav class="thankyou-nav">
+                <a href="index.html" class="thankyou-logo">
+                    <img src="https://i.postimg.cc/Nj3bmPwC/Infogrip-Medi-Soluiton-(Social-Media)-(1).png" alt="InfoGrip Media Solution">
+                </a>
+                <div class="thankyou-header-info">
+                    <div class="current-datetime" id="thankyou-datetime"></div>
+                </div>
+            </nav>
+        </div>
+    </header>
 
+    <!-- Main Content -->
+    <main class="thankyou-main">
+        <div class="container">
+            <div class="thankyou-container">
+                <!-- Success Icon -->
+                <div class="success-icon">
+                    <div class="icon-circle">
+                        <i class="fas fa-check"></i>
+                    </div>
+                </div>
+
+                <!-- Success Message -->
+                <div class="success-message">
+                    <h1>Payment Successful!</h1>
+                    <p>Thank you for your payment. Your transaction has been completed successfully.</p>
+                </div>
+
+                <!-- Payment Details -->
+                <div class="payment-details-card">
+                    <h2>Payment Details</h2>
+                    <div class="details-grid">
+                        <div class="detail-item">
+                            <span class="detail-label">Payment ID:</span>
+                            <span class="detail-value" id="payment-id">Loading...</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Invoice ID:</span>
+                            <span class="detail-value" id="invoice-id">Loading...</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Amount Paid:</span>
+                            <span class="detail-value" id="amount-paid">Loading...</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Date & Time:</span>
+                            <span class="detail-value" id="payment-datetime">Loading...</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Payment Mode:</span>
+                            <span class="detail-value" id="payment-mode">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <button class="btn btn-primary" id="download-invoice">
+                        <i class="fas fa-download"></i> Download Invoice
+                    </button>
+                    <button class="btn btn-outline" id="email-invoice">
+                        <i class="fas fa-envelope"></i> Email Invoice
+                    </button>
+                    <button class="btn btn-whatsapp" id="whatsapp-invoice">
+                        <i class="fab fa-whatsapp"></i> WhatsApp Invoice
+                    </button>
+                </div>
+
+                <!-- Next Steps -->
+                <div class="next-steps">
+                    <h3>What's Next?</h3>
+                    <div class="steps-grid">
+                        <div class="step-item">
+                            <div class="step-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <h4>Processing</h4>
+                            <p>Your project will be assigned to our team within 24 hours</p>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-icon">
+                                <i class="fas fa-user-tie"></i>
+                            </div>
+                            <h4>Dedicated Manager</h4>
+                            <p>You'll receive contact details of your dedicated account manager</p>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-icon">
+                                <i class="fas fa-rocket"></i>
+                            </div>
+                            <h4>Project Kickoff</h4>
+                            <p>We'll schedule a kickoff call to discuss your requirements</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="thankyou-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-col">
+                    <img src="https://i.postimg.cc/Nj3bmPwC/Infogrip-Medi-Soluiton-(Social-Media)-(1).png" alt="InfoGrip Media Solution" style="height: 60px; margin-bottom: 20px;">
+                    <p>Thank you for choosing InfoGrip Media Solution!</p>
+                    <a href="index.html" class="btn btn-outline">Back to Homepage</a>
+                </div>
+                <div class="footer-col">
+                    <h3>Support</h3>
+                    <ul class="footer-links">
+                        <li><a href="mailto:info@infogrip.com"><i class="fas fa-envelope"></i> info@infogrip.com</a></li>
+                        <li><a href="tel:+916367556906"><i class="fas fa-phone"></i> +91 6367556906</a></li>
+                        <li><a href="https://wa.me/916367556906" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html#services">Our Services</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="portfolio.html">Portfolio</a></li>
+                        <li><a href="index.html#contact">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; InfoGrip Media Solution Ltd. All Rights Reserved 2025</p>
+                <div class="footer-bottom-links">
+                    <a href="privacy-policy.html">Privacy Policy</a>
+                    <a href="terms-conditions.html">Terms & Conditions</a>
+                    <a href="refund-policy.html">Refund Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay hidden">
+        <div class="loading-spinner"></div>
+        <p>Generating your invoice...</p>
+    </div>
+
+    <!-- Invoice Ready Modal -->
+    <div id="invoice-ready-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Invoice Ready!</h3>
+                <button class="modal-close" id="invoice-ready-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Your invoice has been generated successfully. You can now download it or share it via email/WhatsApp.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="invoice-ready-download">Download Now</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="thankyou.js"></script>
+</body>
+</html>
