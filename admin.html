@@ -597,40 +597,43 @@
             
             // Generate checkout link
             generateBtn.addEventListener('click', function() {
-                const serviceType = document.getElementById('service-type').value;
-                const customAmount = document.getElementById('custom-amount').value;
-                const customDescription = document.getElementById('custom-description').value;
-                
-                if (!customAmount) {
-                    alert('Please enter an amount');
-                    return;
-                }
-                
-                // Generate unique ID
-                const uniqueId = 'infogrip_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-                
-                // Create checkout URL with parameters
-                const checkoutUrl = `checkout.html?id=${uniqueId}&service=${encodeURIComponent(serviceType)}&amount=${customAmount}&description=${encodeURIComponent(customDescription)}`;
-                
-                // Store in localStorage for the checkout page to access
-                const paymentData = {
-                    id: uniqueId,
-                    service: serviceType,
-                    amount: customAmount,
-                    description: customDescription,
-                    timestamp: new Date().toISOString()
-                };
-                
-                localStorage.setItem(uniqueId, JSON.stringify(paymentData));
-                
-                // Display the generated link
-                paymentLink.value = window.location.origin + '/' + checkoutUrl;
-                previewLink.href = checkoutUrl;
-                generatedLink.style.display = 'block';
-                
-                // Scroll to the generated link section
-                generatedLink.scrollIntoView({ behavior: 'smooth' });
-            });
+             const serviceType = document.getElementById('service-type').value;
+    const customAmount = document.getElementById('custom-amount').value;
+    const customDescription = document.getElementById('custom-description').value;
+    
+    if (!customAmount) {
+        alert('Please enter an amount');
+        return;
+    }
+    
+    // Generate unique ID
+    const uniqueId = 'infogrip_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    
+    // Create checkout URL with ALL parameters in URL (more reliable)
+    const checkoutUrl = `checkout.html?id=${uniqueId}&service=${encodeURIComponent(serviceType)}&amount=${customAmount}&description=${encodeURIComponent(customDescription || '')}`;
+    
+    // Also store in localStorage as backup
+    const paymentData = {
+        id: uniqueId,
+        service: serviceType,
+        amount: customAmount,
+        description: customDescription,
+        timestamp: new Date().toISOString()
+    };
+    
+    localStorage.setItem(uniqueId, JSON.stringify(paymentData));
+    
+    // Display the generated link
+    const fullUrl = window.location.origin + '/' + checkoutUrl;
+    paymentLink.value = fullUrl;
+    previewLink.href = checkoutUrl;
+    generatedLink.style.display = 'block';
+    
+    console.log('Generated link:', fullUrl);
+    
+    // Scroll to the generated link section
+    generatedLink.scrollIntoView({ behavior: 'smooth' });
+});
             
             // Copy link to clipboard
             copyBtn.addEventListener('click', function() {
