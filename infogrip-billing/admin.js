@@ -562,41 +562,42 @@ class AdminDashboard {
         alert('Payment link copied to clipboard!');
     }
 
-    shareViaWhatsApp() {
-        const { clientData, serviceData, url } = this.currentPaymentData;
-        const message = `Hello ${clientData.name}, this is your InfoGrip invoice.
+shareViaWhatsApp() {
+    const { clientData, serviceData, url, invoiceId } = this.currentPaymentData;
+    
+    const message = `Hello ${clientData.name}, this is your InfoGrip invoice.
 
-Service: ${serviceData.service}
-Amount: ₹${serviceData.amount}
-Date: ${new Date().toLocaleString('en-IN', {
+💰 *Invoice Details:*
+• Service: ${serviceData.service}
+• Amount: ₹${serviceData.amount}
+• Invoice ID: ${invoiceId}
+• Date: ${new Date().toLocaleString('en-IN', {
     day: '2-digit',
     month: 'short',
     year: 'numeric',
-    weekday: 'long',
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: true
+    weekday: 'long'
 })}
 
-Payment Link 👇
-${url}`;
+🔗 Payment Link: ${url}
 
-        const whatsappUrl = `https://wa.me/${clientData.phone}?text=${encodeURIComponent(message)}`;
-        window.open(whatsappUrl, '_blank');
-    }
+_Thank you for choosing InfoGrip Media Solution!_`;
 
-    shareViaEmail() {
-        const { clientData, serviceData, url, invoiceId } = this.currentPaymentData;
-        const subject = `InfoGrip Invoice - ${invoiceId}`;
-        const body = `Dear ${clientData.name},
+    // Regular WhatsApp link (no API needed)
+    const whatsappUrl = `https://wa.me/91${clientData.phone.replace(/\D/g, '')}?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+}
+shareViaEmail() {
+    const { clientData, serviceData, url, invoiceId } = this.currentPaymentData;
+    const subject = `InfoGrip Invoice - ${invoiceId}`;
+    const body = `Dear ${clientData.name},
 
 Thank you for choosing InfoGrip Media Solution.
 
-Invoice Details:
-- Service: ${serviceData.service}
-- Amount: ₹${serviceData.amount}
-- Invoice ID: ${invoiceId}
-- Date: ${new Date().toLocaleString('en-IN', {
+📋 INVOICE DETAILS:
+• Service: ${serviceData.service}
+• Amount: ₹${serviceData.amount}
+• Invoice ID: ${invoiceId}
+• Date: ${new Date().toLocaleString('en-IN', {
     day: '2-digit',
     month: 'short',
     year: 'numeric',
@@ -606,14 +607,17 @@ Invoice Details:
     hour12: true
 })}
 
-Please complete your payment using the link below:
+🔗 PAYMENT LINK:
 ${url}
 
-Best regards,
-InfoGrip Media Solution Team`;
+Please complete your payment using the above link.
 
-        const mailtoUrl = `mailto:${clientData.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-        window.location.href = mailtoUrl;
+Best regards,
+InfoGrip Media Solution Team
+📞 +91 6367556906
+📧 infogripmarketing@gmail.com
+
+_This is an automated message. Please do not reply to this email._`;
     }
 }
 
