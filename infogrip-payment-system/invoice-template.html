@@ -1,1 +1,252 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_blank">
+  <style>
+    body {
+      font-family: 'Inter', Arial, sans-serif;
+      margin: 0;
+      padding: 40px;
+      color: #333;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 40px;
+      border-bottom: 2px solid #07217c;
+      padding-bottom: 20px;
+    }
+    .company-info h1 {
+      color: #07217c;
+      margin: 0 0 10px 0;
+      font-size: 28px;
+    }
+    .company-info p {
+      margin: 5px 0;
+      color: #666;
+    }
+    .invoice-meta {
+      text-align: right;
+    }
+    .invoice-meta h2 {
+      color: #07217c;
+      margin: 0 0 10px 0;
+      font-size: 24px;
+    }
+    .invoice-details {
+      background: #f8f9fa;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 30px;
+    }
+    .parties {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 30px;
+    }
+    .bill-to, .company-details {
+      flex: 1;
+    }
+    .bill-to h3, .company-details h3 {
+      color: #07217c;
+      margin-bottom: 15px;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 5px;
+    }
+    .services-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 30px;
+    }
+    .services-table th {
+      background: #07217c;
+      color: white;
+      padding: 12px 15px;
+      text-align: left;
+      font-weight: 600;
+    }
+    .services-table td {
+      padding: 12px 15px;
+      border-bottom: 1px solid #eee;
+    }
+    .services-table tr:last-child td {
+      border-bottom: none;
+    }
+    .totals {
+      float: right;
+      width: 300px;
+    }
+    .total-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid #eee;
+    }
+    .total-row:last-child {
+      border-bottom: 2px solid #07217c;
+      font-weight: bold;
+      font-size: 18px;
+    }
+    .payment-info {
+      margin-top: 40px;
+      padding: 20px;
+      background: #f8f9fa;
+      border-radius: 8px;
+      clear: both;
+    }
+    .footer {
+      margin-top: 50px;
+      text-align: center;
+      color: #666;
+      font-size: 14px;
+      border-top: 1px solid #eee;
+      padding-top: 20px;
+    }
+    .qr-code {
+      text-align: center;
+      margin: 20px 0;
+    }
+    .signature {
+      margin-top: 40px;
+      text-align: right;
+    }
+    .thank-you {
+      text-align: center;
+      margin: 30px 0;
+      font-style: italic;
+      color: #07217c;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="company-info">
+        <h1>InfoGrip Media Solution</h1>
+        <p>Jaipur, Rajasthan, India</p>
+        <p>+91 6367556906 | info@infogrip.com</p>
+        <p>www.infogrip.com</p>
+      </div>
+      <div class="invoice-meta">
+        <h2>INVOICE</h2>
+        <p><strong>Invoice No:</strong> <?= invoiceData.invoice_id ?></p>
+        <p><strong>Date:</strong> <?= formatTimestamp(invoiceData.created_timestamp) ?></p>
+      </div>
+    </div>
 
+    <div class="parties">
+      <div class="bill-to">
+        <h3>Bill To</h3>
+        <p><strong><?= invoiceData.name ?></strong></p>
+        <p><?= invoiceData.phone ?></p>
+        <p><?= invoiceData.email ?></p>
+        <p><?= invoiceData.address ?></p>
+      </div>
+      <div class="company-details">
+        <h3>From</h3>
+        <p><strong>InfoGrip Media Solution</strong></p>
+        <p>Jaipur, Rajasthan, India</p>
+        <p>+91 6367556906</p>
+        <p>info@infogrip.com</p>
+        <p>GSTIN: [Your GST Number]</p>
+      </div>
+    </div>
+
+    <table class="services-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Service Description</th>
+          <th>Qty</th>
+          <th>Unit Price</th>
+          <th>Line Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <? for (let i = 0; i < invoiceData.services.length; i++) { ?>
+        <tr>
+          <td><?= i + 1 ?></td>
+          <td><?= invoiceData.services[i].name ?></td>
+          <td><?= invoiceData.services[i].qty ?></td>
+          <td>₹<?= invoiceData.services[i].unit_price.toLocaleString() ?></td>
+          <td>₹<?= invoiceData.services[i].total.toLocaleString() ?></td>
+        </tr>
+        <? } ?>
+      </tbody>
+    </table>
+
+    <div class="totals">
+      <div class="total-row">
+        <span>Subtotal:</span>
+        <span>₹<?= invoiceData.subtotal.toLocaleString() ?></span>
+      </div>
+      <? if (invoiceData.gst_percent > 0) { ?>
+      <div class="total-row">
+        <span>GST (<?= invoiceData.gst_percent ?>%):</span>
+        <span>₹<?= invoiceData.gst_amount.toLocaleString() ?></span>
+      </div>
+      <? } ?>
+      <div class="total-row">
+        <span><strong>Total Amount:</strong></span>
+        <span><strong>₹<?= invoiceData.total_amount.toLocaleString() ?></strong></span>
+      </div>
+    </div>
+
+    <div class="payment-info">
+      <h3>Payment Information</h3>
+      <p><strong>Payment ID:</strong> <?= invoiceData.payment_id ?></p>
+      <p><strong>Payment Mode:</strong> <?= invoiceData.payment_mode ?></p>
+      <p><strong>Payment Date:</strong> <?= formatTimestamp(invoiceData.payment_date) ?></p>
+      <p><strong>Status:</strong> <span style="color: #28a745;">PAID</span></p>
+    </div>
+
+    <div class="thank-you">
+      <p>Thank you for your business! We appreciate your trust in InfoGrip Media Solution.</p>
+    </div>
+
+    <div class="qr-code">
+      <!-- QR Code would be generated here in production -->
+      <p>[QR Code - Link to Invoice]</p>
+    </div>
+
+    <div class="signature">
+      <p>_________________________</p>
+      <p><strong>Authorized Signature</strong></p>
+      <p>InfoGrip Media Solution</p>
+    </div>
+
+    <div class="footer">
+      <p><strong>Terms & Conditions:</strong></p>
+      <p>Payment due upon receipt. Late payments subject to interest charges of 1.5% per month.</p>
+      <p>All services are subject to our terms and conditions available at www.infogrip.com/terms</p>
+      <p>For any queries, contact us at info@infogrip.com or +91 6367556906</p>
+      <p>This is a computer-generated invoice. No signature required.</p>
+    </div>
+  </div>
+</body>
+</html>
+
+<script>
+// Helper function to format timestamp
+function formatTimestamp(timestamp) {
+  const date = new Date(timestamp);
+  const options = {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+    weekday: 'long',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: true
+  };
+  return date.toLocaleDateString('en-IN', options);
+}
+</script>
