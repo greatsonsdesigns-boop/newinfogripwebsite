@@ -1,19 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-Y9RP0K1L4V"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-Y9RP0K1L4V');
-</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>InfoGrip Media Solution - Digital Marketing Agency</title>
-    <link rel="icon" type="image/x-icon" href="https://i.postimg.cc/Nj3bmPwC/Infogrip-Medi-Soluiton-(Social-Media)-(1).png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -317,6 +307,7 @@
             backdrop-filter: blur(10px);
             box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
             transition: var(--transition);
+            padding: 15px 0;
         }
 
         .dark-theme header {
@@ -324,14 +315,13 @@
         }
 
         header.scrolled {
-            padding: 10px 0;
+            padding: 8px 0;
         }
 
         .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 8px 0;
         }
 
         .logo {
@@ -340,7 +330,7 @@
         }
 
         .logo img {
-            height: 80px; /* Increased logo size */
+            height: 70px; /* Increased logo size */
         }
 
         .nav-menu {
@@ -410,9 +400,19 @@
 
         /* Hero Section */
         .hero {
-    background: #001c4f !important; /* Your dark blue color */
-    /* ... keep other properties ... */
-}
+            background: linear-gradient(135deg, var(--dark-blue) 0%, var(--blue) 100%);
+            color: var(--white);
+            padding: 180px 0 120px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .dark-theme .hero {
+            background: linear-gradient(135deg, #0a0a2e 0%, #1a1a4a 100%);
+        }
 
         .hero::before {
             content: '';
@@ -457,14 +457,16 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            opacity: 0.1;
+            opacity: 0.15;
             z-index: 0;
         }
 
         .hero-content {
-            max-width: 700px;
+            max-width: 900px;
             position: relative;
             z-index: 1;
+            text-align: center;
+            margin: 0 auto;
         }
 
         .hero h1 {
@@ -474,9 +476,14 @@
         }
 
         .typing-text {
+            background: linear-gradient(45deg, #fdcb54, #ffd700, #ffed4e, #fdcb54);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             border-right: 3px solid var(--orange);
             animation: blink 1s infinite;
             display: inline-block;
+            font-weight: 800;
         }
 
         @keyframes blink {
@@ -485,7 +492,7 @@
         }
 
         .hero p {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             margin-bottom: 30px;
             opacity: 0.9;
         }
@@ -493,35 +500,14 @@
         .hero-btns {
             display: flex;
             gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
         }
 
-        .hero-shapes {
-            display: none; /* This hides the shapes */
-        }
-
-        .shape {
-           display: none;
-        }
-
-        .shape-1 {
-             display: none;
-        }
-
-        .shape-2 {
-             display: none;
-        }
-
-        .shape-3 {
-            display: none;
-        }
-
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-20px);
-            }
+        .hero-btns .btn {
+            border-radius: 60px;
+            padding: 14px 32px;
+            font-size: 1.1rem;
         }
 
         /* Particle Background */
@@ -1639,7 +1625,7 @@
         /* Responsive Styles */
         @media (max-width: 992px) {
             .hero h1 {
-                font-size: 2.8rem;
+                font-size: 3.2rem;
             }
             
             .section-title h2 {
@@ -1692,7 +1678,7 @@
             }
 
             .hero h1 {
-                font-size: 2.5rem;
+                font-size: 2.8rem;
             }
 
             .hero-btns {
@@ -1747,11 +1733,42 @@
                 padding: 0 20px;
                 font-size: 1rem;
             }
+            
+            /* Reduced navbar padding on mobile */
+            header {
+                padding: 10px 0;
+            }
+            
+            header.scrolled {
+                padding: 5px 0;
+            }
+            
+            .navbar {
+                padding: 0;
+            }
+            
+            /* Make theme toggle visible on mobile */
+            .theme-toggle-mobile {
+                display: block;
+                position: absolute;
+                right: 60px;
+                top: 25px;
+                background: none;
+                border: none;
+                font-size: 1.2rem;
+                cursor: pointer;
+                color: var(--text-color);
+                z-index: 1001;
+            }
+            
+            .theme-toggle {
+                display: none;
+            }
         }
 
         @media (max-width: 576px) {
             .hero h1 {
-                font-size: 2rem;
+                font-size: 2.4rem;
             }
 
             .hero p {
@@ -1759,8 +1776,9 @@
             }
 
             .btn {
-                padding: 10px 20px;
+                padding: 12px 24px;
                 font-size: 0.9rem;
+                border-radius: 60px;
             }
 
             .section-title h2 {
@@ -1810,6 +1828,11 @@
                 padding: 0 15px;
                 font-size: 0.9rem;
             }
+            
+            .theme-toggle-mobile {
+                right: 50px;
+                top: 20px;
+            }
         }
 
         /* Hide cursor on mobile devices */
@@ -1818,9 +1841,17 @@
                 display: none;
             }
         }
-            .hero h1 .typing-text {
-                color: var(--orange);
-    } 
+        
+        /* Theme toggle for mobile */
+        .theme-toggle-mobile {
+            display: none;
+        }
+        
+        @media (min-width: 769px) {
+            .theme-toggle-mobile {
+                display: none;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1842,13 +1873,16 @@
                     <li><a href="#testimonials">Testimonials</a></li>
                     <li><a href="#faq">FAQ</a></li>
                     <li><a href="#contact">Contact</a></li>
-                    <li><a href="onboarding.html" class="btn btn-primary">Get Started</a></li>
+                    <li><a href="onboarding.html" class="btn btn-primary">Start Free Trial</a></li>
                     <li>
                         <button class="theme-toggle" id="theme-toggle">
                             <i class="fas fa-moon"></i>
                         </button>
                     </li>
                 </ul>
+                <button class="theme-toggle-mobile" id="theme-toggle-mobile">
+                    <i class="fas fa-moon"></i>
+                </button>
                 <div class="hamburger">
                     <span class="bar"></span>
                     <span class="bar"></span>
@@ -1862,7 +1896,7 @@
     <section class="hero" id="home">
         <div id="particles-js"></div>
         <video class="hero-video" autoplay muted loop>
-            <source src="https://assets.mixkit.co/videos/preview/mixkit-city-traffic-at-night-3455-large.mp4" type="video/mp4">
+            <source src="hero.background.mp4.mp4" type="video/mp4">
             Your browser does not support the video tag.
         </video>
         <div class="container">
@@ -1871,14 +1905,9 @@
                 <p>We specialize in social media management, website development, political & personal branding, and ads campaign management.</p>
                 <div class="hero-btns">
                     <a href="#" class="btn btn-primary btn-glow-pulse" id="chatbot-open">Let's Talk</a>
-                    <a href="onboarding.html" class="btn btn-secondary">Onboarding Form</a>
+                    <a href="onboarding.html" class="btn btn-secondary">Start Free Trial</a>
                 </div>
             </div>
-        </div>
-        <div class="hero-shapes">
-            <div class="shape shape-1"></div>
-            <div class="shape shape-2"></div>
-            <div class="shape shape-3"></div>
         </div>
     </section>
 
@@ -1996,7 +2025,7 @@
             <div class="cta-content">
                 <h2>Ready to Transform Your Digital Presence?</h2>
                 <p>Join hundreds of successful businesses and politicians who trust InfoGrip with their digital marketing</p>
-                <a href="onboarding.html" class="btn btn-primary btn-glow-pulse">Start Work With Us</a>
+                <a href="onboarding.html" class="btn btn-primary btn-glow-pulse">Start Free Trial</a>
             </div>
         </div>
     </section>
@@ -2234,7 +2263,7 @@
                 <button class="popup-close" id="popup-close">&times;</button>
             </div>
             <p>Want to grow your Social Media, Website or Ads? Fill our Onboarding Form!</p>
-            <a href="onboarding.html" class="btn btn-primary btn-glow-pulse">Get Started Now</a>
+            <a href="onboarding.html" class="btn btn-primary btn-glow-pulse">Start Free Trial</a>
         </div>
     </div>
 
@@ -2431,7 +2460,9 @@
 
         // Theme Toggle
         const themeToggle = document.getElementById('theme-toggle');
+        const themeToggleMobile = document.getElementById('theme-toggle-mobile');
         const themeIcon = themeToggle.querySelector('i');
+        const themeIconMobile = themeToggleMobile.querySelector('i');
 
         // Check for saved theme preference or default to light
         const currentTheme = localStorage.getItem('theme') || 'light';
@@ -2439,21 +2470,30 @@
             document.body.classList.add('dark-theme');
             themeIcon.classList.remove('fa-moon');
             themeIcon.classList.add('fa-sun');
+            themeIconMobile.classList.remove('fa-moon');
+            themeIconMobile.classList.add('fa-sun');
         }
 
-        themeToggle.addEventListener('click', () => {
+        function toggleTheme() {
             document.body.classList.toggle('dark-theme');
             
             if (document.body.classList.contains('dark-theme')) {
                 localStorage.setItem('theme', 'dark');
                 themeIcon.classList.remove('fa-moon');
                 themeIcon.classList.add('fa-sun');
+                themeIconMobile.classList.remove('fa-moon');
+                themeIconMobile.classList.add('fa-sun');
             } else {
                 localStorage.setItem('theme', 'light');
                 themeIcon.classList.remove('fa-sun');
                 themeIcon.classList.add('fa-moon');
+                themeIconMobile.classList.remove('fa-sun');
+                themeIconMobile.classList.add('fa-moon');
             }
-        });
+        }
+
+        themeToggle.addEventListener('click', toggleTheme);
+        themeToggleMobile.addEventListener('click', toggleTheme);
 
         // Mobile Menu Toggle
         const hamburger = document.querySelector('.hamburger');
