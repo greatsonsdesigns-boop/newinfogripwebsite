@@ -183,7 +183,7 @@ class CheckoutPage {
 
     initializeRazorpay(order, clientData) {
         const options = {
-            key: 'rzp_test_YOUR_RAZORPAY_KEY', // Replace with your Razorpay key
+            key: 'rzp_test_RlW88yZEMymKRL', // Replace with your Razorpay key
             amount: order.amount,
             currency: order.currency,
             name: 'InfoGrip Media Solution',
