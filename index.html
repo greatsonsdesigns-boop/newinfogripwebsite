@@ -257,45 +257,6 @@
             }
         }
 
-        /* Custom Cursor */
-        .cursor {
-            position: fixed;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: rgba(253, 203, 84, 0.5);
-            pointer-events: none;
-            z-index: 9999;
-            transition: transform 0.2s ease;
-            mix-blend-mode: difference;
-        }
-
-        .cursor-follower {
-            position: fixed;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border: 1px solid rgba(253, 203, 84, 0.3);
-            pointer-events: none;
-            z-index: 9998;
-            transition: transform 0.4s ease;
-        }
-
-        .cursor.hover {
-            transform: scale(1.5);
-            background: rgba(253, 203, 84, 0.8);
-        }
-
-        .cursor.text-hover {
-            transform: scale(0.5);
-            background: rgba(253, 203, 84, 0.3);
-        }
-
-        .cursor-follower.hover {
-            transform: scale(1.5);
-            border-color: rgba(253, 203, 84, 0.6);
-        }
-
         /* Header Styles */
         header {
             position: fixed;
@@ -322,6 +283,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: relative;
         }
 
         .logo {
@@ -336,50 +298,65 @@
         .nav-menu {
             display: flex;
             align-items: center;
+            gap: 10px;
         }
 
         .nav-menu li {
-            margin: 0 15px;
             position: relative;
         }
 
         .nav-menu a {
             font-weight: 500;
             color: var(--text-color);
-            padding: 5px 0;
+            padding: 8px 15px;
             position: relative;
+            border-radius: 5px;
+            transition: var(--transition);
+        }
+
+        .nav-menu a:hover {
+            background-color: var(--light-blue);
         }
 
         .nav-menu a::after {
             content: '';
             position: absolute;
             bottom: 0;
-            left: 0;
+            left: 50%;
             width: 0;
             height: 2px;
             background-color: var(--orange);
             transition: var(--transition);
+            transform: translateX(-50%);
         }
 
         .nav-menu a:hover::after {
-            width: 100%;
+            width: 80%;
         }
 
-        .nav-menu .btn {
-            margin-left: 20px;
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
 
         .theme-toggle {
             background: none;
             border: none;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             cursor: pointer;
             color: var(--text-color);
-            margin-left: 15px;
             transition: var(--transition);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .theme-toggle:hover {
+            background-color: var(--light-blue);
             color: var(--orange);
             transform: rotate(30deg);
         }
@@ -387,6 +364,9 @@
         .hamburger {
             display: none;
             cursor: pointer;
+            background: none;
+            border: none;
+            padding: 5px;
         }
 
         .bar {
@@ -468,16 +448,6 @@
             flex-wrap: wrap;
         }
 
-        /* Particle Background */
-        #particles-js {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: 0;
-        }
-
         /* Stats Section */
         .stats {
             background-color: var(--section-bg);
@@ -536,7 +506,7 @@
             font-weight: 600;
         }
 
-        /* Services Section - Premium Redesign */
+        /* Services Section */
         .services-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -592,22 +562,6 @@
             height: 200px;
             overflow: hidden;
             position: relative;
-        }
-
-        .service-img::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 50%;
-            background: linear-gradient(to top, rgba(0, 28, 79, 0.7), transparent);
-            opacity: 0;
-            transition: var(--transition);
-        }
-
-        .service-card:hover .service-img::after {
-            opacity: 1;
         }
 
         .service-img img {
@@ -672,7 +626,7 @@
             transform: translateX(5px);
         }
 
-        /* Features Section with Floating Animation */
+        /* Features Section */
         .features {
             background-color: var(--section-bg);
         }
@@ -692,26 +646,6 @@
             transition: var(--transition);
             border: 1px solid transparent;
             animation: float-card 6s ease-in-out infinite;
-        }
-
-        .feature-card:nth-child(2) {
-            animation-delay: 1s;
-        }
-
-        .feature-card:nth-child(3) {
-            animation-delay: 2s;
-        }
-
-        .feature-card:nth-child(4) {
-            animation-delay: 3s;
-        }
-
-        .feature-card:nth-child(5) {
-            animation-delay: 4s;
-        }
-
-        .feature-card:nth-child(6) {
-            animation-delay: 5s;
         }
 
         @keyframes float-card {
@@ -754,17 +688,6 @@
             color: var(--white);
             padding: 100px 0;
             position: relative;
-        }
-
-        .testimonials::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" opacity="0.05"><path d="M0,0V800H1200V0ZM200,400C200,533,333,600,400,600S600,533,600,400,467,200,400,200,200,267,200,400Z" fill="white"/></svg>');
-            background-size: cover;
         }
 
         .testimonials .section-title h2 {
@@ -964,17 +887,6 @@
             position: relative;
         }
 
-        .cta::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" opacity="0.05"><path d="M0,0V800H1200V0ZM200,400C200,533,333,600,400,600S600,533,600,400,467,200,400,200,200,267,200,400Z" fill="white"/></svg>');
-            background-size: cover;
-        }
-
         .cta-content {
             max-width: 700px;
             margin: 0 auto;
@@ -1170,432 +1082,6 @@
             }
         }
 
-        /* Popup */
-        .popup-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-            opacity: 0;
-            visibility: hidden;
-            transition: var(--transition);
-        }
-
-        .popup-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .popup {
-            background: var(--card-bg);
-            border-radius: 15px;
-            padding: 30px;
-            max-width: 500px;
-            width: 90%;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            transform: translateY(20px);
-            transition: var(--transition);
-        }
-
-        .popup-overlay.active .popup {
-            transform: translateY(0);
-        }
-
-        .popup-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .popup-close {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--text-color);
-        }
-
-        .popup h2 {
-            color: var(--text-color);
-        }
-
-        .popup p {
-            margin-bottom: 20px;
-        }
-
-        /* Social Proof Popups */
-        .social-proof-popup {
-            position: fixed;
-            bottom: 120px;
-            left: 30px;
-            background: var(--card-bg);
-            border-radius: 10px;
-            padding: 15px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
-            z-index: 999;
-            max-width: 300px;
-            transform: translateX(-100%);
-            opacity: 0;
-            transition: transform 0.5s ease, opacity 0.5s ease;
-            border-left: 4px solid var(--orange);
-            display: flex;
-            align-items: center;
-        }
-
-        .social-proof-popup.active {
-            transform: translateX(0);
-            opacity: 1;
-        }
-
-        .social-proof-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: var(--orange);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 15px;
-            color: var(--dark-blue);
-            font-weight: bold;
-        }
-
-        .social-proof-content h4 {
-            font-size: 0.9rem;
-            margin-bottom: 5px;
-            color: var(--text-color);
-        }
-
-        .social-proof-content p {
-            font-size: 0.8rem;
-            margin: 0;
-            color: var(--blue);
-        }
-
-        /* Chatbot Styles */
-        .chatbot-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-            opacity: 0;
-            visibility: hidden;
-            transition: var(--transition);
-        }
-
-        .chatbot-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .chatbot-container {
-            width: 100%;
-            max-width: 450px;
-            height: 700px;
-            background-color: var(--card-bg);
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            transform: translateY(20px);
-            transition: var(--transition);
-        }
-
-        .chatbot-overlay.active .chatbot-container {
-            transform: translateY(0);
-        }
-
-        .chat-header {
-            background: linear-gradient(135deg, var(--dark-blue) 0%, var(--blue) 100%);
-            color: white;
-            padding: 15px 20px;
-            display: flex;
-            align-items: center;
-            position: relative;
-        }
-
-        .chat-header::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: var(--orange);
-        }
-
-        .logo-container {
-            display: flex;
-            align-items: center;
-            width: 100%;
-        }
-
-        .chat-logo {
-            width: 65px;
-            height: 65px;
-            border-radius: 12px;
-            margin-right: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: white;
-            padding: 6px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-            overflow: hidden;
-            border: 2px solid var(--orange);
-        }
-
-        .chat-logo-img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            border-radius: 8px;
-        }
-
-        .chat-header-info {
-            flex: 1;
-        }
-
-        .chat-header-info h3 {
-            font-size: 18px;
-            margin-bottom: 5px;
-            font-weight: 600;
-        }
-
-        .chat-header-info p {
-            font-size: 13px;
-            opacity: 0.9;
-            display: flex;
-            align-items: center;
-        }
-
-        .status-indicator {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background-color: #2ecc71;
-            margin-right: 8px;
-            display: inline-block;
-        }
-
-        .chat-messages {
-            flex: 1;
-            padding: 20px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            background-color: var(--section-bg);
-        }
-
-        .message {
-            max-width: 85%;
-            padding: 12px 16px;
-            border-radius: 18px;
-            font-size: 14px;
-            line-height: 1.4;
-            position: relative;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-        }
-
-        .bot-message {
-            background-color: var(--card-bg);
-            align-self: flex-start;
-            border-bottom-left-radius: 5px;
-            border: 1px solid #eaeaea;
-        }
-
-        .user-message {
-            background: linear-gradient(135deg, var(--dark-blue) 0%, var(--blue) 100%);
-            color: white;
-            align-self: flex-end;
-            border-bottom-right-radius: 5px;
-        }
-
-        .language-option {
-            display: flex;
-            align-items: center;
-            padding: 12px 15px;
-            background-color: var(--card-bg);
-            border-radius: 10px;
-            margin-bottom: 10px;
-            cursor: pointer;
-            transition: all 0.3s;
-            border: 1px solid #eaeaea;
-        }
-
-        .language-option:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-color: var(--dark-blue);
-        }
-
-        .language-flag {
-            font-size: 24px;
-            margin-right: 12px;
-        }
-
-        .language-text {
-            font-weight: 500;
-        }
-
-        .typing-indicator {
-            display: flex;
-            align-items: center;
-            padding: 10px 15px;
-            background-color: var(--card-bg);
-            border-radius: 18px;
-            align-self: flex-start;
-            border-bottom-left-radius: 5px;
-            max-width: 70px;
-            border: 1px solid #eaeaea;
-        }
-
-        .typing-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background-color: #999;
-            margin: 0 2px;
-            animation: typing 1.4s infinite ease-in-out;
-        }
-
-        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
-        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
-
-        @keyframes typing {
-            0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
-            40% { transform: scale(1); opacity: 1; }
-        }
-
-        .quick-options {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            padding: 15px;
-            background-color: var(--card-bg);
-            border-top: 1px solid #eee;
-        }
-
-        .quick-option {
-            background-color: var(--section-bg);
-            border: none;
-            padding: 8px 12px;
-            border-radius: 15px;
-            font-size: 12px;
-            cursor: pointer;
-            transition: all 0.3s;
-            color: var(--text-color);
-            font-weight: 500;
-        }
-
-        .quick-option:hover {
-            background-color: var(--dark-blue);
-            color: white;
-        }
-
-        .chat-input-container {
-            display: flex;
-            padding: 15px;
-            border-top: 1px solid #eee;
-            background-color: var(--card-bg);
-        }
-
-        .chat-input {
-            flex: 1;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 30px;
-            outline: none;
-            font-size: 14px;
-            transition: all 0.3s;
-            background: var(--card-bg);
-            color: var(--text-color);
-        }
-
-        .chat-input:focus {
-            border-color: var(--dark-blue);
-        }
-
-        .send-button {
-            background: linear-gradient(135deg, var(--dark-blue) 0%, var(--blue) 100%);
-            color: white;
-            border: none;
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            margin-left: 10px;
-            cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: all 0.3s;
-        }
-
-        .send-button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 8px rgba(7, 33, 124, 0.3);
-        }
-
-        /* Action Buttons in Chat */
-        .action-buttons {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-            flex-wrap: wrap;
-        }
-
-        .action-btn {
-            background: var(--orange);
-            color: var(--dark-blue);
-            border: none;
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .action-btn:hover {
-            background: var(--dark-blue);
-            color: white;
-            transform: translateY(-2px);
-        }
-
-        /* Theme Toggle for Mobile */
-        .theme-toggle-mobile {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 1.2rem;
-            cursor: pointer;
-            color: var(--text-color);
-            transition: var(--transition);
-        }
-
-        .theme-toggle-mobile:hover {
-            color: var(--orange);
-            transform: rotate(30deg);
-        }
-
         /* Responsive Styles */
         @media (max-width: 992px) {
             .hero h1 {
@@ -1610,6 +1096,7 @@
         @media (max-width: 768px) {
             .hamburger {
                 display: block;
+                order: 3;
             }
 
             .hamburger.active .bar:nth-child(2) {
@@ -1636,6 +1123,7 @@
                 transition: var(--transition);
                 box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
                 padding: 20px 0;
+                z-index: 999;
             }
 
             .nav-menu.active {
@@ -1644,6 +1132,13 @@
 
             .nav-menu li {
                 margin: 15px 0;
+            }
+
+            .nav-actions {
+                position: absolute;
+                right: 70px;
+                top: 50%;
+                transform: translateY(-50%);
             }
 
             .hero {
@@ -1674,17 +1169,6 @@
                 font-size: 1.4rem;
             }
 
-            .chatbot-container {
-                width: 95%;
-                height: 85vh;
-            }
-
-            .social-proof-popup {
-                left: 20px;
-                bottom: 100px;
-                max-width: 250px;
-            }
-
             .stats-container {
                 grid-template-columns: repeat(2, 1fr);
             }
@@ -1708,20 +1192,6 @@
                 font-size: 1rem;
             }
             
-            /* Theme toggle for mobile */
-            .theme-toggle-mobile {
-                display: block;
-                position: absolute;
-                right: 60px;
-                top: 25px;
-                z-index: 1001;
-            }
-            
-            .theme-toggle {
-                display: none;
-            }
-            
-            /* Reduced navbar padding on mobile */
             header {
                 padding: 10px 0;
             }
@@ -1743,7 +1213,6 @@
             .btn {
                 padding: 12px 24px;
                 font-size: 0.9rem;
-                border-radius: 60px;
             }
 
             .section-title h2 {
@@ -1794,25 +1263,13 @@
                 font-size: 0.9rem;
             }
             
-            .theme-toggle-mobile {
-                right: 50px;
-                top: 20px;
-            }
-        }
-
-        /* Hide cursor on mobile devices */
-        @media (max-width: 768px) {
-            .cursor, .cursor-follower {
-                display: none;
+            .nav-actions {
+                right: 60px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Custom Cursor -->
-    <div class="cursor"></div>
-    <div class="cursor-follower"></div>
-
     <!-- Header -->
     <header>
         <div class="container">
@@ -1820,6 +1277,7 @@
                 <a href="#" class="logo">
                     <img src="https://i.postimg.cc/Nj3bmPwC/Infogrip-Medi-Soluiton-(Social-Media)-(1).png" alt="InfoGrip Media Solution">
                 </a>
+                
                 <ul class="nav-menu">
                     <li><a href="#home">Home</a></li>
                     <li><a href="#services">Services</a></li>
@@ -1828,15 +1286,14 @@
                     <li><a href="#faq">FAQ</a></li>
                     <li><a href="#contact">Contact</a></li>
                     <li><a href="onboarding.html" class="btn btn-primary">Start Free Trial</a></li>
-                    <li>
-                        <button class="theme-toggle" id="theme-toggle">
-                            <i class="fas fa-moon"></i>
-                        </button>
-                    </li>
                 </ul>
-                <button class="theme-toggle-mobile" id="theme-toggle-mobile">
-                    <i class="fas fa-moon"></i>
-                </button>
+
+                <div class="nav-actions">
+                    <button class="theme-toggle" id="theme-toggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+
                 <div class="hamburger">
                     <span class="bar"></span>
                     <span class="bar"></span>
@@ -1848,7 +1305,6 @@
 
     <!-- Hero Section -->
     <section class="hero" id="home">
-        <div id="particles-js"></div>
         <video class="hero-video" autoplay muted loop>
             <source src="hero.background.mp4.mp4" type="video/mp4">
             Your browser does not support the video tag.
@@ -2206,217 +1662,10 @@
         </a>
     </div>
 
-    <!-- Social Proof Popups -->
-    <div id="social-proof-container"></div>
-
-    <!-- Popup -->
-    <div class="popup-overlay" id="popup">
-        <div class="popup">
-            <div class="popup-header">
-                <h2>Welcome to InfoGrip</h2>
-                <button class="popup-close" id="popup-close">&times;</button>
-            </div>
-            <p>Want to grow your Social Media, Website or Ads? Fill our Onboarding Form!</p>
-            <a href="onboarding.html" class="btn btn-primary btn-glow-pulse">Start Free Trial</a>
-        </div>
-    </div>
-
-    <!-- Chatbot -->
-    <div class="chatbot-overlay" id="chatbot-overlay">
-        <div class="chatbot-container">
-            <div class="chat-header">
-                <div class="logo-container">
-                    <div class="chat-logo">
-                        <img src="https://i.postimg.cc/Dw18wXWB/Infogrip-Medi-Soluiton-(Social-Media)-(1).png" alt="InfoGrip Logo" class="chat-logo-img">
-                    </div>
-                    
-                    <div class="chat-header-info">
-                        <h3>InfoBot - InfoGrip Assistant</h3>
-                        <p><span class="status-indicator"></span> Online • Ready to help</p>
-                    </div>
-                </div>
-                <button class="chatbot-close" id="chatbot-close">&times;</button>
-            </div>
-            
-            <div class="chat-messages" id="chatMessages">
-                <div class="message bot-message">
-                    <p>Hey there! 👋 I'm InfoBot, your assistant from InfoGrip.</p>
-                    <p>I'm here to have a natural conversation and help with your marketing needs. What would you like to know?</p>
-                    
-                    <div class="language-option" data-lang="english">
-                        <div class="language-flag">🇬🇧</div>
-                        <div class="language-text">Continue in English</div>
-                    </div>
-                    
-                    <div class="language-option" data-lang="hindi">
-                        <div class="language-flag">🇮🇳</div>
-                        <div class="language-text">हिंदी में बातचीत जारी रखें</div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="quick-options">
-                <button class="quick-option" data-action="services">Our Services</button>
-                <button class="quick-option" data-action="pricing">Pricing Info</button>
-                <button class="quick-option" data-action="portfolio">See Portfolio</button>
-                <button class="quick-option" data-action="contact">Contact Us</button>
-            </div>
-            
-            <div class="chat-input-container">
-                <input type="text" class="chat-input" id="messageInput" placeholder="Ask me anything about marketing or our services...">
-                <button class="send-button" id="sendButton">
-                    <i class="fas fa-paper-plane"></i>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Particle.js Library -->
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    
     <script>
-        // Initialize Particles.js
-        document.addEventListener('DOMContentLoaded', function() {
-            particlesJS('particles-js', {
-                particles: {
-                    number: {
-                        value: 80,
-                        density: {
-                            enable: true,
-                            value_area: 800
-                        }
-                    },
-                    color: {
-                        value: "#fdcb54"
-                    },
-                    shape: {
-                        type: "circle",
-                        stroke: {
-                            width: 0,
-                            color: "#000000"
-                        }
-                    },
-                    opacity: {
-                        value: 0.5,
-                        random: true,
-                        anim: {
-                            enable: true,
-                            speed: 1,
-                            opacity_min: 0.1,
-                            sync: false
-                        }
-                    },
-                    size: {
-                        value: 3,
-                        random: true,
-                        anim: {
-                            enable: true,
-                            speed: 2,
-                            size_min: 0.1,
-                            sync: false
-                        }
-                    },
-                    line_linked: {
-                        enable: true,
-                        distance: 150,
-                        color: "#fdcb54",
-                        opacity: 0.4,
-                        width: 1
-                    },
-                    move: {
-                        enable: true,
-                        speed: 1,
-                        direction: "none",
-                        random: true,
-                        straight: false,
-                        out_mode: "out",
-                        bounce: false,
-                        attract: {
-                            enable: false,
-                            rotateX: 600,
-                            rotateY: 1200
-                        }
-                    }
-                },
-                interactivity: {
-                    detect_on: "canvas",
-                    events: {
-                        onhover: {
-                            enable: true,
-                            mode: "grab"
-                        },
-                        onclick: {
-                            enable: true,
-                            mode: "push"
-                        },
-                        resize: true
-                    },
-                    modes: {
-                        grab: {
-                            distance: 140,
-                            line_linked: {
-                                opacity: 1
-                            }
-                        },
-                        push: {
-                            particles_nb: 4
-                        }
-                    }
-                },
-                retina_detect: true
-            });
-        });
-
-        // Custom Cursor
-        const cursor = document.querySelector('.cursor');
-        const cursorFollower = document.querySelector('.cursor-follower');
-
-        // Only initialize cursor on non-mobile devices
-        if (window.innerWidth > 768) {
-            document.addEventListener('mousemove', (e) => {
-                cursor.style.left = e.clientX + 'px';
-                cursor.style.top = e.clientY + 'px';
-                
-                setTimeout(() => {
-                    cursorFollower.style.left = e.clientX + 'px';
-                    cursorFollower.style.top = e.clientY + 'px';
-                }, 100);
-            });
-
-            // Add hover effects for buttons and links
-            const interactiveElements = document.querySelectorAll('button, a, .btn, .service-card, .feature-card, .faq-question');
-            
-            interactiveElements.forEach(element => {
-                element.addEventListener('mouseenter', () => {
-                    cursor.classList.add('hover');
-                    cursorFollower.classList.add('hover');
-                });
-                
-                element.addEventListener('mouseleave', () => {
-                    cursor.classList.remove('hover');
-                    cursorFollower.classList.remove('hover');
-                });
-            });
-
-            // Add text hover effect
-            const textElements = document.querySelectorAll('h1, h2, h3, h4, h5, h6, p, span, li');
-            
-            textElements.forEach(element => {
-                element.addEventListener('mouseenter', () => {
-                    cursor.classList.add('text-hover');
-                });
-                
-                element.addEventListener('mouseleave', () => {
-                    cursor.classList.remove('text-hover');
-                });
-            });
-        }
-
         // Theme Toggle
         const themeToggle = document.getElementById('theme-toggle');
-        const themeToggleMobile = document.getElementById('theme-toggle-mobile');
         const themeIcon = themeToggle.querySelector('i');
-        const themeIconMobile = themeToggleMobile.querySelector('i');
 
         // Check for saved theme preference or default to light
         const currentTheme = localStorage.getItem('theme') || 'light';
@@ -2424,30 +1673,21 @@
             document.body.classList.add('dark-theme');
             themeIcon.classList.remove('fa-moon');
             themeIcon.classList.add('fa-sun');
-            themeIconMobile.classList.remove('fa-moon');
-            themeIconMobile.classList.add('fa-sun');
         }
 
-        function toggleTheme() {
+        themeToggle.addEventListener('click', () => {
             document.body.classList.toggle('dark-theme');
             
             if (document.body.classList.contains('dark-theme')) {
                 localStorage.setItem('theme', 'dark');
                 themeIcon.classList.remove('fa-moon');
                 themeIcon.classList.add('fa-sun');
-                themeIconMobile.classList.remove('fa-moon');
-                themeIconMobile.classList.add('fa-sun');
             } else {
                 localStorage.setItem('theme', 'light');
                 themeIcon.classList.remove('fa-sun');
                 themeIcon.classList.add('fa-moon');
-                themeIconMobile.classList.remove('fa-sun');
-                themeIconMobile.classList.add('fa-moon');
             }
-        }
-
-        themeToggle.addEventListener('click', toggleTheme);
-        themeToggleMobile.addEventListener('click', toggleTheme);
+        });
 
         // Mobile Menu Toggle
         const hamburger = document.querySelector('.hamburger');
@@ -2486,59 +1726,6 @@
         window.addEventListener('scroll', () => {
             const header = document.querySelector('header');
             header.classList.toggle('scrolled', window.scrollY > 50);
-        });
-
-        // Popup
-        const popup = document.getElementById('popup');
-        const popupClose = document.getElementById('popup-close');
-
-        // Show popup on page load
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                popup.classList.add('active');
-            }, 1000);
-        });
-
-        // Close popup
-        popupClose.addEventListener('click', () => {
-            popup.classList.remove('active');
-        });
-
-        // Show popup again after scrolling 40% down
-        window.addEventListener('scroll', () => {
-            const scrollPercentage = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
-            
-            if (scrollPercentage > 40 && !popup.classList.contains('active') && !sessionStorage.getItem('popupShown')) {
-                popup.classList.add('active');
-                sessionStorage.setItem('popupShown', 'true');
-            }
-        });
-
-        // Chatbot
-        const chatbotBtn = document.getElementById('chatbot-btn');
-        const chatbotOverlay = document.getElementById('chatbot-overlay');
-        const chatbotClose = document.getElementById('chatbot-close');
-        const chatbotOpen = document.getElementById('chatbot-open');
-
-        chatbotBtn.addEventListener('click', () => {
-            chatbotOverlay.classList.add('active');
-        });
-
-        chatbotOpen.addEventListener('click', (e) => {
-            e.preventDefault();
-            chatbotOverlay.classList.add('active');
-        });
-
-        chatbotClose.addEventListener('click', () => {
-            chatbotOverlay.classList.remove('active');
-        });
-
-        // Close chatbot with ESC key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                chatbotOverlay.classList.remove('active');
-                popup.classList.remove('active');
-            }
         });
 
         // Animated Counter
@@ -2704,52 +1891,6 @@
         // Add event listeners for arrow buttons
         document.querySelector('.carousel-arrow.prev').addEventListener('click', prevSlide);
         document.querySelector('.carousel-arrow.next').addEventListener('click', nextSlide);
-
-        // Social Proof Popups
-        const socialProofMessages = [
-            { name: "Rohit", action: "submitted a form" },
-            { name: "Simran", action: "booked a free consultation" },
-            { name: "Arjun", action: "downloaded a growth plan" },
-            { name: "Priya", action: "requested a quote" },
-            { name: "Amit", action: "signed up for newsletter" },
-            { name: "Neha", action: "started a project" }
-        ];
-
-        function showSocialProof() {
-            const randomIndex = Math.floor(Math.random() * socialProofMessages.length);
-            const message = socialProofMessages[randomIndex];
-            
-            const popup = document.createElement('div');
-            popup.className = 'social-proof-popup';
-            popup.innerHTML = `
-                <div class="social-proof-avatar">${message.name.charAt(0)}</div>
-                <div class="social-proof-content">
-                    <h4>${message.name}</h4>
-                    <p>${message.action}</p>
-                </div>
-            `;
-            
-            document.getElementById('social-proof-container').appendChild(popup);
-            
-            // Show popup
-            setTimeout(() => {
-                popup.classList.add('active');
-            }, 100);
-            
-            // Hide and remove popup after delay
-            setTimeout(() => {
-                popup.classList.remove('active');
-                setTimeout(() => {
-                    popup.remove();
-                }, 500);
-            }, 5000);
-        }
-
-        // Show first social proof after 3 seconds
-        setTimeout(showSocialProof, 3000);
-        
-        // Show subsequent social proofs randomly
-        setInterval(showSocialProof, 10000 + Math.random() * 15000);
 
         // Fade in elements on scroll
         const fadeElements = document.querySelectorAll('.service-card, .feature-card, .faq-item, .stat-card');
