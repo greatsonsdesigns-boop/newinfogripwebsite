@@ -1,1 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Successful - InfoGrip</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="thankyou-container">
+        <div class="thankyou-content">
+            <!-- Success Animation -->
+            <div class="success-animation">
+                <div class="success-icon">
+                    <i class="fas fa-check"></i>
+                </div>
+                <div class="success-pulse"></div>
+            </div>
 
+            <!-- Success Message -->
+            <div class="success-message">
+                <h1>Payment Successful!</h1>
+                <p>Thank you for choosing InfoGrip Media Solution</p>
+            </div>
+
+            <!-- Payment Details -->
+            <div class="payment-details-card">
+                <h2>Payment Details</h2>
+                <div class="details-grid">
+                    <div class="detail-item">
+                        <span class="label">Payment ID:</span>
+                        <span class="value" id="paymentId">-</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Invoice Number:</span>
+                        <span class="value" id="invoiceNumber">-</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Date & Time:</span>
+                        <span class="value" id="paymentDateTime">-</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Amount Paid:</span>
+                        <span class="value amount" id="amountPaid">₹0</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Payment Method:</span>
+                        <span class="value" id="paymentMethod">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <button class="btn btn-primary" id="downloadInvoice">
+                    <i class="fas fa-download"></i>
+                    Download Invoice
+                </button>
+                <a href="index.html" class="btn btn-secondary">
+                    <i class="fas fa-home"></i>
+                    Return to Homepage
+                </a>
+            </div>
+
+            <!-- Support Info -->
+            <div class="support-info">
+                <p>Need help? Contact us at <strong>+91 6367556906</strong> or <strong>info@infogrip.com</strong></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="thankyou.js"></script>
+</body>
+</html>
