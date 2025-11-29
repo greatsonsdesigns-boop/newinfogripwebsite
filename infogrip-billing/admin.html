@@ -1,1 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InfoGrip - Admin Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Login Section -->
+        <div class="login-section" id="loginSection">
+            <div class="login-card">
+                <div class="login-header">
+                    <img src="https://i.postimg.cc/Nj3bmPwC/Infogrip-Medi-Soluiton-(Social-Media)-(1).png" alt="InfoGrip Logo" class="login-logo">
+                    <h2>Admin Login</h2>
+                    <p>Access your billing dashboard</p>
+                </div>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </form>
+            </div>
+        </div>
 
+        <!-- Dashboard Section -->
+        <div class="dashboard-section" id="dashboardSection" style="display: none;">
+            <!-- Header -->
+            <header class="admin-header">
+                <div class="header-left">
+                    <img src="https://i.postimg.cc/Nj3bmPwC/Infogrip-Medi-Soluiton-(Social-Media)-(1).png" alt="InfoGrip Logo" class="header-logo">
+                    <div class="current-time" id="currentTime"></div>
+                </div>
+                <div class="header-right">
+                    <button class="btn btn-outline" id="logoutBtn">Logout</button>
+                </div>
+            </header>
+
+            <!-- Main Content -->
+            <main class="admin-main">
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="totalClients">0</h3>
+                            <p>Total Clients</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-rupee-sign"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="totalRevenue">₹0</h3>
+                            <p>Total Revenue</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="monthlyPayments">₹0</h3>
+                            <p>This Month</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="pendingPayments">0</h3>
+                            <p>Pending</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabs -->
+                <div class="tabs">
+                    <button class="tab-btn active" data-tab="clients">Client Master</button>
+                    <button class="tab-btn" data-tab="payment">Generate Payment Link</button>
+                </div>
+
+                <!-- Client Master Tab -->
+                <div class="tab-content active" id="clientsTab">
+                    <div class="section-header">
+                        <h2>Client Master</h2>
+                        <button class="btn btn-primary" id="addClientBtn">
+                            <i class="fas fa-plus"></i> Add Client
+                        </button>
+                    </div>
+                    
+                    <div class="search-bar">
+                        <input type="text" id="clientSearch" placeholder="Search clients...">
+                        <i class="fas fa-search"></i>
+                    </div>
+
+                    <div class="table-container">
+                        <table class="data-table" id="clientsTable">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Default Service</th>
+                                    <th>Default Amount</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="clientsTableBody">
+                                <!-- Clients will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="pagination" id="clientsPagination">
+                        <!-- Pagination will be generated here -->
+                    </div>
+                </div>
+
+                <!-- Generate Payment Link Tab -->
+                <div class="tab-content" id="paymentTab">
+                    <div class="section-header">
+                        <h2>Generate Payment Link</h2>
+                    </div>
+
+                    <div class="payment-mode-selector">
+                        <button class="mode-btn active" data-mode="new">New Client</button>
+                        <button class="mode-btn" data-mode="existing">Existing Client</button>
+                    </div>
+
+                    <!-- New Client Form -->
+                    <form class="payment-form active" id="newClientForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="newName">Client Name *</label>
+                                <input type="text" id="newName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="newPhone">Phone *</label>
+                                <input type="tel" id="newPhone" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="newEmail">Email *</label>
+                                <input type="email" id="newEmail" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="newAddress">Address</label>
+                                <input type="text" id="newAddress">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="newService">Service Name *</label>
+                                <input type="text" id="newService" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="newAmount">Amount (₹) *</label>
+                                <input type="number" id="newAmount" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="newDescription">Description</label>
+                            <textarea id="newDescription" rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Generate Payment Link</button>
+                    </form>
+
+                    <!-- Existing Client Form -->
+                    <form class="payment-form" id="existingClientForm">
+                        <div class="form-group">
+                            <label for="existingClient">Select Client *</label>
+                            <select id="existingClient" required>
+                                <option value="">Select a client</option>
+                            </select>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="existingService">Service Name *</label>
+                                <input type="text" id="existingService" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="existingAmount">Amount (₹) *</label>
+                                <input type="number" id="existingAmount" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="existingDescription">Description</label>
+                            <textarea id="existingDescription" rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Generate Payment Link</button>
+                    </form>
+
+                    <!-- Generated Link Display -->
+                    <div class="generated-link" id="generatedLink" style="display: none;">
+                        <h3>Payment Link Generated!</h3>
+                        <div class="link-container">
+                            <input type="text" id="paymentLink" readonly>
+                            <button class="btn btn-secondary" id="copyLinkBtn">Copy</button>
+                        </div>
+                        <div class="share-options">
+                            <button class="btn btn-outline" id="whatsappShare">
+                                <i class="fab fa-whatsapp"></i> Share via WhatsApp
+                            </button>
+                            <button class="btn btn-outline" id="emailShare">
+                                <i class="fas fa-envelope"></i> Share via Email
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Add/Edit Client Modal -->
+    <div class="modal" id="clientModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Add Client</h3>
+                <button class="modal-close" id="modalClose">&times;</button>
+            </div>
+            <form id="clientForm">
+                <input type="hidden" id="editClientId">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="clientName">Name *</label>
+                        <input type="text" id="clientName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="clientPhone">Phone *</label>
+                        <input type="tel" id="clientPhone" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="clientEmail">Email *</label>
+                        <input type="email" id="clientEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="clientAddress">Address</label>
+                        <input type="text" id="clientAddress">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="defaultService">Default Service</label>
+                        <input type="text" id="defaultService">
+                    </div>
+                    <div class="form-group">
+                        <label for="defaultAmount">Default Amount (₹)</label>
+                        <input type="number" id="defaultAmount">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="billingCycle">Billing Cycle</label>
+                    <select id="billingCycle">
+                        <option value="one-time">One Time</option>
+                        <option value="monthly">Monthly</option>
+                        <option value="quarterly">Quarterly</option>
+                        <option value="yearly">Yearly</option>
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-outline" id="cancelBtn">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Client</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>
