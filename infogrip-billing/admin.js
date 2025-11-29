@@ -6,11 +6,10 @@ class AdminDashboard {
         this.currentPage = 1;
         this.itemsPerPage = 10;
         this.currentMode = 'new';
-        this.webAppUrl = "https://script.google.com/macros/s/AKfycbzVmmX_1ziyywtKy6yT8r926ON0JPfOQPga35dfOBtEhTxBX1UwaQVPypF3lUI_XaIa/exec";
-
+        this.webAppUrl = 'https://script.google.com/macros/s/AKfycbzVmmX_1ziyywtKy6yT8r926ON0JPfOQPga35dfOBtEhTxBX1UwaQVPypF3lUI_XaIa/exec';
         
         this.init();
-        }
+    }
 
     init() {
         this.checkAuth();
@@ -84,7 +83,7 @@ class AdminDashboard {
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
         
-        // Simple authentication (replace with proper auth)
+        // Simple authentication
         if (email === 'admin@infogrip.com' && password === 'admin123') {
             this.currentUser = { email, name: 'Admin' };
             localStorage.setItem('adminUser', JSON.stringify(this.currentUser));
@@ -102,13 +101,11 @@ class AdminDashboard {
     }
 
     switchTab(tabName) {
-        // Update tab buttons
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.classList.remove('active');
         });
         document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
         
-        // Update tab content
         document.querySelectorAll('.tab-content').forEach(content => {
             content.classList.remove('active');
         });
@@ -124,13 +121,11 @@ class AdminDashboard {
     switchPaymentMode(mode) {
         this.currentMode = mode;
         
-        // Update mode buttons
         document.querySelectorAll('.mode-btn').forEach(btn => {
             btn.classList.remove('active');
         });
         document.querySelector(`[data-mode="${mode}"]`).classList.add('active');
         
-        // Update forms
         document.querySelectorAll('.payment-form').forEach(form => {
             form.classList.remove('active');
         });
@@ -154,7 +149,6 @@ class AdminDashboard {
     }
 
     async loadDashboardData() {
-        // Simulate API calls
         try {
             const stats = await this.fetchDashboardStats();
             this.updateStats(stats);
@@ -227,17 +221,17 @@ class AdminDashboard {
         currentClients.forEach(client => {
             const row = document.createElement('tr');
             row.innerHTML = `
-                <td>${client.client_id}</td>
+                <td>${client.client_id || client.id}</td>
                 <td>${client.name}</td>
                 <td>${client.email}</td>
                 <td>${client.phone}</td>
-                <td>${client.default_service}</td>
-                <td>₹${client.default_amount?.toLocaleString() || '0'}</td>
+                <td>${client.default_service || client.defaultService}</td>
+                <td>₹${(client.default_amount || client.defaultAmount || 0).toLocaleString()}</td>
                 <td class="action-buttons">
-                    <button class="btn btn-sm btn-edit" onclick="admin.editClient('${client.client_id}')">
+                    <button class="btn btn-sm btn-edit" onclick="admin.editClient('${client.client_id || client.id}')">
                         <i class="fas fa-edit"></i>
                     </button>
-                    <button class="btn btn-sm btn-delete" onclick="admin.deleteClient('${client.client_id}')">
+                    <button class="btn btn-sm btn-delete" onclick="admin.deleteClient('${client.client_id || client.id}')">
                         <i class="fas fa-trash"></i>
                     </button>
                 </td>
@@ -300,24 +294,23 @@ class AdminDashboard {
             client.phone.includes(query)
         );
         
-        // Update table with filtered results
         const tbody = document.getElementById('clientsTableBody');
         tbody.innerHTML = '';
         
         filteredClients.forEach(client => {
             const row = document.createElement('tr');
             row.innerHTML = `
-                <td>${client.client_id}</td>
+                <td>${client.client_id || client.id}</td>
                 <td>${client.name}</td>
                 <td>${client.email}</td>
                 <td>${client.phone}</td>
-                <td>${client.default_service}</td>
-                <td>₹${client.default_amount?.toLocaleString() || '0'}</td>
+                <td>${client.default_service || client.defaultService}</td>
+                <td>₹${(client.default_amount || client.defaultAmount || 0).toLocaleString()}</td>
                 <td class="action-buttons">
-                    <button class="btn btn-sm btn-edit" onclick="admin.editClient('${client.client_id}')">
+                    <button class="btn btn-sm btn-edit" onclick="admin.editClient('${client.client_id || client.id}')">
                         <i class="fas fa-edit"></i>
                     </button>
-                    <button class="btn btn-sm btn-delete" onclick="admin.deleteClient('${client.client_id}')">
+                    <button class="btn btn-sm btn-delete" onclick="admin.deleteClient('${client.client_id || client.id}')">
                         <i class="fas fa-trash"></i>
                     </button>
                 </td>
@@ -332,14 +325,14 @@ class AdminDashboard {
         
         if (client) {
             title.textContent = 'Edit Client';
-            document.getElementById('editClientId').value = client.client_id;
+            document.getElementById('editClientId').value = client.client_id || client.id;
             document.getElementById('clientName').value = client.name;
             document.getElementById('clientPhone').value = client.phone;
             document.getElementById('clientEmail').value = client.email;
             document.getElementById('clientAddress').value = client.address || '';
-            document.getElementById('defaultService').value = client.default_service || '';
-            document.getElementById('defaultAmount').value = client.default_amount || '';
-            document.getElementById('billingCycle').value = client.billing_cycle || 'one-time';
+            document.getElementById('defaultService').value = client.default_service || client.defaultService || '';
+            document.getElementById('defaultAmount').value = client.default_amount || client.defaultAmount || '';
+            document.getElementById('billingCycle').value = client.billing_cycle || client.billingCycle || 'one-time';
         } else {
             title.textContent = 'Add Client';
             document.getElementById('clientForm').reset();
@@ -378,12 +371,13 @@ class AdminDashboard {
             alert('Client saved successfully!');
         } catch (error) {
             console.error('Error saving client:', error);
-            alert('Error saving client. Please try again.');
+            alert('Error saving client: ' + error.message);
         }
     }
 
     async saveClientToSheet(clientData) {
         try {
+            console.log('Saving client:', clientData);
             const response = await fetch(this.webAppUrl, {
                 method: 'POST',
                 headers: {
@@ -395,6 +389,11 @@ class AdminDashboard {
                 })
             });
             const data = await response.json();
+            console.log('Save response:', data);
+            
+            if (!data.success) {
+                throw new Error(data.message);
+            }
             return data;
         } catch (error) {
             console.error('Error saving client:', error);
@@ -415,6 +414,10 @@ class AdminDashboard {
                 })
             });
             const data = await response.json();
+            
+            if (!data.success) {
+                throw new Error(data.message);
+            }
             return data;
         } catch (error) {
             console.error('Error updating client:', error);
@@ -423,7 +426,7 @@ class AdminDashboard {
     }
 
     editClient(clientId) {
-        const client = this.clients.find(c => c.client_id === clientId);
+        const client = this.clients.find(c => (c.client_id || c.id) === clientId);
         if (client) {
             this.openClientModal(client);
         }
@@ -433,13 +436,13 @@ class AdminDashboard {
         if (confirm('Are you sure you want to delete this client?')) {
             try {
                 await this.deleteClientFromSheet(clientId);
-                this.clients = this.clients.filter(c => c.client_id !== clientId);
+                this.clients = this.clients.filter(c => (c.client_id || c.id) !== clientId);
                 this.renderClientsTable();
                 this.renderPagination();
                 alert('Client deleted successfully!');
             } catch (error) {
                 console.error('Error deleting client:', error);
-                alert('Error deleting client. Please try again.');
+                alert('Error deleting client: ' + error.message);
             }
         }
     }
@@ -457,6 +460,10 @@ class AdminDashboard {
                 })
             });
             const data = await response.json();
+            
+            if (!data.success) {
+                throw new Error(data.message);
+            }
             return data;
         } catch (error) {
             console.error('Error deleting client:', error);
@@ -470,18 +477,17 @@ class AdminDashboard {
         
         this.clients.forEach(client => {
             const option = document.createElement('option');
-            option.value = client.client_id;
+            option.value = client.client_id || client.id;
             option.textContent = `${client.name} (${client.email})`;
             option.dataset.client = JSON.stringify(client);
             select.appendChild(option);
         });
         
-        // Auto-fill when client is selected
         select.addEventListener('change', (e) => {
             if (e.target.value) {
                 const client = JSON.parse(e.target.selectedOptions[0].dataset.client);
-                document.getElementById('existingService').value = client.default_service || '';
-                document.getElementById('existingAmount').value = client.default_amount || '';
+                document.getElementById('existingService').value = client.default_service || client.defaultService || '';
+                document.getElementById('existingAmount').value = client.default_amount || client.defaultAmount || '';
             }
         });
     }
@@ -506,14 +512,14 @@ class AdminDashboard {
             };
         } else {
             const clientId = document.getElementById('existingClient').value;
-            const client = this.clients.find(c => c.client_id == clientId);
+            const client = this.clients.find(c => (c.client_id || c.id) == clientId);
             if (!client) {
                 alert('Please select a client');
                 return;
             }
             
             clientData = {
-                id: client.client_id,
+                id: client.client_id || client.id,
                 name: client.name,
                 phone: client.phone,
                 email: client.email,
@@ -532,7 +538,7 @@ class AdminDashboard {
             this.showGeneratedLink(checkoutUrl, invoiceId, clientData, serviceData);
         } catch (error) {
             console.error('Error generating payment link:', error);
-            alert('Error generating payment link. Please try again.');
+            alert('Error generating payment link: ' + error.message);
         }
     }
 
@@ -544,46 +550,55 @@ class AdminDashboard {
 
     async createPaymentLink(invoiceId, clientData, serviceData) {
         try {
-            const response = await fetch(this.webAppUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    action: 'createPayment',
-                    invoice_id: invoiceId,
-                    client_id: clientData.id || '',
-                    name: clientData.name,
-                    phone: clientData.phone,
-                    email: clientData.email,
-                    service: serviceData.service,
-                    amount: serviceData.amount,
-                    description: serviceData.description,
-                    checkout_url: '',
-                    send_email: true
-                })
+            console.log('Creating payment link for:', { invoiceId, clientData, serviceData });
+            
+            // First create the checkout URL
+            const baseUrl = window.location.origin;
+            const params = new URLSearchParams({
+                invoice_id: invoiceId,
+                client_id: clientData.id || 'new',
+                service: encodeURIComponent(serviceData.service),
+                amount: serviceData.amount,
+                description: encodeURIComponent(serviceData.description || '')
             });
             
-            const data = await response.json();
+            const checkoutUrl = `${baseUrl}/checkout.html?${params.toString()}`;
             
-            if (data.success) {
-                const baseUrl = window.location.origin;
-                const params = new URLSearchParams({
-                    invoice_id: invoiceId,
-                    client_id: clientData.id || 'new',
-                    service: encodeURIComponent(serviceData.service),
-                    amount: serviceData.amount,
-                    description: encodeURIComponent(serviceData.description)
+            console.log('Generated checkout URL:', checkoutUrl);
+            
+            // Try to save to Google Sheets (optional)
+            try {
+                const response = await fetch(this.webAppUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        action: 'createPayment',
+                        invoice_id: invoiceId,
+                        client_id: clientData.id || '',
+                        name: clientData.name,
+                        phone: clientData.phone,
+                        email: clientData.email,
+                        service: serviceData.service,
+                        amount: serviceData.amount,
+                        description: serviceData.description || '',
+                        checkout_url: checkoutUrl,
+                        send_email: false
+                    })
                 });
                 
-                const checkoutUrl = `${baseUrl}/checkout.html?${params.toString()}`;
-                return checkoutUrl;
-            } else {
-                throw new Error(data.message);
+                const data = await response.json();
+                console.log('Google Sheets response:', data);
+            } catch (sheetError) {
+                console.warn('Could not save to Google Sheets, but continuing:', sheetError);
             }
+            
+            return checkoutUrl;
+            
         } catch (error) {
-            console.error('Error creating payment link:', error);
-            throw error;
+            console.error('Error in createPaymentLink:', error);
+            throw new Error('Failed to generate payment link: ' + error.message);
         }
     }
 
@@ -591,10 +606,8 @@ class AdminDashboard {
         document.getElementById('paymentLink').value = url;
         document.getElementById('generatedLink').style.display = 'block';
         
-        // Store data for sharing
         this.currentPaymentData = { url, invoiceId, clientData, serviceData };
         
-        // Scroll to generated link
         document.getElementById('generatedLink').scrollIntoView({ behavior: 'smooth' });
     }
 
@@ -625,7 +638,6 @@ class AdminDashboard {
 
 _Thank you for choosing InfoGrip Media Solution!_`;
 
-        // Regular WhatsApp link (no API needed)
         const whatsappUrl = `https://wa.me/91${clientData.phone.replace(/\D/g, '')}?text=${encodeURIComponent(message)}`;
         window.open(whatsappUrl, '_blank');
     }
