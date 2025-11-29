@@ -1,1 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - InfoGrip Media Solution</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="admin-body">
+    <!-- Login Screen -->
+    <div id="login-screen" class="login-screen">
+        <div class="login-container">
+            <div class="login-card">
+                <div class="login-header">
+                    <img src="https://i.postimg.cc/Nj3bmPwC/Infogrip-Medi-Soluiton-(Social-Media)-(1).png" alt="InfoGrip Media Solution" class="login-logo">
+                    <h2>Admin Login</h2>
+                    <p>Enter your credentials to access the admin panel</p>
+                </div>
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-full">Login</button>
+                </form>
+                <div class="login-footer">
+                    <p>Forgot password? <a href="#" id="reset-password">Reset here</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <!-- Admin Dashboard -->
+    <div id="admin-dashboard" class="admin-dashboard hidden">
+        <!-- Top Navigation -->
+        <header class="admin-header">
+            <div class="admin-header-left">
+                <button class="sidebar-toggle" id="sidebar-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <a href="#" class="admin-logo">
+                    <img src="https://i.postimg.cc/Nj3bmPwC/Infogrip-Medi-Soluiton-(Social-Media)-(1).png" alt="InfoGrip Media Solution">
+                </a>
+            </div>
+            <div class="admin-header-center">
+                <div id="current-datetime" class="current-datetime"></div>
+            </div>
+            <div class="admin-header-right">
+                <div class="admin-user">
+                    <div class="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <span class="user-name">Admin</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <button class="logout-btn" id="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Sidebar -->
+        <aside class="admin-sidebar" id="admin-sidebar">
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="nav-item active">
+                        <a href="#dashboard" class="nav-link" data-section="dashboard">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#clients" class="nav-link" data-section="clients">
+                            <i class="fas fa-users"></i>
+                            <span>Clients</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#create-payment" class="nav-link" data-section="create-payment">
+                            <i class="fas fa-plus-circle"></i>
+                            <span>Create Payment</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#payment-links" class="nav-link" data-section="payment-links">
+                            <i class="fas fa-link"></i>
+                            <span>Payment Links</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#payments-history" class="nav-link" data-section="payments-history">
+                            <i class="fas fa-history"></i>
+                            <span>Payments History</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#settings" class="nav-link" data-section="settings">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="admin-main" id="admin-main">
+            <!-- Dashboard Section -->
+            <section id="dashboard-section" class="admin-section">
+                <div class="section-header">
+                    <h1>Dashboard</h1>
+                    <p>Welcome to InfoGrip Admin Panel</p>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="total-clients">0</h3>
+                            <p>Total Clients</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-receipt"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="total-invoices">0</h3>
+                            <p>Total Invoices</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-rupee-sign"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="total-revenue">₹0</h3>
+                            <p>Total Revenue</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="pending-payments">0</h3>
+                            <p>Pending Payments</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Revenue Chart -->
+                <div class="chart-container">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3>Revenue Overview (Last 30 Days)</h3>
+                            <select id="chart-period">
+                                <option value="7">Last 7 Days</option>
+                                <option value="30" selected>Last 30 Days</option>
+                                <option value="90">Last 90 Days</option>
+                            </select>
+                        </div>
+                        <canvas id="revenue-chart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Recent Payments -->
+                <div class="recent-payments">
+                    <div class="section-header">
+                        <h3>Recent Payments</h3>
+                        <a href="#payments-history" class="btn btn-outline">View All</a>
+                    </div>
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Invoice ID</th>
+                                    <th>Client</th>
+                                    <th>Amount</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recent-payments-body">
+                                <!-- Recent payments will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Clients Section -->
+            <section id="clients-section" class="admin-section hidden">
+                <div class="section-header">
+                    <h1>Clients Management</h1>
+                    <p>Manage your clients and their information</p>
+                    <button class="btn btn-primary" id="add-client-btn">
+                        <i class="fas fa-plus"></i> Add New Client
+                    </button>
+                </div>
+
+                <!-- Clients Table -->
+                <div class="table-controls">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="client-search" placeholder="Search clients...">
+                    </div>
+                    <div class="table-actions">
+                        <button class="btn btn-outline" id="export-clients-btn">
+                            <i class="fas fa-download"></i> Export CSV
+                        </button>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <table class="data-table" id="clients-table">
+                        <thead>
+                            <tr>
+                                <th>Client ID</th>
+                                <th>Name</th>
+                                <th>Phone</th>
+                                <th>Email</th>
+                                <th>Default Service</th>
+                                <th>Billing Cycle</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="clients-table-body">
+                            <!-- Clients will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination" id="clients-pagination">
+                    <!-- Pagination will be generated here -->
+                </div>
+            </section>
+
+            <!-- Create Payment Section -->
+            <section id="create-payment-section" class="admin-section hidden">
+                <div class="section-header">
+                    <h1>Create Payment</h1>
+                    <p>Generate payment links for your clients</p>
+                </div>
+
+                <div class="payment-form-container">
+                    <form id="payment-form">
+                        <!-- Client Selection -->
+                        <div class="form-section">
+                            <h3>Client Information</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="client-select">Select Client</label>
+                                    <select id="client-select">
+                                        <option value="">New Client</option>
+                                        <!-- Client options will be populated here -->
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="client-name">Client Name *</label>
+                                    <input type="text" id="client-name" name="client-name" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="client-phone">Phone *</label>
+                                    <input type="tel" id="client-phone" name="client-phone" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="client-email">Email *</label>
+                                    <input type="email" id="client-email" name="client-email" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="client-address">Address</label>
+                                <textarea id="client-address" name="client-address" rows="3"></textarea>
+                            </div>
+                            <div class="form-checkbox">
+                                <input type="checkbox" id="save-client" name="save-client">
+                                <label for="save-client">Save this client to database</label>
+                            </div>
+                        </div>
+
+                        <!-- Services Section -->
+                        <div class="form-section">
+                            <h3>Services & Pricing</h3>
+                            <div id="services-container">
+                                <!-- Service rows will be added here -->
+                            </div>
+                            <button type="button" class="btn btn-outline" id="add-service-btn">
+                                <i class="fas fa-plus"></i> Add Another Service
+                            </button>
+                        </div>
+
+                        <!-- Pricing Summary -->
+                        <div class="form-section">
+                            <h3>Pricing Summary</h3>
+                            <div class="pricing-summary">
+                                <div class="summary-row">
+                                    <span>Subtotal:</span>
+                                    <span id="subtotal-amount">₹0.00</span>
+                                </div>
+                                <div class="summary-row gst-toggle-container">
+                                    <div>
+                                        <input type="checkbox" id="gst-toggle" name="gst-toggle">
+                                        <label for="gst-toggle">Apply GST</label>
+                                    </div>
+                                    <div class="gst-input-container hidden">
+                                        <input type="number" id="gst-percent" name="gst-percent" min="0" max="100" value="18" step="0.1">
+                                        <span>%</span>
+                                    </div>
+                                </div>
+                                <div class="summary-row gst-amount-container hidden">
+                                    <span>GST Amount:</span>
+                                    <span id="gst-amount">₹0.00</span>
+                                </div>
+                                <div class="summary-row discount-container">
+                                    <div class="discount-toggle">
+                                        <input type="checkbox" id="discount-toggle" name="discount-toggle">
+                                        <label for="discount-toggle">Apply Discount</label>
+                                    </div>
+                                    <div class="discount-inputs hidden">
+                                        <input type="number" id="discount-value" name="discount-value" min="0" step="0.01">
+                                        <select id="discount-type" name="discount-type">
+                                            <option value="flat">₹</option>
+                                            <option value="percent">%</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="summary-row discount-amount-container hidden">
+                                    <span>Discount:</span>
+                                    <span id="discount-amount">₹0.00</span>
+                                </div>
+                                <div class="summary-row total-row">
+                                    <span><strong>Total Amount:</strong></span>
+                                    <span id="total-amount"><strong>₹0.00</strong></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Additional Information -->
+                        <div class="form-section">
+                            <h3>Additional Information</h3>
+                            <div class="form-group">
+                                <label for="payment-notes">Notes (Optional)</label>
+                                <textarea id="payment-notes" name="payment-notes" rows="3" placeholder="Any additional notes for this payment..."></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Generate Payment Link -->
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary btn-large" id="generate-link-btn">
+                                <i class="fas fa-link"></i> Generate Payment Link
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Payment Link Result -->
+                <div id="payment-link-result" class="payment-link-result hidden">
+                    <div class="result-card">
+                        <div class="result-header">
+                            <h3>Payment Link Generated Successfully!</h3>
+                            <p>Share this link with your client to collect payment</p>
+                        </div>
+                        <div class="link-display">
+                            <div class="link-box">
+                                <span id="generated-link">https://yourdomain.com/checkout.html?invoice_id=INFO-20251130-1234</span>
+                                <button class="btn btn-outline copy-btn" id="copy-link-btn">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                            </div>
+                        </div>
+                        <div class="link-actions">
+                            <button class="btn btn-whatsapp" id="whatsapp-share-btn">
+                                <i class="fab fa-whatsapp"></i> Share via WhatsApp
+                            </button>
+                            <button class="btn btn-email" id="email-share-btn">
+                                <i class="fas fa-envelope"></i> Send via Email
+                            </button>
+                            <button class="btn btn-outline" id="preview-invoice-btn">
+                                <i class="fas fa-eye"></i> Preview Invoice
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Payment Links Section -->
+            <section id="payment-links-section" class="admin-section hidden">
+                <div class="section-header">
+                    <h1>Payment Links</h1>
+                    <p>Manage and track your payment links</p>
+                </div>
+
+                <!-- Payment Links Table -->
+                <div class="table-controls">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="payment-links-search" placeholder="Search payment links...">
+                    </div>
+                    <div class="filter-controls">
+                        <select id="status-filter">
+                            <option value="">All Status</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Paid">Paid</option>
+                            <option value="Failed">Failed</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <table class="data-table" id="payment-links-table">
+                        <thead>
+                            <tr>
+                                <th>Invoice ID</th>
+                                <th>Client</th>
+                                <th>Amount</th>
+                                <th>Created Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="payment-links-table-body">
+                            <!-- Payment links will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination" id="payment-links-pagination">
+                    <!-- Pagination will be generated here -->
+                </div>
+            </section>
+
+            <!-- Payments History Section -->
+            <section id="payments-history-section" class="admin-section hidden">
+                <div class="section-header">
+                    <h1>Payments History</h1>
+                    <p>View all completed payments and transactions</p>
+                    <button class="btn btn-outline" id="export-payments-btn">
+                        <i class="fas fa-download"></i> Export CSV
+                    </button>
+                </div>
+
+                <!-- Date Range Filter -->
+                <div class="date-filter">
+                    <div class="filter-group">
+                        <label for="start-date">From Date</label>
+                        <input type="date" id="start-date">
+                    </div>
+                    <div class="filter-group">
+                        <label for="end-date">To Date</label>
+                        <input type="date" id="end-date">
+                    </div>
+                    <button class="btn btn-primary" id="apply-date-filter">Apply Filter</button>
+                    <button class="btn btn-outline" id="reset-date-filter">Reset</button>
+                </div>
+
+                <!-- Payments History Table -->
+                <div class="table-container">
+                    <table class="data-table" id="payments-history-table">
+                        <thead>
+                            <tr>
+                                <th>Payment ID</th>
+                                <th>Invoice ID</th>
+                                <th>Client</th>
+                                <th>Amount</th>
+                                <th>Payment Date</th>
+                                <th>Payment Mode</th>
+                                <th>Invoice</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="payments-history-table-body">
+                            <!-- Payments history will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination" id="payments-history-pagination">
+                    <!-- Pagination will be generated here -->
+                </div>
+            </section>
+
+            <!-- Settings Section -->
+            <section id="settings-section" class="admin-section hidden">
+                <div class="section-header">
+                    <h1>Settings</h1>
+                    <p>Configure your payment system settings</p>
+                </div>
+
+                <div class="settings-container">
+                    <div class="settings-tabs">
+                        <button class="tab-btn active" data-tab="general">General</button>
+                        <button class="tab-btn" data-tab="razorpay">Razorpay</button>
+                        <button class="tab-btn" data-tab="email">Email Templates</button>
+                        <button class="tab-btn" data-tab="security">Security</button>
+                    </div>
+
+                    <div class="settings-content">
+                        <!-- General Settings -->
+                        <div id="general-tab" class="tab-content active">
+                            <div class="setting-group">
+                                <h3>Company Information</h3>
+                                <div class="form-group">
+                                    <label for="company-name">Company Name</label>
+                                    <input type="text" id="company-name" value="InfoGrip Media Solution">
+                                </div>
+                                <div class="form-group">
+                                    <label for="company-address">Company Address</label>
+                                    <textarea id="company-address" rows="3">Jaipur, Rajasthan, India</textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="company-phone">Phone Number</label>
+                                    <input type="tel" id="company-phone" value="+91 6367556906">
+                                </div>
+                                <div class="form-group">
+                                    <label for="company-email">Email Address</label>
+                                    <input type="email" id="company-email" value="info@infogrip.com">
+                                </div>
+                            </div>
+
+                            <div class="setting-group">
+                                <h3>Invoice Settings</h3>
+                                <div class="form-group">
+                                    <label for="invoice-prefix">Invoice Prefix</label>
+                                    <input type="text" id="invoice-prefix" value="INFO">
+                                </div>
+                                <div class="form-group">
+                                    <label for="default-gst">Default GST %</label>
+                                    <input type="number" id="default-gst" value="18" min="0" max="100" step="0.1">
+                                </div>
+                                <div class="form-checkbox">
+                                    <input type="checkbox" id="auto-gst" checked>
+                                    <label for="auto-gst">Automatically apply GST to all invoices</label>
+                                </div>
+                            </div>
+
+                            <button class="btn btn-primary">Save General Settings</button>
+                        </div>
+
+                        <!-- Razorpay Settings -->
+                        <div id="razorpay-tab" class="tab-content">
+                            <div class="setting-group">
+                                <h3>Razorpay Configuration</h3>
+                                <div class="form-group">
+                                    <label for="razorpay-key-id">Key ID</label>
+                                    <input type="text" id="razorpay-key-id" placeholder="Enter your Razorpay Key ID">
+                                </div>
+                                <div class="form-group">
+                                    <label for="razorpay-key-secret">Key Secret</label>
+                                    <input type="password" id="razorpay-key-secret" placeholder="Enter your Razorpay Key Secret">
+                                </div>
+                                <div class="form-checkbox">
+                                    <input type="checkbox" id="test-mode">
+                                    <label for="test-mode">Enable Test Mode</label>
+                                </div>
+                                <p class="help-text">Your Razorpay Key Secret is stored securely and never exposed to clients.</p>
+                            </div>
+
+                            <button class="btn btn-primary">Save Razorpay Settings</button>
+                        </div>
+
+                        <!-- Email Settings -->
+                        <div id="email-tab" class="tab-content">
+                            <div class="setting-group">
+                                <h3>Email Templates</h3>
+                                <div class="form-group">
+                                    <label for="email-subject">Payment Success Subject</label>
+                                    <input type="text" id="email-subject" value="Your InfoGrip Invoice - {{invoice_id}}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="email-body">Payment Success Body</label>
+                                    <textarea id="email-body" rows="8">
+Hello {{client_name}},
+
+Your payment has been successfully processed. Thank you for choosing InfoGrip Media Solution.
+
+Payment Details:
+- Invoice ID: {{invoice_id}}
+- Amount: ₹{{total_amount}}
+- Payment Date: {{payment_date}}
+- Payment ID: {{payment_id}}
+
+You can download your invoice from: {{invoice_link}}
+
+If you have any questions, please contact us at info@infogrip.com or +91 6367556906.
+
+Best regards,
+InfoGrip Media Solution Team
+                                    </textarea>
+                                </div>
+                            </div>
+
+                            <button class="btn btn-primary">Save Email Settings</button>
+                        </div>
+
+                        <!-- Security Settings -->
+                        <div id="security-tab" class="tab-content">
+                            <div class="setting-group">
+                                <h3>Admin Security</h3>
+                                <div class="form-group">
+                                    <label for="admin-email">Admin Email</label>
+                                    <input type="email" id="admin-email" value="admin@infogrip.com">
+                                </div>
+                                <div class="form-group">
+                                    <label for="current-password">Current Password</label>
+                                    <input type="password" id="current-password">
+                                </div>
+                                <div class="form-group">
+                                    <label for="new-password">New Password</label>
+                                    <input type="password" id="new-password">
+                                </div>
+                                <div class="form-group">
+                                    <label for="confirm-password">Confirm New Password</label>
+                                    <input type="password" id="confirm-password">
+                                </div>
+                            </div>
+
+                            <button class="btn btn-primary">Change Password</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Client Modal -->
+    <div id="client-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="client-modal-title">Add New Client</h3>
+                <button class="modal-close" id="client-modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="client-form">
+                    <input type="hidden" id="edit-client-id">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="modal-client-name">Name *</label>
+                            <input type="text" id="modal-client-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="modal-client-phone">Phone *</label>
+                            <input type="tel" id="modal-client-phone" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="modal-client-email">Email *</label>
+                        <input type="email" id="modal-client-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="modal-client-address">Address</label>
+                        <textarea id="modal-client-address" rows="3"></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="modal-default-service">Default Service</label>
+                            <select id="modal-default-service">
+                                <option value="">Select Service</option>
+                                <option value="Web Development">Web Development</option>
+                                <option value="Social Media Management">Social Media Management</option>
+                                <option value="Ads Campaign Management">Ads Campaign Management</option>
+                                <option value="Political Branding">Political Branding</option>
+                                <option value="Video Editing">Video Editing</option>
+                                <option value="Logo Design">Logo Design</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="modal-default-amount">Default Amount</label>
+                            <input type="number" id="modal-default-amount" min="0" step="0.01">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="modal-billing-cycle">Billing Cycle</label>
+                        <select id="modal-billing-cycle">
+                            <option value="one-time">One Time</option>
+                            <option value="monthly">Monthly</option>
+                            <option value="quarterly">Quarterly</option>
+                            <option value="yearly">Yearly</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="modal-client-notes">Notes</label>
+                        <textarea id="modal-client-notes" rows="3" placeholder="Any additional notes about this client..."></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="client-modal-cancel">Cancel</button>
+                <button class="btn btn-primary" id="client-modal-save">Save Client</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Invoice Preview Modal -->
+    <div id="invoice-preview-modal" class="modal hidden">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h3>Invoice Preview</h3>
+                <button class="modal-close" id="invoice-preview-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="invoice-preview-content">
+                    <!-- Invoice preview will be loaded here -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="invoice-preview-close-btn">Close</button>
+                <button class="btn btn-primary" id="download-invoice-preview">Download PDF</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay hidden">
+        <div class="loading-spinner"></div>
+        <p>Processing...</p>
+    </div>
+
+    <!-- Notification Container -->
+    <div id="notification-container" class="notification-container"></div>
+
+    <script src="admin.js"></script>
+</body>
+</html>
