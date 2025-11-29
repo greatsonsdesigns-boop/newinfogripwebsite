@@ -1,4 +1,4 @@
-// Admin Dashboard JavaScript - SIMPLIFIED WORKING VERSION
+// Admin Dashboard JavaScript - WITH PREVIEW BUTTON
 class AdminDashboard {
     constructor() {
         this.currentUser = null;
@@ -75,6 +75,7 @@ class AdminDashboard {
         document.getElementById('copyLinkBtn').addEventListener('click', () => this.copyPaymentLink());
         document.getElementById('whatsappShare').addEventListener('click', () => this.shareViaWhatsApp());
         document.getElementById('emailShare').addEventListener('click', () => this.shareViaEmail());
+        document.getElementById('previewLink').addEventListener('click', () => this.previewCheckoutPage()); // NEW PREVIEW BUTTON
     }
 
     handleLogin(e) {
@@ -490,7 +491,7 @@ class AdminDashboard {
     }
 
     createPaymentLink(invoiceId, clientData, serviceData) {
-        // Simple version without Google Sheets
+        // Use relative path to avoid 404 errors
         const baseUrl = window.location.origin;
         const params = new URLSearchParams({
             invoice_id: invoiceId,
@@ -500,7 +501,8 @@ class AdminDashboard {
             description: encodeURIComponent(serviceData.description || '')
         });
         
-        const checkoutUrl = `${baseUrl}/checkout.html?${params.toString()}`;
+        // Use relative path instead of absolute URL
+        const checkoutUrl = `checkout.html?${params.toString()}`;
         return checkoutUrl;
     }
 
@@ -520,7 +522,23 @@ class AdminDashboard {
         alert('Payment link copied to clipboard!');
     }
 
+    // NEW PREVIEW FUNCTION
+    previewCheckoutPage() {
+        if (!this.currentPaymentData) {
+            alert('Please generate a payment link first!');
+            return;
+        }
+        
+        const { url } = this.currentPaymentData;
+        window.open(url, '_blank');
+    }
+
     shareViaWhatsApp() {
+        if (!this.currentPaymentData) {
+            alert('Please generate a payment link first!');
+            return;
+        }
+        
         const { clientData, serviceData, url, invoiceId } = this.currentPaymentData;
         
         const message = `Hello ${clientData.name}, this is your InfoGrip invoice.
@@ -536,7 +554,7 @@ class AdminDashboard {
     weekday: 'long'
 })}
 
-🔗 Payment Link: ${url}
+🔗 Payment Link: ${window.location.origin}/${url}
 
 _Thank you for choosing InfoGrip Media Solution!_`;
 
@@ -545,6 +563,11 @@ _Thank you for choosing InfoGrip Media Solution!_`;
     }
 
     shareViaEmail() {
+        if (!this.currentPaymentData) {
+            alert('Please generate a payment link first!');
+            return;
+        }
+        
         const { clientData, serviceData, url, invoiceId } = this.currentPaymentData;
         const subject = `InfoGrip Invoice - ${invoiceId}`;
         const body = `Dear ${clientData.name},
@@ -566,7 +589,7 @@ Thank you for choosing InfoGrip Media Solution.
 })}
 
 🔗 PAYMENT LINK:
-${url}
+${window.location.origin}/${url}
 
 Please complete your payment using the above link.
 
