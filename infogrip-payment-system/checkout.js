@@ -1,6 +1,11 @@
-// Checkout Page JavaScript
+// Checkout Page JavaScript for InfoGrip Payment System
 class CheckoutPage {
     constructor() {
+        // CONFIGURATION - UPDATE THESE VALUES
+        this.API_CONFIG = {
+            WEB_APP_URL: 'https://script.google.com/macros/s/AKfycbwlqmQnjGeovQPnSOll5efIPSBLshGzYUYlrGrDox4OW6SRmTJmj1PIB3L0IeG-I2KM/exec' // ← REPLACE WITH YOUR WEB APP URL
+        };
+        
         this.invoiceData = null;
         this.razorpayOptions = null;
         this.init();
@@ -56,40 +61,83 @@ class CheckoutPage {
         this.showLoading(true);
         
         try {
-            // Simulate API call to fetch invoice data
-            await this.simulateAPICall();
+            // CALL REAL GOOGLE APPS SCRIPT API
+            const result = await this.makeGetAPICall('getPaymentByInvoiceId', { invoice_id: invoiceId });
             
-            // Sample invoice data (in real implementation, this would come from API)
-            this.invoiceData = {
-                invoice_id: invoiceId,
-                client_id: 'CL-0001',
-                name: 'Rohit Sharma',
-                phone: '+91 9876543210',
-                email: 'rohit@example.com',
-                address: 'Jaipur, Rajasthan, India',
-                services: [
-                    {
-                        name: 'Social Media Management',
-                        qty: 1,
-                        unit_price: 15000,
-                        total: 15000
-                    }
-                ],
-                subtotal: 15000,
-                gst_percent: 18,
-                gst_amount: 2700,
-                total_amount: 17700,
-                status: 'Pending',
-                created_timestamp: new Date().toISOString()
-            };
-            
-            this.renderInvoice();
+            if (result.success) {
+                this.invoiceData = result;
+                this.renderInvoice();
+            } else {
+                throw new Error(result.error || 'Failed to load invoice data');
+            }
             
         } catch (error) {
             this.showError('Failed to load invoice data. Please try again.');
             console.error('Invoice load error:', error);
         } finally {
             this.showLoading(false);
+        }
+    }
+
+    // API CALL FUNCTION
+    async makeGetAPICall(endpoint, params = {}) {
+        try {
+            const urlParams = new URLSearchParams(params);
+            const url = `${this.API_CONFIG.WEB_APP_URL}?endpoint=${endpoint}&${urlParams.toString()}`;
+            
+            console.log(`Making GET API call to ${endpoint}:`, url);
+
+            const response = await fetch(url);
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const result = await response.json();
+            
+            if (result.error) {
+                throw new Error(result.error);
+            }
+            
+            return result;
+        } catch (error) {
+            console.error(`GET API call failed for ${endpoint}:`, error);
+            throw error;
+        }
+    }
+
+    async makeAPICall(endpoint, data = {}) {
+        try {
+            const payload = {
+                endpoint: endpoint,
+                ...data
+            };
+
+            console.log(`Making API call to ${endpoint}:`, payload);
+
+            const response = await fetch(this.API_CONFIG.WEB_APP_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const result = await response.json();
+            
+            if (result.error) {
+                throw new Error(result.error);
+            }
+            
+            console.log(`API response from ${endpoint}:`, result);
+            return result;
+        } catch (error) {
+            console.error(`API call failed for ${endpoint}:`, error);
+            throw error;
         }
     }
 
@@ -112,7 +160,7 @@ class CheckoutPage {
         this.updatePricingSummary();
         
         // Update payment button
-        document.getElementById('pay-amount').textContent = this.invoiceData.total_amount.toLocaleString();
+        document.getElementById('pay-amount').textContent = (this.invoiceData.total_amount || 0).toLocaleString();
     }
 
     renderClientDetails() {
@@ -124,7 +172,7 @@ class CheckoutPage {
                 <p><strong>${this.invoiceData.name}</strong></p>
                 <p>${this.invoiceData.phone}</p>
                 <p>${this.invoiceData.email}</p>
-                <p>${this.invoiceData.address}</p>
+                <p>${this.invoiceData.address || ''}</p>
             `;
         } else {
             // New client - show form
@@ -150,31 +198,38 @@ class CheckoutPage {
     renderServicesTable() {
         const tbody = document.getElementById('services-table-body');
         
-        tbody.innerHTML = this.invoiceData.services.map((service, index) => `
+        let services = [];
+        if (typeof this.invoiceData.services_json === 'string') {
+            services = JSON.parse(this.invoiceData.services_json);
+        } else if (Array.isArray(this.invoiceData.services)) {
+            services = this.invoiceData.services;
+        }
+        
+        tbody.innerHTML = services.map((service, index) => `
             <tr>
                 <td>${index + 1}</td>
                 <td>${service.name}</td>
                 <td>${service.qty}</td>
-                <td>₹${service.unit_price.toLocaleString()}</td>
-                <td>₹${service.total.toLocaleString()}</td>
+                <td>₹${(service.unit_price || 0).toLocaleString()}</td>
+                <td>₹{(service.total || 0).toLocaleString()}</td>
             </tr>
         `).join('');
     }
 
     updatePricingSummary() {
-        document.getElementById('summary-subtotal').textContent = `₹${this.invoiceData.subtotal.toLocaleString()}`;
+        document.getElementById('summary-subtotal').textContent = `₹${(this.invoiceData.subtotal || 0).toLocaleString()}`;
         
         // GST
         if (this.invoiceData.gst_percent > 0) {
             document.getElementById('gst-percent-display').textContent = this.invoiceData.gst_percent;
-            document.getElementById('summary-gst').textContent = `₹${this.invoiceData.gst_amount.toLocaleString()}`;
+            document.getElementById('summary-gst').textContent = `₹${(this.invoiceData.gst_amount || 0).toLocaleString()}`;
             document.getElementById('gst-summary-row').style.display = 'flex';
         } else {
             document.getElementById('gst-summary-row').style.display = 'none';
         }
         
         // Total
-        document.getElementById('summary-total').innerHTML = `<strong>₹${this.invoiceData.total_amount.toLocaleString()}</strong>`;
+        document.getElementById('summary-total').innerHTML = `<strong>₹${(this.invoiceData.total_amount || 0).toLocaleString()}</strong>`;
     }
 
     validateClientForm() {
@@ -229,21 +284,21 @@ class CheckoutPage {
     }
 
     async createRazorpayOrder() {
-        // Simulate API call to create Razorpay order
-        await this.simulateAPICall();
+        // CALL REAL GOOGLE APPS SCRIPT API
+        const result = await this.makeAPICall('createRazorpayOrder', {
+            invoice_id: this.invoiceData.invoice_id
+        });
         
-        // In real implementation, this would call your Apps Script endpoint
-        return {
-            order_id: 'order_' + Math.random().toString(36).substr(2, 9),
-            amount: this.invoiceData.total_amount * 100, // Convert to paise
-            currency: 'INR',
-            key_id: 'rzp_test_YOUR_KEY_ID' // This would come from your config
-        };
+        if (!result.success) {
+            throw new Error(result.error || 'Failed to create Razorpay order');
+        }
+        
+        return result;
     }
 
     initializeRazorpayCheckout(orderData) {
         const options = {
-            key: orderData.key_id,
+            key: orderData.key_id, // This comes from Google Apps Script
             amount: orderData.amount,
             currency: orderData.currency,
             order_id: orderData.order_id,
@@ -297,17 +352,16 @@ class CheckoutPage {
     }
 
     async verifyPayment(paymentResponse) {
-        // Simulate API call to verify payment
-        await this.simulateAPICall();
-        
-        // In real implementation, this would call your Apps Script endpoint
-        // to verify the payment signature and update records
-        
-        return {
-            success: true,
+        // CALL REAL GOOGLE APPS SCRIPT API
+        const result = await this.makeAPICall('confirmPayment', {
             invoice_id: this.invoiceData.invoice_id,
-            payment_id: paymentResponse.razorpay_payment_id
-        };
+            razorpay_payment_id: paymentResponse.razorpay_payment_id,
+            razorpay_order_id: paymentResponse.razorpay_order_id,
+            razorpay_signature: paymentResponse.razorpay_signature,
+            payment_method: 'Online'
+        });
+        
+        return result;
     }
 
     updateClientDataFromForm() {
@@ -319,26 +373,32 @@ class CheckoutPage {
 
     // Utility methods
     formatDate(dateString, short = false) {
-        const date = new Date(dateString);
+        if (!dateString) return 'N/A';
         
-        if (short) {
+        try {
+            const date = new Date(dateString);
+            
+            if (short) {
+                return date.toLocaleDateString('en-IN', {
+                    day: '2-digit',
+                    month: 'short',
+                    year: 'numeric'
+                });
+            }
+            
             return date.toLocaleDateString('en-IN', {
                 day: '2-digit',
                 month: 'short',
-                year: 'numeric'
+                year: 'numeric',
+                weekday: 'long',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: true
             });
+        } catch (e) {
+            return 'Invalid Date';
         }
-        
-        return date.toLocaleDateString('en-IN', {
-            day: '2-digit',
-            month: 'short',
-            year: 'numeric',
-            weekday: 'long',
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit',
-            hour12: true
-        });
     }
 
     showLoading(show) {
@@ -357,10 +417,6 @@ class CheckoutPage {
 
     closeErrorModal() {
         document.getElementById('error-modal').classList.add('hidden');
-    }
-
-    simulateAPICall(delay = 1000) {
-        return new Promise(resolve => setTimeout(resolve, delay));
     }
 }
 
