@@ -1,6 +1,11 @@
-// Thank You Page JavaScript
+// Thank You Page JavaScript for InfoGrip Payment System
 class ThankYouPage {
     constructor() {
+        // CONFIGURATION - UPDATE THESE VALUES
+        this.API_CONFIG = {
+            WEB_APP_URL: 'https://script.google.com/macros/s/AKfycbwlqmQnjGeovQPnSOll5efIPSBLshGzYUYlrGrDox4OW6SRmTJmj1PIB3L0IeG-I2KM/exec' // ← REPLACE WITH YOUR WEB APP URL
+        };
+        
         this.paymentData = null;
         this.init();
     }
@@ -52,26 +57,18 @@ class ThankYouPage {
         this.showLoading(true);
         
         try {
-            // Simulate API call to fetch payment details
-            await this.simulateAPICall();
+            // CALL REAL GOOGLE APPS SCRIPT API
+            const result = await this.makeGetAPICall('getPaymentDetails', { invoice_id: invoiceId });
             
-            // Sample payment data (in real implementation, this would come from API)
-            this.paymentData = {
-                payment_id: paymentId,
-                invoice_id: invoiceId,
-                amount: 17700,
-                payment_mode: 'UPI',
-                payment_timestamp: new Date().toISOString(),
-                invoice_pdf_link: null, // Will be set when PDF is generated
-                client_name: 'Rohit Sharma',
-                client_email: 'rohit@example.com',
-                client_phone: '+91 9876543210'
-            };
-            
-            this.renderPaymentDetails();
-            
-            // Check if invoice PDF is ready
-            this.checkInvoiceStatus();
+            if (result.success) {
+                this.paymentData = result;
+                this.renderPaymentDetails();
+                
+                // Check if invoice PDF is ready
+                this.checkInvoiceStatus();
+            } else {
+                throw new Error(result.error || 'Failed to load payment details');
+            }
             
         } catch (error) {
             this.showError('Failed to load payment details. Please try again.');
@@ -81,33 +78,80 @@ class ThankYouPage {
         }
     }
 
+    // API CALL FUNCTION
+    async makeGetAPICall(endpoint, params = {}) {
+        try {
+            const urlParams = new URLSearchParams(params);
+            const url = `${this.API_CONFIG.WEB_APP_URL}?endpoint=${endpoint}&${urlParams.toString()}`;
+            
+            console.log(`Making GET API call to ${endpoint}:`, url);
+
+            const response = await fetch(url);
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const result = await response.json();
+            
+            if (result.error) {
+                throw new Error(result.error);
+            }
+            
+            return result;
+        } catch (error) {
+            console.error(`GET API call failed for ${endpoint}:`, error);
+            throw error;
+        }
+    }
+
     renderPaymentDetails() {
         if (!this.paymentData) return;
         
         document.getElementById('payment-id').textContent = this.paymentData.payment_id;
         document.getElementById('invoice-id').textContent = this.paymentData.invoice_id;
-        document.getElementById('amount-paid').textContent = `₹${this.paymentData.amount.toLocaleString()}`;
+        document.getElementById('amount-paid').textContent = `₹${(this.paymentData.total_amount || 0).toLocaleString()}`;
         document.getElementById('payment-datetime').textContent = this.formatDate(this.paymentData.payment_timestamp);
         document.getElementById('payment-mode').textContent = this.paymentData.payment_mode;
     }
 
     async checkInvoiceStatus() {
-        // Simulate checking invoice status
-        await this.simulateAPICall(2000);
+        // Check if invoice PDF is ready (poll every 2 seconds)
+        const checkInterval = setInterval(async () => {
+            try {
+                const result = await this.makeGetAPICall('getPaymentDetails', { 
+                    invoice_id: this.paymentData.invoice_id 
+                });
+                
+                if (result.success && result.invoice_pdf_link && result.invoice_pdf_link !== '#') {
+                    clearInterval(checkInterval);
+                    
+                    // Update payment data with PDF link
+                    this.paymentData.invoice_pdf_link = result.invoice_pdf_link;
+                    
+                    // Enable download button
+                    document.getElementById('download-invoice').disabled = false;
+                    document.getElementById('email-invoice').disabled = false;
+                    document.getElementById('whatsapp-invoice').disabled = false;
+                    
+                    // Show invoice ready notification if modal is not already shown
+                    if (!sessionStorage.getItem('invoiceReadyShown')) {
+                        this.showInvoiceReadyModal();
+                        sessionStorage.setItem('invoiceReadyShown', 'true');
+                    }
+                }
+            } catch (error) {
+                console.error('Error checking invoice status:', error);
+            }
+        }, 2000);
         
-        // In real implementation, this would poll the server until PDF is ready
-        this.paymentData.invoice_pdf_link = 'https://drive.google.com/file/d/example/view';
-        
-        // Enable download button
-        document.getElementById('download-invoice').disabled = false;
-        document.getElementById('email-invoice').disabled = false;
-        document.getElementById('whatsapp-invoice').disabled = false;
-        
-        // Show invoice ready notification if modal is not already shown
-        if (!sessionStorage.getItem('invoiceReadyShown')) {
-            this.showInvoiceReadyModal();
-            sessionStorage.setItem('invoiceReadyShown', 'true');
-        }
+        // Stop checking after 30 seconds
+        setTimeout(() => {
+            clearInterval(checkInterval);
+            if (!this.paymentData.invoice_pdf_link) {
+                this.showNotification('Invoice generation is taking longer than expected. Please try again later.', 'warning');
+            }
+        }, 30000);
     }
 
     async downloadInvoice() {
@@ -119,19 +163,10 @@ class ThankYouPage {
         this.showLoading(true);
         
         try {
-            // Simulate download
-            await this.simulateAPICall(1500);
+            // Open PDF in new tab for download
+            window.open(this.paymentData.invoice_pdf_link, '_blank');
             
-            // In real implementation, this would download the PDF
-            const link = document.createElement('a');
-            link.href = this.paymentData.invoice_pdf_link;
-            link.target = '_blank';
-            link.download = `InfoGrip-Invoice-${this.paymentData.invoice_id}.pdf`;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            
-            this.showNotification('Invoice downloaded successfully!', 'success');
+            this.showNotification('Invoice opened in new tab!', 'success');
             
         } catch (error) {
             this.showError('Failed to download invoice. Please try again.');
@@ -148,24 +183,24 @@ class ThankYouPage {
         }
         
         const subject = `Your InfoGrip Invoice - ${this.paymentData.invoice_id}`;
-        const body = `Dear ${this.paymentData.client_name},
+        const body = `Dear ${this.paymentData.name},
 
-Thank you for your payment. Your invoice is attached.
+Thank you for your payment. Your invoice is ready.
 
 Payment Details:
 - Invoice ID: ${this.paymentData.invoice_id}
-- Amount: ₹${this.paymentData.amount.toLocaleString()}
+- Amount: ₹${(this.paymentData.total_amount || 0).toLocaleString()}
 - Payment Date: ${this.formatDate(this.paymentData.payment_timestamp)}
 - Payment ID: ${this.paymentData.payment_id}
 
-You can also download your invoice from: ${this.paymentData.invoice_pdf_link}
+You can download your invoice from: ${this.paymentData.invoice_pdf_link}
 
 If you have any questions, please contact us at info@infogrip.com or +91 6367556906.
 
 Best regards,
 InfoGrip Media Solution Team`;
         
-        window.open(`mailto:${this.paymentData.client_email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`, '_blank');
+        window.open(`mailto:${this.paymentData.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`, '_blank');
         
         this.showNotification('Email client opened with invoice details', 'success');
     }
@@ -176,9 +211,9 @@ InfoGrip Media Solution Team`;
             return;
         }
         
-        const message = `Hello ${this.paymentData.client_name}, your payment is received. Invoice: ${this.paymentData.invoice_id}. Amount: ₹${this.paymentData.amount}. Download: ${this.paymentData.invoice_pdf_link}. - InfoGrip`;
+        const message = `Hello ${this.paymentData.name}, your payment is received. Invoice: ${this.paymentData.invoice_id}. Amount: ₹${this.paymentData.total_amount}. Download: ${this.paymentData.invoice_pdf_link}. - InfoGrip`;
         const encodedMessage = encodeURIComponent(message);
-        const whatsappUrl = `https://wa.me/91${this.paymentData.client_phone.replace(/\D/g, '')}?text=${encodedMessage}`;
+        const whatsappUrl = `https://wa.me/91${this.paymentData.phone.replace(/\D/g, '')}?text=${encodedMessage}`;
         
         window.open(whatsappUrl, '_blank');
         
@@ -195,17 +230,23 @@ InfoGrip Media Solution Team`;
 
     // Utility methods
     formatDate(dateString) {
-        const date = new Date(dateString);
-        return date.toLocaleDateString('en-IN', {
-            day: '2-digit',
-            month: 'short',
-            year: 'numeric',
-            weekday: 'long',
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit',
-            hour12: true
-        });
+        if (!dateString) return 'N/A';
+        
+        try {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-IN', {
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric',
+                weekday: 'long',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: true
+            });
+        } catch (e) {
+            return 'Invalid Date';
+        }
     }
 
     showLoading(show) {
@@ -218,16 +259,32 @@ InfoGrip Media Solution Team`;
     }
 
     showError(message) {
-        alert(message); // Simple alert for demo purposes
+        // Simple alert for demo purposes
+        alert('Error: ' + message);
     }
 
     showNotification(message, type = 'info') {
         // Simple notification for demo purposes
         console.log(`${type.toUpperCase()}: ${message}`);
-    }
-
-    simulateAPICall(delay = 1000) {
-        return new Promise(resolve => setTimeout(resolve, delay));
+        
+        // You can enhance this with proper UI notifications
+        const notification = document.createElement('div');
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: ${type === 'success' ? '#28a745' : type === 'error' ? '#dc3545' : '#007bff'};
+            color: white;
+            padding: 15px 20px;
+            border-radius: 5px;
+            z-index: 10000;
+        `;
+        notification.textContent = message;
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+            notification.remove();
+        }, 5000);
     }
 }
 
