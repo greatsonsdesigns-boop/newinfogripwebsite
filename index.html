@@ -335,7 +335,7 @@
         }
 
         .logo img {
-            height: 70px; /* Increased logo size */
+            height: 70px;
         }
 
         .nav-menu {
@@ -405,91 +405,92 @@
         }
 
         /* Hero Section */
-.hero {
-    background: linear-gradient(135deg, var(--dark-blue) 0%, var(--blue) 100%);
-    color: var(--white);
-    padding: 180px 0 120px;
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    min-height: 100vh;
-    text-align: center;
-}
+        .hero {
+            background: linear-gradient(135deg, var(--dark-blue) 0%, var(--blue) 100%);
+            color: var(--white);
+            padding: 160px 0 100px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+        }
 
-.hero::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" opacity="0.05"><path d="M0,0V800H1200V0ZM200,400C200,533,333,600,400,600S600,533,600,400,467,200,400,200,200,267,200,400Z" fill="white"/></svg>');
-    background-size: cover;
-}
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" opacity="0.05"><path d="M0,0V800H1200V0ZM200,400C200,533,333,600,400,600S600,533,600,400,467,200,400,200,200,267,200,400Z" fill="white"/></svg>');
+            background-size: cover;
+        }
 
-.hero-video {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0.15; /* Decreased transparency - more visible */
-    z-index: 0;
-}
+        .hero-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.15;
+            z-index: 0;
+        }
 
-.hero-content {
-    max-width: 800px;
-    position: relative;
-    z-index: 1;
-    margin: 0 auto;
-    width: 100%;
-}
+        .hero-content {
+            max-width: 850px;
+            position: relative;
+            z-index: 1;
+            margin: 0 auto;
+            width: 100%;
+        }
 
-.hero h1 {
-    font-size: 3.5rem;
-    margin-bottom: 20px;
-    line-height: 1.1;
-}
+        .hero h1 {
+            font-size: 3.2rem;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
 
-.typing-text {
-    color: var(--orange);
-    border-right: 3px solid var(--orange);
-    animation: blink 1s infinite;
-    display: inline-block;
-}
+        .typing-text {
+            color: var(--orange);
+            border-right: 3px solid var(--orange);
+            animation: blink 1s infinite;
+            display: inline-block;
+        }
 
-@keyframes blink {
-    0%, 100% { border-color: var(--orange); }
-    50% { border-color: transparent; }
-}
+        @keyframes blink {
+            0%, 100% { border-color: var(--orange); }
+            50% { border-color: transparent; }
+        }
 
-.hero p {
-    font-size: 1.2rem;
-    margin-bottom: 30px;
-    opacity: 0.9;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-}
+        .hero p {
+            font-size: 1.1rem;
+            margin-bottom: 35px;
+            opacity: 0.9;
+            max-width: 650px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
 
-.hero-btns {
-    display: flex;
-    gap: 15px;
-    justify-content: center;
-    flex-wrap: wrap;
-}
+        .hero-btns {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
 
-/* Particle Background */
-#particles-js {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    z-index: 0;
-}
+        /* Particle Background */
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
 
         /* Stats Section */
         .stats {
@@ -1183,14 +1184,14 @@
             }
         }
 
-        /* Popup */
+        /* Premium Popup */
         .popup-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: rgba(0, 0, 0, 0.7);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1198,6 +1199,7 @@
             opacity: 0;
             visibility: hidden;
             transition: var(--transition);
+            backdrop-filter: blur(5px);
         }
 
         .popup-overlay.active {
@@ -1206,14 +1208,27 @@
         }
 
         .popup {
-            background: var(--card-bg);
-            border-radius: 15px;
-            padding: 30px;
+            background: linear-gradient(135deg, var(--card-bg) 0%, var(--section-bg) 100%);
+            border-radius: 20px;
+            padding: 40px;
             max-width: 500px;
             width: 90%;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
             transform: translateY(20px);
             transition: var(--transition);
+            border: 1px solid var(--glass-border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .popup::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(135deg, var(--orange) 0%, var(--dark-blue) 100%);
         }
 
         .popup-overlay.active .popup {
@@ -1224,7 +1239,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            position: relative;
         }
 
         .popup-close {
@@ -1233,14 +1249,35 @@
             font-size: 1.5rem;
             cursor: pointer;
             color: var(--text-color);
+            transition: var(--transition);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .popup-close:hover {
+            background-color: var(--light-blue);
+            color: var(--orange);
         }
 
         .popup h2 {
             color: var(--text-color);
+            font-size: 1.8rem;
+            margin: 0;
+            background: linear-gradient(135deg, var(--dark-blue) 0%, var(--blue) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .popup p {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: var(--blue);
         }
 
         /* Social Proof Popups */
@@ -1648,17 +1685,32 @@
                 gap: 10px;
             }
 
+            /* Hero Mobile Styles */
             .hero {
-                padding: 150px 0 100px;
-                text-align: center;
+                padding: 140px 0 60px;
+                min-height: 70vh;
             }
 
             .hero h1 {
-                font-size: 2.5rem;
+                font-size: 2.2rem;
+                line-height: 1.3;
+            }
+
+            .hero p {
+                font-size: 1rem;
+                max-width: 90%;
             }
 
             .hero-btns {
-                justify-content: center;
+                flex-direction: column;
+                align-items: center;
+                gap: 12px;
+            }
+
+            .hero-btns .btn {
+                width: 100%;
+                max-width: 280px;
+                padding: 14px 24px;
             }
 
             .section-title h2 {
@@ -1712,16 +1764,22 @@
         }
 
         @media (max-width: 576px) {
+            .hero {
+                padding: 120px 0 50px;
+                min-height: 65vh;
+            }
+
             .hero h1 {
-                font-size: 2rem;
+                font-size: 1.8rem;
             }
 
             .hero p {
-                font-size: 1rem;
+                font-size: 0.95rem;
+                margin-bottom: 25px;
             }
 
             .btn {
-                padding: 10px 20px;
+                padding: 12px 20px;
                 font-size: 0.9rem;
             }
 
@@ -1772,6 +1830,18 @@
                 padding: 0 15px;
                 font-size: 0.9rem;
             }
+
+            .popup {
+                padding: 30px 25px;
+            }
+
+            .popup h2 {
+                font-size: 1.5rem;
+            }
+
+            .popup p {
+                font-size: 1rem;
+            }
         }
 
         /* Hide cursor on mobile devices */
@@ -1801,7 +1871,7 @@
                     <li><a href="#testimonials">Testimonials</a></li>
                     <li><a href="#faq">FAQ</a></li>
                     <li><a href="#contact">Contact</a></li>
-                    <li><a href="onboarding.html" class="btn btn-primary">Get Started</a></li>
+                    <li><a href="onboarding.html" class="btn btn-primary" style="border-radius: 25px; padding: 10px 24px;">Start Free Trial</a></li>
                 </ul>
                 <div class="nav-actions">
                     <button class="theme-toggle" id="theme-toggle">
@@ -1817,25 +1887,25 @@
         </div>
     </header>
 
-<!-- Hero Section -->
-<section class="hero" id="home">
-    <div id="particles-js"></div>
-    <!-- Background Video -->
-    <video class="hero-video" autoplay muted loop playsinline>
-        <source src="assets/hero.background.mp4.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
-    <div class="container">
-        <div class="hero-content">
-            <h1>Most Affordable Digital Marketing Agency in <span class="typing-text" id="typing-text"></span></h1>
-            <p>We specialize in social media management, website development, political & personal branding, and ads campaign management.</p>
-            <div class="hero-btns">
-                <a href="#" class="btn btn-primary btn-glow-pulse" id="chatbot-open">Let's Talk</a>
-                <a href="onboarding.html" class="btn btn-secondary">Onboarding Form</a>
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div id="particles-js"></div>
+        <!-- Background Video -->
+        <video class="hero-video" autoplay muted loop playsinline>
+            <source src="assets/hero.background.mp4.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="container">
+            <div class="hero-content">
+                <h1>Most Affordable Digital Marketing Agency in <span class="typing-text" id="typing-text"></span></h1>
+                <p>We specialize in social media management, website development, political & personal branding, and ads campaign management.</p>
+                <div class="hero-btns">
+                    <a href="#" class="btn btn-primary btn-glow-pulse" id="chatbot-open">Let's Talk</a>
+                    <a href="onboarding.html" class="btn btn-secondary">Start Free Trial</a>
+                </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
     <!-- Scrolling Text Strip -->
     <div class="scrolling-strip">
@@ -2181,15 +2251,15 @@
     <!-- Social Proof Popups -->
     <div id="social-proof-container"></div>
 
-    <!-- Popup -->
+    <!-- Premium Popup -->
     <div class="popup-overlay" id="popup">
         <div class="popup">
             <div class="popup-header">
                 <h2>Welcome to InfoGrip</h2>
                 <button class="popup-close" id="popup-close">&times;</button>
             </div>
-            <p>Want to grow your Social Media, Website or Ads? Fill our Onboarding Form!</p>
-            <a href="onboarding.html" class="btn btn-primary btn-glow-pulse">Get Started Now</a>
+            <p>Want to grow your Social Media, Website or Ads? Start your free trial today!</p>
+            <a href="onboarding.html" class="btn btn-primary btn-glow-pulse">Start Free Trial</a>
         </div>
     </div>
 
@@ -2449,7 +2519,7 @@
             header.classList.toggle('scrolled', window.scrollY > 50);
         });
 
-        // Popup
+        // Popup - Close when clicking on overlay or X button
         const popup = document.getElementById('popup');
         const popupClose = document.getElementById('popup-close');
 
@@ -2460,9 +2530,16 @@
             }, 1000);
         });
 
-        // Close popup
+        // Close popup when clicking X
         popupClose.addEventListener('click', () => {
             popup.classList.remove('active');
+        });
+
+        // Close popup when clicking on overlay
+        popup.addEventListener('click', (e) => {
+            if (e.target === popup) {
+                popup.classList.remove('active');
+            }
         });
 
         // Show popup again after scrolling 40% down
