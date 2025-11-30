@@ -1,11 +1,18 @@
-// Admin Panel JavaScript
+// Admin Panel JavaScript for InfoGrip Payment System
 class AdminPanel {
     constructor() {
+        // CONFIGURATION - UPDATE THESE VALUES
+        this.API_CONFIG = {
+            WEB_APP_URL: 'https://script.google.com/macros/s/AKfycbwlqmQnjGeovQPnSOll5efIPSBLshGzYUYlrGrDox4OW6SRmTJmj1PIB3L0IeG-I2KM/exec', // ← REPLACE WITH YOUR WEB APP URL
+            ADMIN_SECRET: 'ig_infogrip_2025_secure_key_7x9a2b8c3d'
+        };
+        
         this.currentUser = null;
         this.currentSection = 'dashboard';
         this.clients = [];
         this.paymentLinks = [];
         this.paymentsHistory = [];
+        this.currentInvoiceData = null;
         this.stats = {
             totalClients: 0,
             totalInvoices: 0,
@@ -97,6 +104,74 @@ class AdminPanel {
         // Date filter
         document.getElementById('apply-date-filter').addEventListener('click', () => this.applyDateFilter());
         document.getElementById('reset-date-filter').addEventListener('click', () => this.resetDateFilter());
+        
+        // Modal close buttons
+        document.getElementById('invoice-preview-close').addEventListener('click', () => this.closeInvoicePreview());
+        document.getElementById('invoice-preview-close-btn').addEventListener('click', () => this.closeInvoicePreview());
+        document.getElementById('download-invoice-preview').addEventListener('click', () => this.downloadInvoicePreview());
+    }
+
+    // API CALL FUNCTIONS
+    async makeAPICall(endpoint, data = {}) {
+        try {
+            const payload = {
+                endpoint: endpoint,
+                secret: this.API_CONFIG.ADMIN_SECRET,
+                ...data
+            };
+
+            console.log(`Making API call to ${endpoint}:`, payload);
+
+            const response = await fetch(this.API_CONFIG.WEB_APP_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const result = await response.json();
+            
+            if (result.error) {
+                throw new Error(result.error);
+            }
+            
+            console.log(`API response from ${endpoint}:`, result);
+            return result;
+        } catch (error) {
+            console.error(`API call failed for ${endpoint}:`, error);
+            throw error;
+        }
+    }
+
+    async makeGetAPICall(endpoint, params = {}) {
+        try {
+            const urlParams = new URLSearchParams(params);
+            const url = `${this.API_CONFIG.WEB_APP_URL}?endpoint=${endpoint}&${urlParams.toString()}`;
+            
+            console.log(`Making GET API call to ${endpoint}:`, url);
+
+            const response = await fetch(url);
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const result = await response.json();
+            
+            if (result.error) {
+                throw new Error(result.error);
+            }
+            
+            return result;
+        } catch (error) {
+            console.error(`GET API call failed for ${endpoint}:`, error);
+            throw error;
+        }
     }
 
     handleLogin(e) {
@@ -105,7 +180,7 @@ class AdminPanel {
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
         
-        // Simple authentication (in production, this would be server-side)
+        // Simple authentication
         if (email === 'admin@infogrip.com' && password === 'admin123') {
             this.currentUser = { email, name: 'Admin' };
             localStorage.setItem('adminUser', JSON.stringify(this.currentUser));
@@ -197,14 +272,18 @@ class AdminPanel {
 
     async loadDashboardData() {
         try {
-            // Simulate API call
-            await this.simulateAPICall();
+            // Load all data for dashboard
+            await Promise.all([
+                this.loadClients(),
+                this.loadPaymentLinks(),
+                this.loadPaymentsHistory()
+            ]);
             
-            // Update stats (in real implementation, these would come from API)
+            // Update stats
             this.stats = {
                 totalClients: this.clients.length,
                 totalInvoices: this.paymentLinks.length,
-                totalRevenue: this.paymentsHistory.reduce((sum, payment) => sum + payment.total_amount, 0),
+                totalRevenue: this.paymentsHistory.reduce((sum, payment) => sum + (payment.total_amount || 0), 0),
                 pendingPayments: this.paymentLinks.filter(link => link.status === 'Pending').length
             };
             
@@ -233,7 +312,7 @@ class AdminPanel {
             <tr>
                 <td>${payment.invoice_id}</td>
                 <td>${payment.name}</td>
-                <td>₹${payment.total_amount.toLocaleString()}</td>
+                <td>₹${(payment.total_amount || 0).toLocaleString()}</td>
                 <td>${this.formatDate(payment.payment_timestamp)}</td>
                 <td><span class="status-badge status-paid">Paid</span></td>
             </tr>
@@ -241,13 +320,19 @@ class AdminPanel {
     }
 
     renderRevenueChart() {
-        const ctx = document.getElementById('revenue-chart').getContext('2d');
+        const ctx = document.getElementById('revenue-chart');
+        if (!ctx) return;
         
         // Sample data - in real implementation, this would come from API
         const last7Days = this.getLastNDays(7);
         const revenueData = last7Days.map(() => Math.floor(Math.random() * 50000) + 10000);
         
-        new Chart(ctx, {
+        // Destroy existing chart if it exists
+        if (this.revenueChart) {
+            this.revenueChart.destroy();
+        }
+        
+        this.revenueChart = new Chart(ctx, {
             type: 'line',
             data: {
                 labels: last7Days,
@@ -294,38 +379,31 @@ class AdminPanel {
 
     async loadClients() {
         try {
-            // Simulate API call
-            await this.simulateAPICall();
+            // For now, we'll load from local storage or use sample data
+            // In production, implement getClients endpoint in Apps Script
+            const storedClients = localStorage.getItem('infogrip_clients');
             
-            // Sample clients data
-            this.clients = [
-                {
-                    client_id: 'CL-0001',
-                    name: 'Rohit Sharma',
-                    phone: '+91 9876543210',
-                    email: 'rohit@example.com',
-                    address: 'Jaipur, Rajasthan',
-                    default_service: 'Social Media Management',
-                    default_amount: 15000,
-                    billing_cycle: 'monthly',
-                    notes: 'Gym owner - regular client',
-                    created_timestamp: new Date('2024-01-15').toISOString(),
-                    updated_timestamp: new Date('2024-11-01').toISOString()
-                },
-                {
-                    client_id: 'CL-0002',
-                    name: 'Simran Kaur',
-                    phone: '+91 8765432109',
-                    email: 'simran@example.com',
-                    address: 'Delhi, India',
-                    default_service: 'Ads Campaign Management',
-                    default_amount: 25000,
-                    billing_cycle: 'one-time',
-                    notes: 'Beauty salon - one-time project',
-                    created_timestamp: new Date('2024-02-20').toISOString(),
-                    updated_timestamp: new Date('2024-10-15').toISOString()
-                }
-            ];
+            if (storedClients) {
+                this.clients = JSON.parse(storedClients);
+            } else {
+                // Sample clients data
+                this.clients = [
+                    {
+                        client_id: 'CL-0001',
+                        name: 'Rohit Sharma',
+                        phone: '+91 9876543210',
+                        email: 'rohit@example.com',
+                        address: 'Jaipur, Rajasthan',
+                        default_service: 'Social Media Management',
+                        default_amount: 15000,
+                        billing_cycle: 'monthly',
+                        notes: 'Gym owner - regular client',
+                        created_timestamp: new Date('2024-01-15').toISOString(),
+                        updated_timestamp: new Date('2024-11-01').toISOString()
+                    }
+                ];
+                this.saveClientsToStorage();
+            }
             
             this.renderClientsTable();
             this.populateClientSelect();
@@ -334,6 +412,10 @@ class AdminPanel {
             this.showNotification('Error loading clients', 'error');
             console.error('Clients load error:', error);
         }
+    }
+
+    saveClientsToStorage() {
+        localStorage.setItem('infogrip_clients', JSON.stringify(this.clients));
     }
 
     renderClientsTable() {
@@ -572,44 +654,71 @@ class AdminPanel {
             // Collect form data
             const formData = this.collectPaymentFormData();
             
-            // Simulate API call to create payment record
-            await this.simulateAPICall();
+            // Store current invoice data for preview
+            this.currentInvoiceData = {
+                ...formData,
+                invoice_id: this.generateInvoiceId(),
+                created_timestamp: new Date().toISOString()
+            };
             
-            // Generate invoice ID
-            const invoiceId = this.generateInvoiceId();
-            
-            // Create payment record
-            const paymentRecord = {
-                invoice_id: invoiceId,
+            // CALL REAL GOOGLE APPS SCRIPT API
+            const result = await this.makeAPICall('createPaymentRecord', {
                 client_id: formData.clientId || null,
                 name: formData.clientName,
                 phone: formData.clientPhone,
                 email: formData.clientEmail,
                 address: formData.clientAddress,
-                services_json: JSON.stringify(formData.services),
+                services: formData.services,
                 subtotal: formData.subtotal,
                 gst_percent: formData.gstPercent,
                 gst_amount: formData.gstAmount,
                 total_amount: formData.totalAmount,
-                checkout_link: `${window.location.origin}/checkout.html?invoice_id=${invoiceId}`,
-                status: 'Pending',
-                created_timestamp: new Date().toISOString()
-            };
+                save_client: formData.saveClient,
+                notes: formData.notes
+            });
             
-            // Add to payment links
-            this.paymentLinks.push(paymentRecord);
-            
-            // Save client if requested
-            if (formData.saveClient && !formData.clientId) {
-                await this.saveNewClient(formData);
+            if (result.success) {
+                // Update current invoice data with real ID
+                this.currentInvoiceData.invoice_id = result.invoice_id;
+                
+                // Add to payment links
+                this.paymentLinks.push({
+                    invoice_id: result.invoice_id,
+                    name: formData.clientName,
+                    total_amount: formData.totalAmount,
+                    status: 'Pending',
+                    created_timestamp: new Date().toISOString(),
+                    checkout_link: result.checkout_link
+                });
+                
+                // Save client if requested
+                if (formData.saveClient && !formData.clientId) {
+                    await this.saveNewClient(formData);
+                }
+                
+                // Show success result
+                this.showPaymentLinkResult({
+                    invoice_id: result.invoice_id,
+                    checkout_link: result.checkout_link,
+                    name: formData.clientName,
+                    phone: formData.clientPhone,
+                    email: formData.clientEmail,
+                    services: formData.services,
+                    subtotal: formData.subtotal,
+                    gst_percent: formData.gstPercent,
+                    gst_amount: formData.gstAmount,
+                    total_amount: formData.totalAmount,
+                    status: 'Pending',
+                    created_timestamp: new Date().toISOString()
+                });
+                
+                this.showNotification('Payment link generated successfully!', 'success');
+            } else {
+                throw new Error(result.error || 'Failed to create payment record');
             }
             
-            // Show success result
-            this.showPaymentLinkResult(paymentRecord);
-            this.showNotification('Payment link generated successfully!', 'success');
-            
         } catch (error) {
-            this.showNotification('Error generating payment link', 'error');
+            this.showNotification('Error generating payment link: ' + error.message, 'error');
             console.error('Payment link error:', error);
         } finally {
             this.showLoading(false);
@@ -702,6 +811,9 @@ class AdminPanel {
         document.getElementById('generated-link').textContent = paymentRecord.checkout_link;
         document.getElementById('payment-link-result').classList.remove('hidden');
         
+        // Store the current payment record for preview
+        this.currentInvoiceData = paymentRecord;
+        
         // Scroll to result
         document.getElementById('payment-link-result').scrollIntoView({ 
             behavior: 'smooth',
@@ -735,9 +847,175 @@ class AdminPanel {
     }
 
     previewInvoice() {
-        // This would generate a preview of the invoice
-        // For now, we'll show a simple message
-        this.showNotification('Invoice preview feature coming soon!', 'info');
+        if (!this.currentInvoiceData) {
+            this.showNotification('No invoice data available for preview', 'warning');
+            return;
+        }
+        
+        const modal = document.getElementById('invoice-preview-modal');
+        const content = document.getElementById('invoice-preview-content');
+        
+        // Generate preview HTML
+        content.innerHTML = this.generateInvoicePreviewHTML(this.currentInvoiceData);
+        
+        modal.classList.remove('hidden');
+    }
+
+    generateInvoicePreviewHTML(invoiceData) {
+        const services = typeof invoiceData.services === 'string' ? 
+            JSON.parse(invoiceData.services) : invoiceData.services;
+        
+        const servicesHTML = services.map((service, index) => `
+            <tr>
+                <td>${index + 1}</td>
+                <td>${service.name}</td>
+                <td>${service.qty}</td>
+                <td>₹${service.unit_price?.toLocaleString() || '0'}</td>
+                <td>₹${service.total?.toLocaleString() || '0'}</td>
+            </tr>
+        `).join('');
+        
+        return `
+            <div class="invoice-preview">
+                <div class="preview-header">
+                    <h2>Invoice Preview</h2>
+                    <p><strong>Invoice ID:</strong> ${invoiceData.invoice_id}</p>
+                    <p><strong>Date:</strong> ${this.formatDate(invoiceData.created_timestamp)}</p>
+                </div>
+                
+                <div class="preview-parties">
+                    <div class="preview-company">
+                        <h3>InfoGrip Media Solution</h3>
+                        <p>Jaipur, Rajasthan, India</p>
+                        <p>+91 6367556906 | info@infogrip.com</p>
+                    </div>
+                    <div class="preview-client">
+                        <h3>Bill To</h3>
+                        <p><strong>${invoiceData.name}</strong></p>
+                        <p>${invoiceData.phone}</p>
+                        <p>${invoiceData.email}</p>
+                        <p>${invoiceData.address || ''}</p>
+                    </div>
+                </div>
+                
+                <table class="preview-services">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Service Description</th>
+                            <th>Qty</th>
+                            <th>Unit Price</th>
+                            <th>Line Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${servicesHTML}
+                    </tbody>
+                </table>
+                
+                <div class="preview-totals">
+                    <div class="total-row">
+                        <span>Subtotal:</span>
+                        <span>₹${invoiceData.subtotal?.toLocaleString() || '0'}</span>
+                    </div>
+                    ${invoiceData.gst_percent > 0 ? `
+                    <div class="total-row">
+                        <span>GST (${invoiceData.gst_percent}%):</span>
+                        <span>₹${invoiceData.gst_amount?.toLocaleString() || '0'}</span>
+                    </div>
+                    ` : ''}
+                    <div class="total-row final-total">
+                        <span><strong>Total Amount:</strong></span>
+                        <span><strong>₹${invoiceData.total_amount?.toLocaleString() || '0'}</strong></span>
+                    </div>
+                </div>
+                
+                <div class="preview-footer">
+                    <p><strong>Payment Terms:</strong> Payment via Razorpay • Due upon receipt</p>
+                </div>
+            </div>
+            
+            <style>
+                .invoice-preview {
+                    font-family: 'Inter', Arial, sans-serif;
+                    max-width: 800px;
+                    margin: 0 auto;
+                    background: white;
+                    padding: 30px;
+                    border: 1px solid #ddd;
+                    border-radius: 10px;
+                }
+                .preview-header {
+                    text-align: center;
+                    border-bottom: 2px solid #07217c;
+                    padding-bottom: 20px;
+                    margin-bottom: 30px;
+                }
+                .preview-header h2 {
+                    color: #07217c;
+                    margin-bottom: 10px;
+                }
+                .preview-parties {
+                    display: flex;
+                    justify-content: space-between;
+                    margin-bottom: 30px;
+                }
+                .preview-company, .preview-client {
+                    flex: 1;
+                }
+                .preview-company h3, .preview-client h3 {
+                    color: #07217c;
+                    margin-bottom: 15px;
+                    border-bottom: 1px solid #eee;
+                    padding-bottom: 5px;
+                }
+                .preview-services {
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin-bottom: 30px;
+                }
+                .preview-services th {
+                    background: #07217c;
+                    color: white;
+                    padding: 12px;
+                    text-align: left;
+                }
+                .preview-services td {
+                    padding: 12px;
+                    border-bottom: 1px solid #eee;
+                }
+                .preview-totals {
+                    float: right;
+                    width: 300px;
+                }
+                .total-row {
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 8px 0;
+                    border-bottom: 1px solid #eee;
+                }
+                .final-total {
+                    border-bottom: 2px solid #07217c;
+                    font-weight: bold;
+                    font-size: 18px;
+                }
+                .preview-footer {
+                    clear: both;
+                    margin-top: 40px;
+                    padding-top: 20px;
+                    border-top: 1px solid #eee;
+                    text-align: center;
+                }
+            </style>
+        `;
+    }
+
+    closeInvoicePreview() {
+        document.getElementById('invoice-preview-modal').classList.add('hidden');
+    }
+
+    downloadInvoicePreview() {
+        this.showNotification('PDF download feature will be available after payment', 'info');
     }
 
     openClientModal(clientId = null) {
@@ -798,8 +1076,6 @@ class AdminPanel {
         this.showLoading(true);
         
         try {
-            await this.simulateAPICall();
-            
             if (formData.client_id) {
                 // Update existing client
                 const index = this.clients.findIndex(c => c.client_id === formData.client_id);
@@ -823,6 +1099,7 @@ class AdminPanel {
                 this.showNotification('Client added successfully!', 'success');
             }
             
+            this.saveClientsToStorage();
             this.closeClientModal();
             this.renderClientsTable();
             this.populateClientSelect();
@@ -891,9 +1168,8 @@ class AdminPanel {
         this.showLoading(true);
         
         try {
-            await this.simulateAPICall();
-            
             this.clients = this.clients.filter(c => c.client_id !== clientId);
+            this.saveClientsToStorage();
             this.renderClientsTable();
             this.populateClientSelect();
             this.showNotification('Client deleted successfully', 'success');
@@ -922,31 +1198,38 @@ class AdminPanel {
         };
         
         this.clients.push(newClient);
+        this.saveClientsToStorage();
         this.populateClientSelect();
     }
 
     async loadPaymentLinks() {
         try {
-            await this.simulateAPICall();
+            // For now, use local storage
+            const storedLinks = localStorage.getItem('infogrip_payment_links');
             
-            // Sample payment links data
-            this.paymentLinks = [
-                {
-                    invoice_id: 'INFO-20251130-1234',
-                    client_id: 'CL-0001',
-                    name: 'Rohit Sharma',
-                    phone: '+91 9876543210',
-                    email: 'rohit@example.com',
-                    services_json: JSON.stringify([{ name: 'Social Media Management', qty: 1, unit_price: 15000, total: 15000 }]),
-                    subtotal: 15000,
-                    gst_percent: 18,
-                    gst_amount: 2700,
-                    total_amount: 17700,
-                    checkout_link: 'https://example.com/checkout.html?invoice_id=INFO-20251130-1234',
-                    status: 'Pending',
-                    created_timestamp: new Date('2024-11-30').toISOString()
-                }
-            ];
+            if (storedLinks) {
+                this.paymentLinks = JSON.parse(storedLinks);
+            } else {
+                // Sample payment links data
+                this.paymentLinks = [
+                    {
+                        invoice_id: 'INFO-20251130-1234',
+                        client_id: 'CL-0001',
+                        name: 'Rohit Sharma',
+                        phone: '+91 9876543210',
+                        email: 'rohit@example.com',
+                        services_json: JSON.stringify([{ name: 'Social Media Management', qty: 1, unit_price: 15000, total: 15000 }]),
+                        subtotal: 15000,
+                        gst_percent: 18,
+                        gst_amount: 2700,
+                        total_amount: 17700,
+                        checkout_link: 'checkout.html?invoice_id=INFO-20251130-1234',
+                        status: 'Pending',
+                        created_timestamp: new Date('2024-11-30').toISOString()
+                    }
+                ];
+                this.savePaymentLinksToStorage();
+            }
             
             this.renderPaymentLinksTable();
             
@@ -956,6 +1239,10 @@ class AdminPanel {
         }
     }
 
+    savePaymentLinksToStorage() {
+        localStorage.setItem('infogrip_payment_links', JSON.stringify(this.paymentLinks));
+    }
+
     renderPaymentLinksTable() {
         const tbody = document.getElementById('payment-links-table-body');
         
@@ -963,9 +1250,9 @@ class AdminPanel {
             <tr>
                 <td>${link.invoice_id}</td>
                 <td>${link.name}</td>
-                <td>₹${link.total_amount.toLocaleString()}</td>
+                <td>₹${(link.total_amount || 0).toLocaleString()}</td>
                 <td>${this.formatDate(link.created_timestamp)}</td>
-                <td><span class="status-badge status-${link.status.toLowerCase()}">${link.status}</span></td>
+                <td><span class="status-badge status-${(link.status || 'Pending').toLowerCase()}">${link.status || 'Pending'}</span></td>
                 <td>
                     <div class="action-buttons">
                         <button class="action-btn btn-edit" onclick="admin.copyPaymentLinkToClipboard('${link.checkout_link}')">
@@ -987,35 +1274,40 @@ class AdminPanel {
     }
 
     resendPaymentLink(invoiceId) {
-        // This would trigger email/WhatsApp resend
         this.showNotification(`Payment link for ${invoiceId} has been resent`, 'success');
     }
 
     async loadPaymentsHistory() {
         try {
-            await this.simulateAPICall();
+            // For now, use local storage
+            const storedHistory = localStorage.getItem('infogrip_payments_history');
             
-            // Sample payments history data
-            this.paymentsHistory = [
-                {
-                    payment_id: 'pay_Lk5jz7q3T4m6n9p2',
-                    order_id: 'order_Lk5jz7q3T4m6n9p1',
-                    invoice_id: 'INFO-20251129-5678',
-                    client_id: 'CL-0002',
-                    name: 'Simran Kaur',
-                    phone: '+91 8765432109',
-                    email: 'simran@example.com',
-                    services_json: JSON.stringify([{ name: 'Ads Campaign Management', qty: 1, unit_price: 25000, total: 25000 }]),
-                    subtotal: 25000,
-                    gst_percent: 18,
-                    gst_amount: 4500,
-                    total_amount: 29500,
-                    payment_mode: 'UPI',
-                    invoice_pdf_link: 'https://drive.google.com/file/d/example/view',
-                    status: 'PAID',
-                    payment_timestamp: new Date('2024-11-29T14:30:00').toISOString()
-                }
-            ];
+            if (storedHistory) {
+                this.paymentsHistory = JSON.parse(storedHistory);
+            } else {
+                // Sample payments history data
+                this.paymentsHistory = [
+                    {
+                        payment_id: 'pay_Lk5jz7q3T4m6n9p2',
+                        order_id: 'order_Lk5jz7q3T4m6n9p1',
+                        invoice_id: 'INFO-20251129-5678',
+                        client_id: 'CL-0002',
+                        name: 'Simran Kaur',
+                        phone: '+91 8765432109',
+                        email: 'simran@example.com',
+                        services_json: JSON.stringify([{ name: 'Ads Campaign Management', qty: 1, unit_price: 25000, total: 25000 }]),
+                        subtotal: 25000,
+                        gst_percent: 18,
+                        gst_amount: 4500,
+                        total_amount: 29500,
+                        payment_mode: 'UPI',
+                        invoice_pdf_link: '#',
+                        status: 'PAID',
+                        payment_timestamp: new Date('2024-11-29T14:30:00').toISOString()
+                    }
+                ];
+                this.savePaymentsHistoryToStorage();
+            }
             
             this.renderPaymentsHistoryTable();
             
@@ -1023,6 +1315,10 @@ class AdminPanel {
             this.showNotification('Error loading payments history', 'error');
             console.error('Payments history load error:', error);
         }
+    }
+
+    savePaymentsHistoryToStorage() {
+        localStorage.setItem('infogrip_payments_history', JSON.stringify(this.paymentsHistory));
     }
 
     renderPaymentsHistoryTable() {
@@ -1033,7 +1329,7 @@ class AdminPanel {
                 <td>${payment.payment_id}</td>
                 <td>${payment.invoice_id}</td>
                 <td>${payment.name}</td>
-                <td>₹${payment.total_amount.toLocaleString()}</td>
+                <td>₹${(payment.total_amount || 0).toLocaleString()}</td>
                 <td>${this.formatDate(payment.payment_timestamp)}</td>
                 <td>${payment.payment_mode}</td>
                 <td>
@@ -1056,12 +1352,10 @@ class AdminPanel {
     }
 
     downloadInvoice(invoiceId) {
-        // This would trigger invoice download
         this.showNotification(`Downloading invoice ${invoiceId}...`, 'info');
     }
 
     resendInvoice(invoiceId) {
-        // This would resend invoice via email/WhatsApp
         this.showNotification(`Invoice ${invoiceId} has been resent to client`, 'success');
     }
 
@@ -1120,9 +1414,9 @@ class AdminPanel {
             <tr>
                 <td>${link.invoice_id}</td>
                 <td>${link.name}</td>
-                <td>₹${link.total_amount.toLocaleString()}</td>
+                <td>₹${(link.total_amount || 0).toLocaleString()}</td>
                 <td>${this.formatDate(link.created_timestamp)}</td>
-                <td><span class="status-badge status-${link.status.toLowerCase()}">${link.status}</span></td>
+                <td><span class="status-badge status-${(link.status || 'Pending').toLowerCase()}">${link.status || 'Pending'}</span></td>
                 <td>
                     <div class="action-buttons">
                         <button class="action-btn btn-edit" onclick="admin.copyPaymentLinkToClipboard('${link.checkout_link}')">
@@ -1170,7 +1464,7 @@ class AdminPanel {
                 <td>${payment.payment_id}</td>
                 <td>${payment.invoice_id}</td>
                 <td>${payment.name}</td>
-                <td>₹${payment.total_amount.toLocaleString()}</td>
+                <td>₹${(payment.total_amount || 0).toLocaleString()}</td>
                 <td>${this.formatDate(payment.payment_timestamp)}</td>
                 <td>${payment.payment_mode}</td>
                 <td>
@@ -1260,17 +1554,23 @@ class AdminPanel {
 
     // Utility methods
     formatDate(dateString) {
-        const date = new Date(dateString);
-        return date.toLocaleDateString('en-IN', {
-            day: '2-digit',
-            month: 'short',
-            year: 'numeric',
-            weekday: 'long',
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit',
-            hour12: true
-        });
+        if (!dateString) return 'N/A';
+        
+        try {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-IN', {
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric',
+                weekday: 'long',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: true
+            });
+        } catch (e) {
+            return 'Invalid Date';
+        }
     }
 
     formatBillingCycle(cycle) {
@@ -1321,6 +1621,7 @@ class AdminPanel {
         return icons[type] || 'info-circle';
     }
 
+    // Keep simulateAPICall for fallback
     simulateAPICall(delay = 1000) {
         return new Promise(resolve => setTimeout(resolve, delay));
     }
