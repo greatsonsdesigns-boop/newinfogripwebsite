@@ -90,14 +90,14 @@
 
         .btn {
             display: inline-block;
-            padding: 14px 32px;
-            border-radius: 60px;
+            padding: 12px 28px;
+            border-radius: 50px;
             font-weight: 600;
             text-align: center;
             cursor: pointer;
             transition: var(--transition);
             border: none;
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
 
         .btn-primary {
@@ -155,7 +155,7 @@
             z-index: -1;
             opacity: 0;
             transition: opacity 0.3s ease;
-            border-radius: 60px;
+            border-radius: 50px;
         }
 
         .btn-glow-pulse:hover::before {
@@ -257,6 +257,45 @@
             }
         }
 
+        /* Custom Cursor */
+        .cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: rgba(253, 203, 84, 0.5);
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.2s ease;
+            mix-blend-mode: difference;
+        }
+
+        .cursor-follower {
+            position: fixed;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid rgba(253, 203, 84, 0.3);
+            pointer-events: none;
+            z-index: 9998;
+            transition: transform 0.4s ease;
+        }
+
+        .cursor.hover {
+            transform: scale(1.5);
+            background: rgba(253, 203, 84, 0.8);
+        }
+
+        .cursor.text-hover {
+            transform: scale(0.5);
+            background: rgba(253, 203, 84, 0.3);
+        }
+
+        .cursor-follower.hover {
+            transform: scale(1.5);
+            border-color: rgba(253, 203, 84, 0.6);
+        }
+
         /* Header Styles */
         header {
             position: fixed;
@@ -268,7 +307,6 @@
             backdrop-filter: blur(10px);
             box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
             transition: var(--transition);
-            padding: 15px 0;
         }
 
         .dark-theme header {
@@ -276,14 +314,19 @@
         }
 
         header.scrolled {
-            padding: 8px 0;
+            padding: 5px 0;
         }
 
         .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: relative;
+            padding: 15px 0;
+            transition: var(--transition);
+        }
+
+        header.scrolled .navbar {
+            padding: 8px 0;
         }
 
         .logo {
@@ -292,46 +335,39 @@
         }
 
         .logo img {
-            height: 70px;
+            height: 70px; /* Increased logo size */
         }
 
         .nav-menu {
             display: flex;
             align-items: center;
-            gap: 10px;
         }
 
         .nav-menu li {
+            margin: 0 15px;
             position: relative;
         }
 
         .nav-menu a {
             font-weight: 500;
             color: var(--text-color);
-            padding: 8px 15px;
+            padding: 5px 0;
             position: relative;
-            border-radius: 5px;
-            transition: var(--transition);
-        }
-
-        .nav-menu a:hover {
-            background-color: var(--light-blue);
         }
 
         .nav-menu a::after {
             content: '';
             position: absolute;
             bottom: 0;
-            left: 50%;
+            left: 0;
             width: 0;
             height: 2px;
             background-color: var(--orange);
             transition: var(--transition);
-            transform: translateX(-50%);
         }
 
         .nav-menu a:hover::after {
-            width: 80%;
+            width: 100%;
         }
 
         .nav-actions {
@@ -343,20 +379,13 @@
         .theme-toggle {
             background: none;
             border: none;
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             cursor: pointer;
             color: var(--text-color);
             transition: var(--transition);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
         .theme-toggle:hover {
-            background-color: var(--light-blue);
             color: var(--orange);
             transform: rotate(30deg);
         }
@@ -364,9 +393,6 @@
         .hamburger {
             display: none;
             cursor: pointer;
-            background: none;
-            border: none;
-            padding: 5px;
         }
 
         .bar {
@@ -385,32 +411,34 @@
             padding: 180px 0 120px;
             position: relative;
             overflow: hidden;
-            display: flex;
-            align-items: center;
-            min-height: 100vh;
         }
 
-        .dark-theme .hero {
-            background: linear-gradient(135deg, var(--dark-blue) 0%, var(--blue) 100%);
-        }
-
-        .hero-video {
+        .hero::before {
+            content: '';
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            opacity: 0.25;
-            z-index: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" opacity="0.05"><path d="M0,0V800H1200V0ZM200,400C200,533,333,600,400,600S600,533,600,400,467,200,400,200,200,267,200,400Z" fill="white"/></svg>');
+            background-size: cover;
         }
 
+       .hero-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.3; /* Increased from 0.1 for better visibility */
+    z-index: 0;
+        } 
+
         .hero-content {
-            max-width: 900px;
+            max-width: 700px;
             position: relative;
             z-index: 1;
-            text-align: center;
-            margin: 0 auto;
         }
 
         .hero h1 {
@@ -420,14 +448,10 @@
         }
 
         .typing-text {
-            background: linear-gradient(45deg, #fdcb54, #ffd700, #ffed4e, #fdcb54);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: var(--orange);
             border-right: 3px solid var(--orange);
             animation: blink 1s infinite;
             display: inline-block;
-            font-weight: 800;
         }
 
         @keyframes blink {
@@ -436,7 +460,7 @@
         }
 
         .hero p {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             margin-bottom: 30px;
             opacity: 0.9;
         }
@@ -444,8 +468,16 @@
         .hero-btns {
             display: flex;
             gap: 15px;
-            justify-content: center;
-            flex-wrap: wrap;
+        }
+
+        /* Particle Background */
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
         }
 
         /* Stats Section */
@@ -506,7 +538,7 @@
             font-weight: 600;
         }
 
-        /* Services Section */
+        /* Services Section - Premium Redesign */
         .services-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -562,6 +594,22 @@
             height: 200px;
             overflow: hidden;
             position: relative;
+        }
+
+        .service-img::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: linear-gradient(to top, rgba(0, 28, 79, 0.7), transparent);
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .service-card:hover .service-img::after {
+            opacity: 1;
         }
 
         .service-img img {
@@ -626,7 +674,7 @@
             transform: translateX(5px);
         }
 
-        /* Features Section */
+        /* Features Section with Floating Animation */
         .features {
             background-color: var(--section-bg);
         }
@@ -646,6 +694,26 @@
             transition: var(--transition);
             border: 1px solid transparent;
             animation: float-card 6s ease-in-out infinite;
+        }
+
+        .feature-card:nth-child(2) {
+            animation-delay: 1s;
+        }
+
+        .feature-card:nth-child(3) {
+            animation-delay: 2s;
+        }
+
+        .feature-card:nth-child(4) {
+            animation-delay: 3s;
+        }
+
+        .feature-card:nth-child(5) {
+            animation-delay: 4s;
+        }
+
+        .feature-card:nth-child(6) {
+            animation-delay: 5s;
         }
 
         @keyframes float-card {
@@ -688,6 +756,17 @@
             color: var(--white);
             padding: 100px 0;
             position: relative;
+        }
+
+        .testimonials::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" opacity="0.05"><path d="M0,0V800H1200V0ZM200,400C200,533,333,600,400,600S600,533,600,400,467,200,400,200,200,267,200,400Z" fill="white"/></svg>');
+            background-size: cover;
         }
 
         .testimonials .section-title h2 {
@@ -887,6 +966,17 @@
             position: relative;
         }
 
+        .cta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" opacity="0.05"><path d="M0,0V800H1200V0ZM200,400C200,533,333,600,400,600S600,533,600,400,467,200,400,200,200,267,200,400Z" fill="white"/></svg>');
+            background-size: cover;
+        }
+
         .cta-content {
             max-width: 700px;
             margin: 0 auto;
@@ -1082,10 +1172,420 @@
             }
         }
 
+        /* Popup */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+
+        .popup-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .popup {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transform: translateY(20px);
+            transition: var(--transition);
+        }
+
+        .popup-overlay.active .popup {
+            transform: translateY(0);
+        }
+
+        .popup-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .popup-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-color);
+        }
+
+        .popup h2 {
+            color: var(--text-color);
+        }
+
+        .popup p {
+            margin-bottom: 20px;
+        }
+
+        /* Social Proof Popups */
+        .social-proof-popup {
+            position: fixed;
+            bottom: 120px;
+            left: 30px;
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+            z-index: 999;
+            max-width: 300px;
+            transform: translateX(-100%);
+            opacity: 0;
+            transition: transform 0.5s ease, opacity 0.5s ease;
+            border-left: 4px solid var(--orange);
+            display: flex;
+            align-items: center;
+        }
+
+        .social-proof-popup.active {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .social-proof-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--orange);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: var(--dark-blue);
+            font-weight: bold;
+        }
+
+        .social-proof-content h4 {
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            color: var(--text-color);
+        }
+
+        .social-proof-content p {
+            font-size: 0.8rem;
+            margin: 0;
+            color: var(--blue);
+        }
+
+        /* Chatbot Styles */
+        .chatbot-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+
+        .chatbot-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .chatbot-container {
+            width: 100%;
+            max-width: 450px;
+            height: 700px;
+            background-color: var(--card-bg);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transform: translateY(20px);
+            transition: var(--transition);
+        }
+
+        .chatbot-overlay.active .chatbot-container {
+            transform: translateY(0);
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, var(--dark-blue) 0%, var(--blue) 100%);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .chat-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--orange);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+
+        .chat-logo {
+            width: 65px;
+            height: 65px;
+            border-radius: 12px;
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            padding: 6px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            border: 2px solid var(--orange);
+        }
+
+        .chat-logo-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        .chat-header-info {
+            flex: 1;
+        }
+
+        .chat-header-info h3 {
+            font-size: 18px;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .chat-header-info p {
+            font-size: 13px;
+            opacity: 0.9;
+            display: flex;
+            align-items: center;
+        }
+
+        .status-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #2ecc71;
+            margin-right: 8px;
+            display: inline-block;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            background-color: var(--section-bg);
+        }
+
+        .message {
+            max-width: 85%;
+            padding: 12px 16px;
+            border-radius: 18px;
+            font-size: 14px;
+            line-height: 1.4;
+            position: relative;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .bot-message {
+            background-color: var(--card-bg);
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+            border: 1px solid #eaeaea;
+        }
+
+        .user-message {
+            background: linear-gradient(135deg, var(--dark-blue) 0%, var(--blue) 100%);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 5px;
+        }
+
+        .language-option {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid #eaeaea;
+        }
+
+        .language-option:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-color: var(--dark-blue);
+        }
+
+        .language-flag {
+            font-size: 24px;
+            margin-right: 12px;
+        }
+
+        .language-text {
+            font-weight: 500;
+        }
+
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            background-color: var(--card-bg);
+            border-radius: 18px;
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+            max-width: 70px;
+            border: 1px solid #eaeaea;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #999;
+            margin: 0 2px;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes typing {
+            0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
+            40% { transform: scale(1); opacity: 1; }
+        }
+
+        .quick-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 15px;
+            background-color: var(--card-bg);
+            border-top: 1px solid #eee;
+        }
+
+        .quick-option {
+            background-color: var(--section-bg);
+            border: none;
+            padding: 8px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: var(--text-color);
+            font-weight: 500;
+        }
+
+        .quick-option:hover {
+            background-color: var(--dark-blue);
+            color: white;
+        }
+
+        .chat-input-container {
+            display: flex;
+            padding: 15px;
+            border-top: 1px solid #eee;
+            background-color: var(--card-bg);
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 30px;
+            outline: none;
+            font-size: 14px;
+            transition: all 0.3s;
+            background: var(--card-bg);
+            color: var(--text-color);
+        }
+
+        .chat-input:focus {
+            border-color: var(--dark-blue);
+        }
+
+        .send-button {
+            background: linear-gradient(135deg, var(--dark-blue) 0%, var(--blue) 100%);
+            color: white;
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            margin-left: 10px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s;
+        }
+
+        .send-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(7, 33, 124, 0.3);
+        }
+
+        /* Action Buttons in Chat */
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            background: var(--orange);
+            color: var(--dark-blue);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .action-btn:hover {
+            background: var(--dark-blue);
+            color: white;
+            transform: translateY(-2px);
+        }
+
         /* Responsive Styles */
         @media (max-width: 992px) {
             .hero h1 {
-                font-size: 3.2rem;
+                font-size: 2.8rem;
             }
             
             .section-title h2 {
@@ -1096,7 +1596,6 @@
         @media (max-width: 768px) {
             .hamburger {
                 display: block;
-                order: 3;
             }
 
             .hamburger.active .bar:nth-child(2) {
@@ -1114,7 +1613,7 @@
             .nav-menu {
                 position: fixed;
                 left: -100%;
-                top: 80px;
+                top: 70px;
                 gap: 0;
                 flex-direction: column;
                 background-color: var(--card-bg);
@@ -1123,7 +1622,6 @@
                 transition: var(--transition);
                 box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
                 padding: 20px 0;
-                z-index: 999;
             }
 
             .nav-menu.active {
@@ -1135,10 +1633,8 @@
             }
 
             .nav-actions {
-                position: absolute;
-                right: 70px;
-                top: 50%;
-                transform: translateY(-50%);
+                margin-left: auto;
+                gap: 10px;
             }
 
             .hero {
@@ -1147,7 +1643,7 @@
             }
 
             .hero h1 {
-                font-size: 2.8rem;
+                font-size: 2.5rem;
             }
 
             .hero-btns {
@@ -1167,6 +1663,17 @@
                 width: 55px;
                 height: 55px;
                 font-size: 1.4rem;
+            }
+
+            .chatbot-container {
+                width: 95%;
+                height: 85vh;
+            }
+
+            .social-proof-popup {
+                left: 20px;
+                bottom: 100px;
+                max-width: 250px;
             }
 
             .stats-container {
@@ -1191,19 +1698,11 @@
                 padding: 0 20px;
                 font-size: 1rem;
             }
-            
-            header {
-                padding: 10px 0;
-            }
-            
-            header.scrolled {
-                padding: 5px 0;
-            }
         }
 
         @media (max-width: 576px) {
             .hero h1 {
-                font-size: 2.4rem;
+                font-size: 2rem;
             }
 
             .hero p {
@@ -1211,7 +1710,7 @@
             }
 
             .btn {
-                padding: 12px 24px;
+                padding: 10px 20px;
                 font-size: 0.9rem;
             }
 
@@ -1262,14 +1761,21 @@
                 padding: 0 15px;
                 font-size: 0.9rem;
             }
-            
-            .nav-actions {
-                right: 60px;
+        }
+
+        /* Hide cursor on mobile devices */
+        @media (max-width: 768px) {
+            .cursor, .cursor-follower {
+                display: none;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
     <!-- Header -->
     <header>
         <div class="container">
@@ -1277,7 +1783,6 @@
                 <a href="#" class="logo">
                     <img src="https://i.postimg.cc/Nj3bmPwC/Infogrip-Medi-Soluiton-(Social-Media)-(1).png" alt="InfoGrip Media Solution">
                 </a>
-                
                 <ul class="nav-menu">
                     <li><a href="#home">Home</a></li>
                     <li><a href="#services">Services</a></li>
@@ -1285,41 +1790,41 @@
                     <li><a href="#testimonials">Testimonials</a></li>
                     <li><a href="#faq">FAQ</a></li>
                     <li><a href="#contact">Contact</a></li>
-                    <li><a href="onboarding.html" class="btn btn-primary">Start Free Trial</a></li>
+                    <li><a href="onboarding.html" class="btn btn-primary">Get Started</a></li>
                 </ul>
-
                 <div class="nav-actions">
                     <button class="theme-toggle" id="theme-toggle">
                         <i class="fas fa-moon"></i>
                     </button>
-                </div>
-
-                <div class="hamburger">
-                    <span class="bar"></span>
-                    <span class="bar"></span>
-                    <span class="bar"></span>
+                    <div class="hamburger">
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                    </div>
                 </div>
             </nav>
         </div>
     </header>
 
     <!-- Hero Section -->
-    <section class="hero" id="home">
-        <video class="hero-video" autoplay muted loop>
-            <source src="hero.background.mp4.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
-        <div class="container">
-            <div class="hero-content">
-                <h1>Most Affordable Digital Marketing Agency in <span class="typing-text" id="typing-text"></span></h1>
-                <p>We specialize in social media management, website development, political & personal branding, and ads campaign management.</p>
-                <div class="hero-btns">
-                    <a href="#" class="btn btn-primary btn-glow-pulse" id="chatbot-open">Let's Talk</a>
-                    <a href="onboarding.html" class="btn btn-secondary">Start Free Trial</a>
-                </div>
+<section class="hero" id="home">
+    <div id="particles-js"></div>
+    <!-- Add your background video here -->
+    <video class="hero-video" autoplay muted loop playsinline>
+        <source src="assets/hero.background.mp4.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <div class="container">
+        <div class="hero-content">
+            <h1>Most Affordable Digital Marketing Agency in <span class="typing-text" id="typing-text"></span></h1>
+            <p>We specialize in social media management, website development, political & personal branding, and ads campaign management.</p>
+            <div class="hero-btns">
+                <a href="#" class="btn btn-primary btn-glow-pulse" id="chatbot-open">Let's Talk</a>
+                <a href="onboarding.html" class="btn btn-secondary">Onboarding Form</a>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
     <!-- Scrolling Text Strip -->
     <div class="scrolling-strip">
@@ -1435,7 +1940,7 @@
             <div class="cta-content">
                 <h2>Ready to Transform Your Digital Presence?</h2>
                 <p>Join hundreds of successful businesses and politicians who trust InfoGrip with their digital marketing</p>
-                <a href="onboarding.html" class="btn btn-primary btn-glow-pulse">Start Free Trial</a>
+                <a href="onboarding.html" class="btn btn-primary btn-glow-pulse">Start Work With Us</a>
             </div>
         </div>
     </section>
@@ -1662,7 +2167,212 @@
         </a>
     </div>
 
+    <!-- Social Proof Popups -->
+    <div id="social-proof-container"></div>
+
+    <!-- Popup -->
+    <div class="popup-overlay" id="popup">
+        <div class="popup">
+            <div class="popup-header">
+                <h2>Welcome to InfoGrip</h2>
+                <button class="popup-close" id="popup-close">&times;</button>
+            </div>
+            <p>Want to grow your Social Media, Website or Ads? Fill our Onboarding Form!</p>
+            <a href="onboarding.html" class="btn btn-primary btn-glow-pulse">Get Started Now</a>
+        </div>
+    </div>
+
+    <!-- Chatbot -->
+    <div class="chatbot-overlay" id="chatbot-overlay">
+        <div class="chatbot-container">
+            <div class="chat-header">
+                <div class="logo-container">
+                    <div class="chat-logo">
+                        <img src="https://i.postimg.cc/Dw18wXWB/Infogrip-Medi-Soluiton-(Social-Media)-(1).png" alt="InfoGrip Logo" class="chat-logo-img">
+                    </div>
+                    
+                    <div class="chat-header-info">
+                        <h3>InfoBot - InfoGrip Assistant</h3>
+                        <p><span class="status-indicator"></span> Online • Ready to help</p>
+                    </div>
+                </div>
+                <button class="chatbot-close" id="chatbot-close">&times;</button>
+            </div>
+            
+            <div class="chat-messages" id="chatMessages">
+                <div class="message bot-message">
+                    <p>Hey there! 👋 I'm InfoBot, your assistant from InfoGrip.</p>
+                    <p>I'm here to have a natural conversation and help with your marketing needs. What would you like to know?</p>
+                    
+                    <div class="language-option" data-lang="english">
+                        <div class="language-flag">🇬🇧</div>
+                        <div class="language-text">Continue in English</div>
+                    </div>
+                    
+                    <div class="language-option" data-lang="hindi">
+                        <div class="language-flag">🇮🇳</div>
+                        <div class="language-text">हिंदी में बातचीत जारी रखें</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="quick-options">
+                <button class="quick-option" data-action="services">Our Services</button>
+                <button class="quick-option" data-action="pricing">Pricing Info</button>
+                <button class="quick-option" data-action="portfolio">See Portfolio</button>
+                <button class="quick-option" data-action="contact">Contact Us</button>
+            </div>
+            
+            <div class="chat-input-container">
+                <input type="text" class="chat-input" id="messageInput" placeholder="Ask me anything about marketing or our services...">
+                <button class="send-button" id="sendButton">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Particle.js Library -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    
     <script>
+        // Initialize Particles.js
+        document.addEventListener('DOMContentLoaded', function() {
+            particlesJS('particles-js', {
+                particles: {
+                    number: {
+                        value: 80,
+                        density: {
+                            enable: true,
+                            value_area: 800
+                        }
+                    },
+                    color: {
+                        value: "#fdcb54"
+                    },
+                    shape: {
+                        type: "circle",
+                        stroke: {
+                            width: 0,
+                            color: "#000000"
+                        }
+                    },
+                    opacity: {
+                        value: 0.5,
+                        random: true,
+                        anim: {
+                            enable: true,
+                            speed: 1,
+                            opacity_min: 0.1,
+                            sync: false
+                        }
+                    },
+                    size: {
+                        value: 3,
+                        random: true,
+                        anim: {
+                            enable: true,
+                            speed: 2,
+                            size_min: 0.1,
+                            sync: false
+                        }
+                    },
+                    line_linked: {
+                        enable: true,
+                        distance: 150,
+                        color: "#fdcb54",
+                        opacity: 0.4,
+                        width: 1
+                    },
+                    move: {
+                        enable: true,
+                        speed: 1,
+                        direction: "none",
+                        random: true,
+                        straight: false,
+                        out_mode: "out",
+                        bounce: false,
+                        attract: {
+                            enable: false,
+                            rotateX: 600,
+                            rotateY: 1200
+                        }
+                    }
+                },
+                interactivity: {
+                    detect_on: "canvas",
+                    events: {
+                        onhover: {
+                            enable: true,
+                            mode: "grab"
+                        },
+                        onclick: {
+                            enable: true,
+                            mode: "push"
+                        },
+                        resize: true
+                    },
+                    modes: {
+                        grab: {
+                            distance: 140,
+                            line_linked: {
+                                opacity: 1
+                            }
+                        },
+                        push: {
+                            particles_nb: 4
+                        }
+                    }
+                },
+                retina_detect: true
+            });
+        });
+
+        // Custom Cursor
+        const cursor = document.querySelector('.cursor');
+        const cursorFollower = document.querySelector('.cursor-follower');
+
+        // Only initialize cursor on non-mobile devices
+        if (window.innerWidth > 768) {
+            document.addEventListener('mousemove', (e) => {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
+                
+                setTimeout(() => {
+                    cursorFollower.style.left = e.clientX + 'px';
+                    cursorFollower.style.top = e.clientY + 'px';
+                }, 100);
+            });
+
+            // Add hover effects for buttons and links
+            const interactiveElements = document.querySelectorAll('button, a, .btn, .service-card, .feature-card, .faq-question');
+            
+            interactiveElements.forEach(element => {
+                element.addEventListener('mouseenter', () => {
+                    cursor.classList.add('hover');
+                    cursorFollower.classList.add('hover');
+                });
+                
+                element.addEventListener('mouseleave', () => {
+                    cursor.classList.remove('hover');
+                    cursorFollower.classList.remove('hover');
+                });
+            });
+
+            // Add text hover effect
+            const textElements = document.querySelectorAll('h1, h2, h3, h4, h5, h6, p, span, li');
+            
+            textElements.forEach(element => {
+                element.addEventListener('mouseenter', () => {
+                    cursor.classList.add('text-hover');
+                });
+                
+                element.addEventListener('mouseleave', () => {
+                    cursor.classList.remove('text-hover');
+                });
+            });
+        }
+
         // Theme Toggle
         const themeToggle = document.getElementById('theme-toggle');
         const themeIcon = themeToggle.querySelector('i');
@@ -1726,6 +2436,584 @@
         window.addEventListener('scroll', () => {
             const header = document.querySelector('header');
             header.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // Popup
+        const popup = document.getElementById('popup');
+        const popupClose = document.getElementById('popup-close');
+
+        // Show popup on page load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                popup.classList.add('active');
+            }, 1000);
+        });
+
+        // Close popup
+        popupClose.addEventListener('click', () => {
+            popup.classList.remove('active');
+        });
+
+        // Show popup again after scrolling 40% down
+        window.addEventListener('scroll', () => {
+            const scrollPercentage = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            
+            if (scrollPercentage > 40 && !popup.classList.contains('active') && !sessionStorage.getItem('popupShown')) {
+                popup.classList.add('active');
+                sessionStorage.setItem('popupShown', 'true');
+            }
+        });
+
+        // Chatbot
+        const chatbotBtn = document.getElementById('chatbot-btn');
+        const chatbotOverlay = document.getElementById('chatbot-overlay');
+        const chatbotClose = document.getElementById('chatbot-close');
+        const chatbotOpen = document.getElementById('chatbot-open');
+
+        chatbotBtn.addEventListener('click', () => {
+            chatbotOverlay.classList.add('active');
+        });
+
+        chatbotOpen.addEventListener('click', (e) => {
+            e.preventDefault();
+            chatbotOverlay.classList.add('active');
+        });
+
+        chatbotClose.addEventListener('click', () => {
+            chatbotOverlay.classList.remove('active');
+        });
+
+        // Close chatbot with ESC key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                chatbotOverlay.classList.remove('active');
+                popup.classList.remove('active');
+            }
+        });
+
+        // Enhanced Chatbot Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const chatMessages = document.getElementById('chatMessages');
+            const messageInput = document.getElementById('messageInput');
+            const sendButton = document.getElementById('sendButton');
+            const quickOptions = document.querySelectorAll('.quick-option');
+            const languageOptions = document.querySelectorAll('.language-option');
+            
+            let selectedLanguage = 'english';
+            let userName = null;
+            let userBusiness = null;
+            let conversationContext = {
+                currentTopic: null,
+                previousQuestions: [],
+                userMood: 'neutral',
+                conversationDepth: 0
+            };
+
+            // Advanced conversation database
+            const conversationDB = {
+                greetings: {
+                    patterns: ['hi', 'hello', 'hey', 'good morning', 'good afternoon', 'good evening'],
+                    responses: {
+                        english: [
+                            "Hey there! 👋 How can I help you today?",
+                            "Hello! Great to see you here. What's on your mind?",
+                            "Hi! Ready to boost your business? What can I assist with?",
+                            "Hey! Lovely to chat with you. How can I help?"
+                        ],
+                        hindi: [
+                            "नमस्ते! 👋 आज मैं आपकी क्या मदद कर सकता हूं?",
+                            "हैलो! आपको यहां देखकर बहुत अच्छा लगा। आप क्या जानना चाहते हैं?",
+                            "हाय! अपने व्यवसाय को बढ़ाने के लिए तैयार? मैं आपकी क्या सहायता कर सकता हूं?",
+                            "अरे! आपसे बात करके अच्छा लगा। मैं कैसे मदद कर सकता हूं?"
+                        ]
+                    }
+                },
+                howAreYou: {
+                    patterns: ['how are you', "how's it going", "how do you do", "what's up"],
+                    responses: {
+                        english: [
+                            "I'm doing great, thanks for asking! 😊 Just here helping businesses grow. How about you?",
+                            "Doing wonderful! Helping clients with their marketing always puts me in a good mood. How are things on your end?",
+                            "I'm fantastic! Been having some great conversations about business growth today. How are you doing?"
+                        ],
+                        hindi: [
+                            "मैं बहुत अच्छा कर रहा हूं, पूछने के लिए धन्यवाद! 😊 बस यहां व्यवसायों को बढ़ने में मदद कर रहा हूं। आप कैसे हैं?",
+                            "बहुत अच्छा कर रहा हूं! ग्राहकों को उनकी मार्केटिंग में मदद करना हमेशा मुझे अच्छे मूड में रखता है। आपके यहां चीजें कैसी चल रही हैं?",
+                            "मैं शानदार हूं! आज व्यवसाय विकास के बारे में कुछ शानदार बातचीत हो रही है। आप कैसे हैं?"
+                        ]
+                    }
+                },
+                thanks: {
+                    patterns: ['thanks', 'thank you', 'appreciate it', 'thx'],
+                    responses: {
+                        english: [
+                            "You're very welcome! 😊 Happy to help.",
+                            "My pleasure! Is there anything else you'd like to know?",
+                            "Anytime! Let me know if you need more information."
+                        ],
+                        hindi: [
+                            "आपका स्वागत है! 😊 मदद करके खुशी हुई।",
+                            "मेरी खुशी! क्या आप कुछ और जानना चाहेंगे?",
+                            "कभी भी! अगर आपको और जानकारी चाहिए तो मुझे बताएं।"
+                        ]
+                    }
+                },
+                compliments: {
+                    patterns: ['good bot', 'you are helpful', 'you are smart', 'awesome', 'great help'],
+                    responses: {
+                        english: [
+                            "Aww, thanks! I'm just doing my best to help. 😊",
+                            "That means a lot! I'm here to make your life easier.",
+                            "Thank you! I'm constantly learning to be more helpful."
+                        ],
+                        hindi: [
+                            "अरे, धन्यवाद! मैं बस मदद करने की पूरी कोशिश कर रहा हूं। 😊",
+                            "इसका मतलब बहुत कुछ है! मैं आपकी जिंदगी आसान बनाने के लिए यहां हूं।",
+                            "धन्यवाद! मैं लगातार अधिक मददगार बनने के लिए सीख रहा हूं।"
+                        ]
+                    }
+                },
+                smallTalk: {
+                    patterns: ['weather', 'weekend', 'day', 'today'],
+                    responses: {
+                        english: [
+                            "I'm focused on helping businesses grow, but I hope you're having a great day! 😊",
+                            "As a bot, every day is a good day for helping entrepreneurs! How's your day going?",
+                            "I don't experience time like humans do, but I'm here whenever you need me!"
+                        ],
+                        hindi: [
+                            "मैं व्यवसायों को बढ़ने में मदद करने पर केंद्रित हूं, लेकिन मुझे आशा है कि आपका दिन अच्छा चल रहा है! 😊",
+                            "एक बॉट के रूप में, उद्यमियों की मदद करने के लिए हर दिन एक अच्छा दिन है! आपका दिन कैसा चल रहा है?",
+                            "मैं मनुष्यों की तरह समय का अनुभव नहीं करता, लेकिन जब भी आपको मेरी जरूरत हो, मैं यहां हूं!"
+                        ]
+                    }
+                }
+            };
+
+            // Advanced service knowledge base
+            const knowledgeBase = {
+                services: {
+                    socialMedia: {
+                        description: {
+                            english: "We create engaging content that actually converts followers into customers",
+                            hindi: "हम आकर्षक सामग्री बनाते हैं जो वास्तव में अनुयायियों को ग्राहकों में बदल देती है"
+                        },
+                        benefits: {
+                            english: ["3-5x more engagement", "Consistent brand voice", "Data-driven strategy"],
+                            hindi: ["3-5x अधिक जुड़ाव", "सुसंगत ब्रांड आवाज", "डेटा-संचालित रणनीति"]
+                        },
+                        questions: {
+                            'how often': {
+                                english: "We recommend 3-5 posts per week for optimal engagement",
+                                hindi: "इष्टतम जुड़ाव के लिए हम प्रति सप्ताह 3-5 पोस्ट की सलाह देते हैं"
+                            },
+                            'content types': {
+                                english: "We create reels, stories, carousels, and engaging static posts",
+                                hindi: "हम रील्स, स्टोरीज़, कैरोसेल और आकर्षक स्थिर पोस्ट बनाते हैं"
+                            },
+                            'platforms': {
+                                english: "We specialize in Instagram, Facebook, LinkedIn, and Twitter",
+                                hindi: "हम इंस्टाग्राम, फेसबुक, लिंक्डइन और ट्विटर में माहिर हैं"
+                            }
+                        }
+                    },
+                    website: {
+                        description: {
+                            english: "Fast, beautiful websites that convert visitors into leads",
+                            hindi: "तेज, सुंदर वेबसाइटें जो आगंतुकों को लीड में बदल देती हैं"
+                        },
+                        benefits: {
+                            english: ["Mobile-optimized", "SEO-friendly", "Lightning fast"],
+                            hindi: ["मोबाइल-अनुकूलित", "एसईओ-अनुकूल", "बिजली की तरह तेज"]
+                        },
+                        questions: {
+                            'timeline': {
+                                english: "Typically 2-4 weeks depending on complexity",
+                                hindi: "जटिलता के आधार पर आमतौर पर 2-4 सप्ताह"
+                            },
+                            'cost': {
+                                english: "Starts at ₹15,000 for basic sites, up to ₹50,000+ for e-commerce",
+                                hindi: "बुनियादी साइटों के लिए ₹15,000 से शुरू, ई-कॉमर्स के लिए ₹50,000+ तक"
+                            },
+                            'hosting': {
+                                english: "We provide managed hosting with 99.9% uptime",
+                                hindi: "हम 99.9% अपटाइम के साथ प्रबंधित होस्टिंग प्रदान करते हैं"
+                            }
+                        }
+                    },
+                    ads: {
+                        description: {
+                            english: "Targeted advertising that gets real results, not just clicks",
+                            hindi: "लक्षित विज्ञापन जो वास्तविक परिणाम प्राप्त करते हैं, न कि केवल क्लिक"
+                        },
+                        benefits: {
+                            english: ["Lead generation focused", "ROI tracking", "A/B testing"],
+                            hindi: ["लीड जनरेशन पर केंद्रित", "आरओआई ट्रैकिंग", "ए/बी परीक्षण"]
+                        },
+                        questions: {
+                            'budget': {
+                                english: "We recommend starting with ₹5,000-10,000/month for testing",
+                                hindi: "हम परीक्षण के लिए ₹5,000-10,000/माह से शुरू करने की सलाह देते हैं"
+                            },
+                            'platforms': {
+                                english: "Facebook, Instagram, Google Ads, and LinkedIn",
+                                hindi: "फेसबुक, इंस्टाग्राम, गूगल ऐड्स और लिंक्डइन"
+                            },
+                            'results': {
+                                english: "Most clients see 3-5x return on ad spend",
+                                hindi: "अधिकांश ग्राहकों को विज्ञापन खर्च पर 3-5x रिटर्न दिखता है"
+                            }
+                        }
+                    }
+                },
+                commonQuestions: {
+                    'how long': {
+                        english: "It depends on the service! Social media usually shows results in 2-3 months, websites in 2-4 weeks, and ads can show results in days.",
+                        hindi: "यह सेवा पर निर्भर करता है! सोशल मीडिया आमतौर पर 2-3 महीने में परिणाम दिखाता है, वेबसाइटें 2-4 सप्ताह में, और विज्ञापन दिनों में परिणाम दिखा सकते हैं।"
+                    },
+                    'how much': {
+                        english: "Our pricing is customized based on your needs. Social media starts at ₹8,000/month, websites from ₹15,000, and ads management from ₹5,000/month.",
+                        hindi: "हमारी कीमतें आपकी जरूरतों के आधार पर अनुकूलित हैं। सोशल मीडिया ₹8,000/माह से शुरू, वेबसाइटें ₹15,000 से, और विज्ञापन प्रबंधन ₹5,000/माह से।"
+                    },
+                    'why choose': {
+                        english: "We focus on results, not just deliverables. We become your marketing partner and care about your business growth as much as you do!",
+                        hindi: "हम परिणामों पर ध्यान केंद्रित करते हैं, न कि केवल डिलिवरेबल्स पर। हम आपके मार्केटिंग पार्टनर बन जाते हैं और आपके व्यवसाय की वृद्धि की परवाह करते हैं जितना आप करते हैं!"
+                    },
+                    'experience': {
+                        english: "We've worked with 50+ clients across industries - from restaurants to politicians to e-commerce stores.",
+                        hindi: "हमने 50+ ग्राहकों के साथ काम किया है - रेस्तरां से लेकर राजनेताओं तक और ई-कॉमर्स स्टोर तक।"
+                    },
+                    'process': {
+                        english: "We start with understanding your goals, then create a custom strategy, execute with excellence, and track results continuously.",
+                        hindi: "हम आपके लक्ष्यों को समझने से शुरू करते हैं, फिर एक कस्टम रणनीति बनाते हैं, उत्कृष्टता के साथ निष्पादित करते हैं, और परिणामों को लगातार ट्रैक करते हैं।"
+                    },
+                    'contact': {
+                        english: "You can reach us at +91 6367556906, email info@infogrip.com, or fill out our onboarding form at infogrip.com/onboarding.html",
+                        hindi: "आप हमें +91 6367556906 पर, ईमेल info@infogrip.com पर, या infogrip.com/onboarding.html पर हमारा ऑनबोर्डिंग फॉर्म भरकर संपर्क कर सकते हैं"
+                    }
+                }
+            };
+
+            // Function to add a message to the chat
+            function addMessage(text, isUser = false, isHTML = false) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = isUser ? 'message user-message' : 'message bot-message';
+                
+                const timestamp = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                
+                if (isHTML) {
+                    messageDiv.innerHTML = text;
+                } else {
+                    messageDiv.innerHTML = `
+                        ${text}
+                        <div class="timestamp">${timestamp}</div>
+                    `;
+                }
+                
+                chatMessages.appendChild(messageDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+
+            // Function to simulate human typing with variable delays
+            function showTypingIndicator(minTime = 1000, maxTime = 3000) {
+                const typingDiv = document.createElement('div');
+                typingDiv.className = 'typing-indicator';
+                typingDiv.id = 'typingIndicator';
+                typingDiv.innerHTML = `
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                `;
+                chatMessages.appendChild(typingDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                
+                return new Promise(resolve => {
+                    setTimeout(resolve, Math.random() * (maxTime - minTime) + minTime);
+                });
+            }
+
+            // Function to hide typing indicator
+            function hideTypingIndicator() {
+                const typingIndicator = document.getElementById('typingIndicator');
+                if (typingIndicator) {
+                    typingIndicator.remove();
+                }
+            }
+
+            // Advanced natural language processing
+            function understandIntent(message) {
+                const lowerMessage = message.toLowerCase();
+                
+                // Update conversation context
+                conversationContext.previousQuestions.push(lowerMessage);
+                conversationContext.conversationDepth++;
+                
+                // Check for greetings and small talk first
+                for (const [category, data] of Object.entries(conversationDB)) {
+                    for (const pattern of data.patterns) {
+                        if (lowerMessage.includes(pattern)) {
+                            return {
+                                type: 'conversation',
+                                category: category,
+                                confidence: 0.9
+                            };
+                        }
+                    }
+                }
+                
+                // Check for service-related questions
+                if (lowerMessage.includes('social media') || lowerMessage.includes('instagram') || lowerMessage.includes('facebook')) {
+                    return {
+                        type: 'service',
+                        service: 'socialMedia',
+                        confidence: 0.95
+                    };
+                }
+                
+                if (lowerMessage.includes('website') || lowerMessage.includes('web') || lowerMessage.includes('site')) {
+                    return {
+                        type: 'service',
+                        service: 'website',
+                        confidence: 0.95
+                    };
+                }
+                
+                if (lowerMessage.includes('ad') || lowerMessage.includes('ads') || lowerMessage.includes('advertising')) {
+                    return {
+                        type: 'service',
+                        service: 'ads',
+                        confidence: 0.95
+                    };
+                }
+                
+                // Check for common questions
+                for (const [question, answer] of Object.entries(knowledgeBase.commonQuestions)) {
+                    if (lowerMessage.includes(question)) {
+                        return {
+                            type: 'commonQuestion',
+                            question: question,
+                            confidence: 0.8
+                        };
+                    }
+                }
+                
+                // Check for onboarding intent
+                if (lowerMessage.includes('onboarding') || lowerMessage.includes('form') || lowerMessage.includes('get started') || lowerMessage.includes('sign up')) {
+                    return {
+                        type: 'onboarding',
+                        confidence: 0.9
+                    };
+                }
+                
+                // Check for contact intent
+                if (lowerMessage.includes('contact') || lowerMessage.includes('call') || lowerMessage.includes('phone') || lowerMessage.includes('email')) {
+                    return {
+                        type: 'contact',
+                        confidence: 0.9
+                    };
+                }
+                
+                // Default to general inquiry
+                return {
+                    type: 'general',
+                    confidence: 0.5
+                };
+            }
+
+            // Generate human-like response
+            function generateResponse(intent, userMessage) {
+                const lowerMessage = userMessage.toLowerCase();
+                
+                switch (intent.type) {
+                    case 'conversation':
+                        const responses = conversationDB[intent.category].responses[selectedLanguage];
+                        return responses[Math.floor(Math.random() * responses.length)];
+                        
+                    case 'service':
+                        const service = knowledgeBase.services[intent.service];
+                        let response = selectedLanguage === 'english' 
+                            ? `For ${intent.service.replace(/([A-Z])/g, ' $1').toLowerCase()}, ${service.description.english}. `
+                            : `${intent.service.replace(/([A-Z])/g, ' $1').toLowerCase()} के लिए, ${service.description.hindi}. `;
+                        
+                        // Add relevant benefits
+                        const benefits = service.benefits[selectedLanguage];
+                        response += selectedLanguage === 'english'
+                            ? `You'll get ${benefits.join(', ')}. `
+                            : `आपको ${benefits.join(', ')} मिलेगा। `;
+                        
+                        // Ask engaging follow-up question
+                        const followUps = {
+                            english: [
+                                "What specific goals are you trying to achieve?",
+                                "How's your current presence in this area?",
+                                "What's your timeline for getting started?"
+                            ],
+                            hindi: [
+                                "आप कौन से विशिष्ट लक्ष्य हासिल करने की कोशिश कर रहे हैं?",
+                                "इस क्षेत्र में आपकी वर्तमान उपस्थिति कैसी है?",
+                                "शुरुआत करने के लिए आपकी समयसीमा क्या है?"
+                            ]
+                        };
+                        response += followUps[selectedLanguage][Math.floor(Math.random() * followUps[selectedLanguage].length)];
+                        
+                        return response;
+                        
+                    case 'commonQuestion':
+                        return knowledgeBase.commonQuestions[intent.question][selectedLanguage];
+                        
+                    case 'onboarding':
+                        const onboardingResponse = {
+                            english: "Great! I'd love to help you get started. Our onboarding process is simple and helps us understand your business needs better. Would you like me to direct you to our onboarding form?",
+                            hindi: "बढ़िया! मैं आपकी शुरुआत में मदद करना चाहूंगा। हमारी ऑनबोर्डिंग प्रक्रिया सरल है और हमें आपकी व्यावसायिक आवश्यकताओं को बेहतर ढंग से समझने में मदद करती है। क्या आप चाहेंगे कि मैं आपको हमारे ऑनबोर्डिंग फॉर्म पर निर्देशित करूं?"
+                        };
+                        return onboardingResponse[selectedLanguage];
+                        
+                    case 'contact':
+                        const contactResponse = {
+                            english: "You can reach us at +91 6367556906, email info@infogrip.com, or fill out our onboarding form. We'd love to hear from you!",
+                            hindi: "आप हमें +91 6367556906 पर, ईमेल info@infogrip.com पर, या हमारा ऑनबोर्डिंग फॉर्म भरकर संपर्क कर सकते हैं। हम आपसे सुनकर खुश होंगे!"
+                        };
+                        return contactResponse[selectedLanguage];
+                        
+                    case 'general':
+                        if (lowerMessage.includes('?')) {
+                            const generalResponse = {
+                                english: "That's an interesting question! While I specialize in marketing services, I'd be happy to connect you with our team who can give you a detailed answer. Is there anything specific about our services you'd like to know?",
+                                hindi: "यह एक दिलचस्प सवाल है! हालांकि मैं मार्केटिंग सेवाओं में माहिर हूं, मैं आपको हमारी टीम से जोड़कर खुश होऊंगा जो आपको विस्तृत जवाब दे सकती है। क्या हमारी सेवाओं के बारे में कुछ विशिष्ट है जो आप जानना चाहेंगे?"
+                            };
+                            return generalResponse[selectedLanguage];
+                        } else {
+                            const generalResponse2 = {
+                                english: "Thanks for sharing that! I'm here to help with your marketing needs. Would you like to know about our services, pricing, or see some examples of our work?",
+                                hindi: "यह साझा करने के लिए धन्यवाद! मैं आपकी मार्केटिंग आवश्यकताओं में मदद करने के लिए यहां हूं। क्या आप हमारी सेवाओं, मूल्य निर्धारण के बारे में जानना चाहेंगे, या हमारे काम के कुछ उदाहरण देखना चाहेंगे?"
+                            };
+                            return generalResponse2[selectedLanguage];
+                        }
+                }
+            }
+
+            // Add action buttons to the chat
+            function addActionButtons() {
+                const buttonsHTML = `
+                    <div class="action-buttons">
+                        <button class="action-btn" onclick="window.open('onboarding.html', '_blank')">
+                            <i class="fas fa-file-alt"></i> Fill Onboarding Form
+                        </button>
+                        <button class="action-btn" onclick="window.open('tel:+916367556906')">
+                            <i class="fas fa-phone"></i> Call Us
+                        </button>
+                        <button class="action-btn" onclick="window.open('https://wa.me/916367556906', '_blank')">
+                            <i class="fab fa-whatsapp"></i> WhatsApp
+                        </button>
+                    </div>
+                `;
+                return buttonsHTML;
+            }
+
+            // Advanced conversation flow
+            async function processUserMessage(message) {
+                // Add user message
+                addMessage(message, true);
+                messageInput.value = '';
+                
+                // Show typing with human-like delay
+                await showTypingIndicator(800, 2500);
+                hideTypingIndicator();
+                
+                // Understand user intent
+                const intent = understandIntent(message);
+                
+                // Generate response
+                let response = generateResponse(intent, message);
+                
+                // Add action buttons for specific intents
+                if (intent.type === 'onboarding' || intent.type === 'contact' || conversationContext.conversationDepth > 3) {
+                    response += addActionButtons();
+                    addMessage(response, false, true);
+                } else {
+                    addMessage(response);
+                }
+                
+                // Update conversation context
+                conversationContext.currentTopic = intent.type === 'service' ? intent.service : intent.type;
+            }
+
+            // Event listeners for language selection
+            languageOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    selectedLanguage = this.getAttribute('data-lang');
+                    
+                    // Remove language options
+                    document.querySelectorAll('.language-option').forEach(opt => {
+                        opt.remove();
+                    });
+                    
+                    // Update message
+                    const messageDiv = document.querySelector('.bot-message');
+                    const greeting = selectedLanguage === 'english' 
+                        ? "Great! Let's continue in English." 
+                        : "बढ़िया! हिंदी में बातचीत जारी रखते हैं।";
+                    const followUp = selectedLanguage === 'english'
+                        ? "I'm here to have a natural conversation about your business needs. What would you like to know?"
+                        : "मैं आपकी व्यावसायिक आवश्यकताओं के बारे में एक प्राकृतिक बातचीत करने के लिए यहां हूं। आप क्या जानना चाहेंगे?";
+                    
+                    messageDiv.innerHTML = `
+                        <p>${greeting}</p>
+                        <p>${followUp}</p>
+                        <div class="timestamp">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
+                    `;
+                });
+            });
+
+            // Event listeners for quick options
+            quickOptions.forEach(button => {
+                button.addEventListener('click', function() {
+                    const action = this.getAttribute('data-action');
+                    let message = '';
+                    
+                    switch(action) {
+                        case 'services':
+                            message = selectedLanguage === 'english' 
+                                ? "Can you tell me about your services?" 
+                                : "क्या आप मुझे अपनी सेवाओं के बारे में बता सकते हैं?";
+                            break;
+                        case 'pricing':
+                            message = selectedLanguage === 'english' 
+                                ? "What are your prices?" 
+                                : "आपकी कीमतें क्या हैं?";
+                            break;
+                        case 'portfolio':
+                            message = selectedLanguage === 'english' 
+                                ? "Can I see some examples of your work?" 
+                                : "क्या मैं आपके काम के कुछ उदाहरण देख सकता हूं?";
+                            break;
+                        case 'contact':
+                            message = selectedLanguage === 'english' 
+                                ? "How can I contact you?" 
+                                : "मैं आपसे कैसे संपर्क कर सकता हूं?";
+                            break;
+                    }
+                    
+                    processUserMessage(message);
+                });
+            });
+
+            // Event listeners for input
+            sendButton.addEventListener('click', () => {
+                const message = messageInput.value.trim();
+                if (message) {
+                    processUserMessage(message);
+                }
+            });
+
+            messageInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    const message = messageInput.value.trim();
+                    if (message) {
+                        processUserMessage(message);
+                    }
+                }
+            });
         });
 
         // Animated Counter
@@ -1891,6 +3179,52 @@
         // Add event listeners for arrow buttons
         document.querySelector('.carousel-arrow.prev').addEventListener('click', prevSlide);
         document.querySelector('.carousel-arrow.next').addEventListener('click', nextSlide);
+
+        // Social Proof Popups
+        const socialProofMessages = [
+            { name: "Rohit", action: "submitted a form" },
+            { name: "Simran", action: "booked a free consultation" },
+            { name: "Arjun", action: "downloaded a growth plan" },
+            { name: "Priya", action: "requested a quote" },
+            { name: "Amit", action: "signed up for newsletter" },
+            { name: "Neha", action: "started a project" }
+        ];
+
+        function showSocialProof() {
+            const randomIndex = Math.floor(Math.random() * socialProofMessages.length);
+            const message = socialProofMessages[randomIndex];
+            
+            const popup = document.createElement('div');
+            popup.className = 'social-proof-popup';
+            popup.innerHTML = `
+                <div class="social-proof-avatar">${message.name.charAt(0)}</div>
+                <div class="social-proof-content">
+                    <h4>${message.name}</h4>
+                    <p>${message.action}</p>
+                </div>
+            `;
+            
+            document.getElementById('social-proof-container').appendChild(popup);
+            
+            // Show popup
+            setTimeout(() => {
+                popup.classList.add('active');
+            }, 100);
+            
+            // Hide and remove popup after delay
+            setTimeout(() => {
+                popup.classList.remove('active');
+                setTimeout(() => {
+                    popup.remove();
+                }, 500);
+            }, 5000);
+        }
+
+        // Show first social proof after 3 seconds
+        setTimeout(showSocialProof, 3000);
+        
+        // Show subsequent social proofs randomly
+        setInterval(showSocialProof, 10000 + Math.random() * 15000);
 
         // Fade in elements on scroll
         const fadeElements = document.querySelectorAll('.service-card, .feature-card, .faq-item, .stat-card');
