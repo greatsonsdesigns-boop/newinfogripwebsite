@@ -405,80 +405,91 @@
         }
 
         /* Hero Section */
-        .hero {
-            background: linear-gradient(135deg, var(--dark-blue) 0%, var(--blue) 100%);
-            color: var(--white);
-            padding: 180px 0 120px;
-            position: relative;
-            overflow: hidden;
-        }
+.hero {
+    background: linear-gradient(135deg, var(--dark-blue) 0%, var(--blue) 100%);
+    color: var(--white);
+    padding: 180px 0 120px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    min-height: 100vh;
+    text-align: center;
+}
 
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" opacity="0.05"><path d="M0,0V800H1200V0ZM200,400C200,533,333,600,400,600S600,533,600,400,467,200,400,200,200,267,200,400Z" fill="white"/></svg>');
-            background-size: cover;
-        }
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" opacity="0.05"><path d="M0,0V800H1200V0ZM200,400C200,533,333,600,400,600S600,533,600,400,467,200,400,200,200,267,200,400Z" fill="white"/></svg>');
+    background-size: cover;
+}
 
-       .hero-video {
+.hero-video {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    opacity: 0.3; /* Increased from 0.1 for better visibility */
+    opacity: 0.15; /* Decreased transparency - more visible */
     z-index: 0;
-        } 
+}
 
-        .hero-content {
-            max-width: 700px;
-            position: relative;
-            z-index: 1;
-        }
+.hero-content {
+    max-width: 800px;
+    position: relative;
+    z-index: 1;
+    margin: 0 auto;
+    width: 100%;
+}
 
-        .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 20px;
-            line-height: 1.1;
-        }
+.hero h1 {
+    font-size: 3.5rem;
+    margin-bottom: 20px;
+    line-height: 1.1;
+}
 
-        .typing-text {
-            color: var(--orange);
-            border-right: 3px solid var(--orange);
-            animation: blink 1s infinite;
-            display: inline-block;
-        }
+.typing-text {
+    color: var(--orange);
+    border-right: 3px solid var(--orange);
+    animation: blink 1s infinite;
+    display: inline-block;
+}
 
-        @keyframes blink {
-            0%, 100% { border-color: var(--orange); }
-            50% { border-color: transparent; }
-        }
+@keyframes blink {
+    0%, 100% { border-color: var(--orange); }
+    50% { border-color: transparent; }
+}
 
-        .hero p {
-            font-size: 1.2rem;
-            margin-bottom: 30px;
-            opacity: 0.9;
-        }
+.hero p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    opacity: 0.9;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
 
-        .hero-btns {
-            display: flex;
-            gap: 15px;
-        }
+.hero-btns {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
 
-        /* Particle Background */
-        #particles-js {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: 0;
-        }
+/* Particle Background */
+#particles-js {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 0;
+}
 
         /* Stats Section */
         .stats {
@@ -1806,10 +1817,10 @@
         </div>
     </header>
 
-    <!-- Hero Section -->
+<!-- Hero Section -->
 <section class="hero" id="home">
     <div id="particles-js"></div>
-    <!-- Add your background video here -->
+    <!-- Background Video -->
     <video class="hero-video" autoplay muted loop playsinline>
         <source src="assets/hero.background.mp4.mp4" type="video/mp4">
         Your browser does not support the video tag.
