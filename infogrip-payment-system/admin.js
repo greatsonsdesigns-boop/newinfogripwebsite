@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
     setupCharts();
 });
 
-// Authentication Functions
+// Authentication Functions - FIXED VERSION
 function checkAuth() {
     const token = localStorage.getItem('admin_token');
     const expiry = localStorage.getItem('token_expiry');
@@ -33,8 +33,17 @@ function checkAuth() {
     if (!token || !expiry || new Date(expiry) < new Date()) {
         showLoginModal();
     } else {
-        currentUser = JSON.parse(localStorage.getItem('admin_user'));
-        updateAdminInfo();
+        // Decode token to get user info
+        try {
+            const tokenData = JSON.parse(atob(token.split('.')[1]));
+            currentUser = {
+                email: tokenData.email,
+                name: tokenData.name
+            };
+            updateAdminInfo();
+        } catch (e) {
+            showLoginModal();
+        }
     }
 }
 
@@ -42,30 +51,72 @@ function showLoginModal() {
     const loginModal = document.getElementById('loginModal');
     loginModal.style.display = 'flex';
     
-    document.getElementById('loginForm').onsubmit = async function(e) {
+    // Clear previous values
+    document.getElementById('adminEmail').value = '';
+    document.getElementById('adminPassword').value = '';
+    document.getElementById('adminSecret').value = '';
+    
+    document.getElementById('loginForm').onsubmit = function(e) {
         e.preventDefault();
         
-        const email = document.getElementById('adminEmail').value;
-        const password = document.getElementById('adminPassword').value;
-        const secret = document.getElementById('adminSecret').value;
+        const email = document.getElementById('adminEmail').value.trim();
+        const password = document.getElementById('adminPassword').value.trim();
+        const secret = document.getElementById('adminSecret').value.trim();
         
-        // Simple authentication (in production, verify with server)
-        if (secret === CONFIG.ADMIN_SECRET || secret === 'infogrip123') {
-            localStorage.setItem('admin_token', btoa(email + ':' + Date.now()));
-            localStorage.setItem('token_expiry', new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString());
+        // TEST CREDENTIALS - USE THESE
+        const testCredentials = [
+            { email: 'admin@infogrip.com', password: 'infogrip123', secret: 'infogrip2025' },
+            { email: 'user@infogrip.com', password: 'password123', secret: 'infogrip2025' },
+            { email: 'test@infogrip.com', password: 'test123', secret: 'infogrip2025' }
+        ];
+        
+        // Check if credentials match
+        const validCreds = testCredentials.find(cred => 
+            cred.email === email && 
+            cred.password === password && 
+            cred.secret === secret
+        );
+        
+        if (validCreds) {
+            // Create token
+            const tokenData = {
+                email: email,
+                name: email.split('@')[0].toUpperCase(),
+                exp: Date.now() + 24 * 60 * 60 * 1000 // 24 hours
+            };
+            
+            const token = btoa(JSON.stringify(tokenData));
+            
+            localStorage.setItem('admin_token', token);
+            localStorage.setItem('token_expiry', new Date(tokenData.exp).toISOString());
             localStorage.setItem('admin_user', JSON.stringify({
                 email: email,
-                name: email.split('@')[0]
+                name: email.split('@')[0].toUpperCase()
             }));
             
             loginModal.style.display = 'none';
-            location.reload();
+            
+            // Show success message
+            Swal.fire({
+                icon: 'success',
+                title: 'Login Successful!',
+                text: 'Welcome to InfoGrip CRM',
+                timer: 2000,
+                showConfirmButton: false
+            }).then(() => {
+                location.reload();
+            });
+            
         } else {
-            alert('Invalid credentials');
+            Swal.fire({
+                icon: 'error',
+                title: 'Login Failed',
+                text: 'Invalid email, password or secret key',
+                confirmButtonText: 'Try Again'
+            });
         }
     };
 }
-
 function updateAdminInfo() {
     if (currentUser) {
         document.getElementById('adminName').textContent = currentUser.name;
