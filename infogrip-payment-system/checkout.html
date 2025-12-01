@@ -3,136 +3,188 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Checkout - InfoGrip Media Solution</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Secure Payment | InfoGrip Media Solution</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="https://i.postimg.cc/Nj3bmPwC/Infogrip-Medi-Soluiton-(Social-Media)-(1).png">
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <nav class="navbar">
-                <a href="#" class="logo">
-                    <img src="https://i.postimg.cc/Nj3bmPwC/Infogrip-Medi-Soluiton-(Social-Media)-(1).png" alt="InfoGrip">
-                </a>
-                <div class="nav-actions">
-                    <span>Secure Payment</span>
-                </div>
-            </nav>
-        </div>
-    </header>
-
-    <main class="checkout-container">
-        <div class="card">
-            <div class="invoice-header">
-                <img src="https://i.postimg.cc/Nj3bmPwC/Infogrip-Medi-Soluiton-(Social-Media)-(1).png" alt="InfoGrip" style="height: 60px; margin-bottom: 15px;">
-                <h1>Payment Invoice</h1>
-                <p id="invoiceDate" style="color: var(--blue); font-weight: 600;"></p>
+    <div class="container checkout-container">
+        <!-- Header -->
+        <header class="checkout-header">
+            <div class="logo">
+                <img src="https://i.postimg.cc/Nj3bmPwC/Infogrip-Medi-Soluiton-(Social-Media)-(1).png" alt="InfoGrip">
+                <h1>InfoGrip Media Solution</h1>
             </div>
-
-            <div id="loadingState" class="text-center">
-                <div class="spinner"></div>
-                <p>Loading invoice details...</p>
+            <div class="secure-badge">
+                <i class="fas fa-lock"></i>
+                <span>Secure Payment</span>
             </div>
+        </header>
 
-            <div id="invoiceContent" style="display: none;">
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 30px;">
-                    <div class="client-info card">
-                        <h3 style="margin-bottom: 15px;">Bill To</h3>
-                        <div id="clientDetails">
-                            <!-- Client details will be loaded here -->
-                        </div>
-                    </div>
-                    
-                    <div class="payment-summary card">
-                        <h3 style="margin-bottom: 15px;">Invoice Summary</h3>
-                        <div style="margin-bottom: 15px;">
-                            <strong>Invoice ID:</strong> <span id="displayInvoiceId"></span>
-                        </div>
-                        <div style="margin-bottom: 15px;">
-                            <strong>Date:</strong> <span id="displayInvoiceDate"></span>
-                        </div>
-                        <div style="margin-bottom: 15px;">
-                            <strong>Status:</strong> <span id="invoiceStatus" class="status-badge status-pending">Pending</span>
-                        </div>
-                    </div>
-                </div>
-
+        <div class="checkout-content">
+            <!-- Left Side - Invoice Details -->
+            <div class="invoice-details">
                 <div class="card">
-                    <h3 style="margin-bottom: 20px;">Services</h3>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Service</th>
-                                <th>Quantity</th>
-                                <th>Unit Price</th>
-                                <th>Amount</th>
-                            </tr>
-                        </thead>
-                        <tbody id="servicesTableBody">
-                            <!-- Services will be loaded here -->
-                        </tbody>
-                    </table>
-
-                    <div class="invoice-totals">
-                        <div class="total-row">
-                            <span>Subtotal:</span>
-                            <span id="displaySubtotal">₹0</span>
-                        </div>
-                        <div class="total-row">
-                            <span>Discount:</span>
-                            <span id="displayDiscount">₹0</span>
-                        </div>
-                        <div class="total-row">
-                            <span id="displayGstLabel">GST (0%):</span>
-                            <span id="displayGstAmount">₹0</span>
-                        </div>
-                        <div class="total-row final">
-                            <span>Total Amount:</span>
-                            <span id="displayTotal">₹0</span>
+                    <div class="card-header">
+                        <h2>Invoice Details</h2>
+                        <div class="invoice-id">
+                            <span>Invoice ID:</span>
+                            <strong id="invoiceId">Loading...</strong>
                         </div>
                     </div>
-                </div>
-
-                <div class="card" style="margin-top: 30px;">
-                    <h3 style="margin-bottom: 15px;">Payment</h3>
-                    <p style="margin-bottom: 20px; color: var(--blue);">
-                        <i class="fas fa-lock"></i> Your payment is secured with Razorpay
-                    </p>
                     
-                    <div id="paymentButtons">
-                        <button class="btn btn-primary" id="payNowBtn" style="width: 100%; padding: 15px; font-size: 1.1rem;">
-                            Proceed to Pay ₹<span id="payAmount">0</span>
-                        </button>
+                    <!-- Client Info -->
+                    <div class="client-info">
+                        <h3>Bill To:</h3>
+                        <div class="client-details">
+                            <p><strong id="clientName">Loading...</strong></p>
+                            <p id="clientPhone">Loading...</p>
+                            <p id="clientEmail">Loading...</p>
+                        </div>
+                        <div class="client-actions">
+                            <a href="#" id="callClient" class="btn btn-sm btn-outline">
+                                <i class="fas fa-phone"></i> Call
+                            </a>
+                            <a href="#" id="whatsappClient" class="btn btn-sm btn-outline">
+                                <i class="fab fa-whatsapp"></i> WhatsApp
+                            </a>
+                            <a href="#" id="emailClient" class="btn btn-sm btn-outline">
+                                <i class="fas fa-envelope"></i> Email
+                            </a>
+                        </div>
                     </div>
 
-                    <div id="paymentProcessing" style="display: none; text-align: center;">
-                        <div class="spinner"></div>
-                        <p>Processing payment...</p>
+                    <!-- Invoice Items -->
+                    <div class="invoice-items">
+                        <h3>Items</h3>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Description</th>
+                                        <th width="100">Qty</th>
+                                        <th width="150">Unit Price</th>
+                                        <th width="150">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="invoiceItems">
+                                    <!-- Items will be loaded here -->
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
+                </div>
 
-                    <div style="margin-top: 20px; padding: 15px; background: var(--light-blue); border-radius: 8px;">
-                        <p style="font-size: 0.9rem; margin: 0;">
-                            <strong>Terms:</strong> Payment is due upon receipt. For any queries, contact us at +91 6367556906 or info@infogrip.com
-                        </p>
+                <!-- Trust Badges -->
+                <div class="trust-badges">
+                    <div class="badge-item">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>256-bit SSL Secure</span>
+                    </div>
+                    <div class="badge-item">
+                        <i class="fas fa-lock"></i>
+                        <span>PCI DSS Compliant</span>
+                    </div>
+                    <div class="badge-item">
+                        <i class="fas fa-clock"></i>
+                        <span>Instant Confirmation</span>
                     </div>
                 </div>
             </div>
 
-            <div id="errorState" class="alert alert-error" style="display: none;">
-                <!-- Error messages will be shown here -->
-            </div>
+            <!-- Right Side - Payment Summary -->
+            <div class="payment-summary">
+                <div class="card sticky-summary">
+                    <div class="card-header">
+                        <h2>Payment Summary</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="summary-item">
+                            <span>Subtotal</span>
+                            <span id="summarySubtotal">₹0.00</span>
+                        </div>
+                        <div class="summary-item">
+                            <span>Discount</span>
+                            <span id="summaryDiscount">-₹0.00</span>
+                        </div>
+                        <div class="summary-item">
+                            <span>GST</span>
+                            <span id="summaryGST">₹0.00</span>
+                        </div>
+                        <div class="summary-total">
+                            <span>Total Amount</span>
+                            <span id="summaryTotal">₹0.00</span>
+                        </div>
 
-            <div id="paidState" class="alert alert-success" style="display: none;">
-                <h4><i class="fas fa-check-circle"></i> Payment Already Processed</h4>
-                <p>This invoice has already been paid. If you believe this is an error, please contact support.</p>
-                <a href="#" class="btn btn-outline" style="margin-top: 10px;">Contact Support</a>
+                        <!-- Payment Button -->
+                        <button class="btn btn-primary btn-block btn-lg mt-4" id="payButton">
+                            <i class="fas fa-lock"></i> Proceed to Secure Payment
+                        </button>
+
+                        <!-- Payment Methods -->
+                        <div class="payment-methods">
+                            <h4>We Accept:</h4>
+                            <div class="method-icons">
+                                <i class="fab fa-cc-visa"></i>
+                                <i class="fab fa-cc-mastercard"></i>
+                                <i class="fab fa-cc-amex"></i>
+                                <i class="fab fa-cc-rupay"></i>
+                                <i class="fas fa-university"></i>
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                        </div>
+
+                        <!-- Info -->
+                        <div class="payment-info">
+                            <p><i class="fas fa-info-circle"></i> You will be redirected to Razorpay's secure payment gateway</p>
+                            <p><i class="fas fa-clock"></i> Invoice valid for 7 days</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Support -->
+                <div class="support-card">
+                    <h4><i class="fas fa-headset"></i> Need Help?</h4>
+                    <p>Contact our support team for assistance</p>
+                    <div class="support-contacts">
+                        <a href="tel:+916367556906" class="support-link">
+                            <i class="fas fa-phone"></i> +91 6367556906
+                        </a>
+                        <a href="mailto:infogripmarketing@gmail.com" class="support-link">
+                            <i class="fas fa-envelope"></i> infogripmarketing@gmail.com
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
-    </main>
+
+        <!-- Footer -->
+        <footer class="checkout-footer">
+            <p>&copy; 2025 InfoGrip Media Solution. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="privacy-policy.html">Privacy Policy</a>
+                <a href="terms-conditions.html">Terms & Conditions</a>
+                <a href="refund-policy.html">Refund Policy</a>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Loading Modal -->
+    <div class="modal" id="loadingModal">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <div class="spinner">
+                        <i class="fas fa-circle-notch fa-spin"></i>
+                    </div>
+                    <p class="mt-3">Processing your payment...</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="checkout.js"></script>
 </body>
