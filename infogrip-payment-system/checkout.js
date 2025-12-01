@@ -1,291 +1,489 @@
+// InfoGrip Checkout Page JavaScript
+
 // Configuration
 const CONFIG = {
-    API_BASE: 'YOUR_APPS_SCRIPT_WEB_APP_URL',
-    RAZORPAY_KEY_ID: 'YOUR_RAZORPAY_KEY_ID' // From Apps Script
+    API_BASE: 'https://script.google.com/macros/s/YOUR_APPS_SCRIPT_WEB_APP_ID/exec',
+    RAZORPAY_KEY_ID: 'rzp_live_YOUR_KEY_ID' // Will be loaded from API
 };
 
-// State
-let state = {
-    invoiceData: null,
-    isLoading: true
-};
+// Get invoice ID from URL
+const urlParams = new URLSearchParams(window.location.search);
+const invoiceId = urlParams.get('invoice_id');
 
-// DOM Elements
-const elements = {
-    loadingState: document.getElementById('loadingState'),
-    invoiceContent: document.getElementById('invoiceContent'),
-    errorState: document.getElementById('errorState'),
-    paidState: document.getElementById('paidState'),
-    
-    // Invoice details
-    invoiceDate: document.getElementById('invoiceDate'),
-    clientDetails: document.getElementById('clientDetails'),
-    displayInvoiceId: document.getElementById('displayInvoiceId'),
-    displayInvoiceDate: document.getElementById('displayInvoiceDate'),
-    invoiceStatus: document.getElementById('invoiceStatus'),
-    servicesTableBody: document.getElementById('servicesTableBody'),
-    displaySubtotal: document.getElementById('displaySubtotal'),
-    displayDiscount: document.getElementById('displayDiscount'),
-    displayGstLabel: document.getElementById('displayGstLabel'),
-    displayGstAmount: document.getElementById('displayGstAmount'),
-    displayTotal: document.getElementById('displayTotal'),
-    payAmount: document.getElementById('payAmount'),
-    
-    // Payment
-    payNowBtn: document.getElementById('payNowBtn'),
-    paymentProcessing: document.getElementById('paymentProcessing'),
-    paymentButtons: document.getElementById('paymentButtons')
-};
-
-// Utility Functions
-const utils = {
-    formatCurrency(amount) {
-        return new Intl.NumberFormat('en-IN', {
-            style: 'currency',
-            currency: 'INR'
-        }).format(amount);
-    },
-
-    formatDate(dateString) {
-        const date = new Date(dateString);
-        return date.toLocaleDateString('en-IN', {
-            day: '2-digit',
-            month: 'short',
-            year: 'numeric',
-            weekday: 'long',
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit',
-            hour12: true
-        });
-    },
-
-    showError(message) {
-        elements.errorState.innerHTML = `
-            <h4><i class="fas fa-exclamation-triangle"></i> Error</h4>
-            <p>${message}</p>
-            <a href="#" class="btn btn-outline" onclick="window.history.back()" style="margin-top: 10px;">Go Back</a>
-        `;
-        elements.errorState.style.display = 'block';
-        elements.loadingState.style.display = 'none';
-    }
-};
-
-// API Functions
-const api = {
-    async request(endpoint, data = {}) {
-        const url = `${CONFIG.API_BASE}?action=${endpoint}`;
-        
-        try {
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data)
-            });
-
-            const result = await response.json();
-            
-            if (!result.success) {
-                throw new Error(result.error || 'API request failed');
-            }
-            
-            return result;
-        } catch (error) {
-            console.error('API Error:', error);
-            throw error;
-        }
-    },
-
-    async getPaymentByInvoiceId(invoiceId) {
-        return this.request('getPaymentByInvoiceId', { invoice_id: invoiceId });
-    },
-
-    async createRazorpayOrder(invoiceId) {
-        return this.request('createRazorpayOrder', { invoice_id: invoiceId });
-    },
-
-    async confirmPayment(paymentData) {
-        return this.request('confirmPayment', paymentData);
-    }
-};
-
-// Payment Handler
-const paymentHandler = {
-    async initializePayment() {
-        if (!state.invoiceData) return;
-
-        try {
-            elements.payNowBtn.disabled = true;
-            elements.paymentProcessing.style.display = 'block';
-            elements.paymentButtons.style.display = 'none';
-
-            // Create Razorpay order
-            const orderResult = await api.createRazorpayOrder(state.invoiceData.invoice_id);
-            
-            // Configure Razorpay options
-            const options = {
-                key: orderResult.key_id,
-                amount: orderResult.amount,
-                currency: orderResult.currency,
-                order_id: orderResult.order_id,
-                name: "InfoGrip Media Solution",
-                description: `Payment for Invoice ${state.invoiceData.invoice_id}`,
-                image: "https://i.postimg.cc/Nj3bmPwC/Infogrip-Medi-Soluiton-(Social-Media)-(1).png",
-                handler: async (response) => {
-                    await this.handlePaymentSuccess(response);
-                },
-                prefill: {
-                    name: state.invoiceData.name,
-                    email: state.invoiceData.email,
-                    contact: state.invoiceData.phone.replace('91', '')
-                },
-                notes: {
-                    invoice_id: state.invoiceData.invoice_id,
-                    client_id: state.invoiceData.client_id
-                },
-                theme: {
-                    color: "#0066FF"
-                }
-            };
-
-            const razorpay = new Razorpay(options);
-            razorpay.open();
-            
-        } catch (error) {
-            console.error('Payment initialization error:', error);
-            utils.showError('Failed to initialize payment: ' + error.message);
-        } finally {
-            elements.payNowBtn.disabled = false;
-            elements.paymentProcessing.style.display = 'none';
-            elements.paymentButtons.style.display = 'block';
-        }
-    },
-
-    async handlePaymentSuccess(response) {
-        try {
-            elements.paymentProcessing.style.display = 'block';
-            elements.paymentButtons.style.display = 'none';
-
-            const paymentData = {
-                razorpay_payment_id: response.razorpay_payment_id,
-                razorpay_order_id: response.razorpay_order_id,
-                razorpay_signature: response.razorpay_signature,
-                invoice_id: state.invoiceData.invoice_id
-            };
-
-            const result = await api.confirmPayment(paymentData);
-            
-            if (result.success) {
-                // Redirect to thank you page
-                window.location.href = `thankyou.html?invoice_id=${state.invoiceData.invoice_id}&payment_id=${response.razorpay_payment_id}`;
-            } else {
-                throw new Error(result.error || 'Payment confirmation failed');
-            }
-        } catch (error) {
-            console.error('Payment confirmation error:', error);
-            utils.showError('Payment confirmation failed: ' + error.message);
-            
-            elements.paymentProcessing.style.display = 'none';
-            elements.paymentButtons.style.display = 'block';
-        }
-    }
-};
-
-// Invoice Renderer
-const invoiceRenderer = {
-    renderInvoice(data) {
-        state.invoiceData = data;
-        
-        // Set basic info
-        elements.invoiceDate.textContent = utils.formatDate(data.created_timestamp);
-        elements.displayInvoiceId.textContent = data.invoice_id;
-        elements.displayInvoiceDate.textContent = utils.formatDate(data.created_timestamp);
-        
-        // Render client details
-        elements.clientDetails.innerHTML = `
-            <p><strong>${data.name}</strong></p>
-            <p>${data.phone}</p>
-            ${data.email ? `<p>${data.email}</p>` : ''}
-            ${data.address ? `<p>${data.address}</p>` : ''}
-        `;
-
-        // Parse and render services
-        const services = JSON.parse(data.services_json);
-        elements.servicesTableBody.innerHTML = services.map(service => `
-            <tr>
-                <td>${service.name}</td>
-                <td style="text-align: center;">${service.qty}</td>
-                <td style="text-align: right;">${utils.formatCurrency(service.unit_price)}</td>
-                <td style="text-align: right;">${utils.formatCurrency(service.line_total)}</td>
-            </tr>
-        `).join('');
-
-        // Render totals
-        elements.displaySubtotal.textContent = utils.formatCurrency(data.subtotal);
-        elements.displayDiscount.textContent = utils.formatCurrency(data.discount);
-        elements.displayGstLabel.textContent = `GST (${data.gst_percent}%):`;
-        elements.displayGstAmount.textContent = utils.formatCurrency(data.gst_amount);
-        elements.displayTotal.textContent = utils.formatCurrency(data.total_amount);
-        elements.payAmount.textContent = data.total_amount;
-
-        // Update status
-        if (data.status === 'Paid') {
-            elements.invoiceStatus.textContent = 'Paid';
-            elements.invoiceStatus.className = 'status-badge status-paid';
-            elements.payNowBtn.style.display = 'none';
-            elements.paidState.style.display = 'block';
-        }
-
-        // Show content
-        elements.loadingState.style.display = 'none';
-        elements.invoiceContent.style.display = 'block';
-    }
-};
-
-// URL Parameter Parser
-const urlParser = {
-    getParams() {
-        const urlParams = new URLSearchParams(window.location.search);
-        return {
-            invoice_id: urlParams.get('invoice_id')
-        };
-    }
-};
-
-// Initialize Application
+// Initialize the page
 document.addEventListener('DOMContentLoaded', async function() {
-    const params = urlParser.getParams();
-    
-    if (!params.invoice_id) {
-        utils.showError('Invalid invoice link. Please check the URL and try again.');
+    if (!invoiceId) {
+        showError('Invoice ID is required in the URL');
         return;
     }
-
+    
     try {
-        // Load invoice data
-        const result = await api.getPaymentByInvoiceId(params.invoice_id);
-        
-        if (!result.payment) {
-            throw new Error('Invoice not found');
-        }
-
-        if (result.payment.status === 'Paid') {
-            invoiceRenderer.renderInvoice(result.payment);
-        } else if (result.payment.status === 'Pending') {
-            invoiceRenderer.renderInvoice(result.payment);
-            
-            // Set up payment button
-            elements.payNowBtn.addEventListener('click', () => {
-                paymentHandler.initializePayment();
-            });
-        } else {
-            throw new Error('This invoice is no longer valid');
-        }
-        
+        await loadInvoiceData();
+        setupEventListeners();
     } catch (error) {
-        console.error('Initialization error:', error);
-        utils.showError(error.message);
+        console.error('Error initializing checkout:', error);
+        showError('Failed to load invoice. Please check the link or contact support.');
     }
 });
+
+// Load invoice data from API
+async function loadInvoiceData() {
+    showLoading(true);
+    
+    try {
+        const response = await fetch(`${CONFIG.API_BASE}?action=getPayment&invoice_id=${invoiceId}`);
+        const data = await response.json();
+        
+        if (data.success) {
+            populateInvoiceData(data.invoice);
+        } else {
+            throw new Error(data.message || 'Failed to load invoice');
+        }
+    } catch (error) {
+        console.error('Error loading invoice:', error);
+        showError('Failed to load invoice data: ' + error.message);
+    } finally {
+        showLoading(false);
+    }
+}
+
+// Populate invoice data on the page
+function populateInvoiceData(invoice) {
+    // Update basic info
+    document.getElementById('invoiceId').textContent = invoice.invoice_id || invoiceId;
+    document.getElementById('clientName').textContent = invoice.name || 'Customer';
+    document.getElementById('clientPhone').textContent = invoice.phone || 'N/A';
+    document.getElementById('clientEmail').textContent = invoice.email || 'N/A';
+    
+    // Update client action links
+    if (invoice.phone) {
+        const cleanPhone = invoice.phone.replace(/\D/g, '');
+        document.getElementById('callClient').href = `tel:+91${cleanPhone}`;
+        document.getElementById('whatsappClient').href = `https://wa.me/91${cleanPhone}`;
+    }
+    if (invoice.email) {
+        document.getElementById('emailClient').href = `mailto:${invoice.email}`;
+    }
+    
+    // Parse and display invoice items
+    let items = [];
+    try {
+        items = typeof invoice.services_json === 'string' 
+            ? JSON.parse(invoice.services_json) 
+            : invoice.services_json || [];
+    } catch (e) {
+        console.error('Error parsing services JSON:', e);
+        items = [];
+    }
+    
+    populateInvoiceItems(items);
+    updateSummary(invoice);
+}
+
+function populateInvoiceItems(items) {
+    const tbody = document.getElementById('invoiceItems');
+    
+    if (!items || items.length === 0) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="4" class="text-center py-4">
+                    <i class="fas fa-exclamation-circle"></i> No items found
+                </td>
+            </tr>
+        `;
+        return;
+    }
+    
+    const html = items.map(item => `
+        <tr>
+            <td>
+                <strong>${item.name || 'Service'}</strong>
+                ${item.description ? `<br><small class="text-muted">${item.description}</small>` : ''}
+            </td>
+            <td>${item.qty || 1}</td>
+            <td>₹${(item.unit_price || 0).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
+            <td>₹${(item.total || 0).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
+        </tr>
+    `).join('');
+    
+    tbody.innerHTML = html;
+}
+
+function updateSummary(invoice) {
+    const subtotal = parseFloat(invoice.subtotal) || 0;
+    const discount = parseFloat(invoice.discount) || 0;
+    const gstPercent = parseFloat(invoice.gst_percent) || 0;
+    const gstAmount = parseFloat(invoice.gst_amount) || 0;
+    const total = parseFloat(invoice.total_amount) || 0;
+    
+    document.getElementById('summarySubtotal').textContent = formatCurrency(subtotal);
+    document.getElementById('summaryDiscount').textContent = formatCurrency(discount, true);
+    document.getElementById('summaryGST').textContent = formatCurrency(gstAmount);
+    document.getElementById('summaryTotal').textContent = formatCurrency(total);
+}
+
+// Setup event listeners
+function setupEventListeners() {
+    document.getElementById('payButton').addEventListener('click', initiatePayment);
+}
+
+// Initiate Razorpay payment
+async function initiatePayment() {
+    showLoading(true);
+    
+    try {
+        // Get Razorpay order from server
+        const response = await fetch(`${CONFIG.API_BASE}?action=createRazorpayOrder`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                invoice_id: invoiceId,
+                admin_secret: 'YOUR_ADMIN_SECRET' // This should come from server session
+            })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            // Store order info
+            CONFIG.RAZORPAY_KEY_ID = data.key_id;
+            
+            // Create Razorpay checkout options
+            const options = {
+                key: data.key_id,
+                amount: data.amount,
+                currency: "INR",
+                name: "InfoGrip Media Solution",
+                description: `Payment for Invoice ${invoiceId}`,
+                image: "https://i.postimg.cc/Nj3bmPwC/Infogrip-Medi-Soluiton-(Social-Media)-(1).png",
+                order_id: data.order_id,
+                handler: function(response) {
+                    handlePaymentSuccess(response);
+                },
+                prefill: {
+                    name: document.getElementById('clientName').textContent,
+                    email: document.getElementById('clientEmail').textContent,
+                    contact: document.getElementById('clientPhone').textContent.replace(/\D/g, '')
+                },
+                notes: {
+                    invoice_id: invoiceId
+                },
+                theme: {
+                    color: "#001c4f"
+                },
+                modal: {
+                    ondismiss: function() {
+                        showLoading(false);
+                    }
+                }
+            };
+            
+            const rzp = new Razorpay(options);
+            rzp.open();
+            
+        } else {
+            throw new Error(data.message || 'Failed to create payment order');
+        }
+    } catch (error) {
+        console.error('Payment initiation error:', error);
+        showError('Failed to initiate payment: ' + error.message);
+    } finally {
+        showLoading(false);
+    }
+}
+
+// Handle successful payment
+async function handlePaymentSuccess(paymentResponse) {
+    showLoading(true);
+    
+    try {
+        // Verify payment with server
+        const response = await fetch(`${CONFIG.API_BASE}?action=confirmPayment`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                razorpay_payment_id: paymentResponse.razorpay_payment_id,
+                razorpay_order_id: paymentResponse.razorpay_order_id,
+                razorpay_signature: paymentResponse.razorpay_signature,
+                invoice_id: invoiceId
+            })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            // Redirect to thank you page with success data
+            window.location.href = `thankyou.html?invoice_id=${invoiceId}&payment_id=${paymentResponse.razorpay_payment_id}&pdf_link=${encodeURIComponent(data.invoice_pdf_link)}`;
+        } else {
+            throw new Error(data.message || 'Payment verification failed');
+        }
+    } catch (error) {
+        console.error('Payment verification error:', error);
+        showError('Payment verification failed: ' + error.message);
+    } finally {
+        showLoading(false);
+    }
+}
+
+// Utility Functions
+function formatCurrency(amount, showNegative = false) {
+    if (showNegative && amount > 0) {
+        return `-₹${amount.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    }
+    return `₹${amount.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+}
+
+function showLoading(show) {
+    const modal = document.getElementById('loadingModal');
+    modal.style.display = show ? 'flex' : 'none';
+}
+
+function showError(message) {
+    // Create error modal
+    const errorHTML = `
+        <div class="modal" id="errorModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>Error</h3>
+                        <button class="modal-close" onclick="document.getElementById('errorModal').style.display='none'">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="error-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <p>${message}</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" onclick="document.getElementById('errorModal').style.display='none'">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    // Remove existing error modal
+    const existingError = document.getElementById('errorModal');
+    if (existingError) {
+        existingError.remove();
+    }
+    
+    // Add new error modal
+    document.body.insertAdjacentHTML('beforeend', errorHTML);
+    document.getElementById('errorModal').style.display = 'flex';
+}
+
+// Add CSS for checkout page
+const checkoutCSS = `
+.checkout-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.checkout-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+    border-bottom: 2px solid #f0f0f0;
+    margin-bottom: 30px;
+}
+
+.checkout-header .logo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.checkout-header .logo img {
+    height: 50px;
+}
+
+.checkout-header .logo h1 {
+    font-size: 1.5rem;
+    color: #001c4f;
+    margin: 0;
+}
+
+.secure-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: #28a745;
+    color: white;
+    border-radius: 50px;
+    font-weight: 600;
+}
+
+.checkout-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 30px;
+}
+
+@media (max-width: 992px) {
+    .checkout-content {
+        grid-template-columns: 1fr;
+    }
+}
+
+.invoice-details .card {
+    margin-bottom: 20px;
+}
+
+.client-info {
+    padding: 20px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.client-details p {
+    margin: 5px 0;
+}
+
+.client-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.invoice-items {
+    padding: 20px;
+}
+
+.trust-badges {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 12px;
+    margin-top: 20px;
+}
+
+.badge-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #666;
+}
+
+.badge-item i {
+    color: #001c4f;
+    font-size: 1.2rem;
+}
+
+.sticky-summary {
+    position: sticky;
+    top: 20px;
+}
+
+.payment-methods {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #e0e0e0;
+}
+
+.method-icons {
+    display: flex;
+    gap: 15px;
+    font-size: 1.8rem;
+    color: #666;
+    margin-top: 10px;
+}
+
+.payment-info {
+    margin-top: 20px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    font-size: 0.9rem;
+}
+
+.payment-info p {
+    margin: 5px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.support-card {
+    margin-top: 20px;
+    padding: 20px;
+    background: #001c4f;
+    color: white;
+    border-radius: 12px;
+}
+
+.support-card h4 {
+    color: white;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.support-contacts {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.support-link {
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    transition: all 0.3s;
+}
+
+.support-link:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.checkout-footer {
+    margin-top: 40px;
+    padding: 20px 0;
+    border-top: 1px solid #e0e0e0;
+    text-align: center;
+    color: #666;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 10px;
+}
+
+.footer-links a {
+    color: #001c4f;
+    text-decoration: none;
+}
+
+.spinner {
+    font-size: 2rem;
+    color: #fdcb54;
+}
+
+.error-icon {
+    text-align: center;
+    font-size: 3rem;
+    color: #dc3545;
+    margin-bottom: 20px;
+}
+`;
+
+// Inject checkout-specific CSS
+const style = document.createElement('style');
+style.textContent = checkoutCSS;
+document.head.appendChild(style);
