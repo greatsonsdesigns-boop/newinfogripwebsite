@@ -3,97 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payment Successful - InfoGrip Media Solution</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Payment Successful | InfoGrip Media Solution</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="https://i.postimg.cc/Nj3bmPwC/Infogrip-Medi-Soluiton-(Social-Media)-(1).png">
 </head>
 <body>
-    <header>
-        <div class="container">
-            <nav class="navbar">
-                <a href="#" class="logo">
-                    <img src="https://i.postimg.cc/Nj3bmPwC/Infogrip-Medi-Soluiton-(Social-Media)-(1).png" alt="InfoGrip">
+    <div class="container thankyou-container">
+        <!-- Success Animation -->
+        <div class="success-animation">
+            <div class="success-checkmark">
+                <div class="check-icon">
+                    <span class="icon-line line-tip"></span>
+                    <span class="icon-line line-long"></span>
+                    <div class="icon-circle"></div>
+                    <div class="icon-fix"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Success Message -->
+        <div class="success-message">
+            <h1>Payment Successful!</h1>
+            <p>Thank you for your payment. Your transaction has been completed successfully.</p>
+            <div class="success-details">
+                <div class="detail-item">
+                    <span>Invoice ID:</span>
+                    <strong id="invoiceId">Loading...</strong>
+                </div>
+                <div class="detail-item">
+                    <span>Payment ID:</span>
+                    <strong id="paymentId">Loading...</strong>
+                </div>
+                <div class="detail-item">
+                    <span>Amount Paid:</span>
+                    <strong id="amountPaid">Loading...</strong>
+                </div>
+                <div class="detail-item">
+                    <span>Date & Time:</span>
+                    <strong id="paymentDate">Loading...</strong>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            <a href="#" id="downloadInvoiceBtn" class="btn btn-primary btn-lg">
+                <i class="fas fa-download"></i> Download Invoice (PDF)
+            </a>
+            <a href="#" id="whatsappShareBtn" class="btn btn-success btn-lg">
+                <i class="fab fa-whatsapp"></i> Share via WhatsApp
+            </a>
+            <a href="#" id="emailInvoiceBtn" class="btn btn-outline btn-lg">
+                <i class="fas fa-envelope"></i> Email Invoice
+            </a>
+        </div>
+
+        <!-- Next Steps -->
+        <div class="next-steps">
+            <h2>What Happens Next?</h2>
+            <div class="steps-timeline">
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h3>Payment Confirmed</h3>
+                    <p>Your payment has been confirmed and recorded in our system.</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h3>Invoice Sent</h3>
+                    <p>A copy of your invoice has been sent to your email address.</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-user-headset"></i>
+                    </div>
+                    <h3>Team Assigned</h3>
+                    <p>Our team will contact you within 24 hours to begin your project.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Support Section -->
+        <div class="support-section">
+            <h2><i class="fas fa-headset"></i> Need Help?</h2>
+            <p>Our support team is here to assist you with any questions or concerns.</p>
+            <div class="support-contacts">
+                <a href="tel:+916367556906" class="support-link">
+                    <i class="fas fa-phone"></i> +91 6367556906
                 </a>
-                <div class="nav-actions">
-                    <span>Payment Confirmation</span>
-                </div>
-            </nav>
-        </div>
-    </header>
-
-    <main class="thank-you-container">
-        <div class="card">
-            <div class="success-animation">
-                <i class="fas fa-check-circle"></i>
-            </div>
-            
-            <h1 style="margin-bottom: 10px; color: var(--success);">Payment Successful!</h1>
-            <p style="margin-bottom: 30px; font-size: 1.1rem;">Thank you for your payment. Your invoice has been generated and sent to your email.</p>
-
-            <div id="loadingState" class="text-center">
-                <div class="spinner"></div>
-                <p>Loading payment details...</p>
-            </div>
-
-            <div id="paymentDetails" style="display: none;">
-                <div class="payment-details">
-                    <div class="detail-row">
-                        <span>Payment ID:</span>
-                        <span id="paymentId" style="font-family: monospace;"></span>
-                    </div>
-                    <div class="detail-row">
-                        <span>Invoice ID:</span>
-                        <span id="thankYouInvoiceId" style="font-weight: 600;"></span>
-                    </div>
-                    <div class="detail-row">
-                        <span>Amount Paid:</span>
-                        <span id="amountPaid" style="font-weight: 600; color: var(--success);"></span>
-                    </div>
-                    <div class="detail-row">
-                        <span>Payment Method:</span>
-                        <span id="paymentMethod"></span>
-                    </div>
-                    <div class="detail-row">
-                        <span>Date & Time:</span>
-                        <span id="paymentTimestamp"></span>
-                    </div>
-                </div>
-
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 30px 0;">
-                    <button class="btn btn-primary" id="downloadInvoiceBtn">
-                        <i class="fas fa-download"></i> Download Invoice
-                    </button>
-                    <button class="btn btn-outline" id="sendWhatsAppBtn">
-                        <i class="fab fa-whatsapp"></i> Send via WhatsApp
-                    </button>
-                </div>
-
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                    <button class="btn btn-outline" id="resendEmailBtn">
-                        <i class="fas fa-envelope"></i> Resend Email
-                    </button>
-                    <a href="#" class="btn btn-outline">
-                        <i class="fas fa-home"></i> Back to Home
-                    </a>
-                </div>
-
-                <div style="margin-top: 30px; padding: 20px; background: var(--light-blue); border-radius: 10px;">
-                    <h4 style="margin-bottom: 10px;">What's Next?</h4>
-                    <p style="margin: 0; font-size: 0.9rem;">
-                        Our team will contact you within 24 hours to begin your project. 
-                        For immediate assistance, call us at <strong>+91 6367556906</strong>
-                    </p>
-                </div>
-            </div>
-
-            <div id="errorState" class="alert alert-error" style="display: none; margin-top: 20px;">
-                <!-- Error messages will be shown here -->
+                <a href="mailto:infogripmarketing@gmail.com" class="support-link">
+                    <i class="fas fa-envelope"></i> infogripmarketing@gmail.com
+                </a>
+                <a href="https://wa.me/916367556906" target="_blank" class="support-link">
+                    <i class="fab fa-whatsapp"></i> WhatsApp Support
+                </a>
             </div>
         </div>
-    </main>
+
+        <!-- Footer -->
+        <footer class="thankyou-footer">
+            <p>&copy; 2025 InfoGrip Media Solution. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="privacy-policy.html">Privacy Policy</a>
+                <a href="terms-conditions.html">Terms & Conditions</a>
+                <a href="refund-policy.html">Refund Policy</a>
+            </div>
+        </footer>
+    </div>
 
     <script src="thankyou.js"></script>
 </body>
