@@ -1,426 +1,291 @@
-// Checkout Page JavaScript for InfoGrip Payment System
-class CheckoutPage {
-    constructor() {
-        // CONFIGURATION - UPDATE THESE VALUES
-        this.API_CONFIG = {
-            WEB_APP_URL: 'https://script.google.com/macros/s/AKfycbwlqmQnjGeovQPnSOll5efIPSBLshGzYUYlrGrDox4OW6SRmTJmj1PIB3L0IeG-I2KM/exec' // ← REPLACE WITH YOUR WEB APP URL
-        };
-        
-        this.invoiceData = null;
-        this.razorpayOptions = null;
-        this.init();
-    }
+// Configuration
+const CONFIG = {
+    API_BASE: 'YOUR_APPS_SCRIPT_WEB_APP_URL',
+    RAZORPAY_KEY_ID: 'YOUR_RAZORPAY_KEY_ID' // From Apps Script
+};
 
-    init() {
-        this.setupEventListeners();
-        this.updateDateTime();
-        setInterval(() => this.updateDateTime(), 1000);
-        
-        // Load invoice data from URL parameters
-        this.loadInvoiceData();
-    }
+// State
+let state = {
+    invoiceData: null,
+    isLoading: true
+};
 
-    setupEventListeners() {
-        document.getElementById('proceed-to-pay').addEventListener('click', () => this.initiatePayment());
-        document.getElementById('error-modal-retry').addEventListener('click', () => this.closeErrorModal());
-        document.getElementById('error-modal-close').addEventListener('click', () => this.closeErrorModal());
-        
-        // Client form validation for new clients
-        const clientForm = document.getElementById('client-form');
-        if (clientForm) {
-            clientForm.addEventListener('input', () => this.validateClientForm());
-        }
-    }
+// DOM Elements
+const elements = {
+    loadingState: document.getElementById('loadingState'),
+    invoiceContent: document.getElementById('invoiceContent'),
+    errorState: document.getElementById('errorState'),
+    paidState: document.getElementById('paidState'),
+    
+    // Invoice details
+    invoiceDate: document.getElementById('invoiceDate'),
+    clientDetails: document.getElementById('clientDetails'),
+    displayInvoiceId: document.getElementById('displayInvoiceId'),
+    displayInvoiceDate: document.getElementById('displayInvoiceDate'),
+    invoiceStatus: document.getElementById('invoiceStatus'),
+    servicesTableBody: document.getElementById('servicesTableBody'),
+    displaySubtotal: document.getElementById('displaySubtotal'),
+    displayDiscount: document.getElementById('displayDiscount'),
+    displayGstLabel: document.getElementById('displayGstLabel'),
+    displayGstAmount: document.getElementById('displayGstAmount'),
+    displayTotal: document.getElementById('displayTotal'),
+    payAmount: document.getElementById('payAmount'),
+    
+    // Payment
+    payNowBtn: document.getElementById('payNowBtn'),
+    paymentProcessing: document.getElementById('paymentProcessing'),
+    paymentButtons: document.getElementById('paymentButtons')
+};
 
-    updateDateTime() {
-        const now = new Date();
-        const options = { 
-            year: 'numeric', 
-            month: 'short', 
+// Utility Functions
+const utils = {
+    formatCurrency(amount) {
+        return new Intl.NumberFormat('en-IN', {
+            style: 'currency',
+            currency: 'INR'
+        }).format(amount);
+    },
+
+    formatDate(dateString) {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-IN', {
             day: '2-digit',
+            month: 'short',
+            year: 'numeric',
             weekday: 'long',
             hour: '2-digit',
             minute: '2-digit',
             second: '2-digit',
             hour12: true
-        };
-        
-        const formatted = now.toLocaleDateString('en-IN', options);
-        document.getElementById('checkout-datetime').textContent = formatted;
-    }
+        });
+    },
 
-    async loadInvoiceData() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const invoiceId = urlParams.get('invoice_id');
-        
-        if (!invoiceId) {
-            this.showError('Invalid invoice link. Please contact support.');
-            return;
-        }
-        
-        this.showLoading(true);
+    showError(message) {
+        elements.errorState.innerHTML = `
+            <h4><i class="fas fa-exclamation-triangle"></i> Error</h4>
+            <p>${message}</p>
+            <a href="#" class="btn btn-outline" onclick="window.history.back()" style="margin-top: 10px;">Go Back</a>
+        `;
+        elements.errorState.style.display = 'block';
+        elements.loadingState.style.display = 'none';
+    }
+};
+
+// API Functions
+const api = {
+    async request(endpoint, data = {}) {
+        const url = `${CONFIG.API_BASE}?action=${endpoint}`;
         
         try {
-            // CALL REAL GOOGLE APPS SCRIPT API
-            const result = await this.makeGetAPICall('getPaymentByInvoiceId', { invoice_id: invoiceId });
-            
-            if (result.success) {
-                this.invoiceData = result;
-                this.renderInvoice();
-            } else {
-                throw new Error(result.error || 'Failed to load invoice data');
-            }
-            
-        } catch (error) {
-            this.showError('Failed to load invoice data. Please try again.');
-            console.error('Invoice load error:', error);
-        } finally {
-            this.showLoading(false);
-        }
-    }
-
-    // API CALL FUNCTION
-    async makeGetAPICall(endpoint, params = {}) {
-        try {
-            const urlParams = new URLSearchParams(params);
-            const url = `${this.API_CONFIG.WEB_APP_URL}?endpoint=${endpoint}&${urlParams.toString()}`;
-            
-            console.log(`Making GET API call to ${endpoint}:`, url);
-
-            const response = await fetch(url);
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-            const result = await response.json();
-            
-            if (result.error) {
-                throw new Error(result.error);
-            }
-            
-            return result;
-        } catch (error) {
-            console.error(`GET API call failed for ${endpoint}:`, error);
-            throw error;
-        }
-    }
-
-    async makeAPICall(endpoint, data = {}) {
-        try {
-            const payload = {
-                endpoint: endpoint,
-                ...data
-            };
-
-            console.log(`Making API call to ${endpoint}:`, payload);
-
-            const response = await fetch(this.API_CONFIG.WEB_APP_URL, {
+            const response = await fetch(url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(payload)
+                body: JSON.stringify(data)
             });
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
 
             const result = await response.json();
             
-            if (result.error) {
-                throw new Error(result.error);
+            if (!result.success) {
+                throw new Error(result.error || 'API request failed');
             }
             
-            console.log(`API response from ${endpoint}:`, result);
             return result;
         } catch (error) {
-            console.error(`API call failed for ${endpoint}:`, error);
+            console.error('API Error:', error);
             throw error;
         }
-    }
+    },
 
-    renderInvoice() {
-        if (!this.invoiceData) return;
-        
-        // Update basic info
-        document.getElementById('invoice-id').textContent = this.invoiceData.invoice_id;
-        document.getElementById('invoice-date').textContent = this.formatDate(this.invoiceData.created_timestamp);
-        document.getElementById('terms-invoice-id').textContent = this.invoiceData.invoice_id;
-        document.getElementById('terms-created-date').textContent = this.formatDate(this.invoiceData.created_timestamp, true);
-        
-        // Update client details
-        this.renderClientDetails();
-        
-        // Update services table
-        this.renderServicesTable();
-        
-        // Update pricing summary
-        this.updatePricingSummary();
-        
-        // Update payment button
-        document.getElementById('pay-amount').textContent = (this.invoiceData.total_amount || 0).toLocaleString();
-    }
+    async getPaymentByInvoiceId(invoiceId) {
+        return this.request('getPaymentByInvoiceId', { invoice_id: invoiceId });
+    },
 
-    renderClientDetails() {
-        const clientDetails = document.getElementById('client-details');
-        
-        if (this.invoiceData.client_id) {
-            // Existing client - show readonly details
-            clientDetails.innerHTML = `
-                <p><strong>${this.invoiceData.name}</strong></p>
-                <p>${this.invoiceData.phone}</p>
-                <p>${this.invoiceData.email}</p>
-                <p>${this.invoiceData.address || ''}</p>
-            `;
-        } else {
-            // New client - show form
-            document.getElementById('client-form').classList.remove('hidden');
-            clientDetails.innerHTML = '<p>Please fill in your details below</p>';
-            
-            // Prefill if available
-            if (this.invoiceData.name) {
-                document.getElementById('checkout-client-name').value = this.invoiceData.name;
-            }
-            if (this.invoiceData.phone) {
-                document.getElementById('checkout-client-phone').value = this.invoiceData.phone;
-            }
-            if (this.invoiceData.email) {
-                document.getElementById('checkout-client-email').value = this.invoiceData.email;
-            }
-            if (this.invoiceData.address) {
-                document.getElementById('checkout-client-address').value = this.invoiceData.address;
-            }
-        }
-    }
+    async createRazorpayOrder(invoiceId) {
+        return this.request('createRazorpayOrder', { invoice_id: invoiceId });
+    },
 
-    renderServicesTable() {
-        const tbody = document.getElementById('services-table-body');
-        
-        let services = [];
-        if (typeof this.invoiceData.services_json === 'string') {
-            services = JSON.parse(this.invoiceData.services_json);
-        } else if (Array.isArray(this.invoiceData.services)) {
-            services = this.invoiceData.services;
-        }
-        
-        tbody.innerHTML = services.map((service, index) => `
-            <tr>
-                <td>${index + 1}</td>
-                <td>${service.name}</td>
-                <td>${service.qty}</td>
-                <td>₹${(service.unit_price || 0).toLocaleString()}</td>
-                <td>₹{(service.total || 0).toLocaleString()}</td>
-            </tr>
-        `).join('');
+    async confirmPayment(paymentData) {
+        return this.request('confirmPayment', paymentData);
     }
+};
 
-    updatePricingSummary() {
-        document.getElementById('summary-subtotal').textContent = `₹${(this.invoiceData.subtotal || 0).toLocaleString()}`;
-        
-        // GST
-        if (this.invoiceData.gst_percent > 0) {
-            document.getElementById('gst-percent-display').textContent = this.invoiceData.gst_percent;
-            document.getElementById('summary-gst').textContent = `₹${(this.invoiceData.gst_amount || 0).toLocaleString()}`;
-            document.getElementById('gst-summary-row').style.display = 'flex';
-        } else {
-            document.getElementById('gst-summary-row').style.display = 'none';
-        }
-        
-        // Total
-        document.getElementById('summary-total').innerHTML = `<strong>₹${(this.invoiceData.total_amount || 0).toLocaleString()}</strong>`;
-    }
+// Payment Handler
+const paymentHandler = {
+    async initializePayment() {
+        if (!state.invoiceData) return;
 
-    validateClientForm() {
-        const name = document.getElementById('checkout-client-name').value;
-        const phone = document.getElementById('checkout-client-phone').value;
-        const email = document.getElementById('checkout-client-email').value;
-        const isValid = name && phone && email;
-        
-        // Basic email validation
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (email && !emailRegex.test(email)) {
-            return false;
-        }
-        
-        // Basic phone validation
-        const phoneRegex = /^[6-9]\d{9}$/;
-        const cleanPhone = phone.replace(/\D/g, '');
-        if (phone && !phoneRegex.test(cleanPhone)) {
-            return false;
-        }
-        
-        return isValid;
-    }
-
-    async initiatePayment() {
-        // Validate client form for new clients
-        if (!this.invoiceData.client_id) {
-            if (!this.validateClientForm()) {
-                this.showError('Please fill in all required client details correctly.');
-                return;
-            }
-            
-            // Update client data from form
-            this.updateClientDataFromForm();
-        }
-        
-        this.showLoading(true);
-        
         try {
+            elements.payNowBtn.disabled = true;
+            elements.paymentProcessing.style.display = 'block';
+            elements.paymentButtons.style.display = 'none';
+
             // Create Razorpay order
-            const orderData = await this.createRazorpayOrder();
+            const orderResult = await api.createRazorpayOrder(state.invoiceData.invoice_id);
             
-            // Initialize Razorpay checkout
-            this.initializeRazorpayCheckout(orderData);
+            // Configure Razorpay options
+            const options = {
+                key: orderResult.key_id,
+                amount: orderResult.amount,
+                currency: orderResult.currency,
+                order_id: orderResult.order_id,
+                name: "InfoGrip Media Solution",
+                description: `Payment for Invoice ${state.invoiceData.invoice_id}`,
+                image: "https://i.postimg.cc/Nj3bmPwC/Infogrip-Medi-Soluiton-(Social-Media)-(1).png",
+                handler: async (response) => {
+                    await this.handlePaymentSuccess(response);
+                },
+                prefill: {
+                    name: state.invoiceData.name,
+                    email: state.invoiceData.email,
+                    contact: state.invoiceData.phone.replace('91', '')
+                },
+                notes: {
+                    invoice_id: state.invoiceData.invoice_id,
+                    client_id: state.invoiceData.client_id
+                },
+                theme: {
+                    color: "#0066FF"
+                }
+            };
+
+            const razorpay = new Razorpay(options);
+            razorpay.open();
             
         } catch (error) {
-            this.showError('Failed to initialize payment. Please try again.');
-            console.error('Payment initiation error:', error);
+            console.error('Payment initialization error:', error);
+            utils.showError('Failed to initialize payment: ' + error.message);
         } finally {
-            this.showLoading(false);
+            elements.payNowBtn.disabled = false;
+            elements.paymentProcessing.style.display = 'none';
+            elements.paymentButtons.style.display = 'block';
         }
-    }
-
-    async createRazorpayOrder() {
-        // CALL REAL GOOGLE APPS SCRIPT API
-        const result = await this.makeAPICall('createRazorpayOrder', {
-            invoice_id: this.invoiceData.invoice_id
-        });
-        
-        if (!result.success) {
-            throw new Error(result.error || 'Failed to create Razorpay order');
-        }
-        
-        return result;
-    }
-
-    initializeRazorpayCheckout(orderData) {
-        const options = {
-            key: orderData.key_id, // This comes from Google Apps Script
-            amount: orderData.amount,
-            currency: orderData.currency,
-            order_id: orderData.order_id,
-            name: 'InfoGrip Media Solution',
-            description: `Payment for Invoice ${this.invoiceData.invoice_id}`,
-            image: 'https://i.postimg.cc/Nj3bmPwC/Infogrip-Medi-Soluiton-(Social-Media)-(1).png',
-            prefill: {
-                name: this.invoiceData.name,
-                email: this.invoiceData.email,
-                contact: this.invoiceData.phone
-            },
-            notes: {
-                invoice_id: this.invoiceData.invoice_id,
-                client_id: this.invoiceData.client_id || 'new'
-            },
-            theme: {
-                color: '#07217c'
-            },
-            handler: (response) => this.handlePaymentSuccess(response),
-            modal: {
-                ondismiss: () => {
-                    console.log('Payment modal dismissed');
-                }
-            }
-        };
-        
-        const rzp = new Razorpay(options);
-        rzp.open();
-    }
+    },
 
     async handlePaymentSuccess(response) {
-        this.showLoading(true);
-        
         try {
-            // Verify payment with server
-            const verificationResult = await this.verifyPayment(response);
+            elements.paymentProcessing.style.display = 'block';
+            elements.paymentButtons.style.display = 'none';
+
+            const paymentData = {
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_signature: response.razorpay_signature,
+                invoice_id: state.invoiceData.invoice_id
+            };
+
+            const result = await api.confirmPayment(paymentData);
             
-            if (verificationResult.success) {
+            if (result.success) {
                 // Redirect to thank you page
-                window.location.href = `thankyou.html?payment_id=${response.razorpay_payment_id}&invoice_id=${this.invoiceData.invoice_id}`;
+                window.location.href = `thankyou.html?invoice_id=${state.invoiceData.invoice_id}&payment_id=${response.razorpay_payment_id}`;
             } else {
-                this.showError('Payment verification failed. Please contact support.');
+                throw new Error(result.error || 'Payment confirmation failed');
             }
-            
         } catch (error) {
-            this.showError('Payment processing error. Please contact support.');
-            console.error('Payment verification error:', error);
-        } finally {
-            this.showLoading(false);
+            console.error('Payment confirmation error:', error);
+            utils.showError('Payment confirmation failed: ' + error.message);
+            
+            elements.paymentProcessing.style.display = 'none';
+            elements.paymentButtons.style.display = 'block';
         }
     }
+};
 
-    async verifyPayment(paymentResponse) {
-        // CALL REAL GOOGLE APPS SCRIPT API
-        const result = await this.makeAPICall('confirmPayment', {
-            invoice_id: this.invoiceData.invoice_id,
-            razorpay_payment_id: paymentResponse.razorpay_payment_id,
-            razorpay_order_id: paymentResponse.razorpay_order_id,
-            razorpay_signature: paymentResponse.razorpay_signature,
-            payment_method: 'Online'
-        });
+// Invoice Renderer
+const invoiceRenderer = {
+    renderInvoice(data) {
+        state.invoiceData = data;
         
-        return result;
+        // Set basic info
+        elements.invoiceDate.textContent = utils.formatDate(data.created_timestamp);
+        elements.displayInvoiceId.textContent = data.invoice_id;
+        elements.displayInvoiceDate.textContent = utils.formatDate(data.created_timestamp);
+        
+        // Render client details
+        elements.clientDetails.innerHTML = `
+            <p><strong>${data.name}</strong></p>
+            <p>${data.phone}</p>
+            ${data.email ? `<p>${data.email}</p>` : ''}
+            ${data.address ? `<p>${data.address}</p>` : ''}
+        `;
+
+        // Parse and render services
+        const services = JSON.parse(data.services_json);
+        elements.servicesTableBody.innerHTML = services.map(service => `
+            <tr>
+                <td>${service.name}</td>
+                <td style="text-align: center;">${service.qty}</td>
+                <td style="text-align: right;">${utils.formatCurrency(service.unit_price)}</td>
+                <td style="text-align: right;">${utils.formatCurrency(service.line_total)}</td>
+            </tr>
+        `).join('');
+
+        // Render totals
+        elements.displaySubtotal.textContent = utils.formatCurrency(data.subtotal);
+        elements.displayDiscount.textContent = utils.formatCurrency(data.discount);
+        elements.displayGstLabel.textContent = `GST (${data.gst_percent}%):`;
+        elements.displayGstAmount.textContent = utils.formatCurrency(data.gst_amount);
+        elements.displayTotal.textContent = utils.formatCurrency(data.total_amount);
+        elements.payAmount.textContent = data.total_amount;
+
+        // Update status
+        if (data.status === 'Paid') {
+            elements.invoiceStatus.textContent = 'Paid';
+            elements.invoiceStatus.className = 'status-badge status-paid';
+            elements.payNowBtn.style.display = 'none';
+            elements.paidState.style.display = 'block';
+        }
+
+        // Show content
+        elements.loadingState.style.display = 'none';
+        elements.invoiceContent.style.display = 'block';
+    }
+};
+
+// URL Parameter Parser
+const urlParser = {
+    getParams() {
+        const urlParams = new URLSearchParams(window.location.search);
+        return {
+            invoice_id: urlParams.get('invoice_id')
+        };
+    }
+};
+
+// Initialize Application
+document.addEventListener('DOMContentLoaded', async function() {
+    const params = urlParser.getParams();
+    
+    if (!params.invoice_id) {
+        utils.showError('Invalid invoice link. Please check the URL and try again.');
+        return;
     }
 
-    updateClientDataFromForm() {
-        this.invoiceData.name = document.getElementById('checkout-client-name').value;
-        this.invoiceData.phone = document.getElementById('checkout-client-phone').value;
-        this.invoiceData.email = document.getElementById('checkout-client-email').value;
-        this.invoiceData.address = document.getElementById('checkout-client-address').value;
-    }
-
-    // Utility methods
-    formatDate(dateString, short = false) {
-        if (!dateString) return 'N/A';
+    try {
+        // Load invoice data
+        const result = await api.getPaymentByInvoiceId(params.invoice_id);
         
-        try {
-            const date = new Date(dateString);
+        if (!result.payment) {
+            throw new Error('Invoice not found');
+        }
+
+        if (result.payment.status === 'Paid') {
+            invoiceRenderer.renderInvoice(result.payment);
+        } else if (result.payment.status === 'Pending') {
+            invoiceRenderer.renderInvoice(result.payment);
             
-            if (short) {
-                return date.toLocaleDateString('en-IN', {
-                    day: '2-digit',
-                    month: 'short',
-                    year: 'numeric'
-                });
-            }
-            
-            return date.toLocaleDateString('en-IN', {
-                day: '2-digit',
-                month: 'short',
-                year: 'numeric',
-                weekday: 'long',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit',
-                hour12: true
+            // Set up payment button
+            elements.payNowBtn.addEventListener('click', () => {
+                paymentHandler.initializePayment();
             });
-        } catch (e) {
-            return 'Invalid Date';
-        }
-    }
-
-    showLoading(show) {
-        const overlay = document.getElementById('loading-overlay');
-        if (show) {
-            overlay.classList.remove('hidden');
         } else {
-            overlay.classList.add('hidden');
+            throw new Error('This invoice is no longer valid');
         }
+        
+    } catch (error) {
+        console.error('Initialization error:', error);
+        utils.showError(error.message);
     }
-
-    showError(message) {
-        document.getElementById('error-message').textContent = message;
-        document.getElementById('error-modal').classList.remove('hidden');
-    }
-
-    closeErrorModal() {
-        document.getElementById('error-modal').classList.add('hidden');
-    }
-}
-
-// Initialize checkout page when DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
-    window.checkoutPage = new CheckoutPage();
 });
