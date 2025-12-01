@@ -3,282 +3,442 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel - InfoGrip Media Solution</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>InfoGrip CRM & Billing | Admin Dashboard</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="https://i.postimg.cc/Nj3bmPwC/Infogrip-Medi-Soluiton-(Social-Media)-(1).png">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
-    <!-- Login Screen -->
-    <div id="loginScreen" class="login-container">
-        <div class="login-card">
-            <div class="text-center mb-4">
-                <img src="https://i.postimg.cc/Nj3bmPwC/Infogrip-Medi-Soluiton-(Social-Media)-(1).png" alt="InfoGrip" style="height: 70px; margin-bottom: 20px;">
-                <h2>Admin Login</h2>
-                <p>Access your payment dashboard</p>
+    <div class="container-fluid admin-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <img src="https://i.postimg.cc/Nj3bmPwC/Infogrip-Medi-Soluiton-(Social-Media)-(1).png" alt="InfoGrip">
+                    <h2>InfoGrip CRM</h2>
+                </div>
+                <div class="admin-info">
+                    <div class="avatar">A</div>
+                    <div class="admin-details">
+                        <h4 id="adminName">Admin User</h4>
+                        <p>admin@infogrip.com</p>
+                    </div>
+                </div>
             </div>
-            <form id="loginForm">
-                <div class="form-group">
-                    <label class="form-label">Email</label>
-                    <input type="email" class="form-control" id="loginEmail" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Password</label>
-                    <input type="password" class="form-control" id="loginPassword" required>
-                </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%;">Login</button>
-            </form>
-            <div id="loginError" class="alert alert-error" style="display: none; margin-top: 15px;"></div>
-        </div>
-    </div>
-
-    <!-- Admin Dashboard -->
-    <div id="adminDashboard" style="display: none;">
-        <header>
-            <div class="container">
-                <nav class="navbar">
-                    <a href="#" class="logo">
-                        <img src="https://i.postimg.cc/Nj3bmPwC/Infogrip-Medi-Soluiton-(Social-Media)-(1).png" alt="InfoGrip">
-                    </a>
-                    <div class="nav-actions">
-                        <span id="adminName" style="margin-right: 15px;"></span>
-                        <button id="logoutBtn" class="btn btn-outline">Logout</button>
-                    </div>
-                </nav>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="active" data-page="dashboard"><a href="#"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+                    <li data-page="clients"><a href="#"><i class="fas fa-users"></i> Clients</a></li>
+                    <li data-page="create-invoice"><a href="#"><i class="fas fa-file-invoice-dollar"></i> Create Invoice</a></li>
+                    <li data-page="subscriptions"><a href="#"><i class="fas fa-sync-alt"></i> Subscriptions</a></li>
+                    <li data-page="payments"><a href="#"><i class="fas fa-history"></i> Payments History</a></li>
+                    <li data-page="services"><a href="#"><i class="fas fa-cogs"></i> Services & Pricing</a></li>
+                    <li data-page="tasks"><a href="#"><i class="fas fa-tasks"></i> Tasks & Follow-ups</a></li>
+                    <li data-page="settings"><a href="#"><i class="fas fa-sliders-h"></i> Settings</a></li>
+                </ul>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <a href="javascript:void(0)" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                <div class="version">v1.0.0</div>
             </div>
-        </header>
+        </aside>
 
-        <main style="margin-top: 100px; padding: 20px 0;">
-            <div class="container">
-                <!-- Dashboard Stats -->
-                <div class="dashboard-stats">
-                    <div class="stat-card">
-                        <div class="stat-number" id="totalClients">0</div>
-                        <div class="stat-label">Total Clients</div>
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Top Header -->
+            <header class="main-header">
+                <div class="header-left">
+                    <h1 id="pageTitle">Dashboard</h1>
+                    <p id="pageSubtitle">Welcome to InfoGrip CRM & Billing System</p>
+                </div>
+                <div class="header-right">
+                    <div class="quick-actions">
+                        <button class="btn btn-primary" id="quickInvoiceBtn"><i class="fas fa-plus-circle"></i> New Invoice</button>
+                        <button class="btn btn-secondary" id="quickClientBtn"><i class="fas fa-user-plus"></i> Add Client</button>
+                        <button class="btn btn-outline" id="exportBtn"><i class="fas fa-download"></i> Export</button>
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-number" id="monthlyRevenue">₹0</div>
-                        <div class="stat-label">Monthly Revenue</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number" id="paymentsToday">0</div>
-                        <div class="stat-label">Payments Today</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number" id="pendingPayments">0</div>
-                        <div class="stat-label">Pending Payments</div>
+                    <div class="notification-bell">
+                        <i class="fas fa-bell"></i>
+                        <span class="badge">3</span>
                     </div>
                 </div>
+            </header>
 
-                <!-- Navigation Tabs -->
-                <div class="card" style="margin-bottom: 30px;">
-                    <div style="display: flex; gap: 10px; border-bottom: 1px solid #eee; padding-bottom: 15px;">
-                        <button class="btn btn-outline active" data-tab="clients">Clients</button>
-                        <button class="btn btn-outline" data-tab="payments">Create Payment</button>
-                        <button class="btn btn-outline" data-tab="history">Payment History</button>
-                        <button class="btn btn-outline" data-tab="reports">Reports</button>
-                    </div>
-                </div>
-
-                <!-- Clients Tab -->
-                <div id="clientsTab" class="tab-content active">
-                    <div class="card">
-                        <div style="display: flex; justify-content: between; align-items: center; margin-bottom: 20px;">
-                            <h3>Clients Management</h3>
-                            <button class="btn btn-primary" id="addClientBtn">
-                                <i class="fas fa-plus"></i> Add Client
-                            </button>
-                        </div>
-                        
-                        <div style="display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap;">
-                            <input type="text" id="clientSearch" class="form-control" placeholder="Search clients..." style="flex: 1; min-width: 200px;">
-                            <button class="btn btn-outline" id="exportClientsBtn">
-                                <i class="fas fa-download"></i> Export CSV
-                            </button>
-                            <button class="btn btn-outline" id="importClientsBtn">
-                                <i class="fas fa-upload"></i> Import CSV
-                            </button>
-                        </div>
-
-                        <div class="table-responsive">
-                            <table class="table" id="clientsTable">
-                                <thead>
-                                    <tr>
-                                        <th>Client ID</th>
-                                        <th>Name</th>
-                                        <th>Phone</th>
-                                        <th>Email</th>
-                                        <th>Default Service</th>
-                                        <th>Billing Cycle</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="clientsTableBody">
-                                    <!-- Clients will be loaded here -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Create Payment Tab -->
-                <div id="paymentsTab" class="tab-content">
-                    <div class="card">
-                        <h3 style="margin-bottom: 20px;">Create New Payment</h3>
-                        
-                        <!-- Client Selection -->
-                        <div class="form-group">
-                            <label class="form-label">Select Client</label>
-                            <select class="form-control" id="clientSelect">
-                                <option value="">Select existing client or create new</option>
-                            </select>
-                            <div style="margin-top: 10px;">
-                                <input type="checkbox" id="saveNewClient" checked>
-                                <label for="saveNewClient">Save as new client</label>
-                            </div>
-                        </div>
-
-                        <!-- New Client Form (shown when no client selected) -->
-                        <div id="newClientForm" style="display: none;">
-                            <h4 style="margin-bottom: 15px;">New Client Information</h4>
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                                <div class="form-group">
-                                    <label class="form-label">Name *</label>
-                                    <input type="text" class="form-control" id="newClientName">
+            <!-- Content Pages -->
+            <div class="content-pages">
+                <!-- Dashboard Page -->
+                <section id="dashboardPage" class="page active">
+                    <div class="row">
+                        <!-- KPI Cards -->
+                        <div class="col-12 col-md-6 col-lg-3">
+                            <div class="kpi-card">
+                                <div class="kpi-icon clients">
+                                    <i class="fas fa-users"></i>
                                 </div>
-                                <div class="form-group">
-                                    <label class="form-label">Phone *</label>
-                                    <input type="tel" class="form-control" id="newClientPhone">
+                                <div class="kpi-content">
+                                    <h3 id="totalClients">0</h3>
+                                    <p>Total Clients</p>
                                 </div>
-                                <div class="form-group">
-                                    <label class="form-label">Email</label>
-                                    <input type="email" class="form-control" id="newClientEmail">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Address</label>
-                                    <input type="text" class="form-control" id="newClientAddress">
+                                <div class="kpi-trend up">
+                                    <i class="fas fa-arrow-up"></i> 12%
                                 </div>
                             </div>
                         </div>
-
-                        <!-- Services Section -->
-                        <h4 style="margin: 30px 0 15px 0;">Services</h4>
-                        <div id="servicesContainer">
-                            <!-- Service rows will be added here -->
-                        </div>
-                        <button type="button" class="btn btn-outline" id="addServiceBtn" style="margin-top: 15px;">
-                            <i class="fas fa-plus"></i> Add Service
-                        </button>
-
-                        <!-- Totals Section -->
-                        <div class="invoice-totals">
-                            <div class="total-row">
-                                <span>Subtotal:</span>
-                                <span id="subtotalAmount">₹0</span>
+                        <div class="col-12 col-md-6 col-lg-3">
+                            <div class="kpi-card">
+                                <div class="kpi-icon subscriptions">
+                                    <i class="fas fa-sync-alt"></i>
+                                </div>
+                                <div class="kpi-content">
+                                    <h3 id="activeSubscriptions">0</h3>
+                                    <p>Active Subscriptions</p>
+                                </div>
+                                <div class="kpi-trend up">
+                                    <i class="fas fa-arrow-up"></i> 8%
+                                </div>
                             </div>
-                            <div class="total-row">
-                                <span>
-                                    Discount: 
-                                    <input type="number" id="discountAmount" value="0" min="0" style="width: 80px; padding: 2px 5px; margin-left: 10px;">
-                                    <select id="discountType" style="margin-left: 5px;">
-                                        <option value="fixed">₹</option>
-                                        <option value="percent">%</option>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-3">
+                            <div class="kpi-card">
+                                <div class="kpi-icon revenue">
+                                    <i class="fas fa-rupee-sign"></i>
+                                </div>
+                                <div class="kpi-content">
+                                    <h3 id="monthlyRevenue">₹0</h3>
+                                    <p>Revenue (30 Days)</p>
+                                </div>
+                                <div class="kpi-trend up">
+                                    <i class="fas fa-arrow-up"></i> 24%
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-3">
+                            <div class="kpi-card">
+                                <div class="kpi-icon payments">
+                                    <i class="fas fa-credit-card"></i>
+                                </div>
+                                <div class="kpi-content">
+                                    <h3 id="todayPayments">0</h3>
+                                    <p>Payments Today</p>
+                                </div>
+                                <div class="kpi-trend down">
+                                    <i class="fas fa-arrow-down"></i> 5%
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-4">
+                        <!-- Revenue Chart -->
+                        <div class="col-12 col-lg-8">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3>Revenue Overview (Last 30 Days)</h3>
+                                    <select id="chartFilter" class="form-select">
+                                        <option value="30">Last 30 Days</option>
+                                        <option value="7">Last 7 Days</option>
+                                        <option value="90">Last 90 Days</option>
                                     </select>
-                                </span>
-                                <span id="discountDisplay">₹0</span>
-                            </div>
-                            <div class="total-row">
-                                <span>
-                                    GST: 
-                                    <input type="number" id="gstPercent" value="0" min="0" max="100" step="0.1" style="width: 80px; padding: 2px 5px; margin-left: 10px;">%
-                                </span>
-                                <span id="gstAmount">₹0</span>
-                            </div>
-                            <div class="total-row final">
-                                <span>Total Amount:</span>
-                                <span id="totalAmount">₹0</span>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="revenueChart"></canvas>
+                                </div>
                             </div>
                         </div>
-
-                        <!-- Action Buttons -->
-                        <div style="display: flex; gap: 15px; margin-top: 30px;">
-                            <button class="btn btn-primary" id="generateInvoiceBtn">
-                                Generate Checkout Link
-                            </button>
-                            <button class="btn btn-outline" id="previewInvoiceBtn">
-                                Preview Invoice
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Payment History Tab -->
-                <div id="historyTab" class="tab-content">
-                    <div class="card">
-                        <h3 style="margin-bottom: 20px;">Payment History</h3>
                         
-                        <!-- Filters -->
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px;">
-                            <div class="form-group">
-                                <label class="form-label">Date From</label>
-                                <input type="date" class="form-control" id="filterDateFrom">
+                        <!-- Expiring Subscriptions -->
+                        <div class="col-12 col-lg-4">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3>Expiring Soon (7 Days)</h3>
+                                    <button class="btn btn-sm btn-primary" id="sendRemindersBtn">Send Reminders</button>
+                                </div>
+                                <div class="card-body">
+                                    <div class="expiring-list" id="expiringSubscriptions">
+                                        <div class="empty-state">
+                                            <i class="fas fa-check-circle"></i>
+                                            <p>No subscriptions expiring soon</p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label class="form-label">Date To</label>
-                                <input type="date" class="form-control" id="filterDateTo">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Status</label>
-                                <select class="form-control" id="filterStatus">
-                                    <option value="">All</option>
-                                    <option value="Pending">Pending</option>
-                                    <option value="Paid">Paid</option>
-                                    <option value="Failed">Failed</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Client</label>
-                                <input type="text" class="form-control" id="filterClient" placeholder="Search client...">
-                            </div>
-                        </div>
-
-                        <div style="display: flex; gap: 15px; margin-bottom: 20px;">
-                            <button class="btn btn-primary" id="applyFiltersBtn">Apply Filters</button>
-                            <button class="btn btn-outline" id="exportPaymentsBtn">Export CSV</button>
-                            <button class="btn btn-outline" id="clearFiltersBtn">Clear Filters</button>
-                        </div>
-
-                        <div class="table-responsive">
-                            <table class="table" id="paymentsTable">
-                                <thead>
-                                    <tr>
-                                        <th>Invoice ID</th>
-                                        <th>Client</th>
-                                        <th>Amount</th>
-                                        <th>Status</th>
-                                        <th>Created</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="paymentsTableBody">
-                                    <!-- Payments will be loaded here -->
-                                </tbody>
-                            </table>
                         </div>
                     </div>
-                </div>
 
-                <!-- Reports Tab -->
-                <div id="reportsTab" class="tab-content">
+                    <!-- Recent Activities -->
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3>Recent Activities</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="activities-timeline" id="recentActivities">
+                                        <div class="activity-item">
+                                            <div class="activity-icon success">
+                                                <i class="fas fa-check-circle"></i>
+                                            </div>
+                                            <div class="activity-content">
+                                                <h4>Payment Received</h4>
+                                                <p>Rohit Sharma paid ₹8,500 for Social Media Management</p>
+                                                <span class="activity-time">Just now</span>
+                                            </div>
+                                        </div>
+                                        <div class="activity-item">
+                                            <div class="activity-icon info">
+                                                <i class="fas fa-user-plus"></i>
+                                            </div>
+                                            <div class="activity-content">
+                                                <h4>New Client Added</h4>
+                                                <p>Simran Kaur added to CRM</p>
+                                                <span class="activity-time">2 hours ago</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Clients Page -->
+                <section id="clientsPage" class="page">
                     <div class="card">
-                        <h3 style="margin-bottom: 20px;">Analytics & Reports</h3>
-                        <div id="reportsContent">
-                            <!-- Charts and reports will be loaded here -->
+                        <div class="card-header">
+                            <h3>Clients Management</h3>
+                            <div class="header-actions">
+                                <div class="search-box">
+                                    <i class="fas fa-search"></i>
+                                    <input type="text" id="clientSearch" placeholder="Search clients...">
+                                </div>
+                                <button class="btn btn-primary" id="addClientBtn">
+                                    <i class="fas fa-plus"></i> Add Client
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table" id="clientsTable">
+                                    <thead>
+                                        <tr>
+                                            <th><input type="checkbox" id="selectAllClients"></th>
+                                            <th>Client ID</th>
+                                            <th>Name</th>
+                                            <th>Phone</th>
+                                            <th>Email</th>
+                                            <th>Active Subscriptions</th>
+                                            <th>Total Spent</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="clientsTableBody">
+                                        <!-- Clients will be loaded here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="table-footer">
+                                <div class="pagination-info">
+                                    Showing <span id="showingCount">0</span> of <span id="totalCount">0</span> clients
+                                </div>
+                                <div class="pagination-controls">
+                                    <button class="btn btn-sm" id="prevPageBtn" disabled><i class="fas fa-chevron-left"></i></button>
+                                    <span class="page-info">Page <span id="currentPage">1</span></span>
+                                    <button class="btn btn-sm" id="nextPageBtn" disabled><i class="fas fa-chevron-right"></i></button>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </section>
+
+                <!-- Create Invoice Page -->
+                <section id="createInvoicePage" class="page">
+                    <div class="row">
+                        <div class="col-12 col-lg-8">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3>Create New Invoice</h3>
+                                </div>
+                                <div class="card-body">
+                                    <!-- Client Selection -->
+                                    <div class="form-group">
+                                        <label for="clientSelect">Select Client *</label>
+                                        <div class="input-group">
+                                            <select id="clientSelect" class="form-control">
+                                                <option value="">Select a client or add new</option>
+                                            </select>
+                                            <button class="btn btn-outline" id="quickAddClientBtn">
+                                                <i class="fas fa-plus"></i> Add New
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <!-- Invoice Items Table -->
+                                    <div class="invoice-items-section">
+                                        <h4>Invoice Items</h4>
+                                        <div class="table-responsive">
+                                            <table class="table" id="invoiceItemsTable">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Service</th>
+                                                        <th>Description</th>
+                                                        <th width="100">Quantity</th>
+                                                        <th width="150">Unit Price (₹)</th>
+                                                        <th width="150">Total (₹)</th>
+                                                        <th width="50"></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="invoiceItemsBody">
+                                                    <tr>
+                                                        <td>
+                                                            <select class="form-control service-select">
+                                                                <option value="">Select Service</option>
+                                                            </select>
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" class="form-control description" placeholder="Description">
+                                                        </td>
+                                                        <td>
+                                                            <input type="number" class="form-control quantity" value="1" min="1">
+                                                        </td>
+                                                        <td>
+                                                            <input type="number" class="form-control unit-price" placeholder="0.00" step="0.01">
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" class="form-control total" value="0.00" readonly>
+                                                        </td>
+                                                        <td>
+                                                            <button class="btn btn-danger btn-sm remove-item" disabled>
+                                                                <i class="fas fa-trash"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <button class="btn btn-outline" id="addItemBtn">
+                                            <i class="fas fa-plus"></i> Add Another Item
+                                        </button>
+                                    </div>
+
+                                    <!-- Discount & GST -->
+                                    <div class="row mt-4">
+                                        <div class="col-12 col-md-6">
+                                            <div class="form-group">
+                                                <label for="discountType">Discount</label>
+                                                <div class="input-group">
+                                                    <select id="discountType" class="form-control">
+                                                        <option value="none">No Discount</option>
+                                                        <option value="fixed">Fixed Amount</option>
+                                                        <option value="percentage">Percentage</option>
+                                                    </select>
+                                                    <input type="number" id="discountValue" class="form-control" placeholder="0" disabled>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-6">
+                                            <div class="form-group">
+                                                <label for="gstPercent">GST (%)</label>
+                                                <input type="number" id="gstPercent" class="form-control" value="18" min="0" max="100">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-4">
+                            <!-- Invoice Summary -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3>Invoice Summary</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="summary-item">
+                                        <span>Subtotal</span>
+                                        <span id="subtotalAmount">₹0.00</span>
+                                    </div>
+                                    <div class="summary-item">
+                                        <span>Discount</span>
+                                        <span id="discountAmount">-₹0.00</span>
+                                    </div>
+                                    <div class="summary-item">
+                                        <span>GST (<span id="gstDisplay">18</span>%)</span>
+                                        <span id="gstAmount">₹0.00</span>
+                                    </div>
+                                    <div class="summary-total">
+                                        <span>Total Amount</span>
+                                        <span id="totalAmount">₹0.00</span>
+                                    </div>
+
+                                    <!-- Subscription Options -->
+                                    <div class="form-group mt-4">
+                                        <label class="checkbox-label">
+                                            <input type="checkbox" id="isSubscription">
+                                            <span>Make this a recurring subscription</span>
+                                        </label>
+                                        <div id="subscriptionOptions" style="display: none;">
+                                            <select id="billingCycle" class="form-control mt-2">
+                                                <option value="monthly">Monthly</option>
+                                                <option value="quarterly">Quarterly (3 months)</option>
+                                                <option value="yearly">Yearly</option>
+                                            </select>
+                                            <div class="form-group mt-2">
+                                                <label class="checkbox-label">
+                                                    <input type="checkbox" id="autoRenew">
+                                                    <span>Auto-renew subscription</span>
+                                                </label>
+                                            </div>
+                                            <div class="form-group mt-2">
+                                                <label class="checkbox-label">
+                                                    <input type="checkbox" id="saveAsDefault">
+                                                    <span>Save as default services for client</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Action Buttons -->
+                                    <div class="action-buttons mt-4">
+                                        <button class="btn btn-primary btn-block" id="generateInvoiceBtn">
+                                            <i class="fas fa-file-invoice"></i> Generate Invoice
+                                        </button>
+                                        <button class="btn btn-outline btn-block mt-2" id="saveDraftBtn">
+                                            <i class="fas fa-save"></i> Save as Draft
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Quick Actions -->
+                            <div class="card mt-4">
+                                <div class="card-header">
+                                    <h3>Quick Actions</h3>
+                                </div>
+                                <div class="card-body">
+                                    <button class="btn btn-outline btn-block" id="clearFormBtn">
+                                        <i class="fas fa-broom"></i> Clear Form
+                                    </button>
+                                    <button class="btn btn-outline btn-block mt-2" id="useTemplateBtn">
+                                        <i class="fas fa-copy"></i> Use Template
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Other pages will be loaded dynamically -->
+                <section id="subscriptionsPage" class="page"></section>
+                <section id="paymentsPage" class="page"></section>
+                <section id="servicesPage" class="page"></section>
+                <section id="tasksPage" class="page"></section>
+                <section id="settingsPage" class="page"></section>
             </div>
         </main>
     </div>
@@ -286,90 +446,162 @@
     <!-- Modals -->
     <!-- Add/Edit Client Modal -->
     <div class="modal" id="clientModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="clientModalTitle">Add Client</h3>
-                <button class="modal-close" data-modal="clientModal">&times;</button>
-            </div>
-            <form id="clientForm">
-                <input type="hidden" id="editClientId">
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                    <div class="form-group">
-                        <label class="form-label">Name *</label>
-                        <input type="text" class="form-control" id="clientName" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Phone *</label>
-                        <input type="tel" class="form-control" id="clientPhone" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Email</label>
-                        <input type="email" class="form-control" id="clientEmail">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Default Service</label>
-                        <select class="form-control" id="clientDefaultService">
-                            <option value="">Select Service</option>
-                        </select>
-                    </div>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="modalClientTitle">Add New Client</h3>
+                    <button class="modal-close">&times;</button>
                 </div>
-                <div class="form-group">
-                    <label class="form-label">Address</label>
-                    <textarea class="form-control" id="clientAddress" rows="3"></textarea>
+                <div class="modal-body">
+                    <form id="clientForm">
+                        <div class="form-group">
+                            <label for="clientName">Full Name *</label>
+                            <input type="text" id="clientName" class="form-control" required>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <label for="clientPhone">Phone Number *</label>
+                                    <input type="tel" id="clientPhone" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <label for="clientEmail">Email Address</label>
+                                    <input type="email" id="clientEmail" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="clientAddress">Address</label>
+                            <textarea id="clientAddress" class="form-control" rows="2"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="clientTags">Tags (comma separated)</label>
+                            <input type="text" id="clientTags" class="form-control" placeholder="e.g., VIP, Gym, Restaurant">
+                        </div>
+                        <div class="form-group">
+                            <label for="clientNotes">Notes</label>
+                            <textarea id="clientNotes" class="form-control" rows="3"></textarea>
+                        </div>
+                        <input type="hidden" id="clientId">
+                    </form>
                 </div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                    <div class="form-group">
-                        <label class="form-label">Default Amount</label>
-                        <input type="number" class="form-control" id="clientDefaultAmount" min="0" step="0.01">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Billing Cycle</label>
-                        <select class="form-control" id="clientBillingCycle">
-                            <option value="one-time">One Time</option>
-                            <option value="monthly">Monthly</option>
-                            <option value="quarterly">Quarterly</option>
-                            <option value="yearly">Yearly</option>
-                        </select>
-                    </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary modal-close">Cancel</button>
+                    <button class="btn btn-primary" id="saveClientBtn">Save Client</button>
                 </div>
-                <div class="form-group">
-                    <label class="form-label">Notes</label>
-                    <textarea class="form-control" id="clientNotes" rows="2"></textarea>
-                </div>
-                <div style="display: flex; gap: 15px; margin-top: 20px;">
-                    <button type="submit" class="btn btn-primary">Save Client</button>
-                    <button type="button" class="btn btn-outline" data-modal="clientModal">Cancel</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Invoice Preview Modal -->
-    <div class="modal" id="previewModal">
-        <div class="modal-content" style="max-width: 800px;">
-            <div class="modal-header">
-                <h3>Invoice Preview</h3>
-                <button class="modal-close" data-modal="previewModal">&times;</button>
-            </div>
-            <div id="invoicePreviewContent">
-                <!-- Invoice preview will be loaded here -->
             </div>
         </div>
     </div>
 
-    <!-- Checkout Link Modal -->
-    <div class="modal" id="checkoutModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Checkout Link Generated</h3>
-                <button class="modal-close" data-modal="checkoutModal">&times;</button>
-            </div>
-            <div id="checkoutContent">
-                <!-- Checkout link and actions will be shown here -->
+    <!-- Duplicate Client Modal -->
+    <div class="modal" id="duplicateModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Duplicate Client Found</h3>
+                    <button class="modal-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>A client with similar details already exists:</p>
+                    <div class="duplicate-client-info">
+                        <p><strong>Name:</strong> <span id="dupClientName"></span></p>
+                        <p><strong>Phone:</strong> <span id="dupClientPhone"></span></p>
+                        <p><strong>Email:</strong> <span id="dupClientEmail"></span></p>
+                    </div>
+                    <p>What would you like to do?</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" id="useExistingBtn">Use Existing Client</button>
+                    <button class="btn btn-warning" id="mergeBtn">Merge Details</button>
+                    <button class="btn btn-primary" id="createNewBtn">Create New Anyway</button>
+                </div>
             </div>
         </div>
     </div>
 
+    <!-- Invoice Generated Modal -->
+    <div class="modal" id="invoiceModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Invoice Generated Successfully!</h3>
+                    <button class="modal-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="invoice-success">
+                        <div class="success-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <h4>Invoice ID: <span id="generatedInvoiceId"></span></h4>
+                        <p>Total Amount: <strong id="generatedAmount"></strong></p>
+                        
+                        <div class="share-options mt-4">
+                            <h5>Share Payment Link:</h5>
+                            <div class="input-group mb-3">
+                                <input type="text" id="paymentLink" class="form-control" readonly>
+                                <button class="btn btn-primary" id="copyLinkBtn">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                            </div>
+                            
+                            <div class="qr-code-container">
+                                <div id="qrcode"></div>
+                                <p>Scan to pay</p>
+                            </div>
+                            
+                            <div class="share-buttons mt-4">
+                                <button class="btn btn-success" id="whatsappShareBtn">
+                                    <i class="fab fa-whatsapp"></i> Send via WhatsApp
+                                </button>
+                                <button class="btn btn-primary" id="emailShareBtn">
+                                    <i class="fas fa-envelope"></i> Send Email
+                                </button>
+                                <button class="btn btn-outline" id="smsShareBtn">
+                                    <i class="fas fa-sms"></i> Send SMS
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary modal-close">Close</button>
+                    <button class="btn btn-primary" id="viewInvoiceBtn">View Invoice</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal" style="display: none;">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Admin Login</h3>
+                </div>
+                <div class="modal-body">
+                    <form id="loginForm">
+                        <div class="form-group">
+                            <label for="adminEmail">Email Address</label>
+                            <input type="email" id="adminEmail" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="adminPassword">Password</label>
+                            <input type="password" id="adminPassword" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="adminSecret">Admin Secret</label>
+                            <input type="password" id="adminSecret" class="form-control" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Login</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.0/build/qrcode.min.js"></script>
     <script src="admin.js"></script>
 </body>
 </html>
