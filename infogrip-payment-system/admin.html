@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard - InfoGrip Media Solution</title>
+    <title>Admin Dashboard | InfoGrip Media Solution</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -12,362 +12,396 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-        <div class="container">
-            <nav class="navbar">
-                <a href="#" class="logo">
-                    <img src="https://i.postimg.cc/Nj3bmPwC/Infogrip-Medi-Soluiton-(Social-Media)-(1).png" alt="InfoGrip Media Solution">
-                </a>
-                <ul class="nav-menu">
-                    <li><a href="#dashboard">Dashboard</a></li>
-                    <li><a href="#clients">Clients</a></li>
-                    <li><a href="#payments">Payments</a></li>
-                    <li><a href="#subscriptions">Subscriptions</a></li>
-                    <li><a href="#reports">Reports</a></li>
-                    <li><a href="index.html" target="_blank">Main Website</a></li>
-                </ul>
-                <div class="nav-actions">
-                    <button class="theme-toggle" id="theme-toggle">
-                        <i class="fas fa-moon"></i>
-                    </button>
-                    <button class="btn btn-sm btn-primary" id="new-invoice">
-                        <i class="fas fa-plus"></i> New Invoice
-                    </button>
-                    <div class="hamburger">
-                        <span class="bar"></span>
-                        <span class="bar"></span>
-                        <span class="bar"></span>
-                    </div>
-                </div>
-            </nav>
-        </div>
-    </header>
-
-    <!-- Main Content -->
-    <main class="container" style="margin-top: 100px;">
-        <!-- Dashboard KPIs -->
-        <section id="dashboard">
-            <h1 class="mb-4">Admin Dashboard</h1>
-            <div class="dashboard-grid">
-                <div class="card stat-card">
-                    <div class="stat-number" id="total-revenue">₹0</div>
-                    <div class="stat-label">Total Revenue</div>
-                </div>
-                <div class="card stat-card">
-                    <div class="stat-number" id="pending-invoices">0</div>
-                    <div class="stat-label">Pending Invoices</div>
-                </div>
-                <div class="card stat-card">
-                    <div class="stat-number" id="active-clients">0</div>
-                    <div class="stat-label">Active Clients</div>
-                </div>
-                <div class="card stat-card">
-                    <div class="stat-number" id="renewals-due">0</div>
-                    <div class="stat-label">Renewals Due (7 days)</div>
+    <!-- Premium Header -->
+    <header class="premium-header">
+        <nav class="navbar-premium">
+            <div class="logo-premium">
+                <img src="https://i.postimg.cc/Nj3bmPwC/Infogrip-Medi-Soluiton-(Social-Media)-(1).png" alt="InfoGrip">
+                <div class="logo-text">
+                    <h1>InfoGrip CRM</h1>
+                    <span>Premium Admin Dashboard</span>
                 </div>
             </div>
-        </section>
+            
+            <div class="nav-premium">
+                <ul class="nav-links">
+                    <li><a href="#dashboard" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
+                    <li><a href="#clients"><i class="fas fa-users"></i> Clients</a></li>
+                    <li><a href="#invoices"><i class="fas fa-file-invoice"></i> Invoices</a></li>
+                    <li><a href="#subscriptions"><i class="fas fa-calendar-alt"></i> Subscriptions</a></li>
+                    <li><a href="#reports"><i class="fas fa-chart-bar"></i> Reports</a></li>
+                </ul>
+                
+                <div class="user-menu">
+                    <div class="notification-bell">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    
+                    <div class="theme-toggle-premium" id="theme-toggle">
+                        <i class="fas fa-moon"></i>
+                    </div>
+                    
+                    <div class="user-profile" id="user-profile">
+                        <div class="avatar">AS</div>
+                        <div class="user-info">
+                            <h4>Admin User</h4>
+                            <p>Super Admin</p>
+                        </div>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="menu-toggle" id="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Premium Sidebar -->
+    <aside class="premium-sidebar" id="sidebar">
+        <ul class="sidebar-menu">
+            <li class="menu-item">
+                <a href="#dashboard" class="active">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            
+            <li class="menu-item">
+                <a href="#quick-actions">
+                    <i class="fas fa-bolt"></i>
+                    <span>Quick Actions</span>
+                </a>
+            </li>
+            
+            <div class="menu-divider"></div>
+            
+            <li class="menu-item">
+                <a href="#all-clients">
+                    <i class="fas fa-user-friends"></i>
+                    <span>All Clients</span>
+                </a>
+            </li>
+            
+            <li class="menu-item">
+                <a href="#add-client">
+                    <i class="fas fa-user-plus"></i>
+                    <span>Add New Client</span>
+                </a>
+            </li>
+            
+            <li class="menu-item">
+                <a href="#client-groups">
+                    <i class="fas fa-object-group"></i>
+                    <span>Client Groups</span>
+                </a>
+            </li>
+            
+            <div class="menu-divider"></div>
+            
+            <li class="menu-item">
+                <a href="#create-invoice">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                    <span>Create Invoice</span>
+                </a>
+            </li>
+            
+            <li class="menu-item">
+                <a href="#pending-invoices">
+                    <i class="fas fa-clock"></i>
+                    <span>Pending Invoices</span>
+                    <span class="badge-premium badge-warning ml-2">12</span>
+                </a>
+            </li>
+            
+            <li class="menu-item">
+                <a href="#paid-invoices">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Paid Invoices</span>
+                </a>
+            </li>
+            
+            <div class="menu-divider"></div>
+            
+            <li class="menu-item">
+                <a href="#active-subscriptions">
+                    <i class="fas fa-sync-alt"></i>
+                    <span>Active Subscriptions</span>
+                </a>
+            </li>
+            
+            <li class="menu-item">
+                <a href="#renewals-due">
+                    <i class="fas fa-bell"></i>
+                    <span>Renewals Due</span>
+                    <span class="badge-premium badge-danger ml-2">5</span>
+                </a>
+            </li>
+            
+            <div class="menu-divider"></div>
+            
+            <li class="menu-item">
+                <a href="#analytics">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Analytics</span>
+                </a>
+            </li>
+            
+            <li class="menu-item">
+                <a href="#reports">
+                    <i class="fas fa-file-alt"></i>
+                    <span>Reports</span>
+                </a>
+            </li>
+            
+            <li class="menu-item">
+                <a href="#settings">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+            </li>
+        </ul>
+    </aside>
+
+    <!-- Premium Main Content -->
+    <main class="premium-main" id="main-content">
+        <!-- Dashboard Header -->
+        <div class="dashboard-header fade-in-up">
+            <h1>Welcome back, Admin! 👋</h1>
+            <div class="header-actions">
+                <button class="btn-premium btn-secondary-premium" id="refresh-btn">
+                    <i class="fas fa-sync-alt"></i> Refresh
+                </button>
+                <button class="btn-premium btn-primary-premium" id="new-invoice-btn">
+                    <i class="fas fa-plus"></i> New Invoice
+                </button>
+            </div>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid fade-in-up">
+            <div class="stat-card-premium">
+                <div class="stat-icon">
+                    <i class="fas fa-rupee-sign"></i>
+                </div>
+                <div class="stat-content">
+                    <h3 id="total-revenue">₹0</h3>
+                    <p>Total Revenue</p>
+                    <div class="stat-trend trend-up">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>12% from last month</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stat-card-premium">
+                <div class="stat-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-content">
+                    <h3 id="total-clients">0</h3>
+                    <p>Active Clients</p>
+                    <div class="stat-trend trend-up">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>8 new this month</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stat-card-premium">
+                <div class="stat-icon">
+                    <i class="fas fa-file-invoice"></i>
+                </div>
+                <div class="stat-content">
+                    <h3 id="pending-invoices">0</h3>
+                    <p>Pending Invoices</p>
+                    <div class="stat-trend trend-down">
+                        <i class="fas fa-arrow-down"></i>
+                        <span>3 overdue</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stat-card-premium">
+                <div class="stat-icon">
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+                <div class="stat-content">
+                    <h3 id="renewals-due">0</h3>
+                    <p>Renewals Due (7 days)</p>
+                    <div class="stat-trend trend-up">
+                        <i class="fas fa-bell"></i>
+                        <span>Send reminders</span>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- Charts Section -->
-        <section class="mt-5">
-            <div class="dashboard-grid">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Revenue Trends</h3>
-                        <select id="revenue-period" class="form-control" style="width: auto;">
+        <div class="charts-grid fade-in-up">
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h3>Revenue Overview</h3>
+                    <div class="chart-actions">
+                        <select class="form-control-premium" style="width: auto;" id="revenue-period">
                             <option value="7d">Last 7 Days</option>
-                            <option value="30d">Last 30 Days</option>
+                            <option value="30d" selected>Last 30 Days</option>
                             <option value="90d">Last 90 Days</option>
                         </select>
                     </div>
-                    <canvas id="revenueChart" height="250"></canvas>
                 </div>
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Payment Status</h3>
-                    </div>
-                    <canvas id="paymentChart" height="250"></canvas>
-                </div>
+                <canvas id="revenueChart" height="250"></canvas>
             </div>
-        </section>
+            
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h3>Payment Status</h3>
+                </div>
+                <canvas id="paymentChart" height="250"></canvas>
+            </div>
+        </div>
 
-        <!-- Recent Payments -->
-        <section id="payments" class="mt-5">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Recent Payments</h3>
-                    <button class="btn btn-sm btn-outline" id="refresh-payments">
-                        <i class="fas fa-sync"></i> Refresh
-                    </button>
-                </div>
-                <div class="table-responsive">
-                    <table class="table" id="payments-table">
-                        <thead>
-                            <tr>
-                                <th>Invoice ID</th>
-                                <th>Client</th>
-                                <th>Amount</th>
-                                <th>Status</th>
-                                <th>Date</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="payments-body">
-                            <!-- Payments will be loaded here -->
-                        </tbody>
-                    </table>
-                </div>
-                <div class="text-center mt-3">
-                    <button class="btn btn-outline" id="load-more-payments">
-                        <i class="fas fa-chevron-down"></i> Load More
-                    </button>
-                </div>
+        <!-- Recent Invoices Table -->
+        <div class="table-card fade-in-up">
+            <div class="table-header">
+                <h3>Recent Invoices</h3>
+                <button class="btn-premium btn-sm-premium btn-secondary-premium" id="view-all-invoices">
+                    <i class="fas fa-eye"></i> View All
+                </button>
             </div>
-        </section>
+            <div class="table-container">
+                <table class="premium-table">
+                    <thead>
+                        <tr>
+                            <th>Invoice ID</th>
+                            <th>Client</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recent-invoices-body">
+                        <!-- Data will be loaded here -->
+                        <tr>
+                            <td colspan="6" class="text-center p-4">
+                                <div class="loading-spinner"></div>
+                                <p>Loading invoices...</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-        <!-- Upcoming Renewals -->
-        <section id="subscriptions" class="mt-5">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Upcoming Renewals</h3>
-                    <div class="flex gap-2">
-                        <select id="renewal-period" class="form-control" style="width: auto;">
-                            <option value="7">7 Days</option>
-                            <option value="14">14 Days</option>
-                            <option value="30">30 Days</option>
-                        </select>
-                        <button class="btn btn-sm btn-primary" id="send-bulk-reminders">
-                            <i class="fas fa-paper-plane"></i> Send Reminders
-                        </button>
-                    </div>
-                </div>
-                <div class="table-responsive">
-                    <table class="table" id="renewals-table">
-                        <thead>
-                            <tr>
-                                <th>Client</th>
-                                <th>Service</th>
-                                <th>Amount</th>
-                                <th>Due Date</th>
-                                <th>Auto Renew</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="renewals-body">
-                            <!-- Renewals will be loaded here -->
-                        </tbody>
-                    </table>
-                </div>
+        <!-- Quick Actions -->
+        <div class="mt-4 fade-in-up">
+            <div class="table-header">
+                <h3>Quick Actions</h3>
             </div>
-        </section>
+            <div class="flex gap-4 mt-4">
+                <button class="btn-premium btn-secondary-premium" id="send-reminders-btn">
+                    <i class="fas fa-bell"></i> Send Reminders
+                </button>
+                <button class="btn-premium btn-secondary-premium" id="export-data-btn">
+                    <i class="fas fa-download"></i> Export Data
+                </button>
+                <button class="btn-premium btn-secondary-premium" id="create-subscription-btn">
+                    <i class="fas fa-calendar-plus"></i> Create Subscription
+                </button>
+                <button class="btn-premium btn-secondary-premium" id="view-reports-btn">
+                    <i class="fas fa-chart-pie"></i> View Reports
+                </button>
+            </div>
+        </div>
+
+        <!-- Premium Footer -->
+        <footer class="premium-footer">
+            <p>&copy; 2025 InfoGrip Media Solution Ltd. | Premium CRM System v2.0</p>
+            <p class="mt-2">Phone: +91 6367556906 | Email: infogripmarketing@gmail.com</p>
+        </footer>
     </main>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-col">
-                    <img src="https://i.postimg.cc/Nj3bmPwC/Infogrip-Medi-Soluiton-(Social-Media)-(1).png" alt="InfoGrip Media Solution" style="height: 70px; margin-bottom: 20px;">
-                    <p>Need Expert Help? We're Just a Message Away!</p>
-                    <div class="social-links">
-                        <a href="https://www.facebook.com/profile.php?id=61582320555612" class="social-link" target="_blank"><i class="fab fa-facebook-f"></i></a>
-                        <a href="https://www.instagram.com/infogrip.in/" class="social-link" target="_blank"><i class="fab fa-instagram"></i></a>
-                        <a href="https://www.linkedin.com/company/infogripsolution/?viewAsMember=true" class="social-link" target="_blank"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="https://x.com/InfoGrip" class="social-link" target="_blank"><i class="fab fa-twitter"></i></a>
-                    </div>
-                </div>
-                <div class="footer-col">
-                    <h3>Quick Links</h3>
-                    <ul class="footer-links">
-                        <li><a href="#dashboard">Dashboard</a></li>
-                        <li><a href="#clients">Clients</a></li>
-                        <li><a href="#payments">Payments</a></li>
-                        <li><a href="#subscriptions">Subscriptions</a></li>
-                        <li><a href="#reports">Reports</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h3>Support</h3>
-                    <p><i class="fas fa-phone"></i> +91 6367556906</p>
-                    <p><i class="fas fa-envelope"></i> infogripmarketing@gmail.com</p>
-                    <p><i class="fas fa-map-marker-alt"></i> Jaipur, Rajasthan, India</p>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; InfoGrip Media Solution Ltd. All Rights Reserved 2025</p>
-                <div class="footer-bottom-links">
-                    <a href="#">Privacy Policy</a>
-                    <a href="#">Terms & Conditions</a>
-                    <a href="#">Refund Policy</a>
-                </div>
-            </div>
-        </div>
-    </footer>
-
     <!-- New Invoice Modal -->
-    <div class="modal" id="invoice-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">Create New Invoice</h3>
-                <button class="modal-close" id="close-invoice-modal">&times;</button>
+    <div class="modal-overlay-premium" id="invoice-modal">
+        <div class="modal-premium">
+            <div class="modal-header-premium">
+                <h3>Create New Invoice</h3>
+                <button class="modal-close-premium" id="close-invoice-modal">&times;</button>
             </div>
-            <form id="invoice-form">
-                <div class="form-group">
-                    <label class="form-label">Select Client</label>
-                    <select class="form-control" id="client-select" required>
-                        <option value="">Select or add new client...</option>
-                    </select>
-                    <button type="button" class="btn btn-sm btn-outline mt-2" id="add-client-btn">
-                        <i class="fas fa-user-plus"></i> Add New Client
-                    </button>
-                </div>
-
-                <div id="client-details" class="hidden">
+            <div class="modal-body-premium">
+                <form id="invoice-form">
+                    <div class="form-group-premium">
+                        <label class="form-label-premium">Select Client</label>
+                        <select class="form-control-premium" id="client-select" required>
+                            <option value="">Search or select client...</option>
+                            <!-- Clients will be loaded here -->
+                        </select>
+                    </div>
+                    
+                    <div class="form-group-premium">
+                        <label class="form-label-premium">Services</label>
+                        <div id="service-items">
+                            <div class="service-row flex gap-4 mb-3">
+                                <input type="text" class="form-control-premium" placeholder="Service name" value="Social Media Management" readonly>
+                                <input type="number" class="form-control-premium" placeholder="Qty" value="1" min="1" style="width: 80px;">
+                                <input type="number" class="form-control-premium" placeholder="Price" value="2000" min="0" style="width: 120px;">
+                                <button type="button" class="btn-premium btn-sm-premium btn-secondary-premium remove-service">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <button type="button" class="btn-premium btn-sm-premium btn-secondary-premium mt-2" id="add-service-btn">
+                            <i class="fas fa-plus"></i> Add Service
+                        </button>
+                    </div>
+                    
                     <div class="grid grid-cols-2 gap-4 mb-4">
-                        <div class="form-group">
-                            <label class="form-label">Client Name</label>
-                            <input type="text" class="form-control" id="client-name" required>
+                        <div class="form-group-premium">
+                            <label class="form-label-premium">Discount (₹)</label>
+                            <input type="number" class="form-control-premium" id="discount" value="0" min="0">
                         </div>
-                        <div class="form-group">
-                            <label class="form-label">Phone Number</label>
-                            <input type="tel" class="form-control" id="client-phone" required pattern="^[0-9]{10}$">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Email Address</label>
-                            <input type="email" class="form-control" id="client-email" required>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Address</label>
-                            <textarea class="form-control" id="client-address" rows="2"></textarea>
+                        <div class="form-group-premium">
+                            <label class="form-label-premium">GST (%)</label>
+                            <input type="number" class="form-control-premium" id="gst-percent" value="18" min="0" max="100" step="0.1">
                         </div>
                     </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Services</label>
-                    <div id="service-items">
-                        <!-- Service rows will be added here -->
-                    </div>
-                    <button type="button" class="btn btn-sm btn-outline mt-2" id="add-service">
-                        <i class="fas fa-plus"></i> Add Service
-                    </button>
-                </div>
-
-                <div class="grid grid-cols-2 gap-4 mb-4">
-                    <div class="form-group">
-                        <label class="form-label">Discount (₹)</label>
-                        <input type="number" class="form-control" id="discount" min="0" value="0">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">GST (%)</label>
-                        <input type="number" class="form-control" id="gst-percent" min="0" max="100" value="0" step="0.01">
-                    </div>
-                </div>
-
-                <div class="card mb-4">
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <p class="mb-2">Subtotal: <span id="subtotal-display">₹0</span></p>
-                            <p class="mb-2">Discount: <span id="discount-display">₹0</span></p>
+                    
+                    <div class="glass-card p-4 mb-4">
+                        <div class="flex justify-between mb-2">
+                            <span>Subtotal:</span>
+                            <span class="font-bold" id="subtotal-display">₹2,000</span>
                         </div>
-                        <div>
-                            <p class="mb-2">GST: <span id="gst-display">₹0</span></p>
-                            <h4 class="text-lg font-bold">Total: <span id="total-display">₹0</span></h4>
+                        <div class="flex justify-between mb-2">
+                            <span>Discount:</span>
+                            <span class="font-bold" id="discount-display">₹0</span>
+                        </div>
+                        <div class="flex justify-between mb-2">
+                            <span>GST (18%):</span>
+                            <span class="font-bold" id="gst-display">₹360</span>
+                        </div>
+                        <div class="flex justify-between text-xl font-bold pt-3 border-t border-glass-border">
+                            <span>Total Amount:</span>
+                            <span class="text-gradient" id="total-display">₹2,360</span>
                         </div>
                     </div>
-                </div>
-
-                <div class="form-check mb-4">
-                    <input type="checkbox" class="form-check-input" id="is-subscription">
-                    <label class="form-check-label" for="is-subscription">Create as Subscription</label>
-                </div>
-
-                <div id="subscription-details" class="hidden">
-                    <div class="grid grid-cols-2 gap-4 mb-4">
-                        <div class="form-group">
-                            <label class="form-label">Billing Cycle</label>
-                            <select class="form-control" id="billing-cycle">
-                                <option value="monthly">Monthly</option>
-                                <option value="quarterly">Quarterly</option>
-                                <option value="yearly">Yearly</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Auto Renew</label>
-                            <select class="form-control" id="auto-renew">
-                                <option value="Yes">Yes</option>
-                                <option value="No">No</option>
-                            </select>
-                        </div>
+                    
+                    <div class="flex justify-between">
+                        <button type="button" class="btn-premium btn-secondary-premium" id="cancel-invoice">
+                            Cancel
+                        </button>
+                        <button type="submit" class="btn-premium btn-primary-premium" id="generate-invoice-btn">
+                            <i class="fas fa-file-invoice"></i> Generate Invoice
+                        </button>
                     </div>
-                </div>
-
-                <div class="flex justify-between">
-                    <button type="button" class="btn btn-secondary" id="cancel-invoice">
-                        Cancel
-                    </button>
-                    <button type="submit" class="btn btn-primary" id="generate-invoice">
-                        <i class="fas fa-file-invoice"></i> Generate Invoice
-                    </button>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
 
-    <!-- Add Client Modal -->
-    <div class="modal" id="client-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">Add New Client</h3>
-                <button class="modal-close" id="close-client-modal">&times;</button>
-            </div>
-            <form id="client-form">
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="form-group">
-                        <label class="form-label">Full Name *</label>
-                        <input type="text" class="form-control" id="new-client-name" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Phone Number *</label>
-                        <input type="tel" class="form-control" id="new-client-phone" required pattern="^[0-9]{10}$">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Email Address *</label>
-                        <input type="email" class="form-control" id="new-client-email" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Default Service Amount (₹)</label>
-                        <input type="number" class="form-control" id="default-amount" min="0" value="0">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Address</label>
-                    <textarea class="form-control" id="new-client-address" rows="3"></textarea>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Default Services (JSON)</label>
-                    <textarea class="form-control" id="default-services" rows="3" placeholder='[{"name": "Social Media Management", "price": 2000}]'></textarea>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Tags (comma separated)</label>
-                    <input type="text" class="form-control" id="client-tags" placeholder="premium, monthly, corporate">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Notes</label>
-                    <textarea class="form-control" id="client-notes" rows="2"></textarea>
-                </div>
-                <div class="flex justify-between">
-                    <button type="button" class="btn btn-secondary" id="cancel-client">
-                        Cancel
-                    </button>
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-save"></i> Save Client
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
+    <!-- Notification Toast -->
+    <div class="toast-container" id="toast-container"></div>
 
     <script src="admin.js"></script>
 </body>
