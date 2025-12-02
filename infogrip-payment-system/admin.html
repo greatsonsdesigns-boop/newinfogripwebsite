@@ -25,11 +25,12 @@
             
             <div class="nav-premium">
                 <ul class="nav-links">
-                    <li><a href="#dashboard" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
-                    <li><a href="#clients"><i class="fas fa-users"></i> Clients</a></li>
-                    <li><a href="#invoices"><i class="fas fa-file-invoice"></i> Invoices</a></li>
-                    <li><a href="#subscriptions"><i class="fas fa-calendar-alt"></i> Subscriptions</a></li>
-                    <li><a href="#reports"><i class="fas fa-chart-bar"></i> Reports</a></li>
+                    <li><a href="#dashboard" class="active nav-link" data-target="dashboard"><i class="fas fa-home"></i> Dashboard</a></li>
+                    <li><a href="#clients" class="nav-link" data-target="clients"><i class="fas fa-users"></i> Clients</a></li>
+                    <li><a href="#subscriptions" class="nav-link" data-target="subscriptions"><i class="fas fa-calendar-alt"></i> Subscriptions</a></li>
+                    <li><a href="#invoices" class="nav-link" data-target="invoices"><i class="fas fa-file-invoice"></i> Invoices</a></li>
+                    <li><a href="#payments" class="nav-link" data-target="payments"><i class="fas fa-credit-card"></i> Payments</a></li>
+                    <li><a href="#settings" class="nav-link" data-target="settings"><i class="fas fa-cog"></i> Settings</a></li>
                 </ul>
                 
                 <div class="user-menu">
@@ -62,14 +63,14 @@
     <aside class="premium-sidebar" id="sidebar">
         <ul class="sidebar-menu">
             <li class="menu-item">
-                <a href="#dashboard" class="active">
+                <a href="#dashboard" class="active sidebar-link" data-target="dashboard">
                     <i class="fas fa-tachometer-alt"></i>
                     <span>Dashboard</span>
                 </a>
             </li>
             
             <li class="menu-item">
-                <a href="#quick-actions">
+                <a href="#quick-actions" class="sidebar-link" data-target="dashboard">
                     <i class="fas fa-bolt"></i>
                     <span>Quick Actions</span>
                 </a>
@@ -78,21 +79,21 @@
             <div class="menu-divider"></div>
             
             <li class="menu-item">
-                <a href="#all-clients">
+                <a href="#clients" class="sidebar-link" data-target="clients">
                     <i class="fas fa-user-friends"></i>
                     <span>All Clients</span>
                 </a>
             </li>
             
             <li class="menu-item">
-                <a href="#add-client">
+                <a href="#add-client" class="sidebar-link" data-target="clients" id="new-client-sidebar">
                     <i class="fas fa-user-plus"></i>
                     <span>Add New Client</span>
                 </a>
             </li>
             
             <li class="menu-item">
-                <a href="#client-groups">
+                <a href="#client-groups" class="sidebar-link" data-target="clients">
                     <i class="fas fa-object-group"></i>
                     <span>Client Groups</span>
                 </a>
@@ -101,22 +102,39 @@
             <div class="menu-divider"></div>
             
             <li class="menu-item">
-                <a href="#create-invoice">
+                <a href="#subscriptions" class="sidebar-link" data-target="subscriptions">
+                    <i class="fas fa-sync-alt"></i>
+                    <span>Active Subscriptions</span>
+                </a>
+            </li>
+            
+            <li class="menu-item">
+                <a href="#renewals-due" class="sidebar-link" data-target="subscriptions">
+                    <i class="fas fa-bell"></i>
+                    <span>Renewals Due</span>
+                    <span class="badge-premium badge-danger ml-2" id="renewals-count">0</span>
+                </a>
+            </li>
+            
+            <div class="menu-divider"></div>
+            
+            <li class="menu-item">
+                <a href="#create-invoice" class="sidebar-link" data-target="invoices" id="new-invoice-sidebar">
                     <i class="fas fa-file-invoice-dollar"></i>
                     <span>Create Invoice</span>
                 </a>
             </li>
             
             <li class="menu-item">
-                <a href="#pending-invoices">
+                <a href="#pending-invoices" class="sidebar-link" data-target="invoices">
                     <i class="fas fa-clock"></i>
                     <span>Pending Invoices</span>
-                    <span class="badge-premium badge-warning ml-2">12</span>
+                    <span class="badge-premium badge-warning ml-2" id="pending-count">0</span>
                 </a>
             </li>
             
             <li class="menu-item">
-                <a href="#paid-invoices">
+                <a href="#paid-invoices" class="sidebar-link" data-target="invoices">
                     <i class="fas fa-check-circle"></i>
                     <span>Paid Invoices</span>
                 </a>
@@ -125,38 +143,30 @@
             <div class="menu-divider"></div>
             
             <li class="menu-item">
-                <a href="#active-subscriptions">
-                    <i class="fas fa-sync-alt"></i>
-                    <span>Active Subscriptions</span>
-                </a>
-            </li>
-            
-            <li class="menu-item">
-                <a href="#renewals-due">
-                    <i class="fas fa-bell"></i>
-                    <span>Renewals Due</span>
-                    <span class="badge-premium badge-danger ml-2">5</span>
+                <a href="#payments" class="sidebar-link" data-target="payments">
+                    <i class="fas fa-credit-card"></i>
+                    <span>All Payments</span>
                 </a>
             </li>
             
             <div class="menu-divider"></div>
             
             <li class="menu-item">
-                <a href="#analytics">
+                <a href="#analytics" class="sidebar-link" data-target="dashboard">
                     <i class="fas fa-chart-line"></i>
                     <span>Analytics</span>
                 </a>
             </li>
             
             <li class="menu-item">
-                <a href="#reports">
+                <a href="#reports" class="sidebar-link" data-target="dashboard">
                     <i class="fas fa-file-alt"></i>
                     <span>Reports</span>
                 </a>
             </li>
             
             <li class="menu-item">
-                <a href="#settings">
+                <a href="#settings" class="sidebar-link" data-target="settings">
                     <i class="fas fa-cog"></i>
                     <span>Settings</span>
                 </a>
@@ -164,157 +174,780 @@
         </ul>
     </aside>
 
-    <!-- Premium Main Content -->
+    <!-- Main Content Container -->
     <main class="premium-main" id="main-content">
-        <!-- Dashboard Header -->
-        <div class="dashboard-header fade-in-up">
-            <h1>Welcome back, Admin! 👋</h1>
-            <div class="header-actions">
-                <button class="btn-premium btn-secondary-premium" id="refresh-btn">
-                    <i class="fas fa-sync-alt"></i> Refresh
-                </button>
-                <button class="btn-premium btn-primary-premium" id="new-invoice-btn">
-                    <i class="fas fa-plus"></i> New Invoice
-                </button>
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="dashboard-section">
+            <!-- Dashboard Header -->
+            <div class="dashboard-header fade-in-up">
+                <h1>Welcome back, Admin! 👋</h1>
+                <div class="header-actions">
+                    <button class="btn-premium btn-secondary-premium" id="refresh-btn">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                    <button class="btn-premium btn-primary-premium" id="new-invoice-btn">
+                        <i class="fas fa-plus"></i> New Invoice
+                    </button>
+                </div>
             </div>
-        </div>
 
-        <!-- Stats Grid -->
-        <div class="stats-grid fade-in-up">
-            <div class="stat-card-premium">
-                <div class="stat-icon">
-                    <i class="fas fa-rupee-sign"></i>
+            <!-- Stats Grid -->
+            <div class="stats-grid fade-in-up">
+                <div class="stat-card-premium">
+                    <div class="stat-icon">
+                        <i class="fas fa-rupee-sign"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="total-revenue">₹0</h3>
+                        <p>Total Revenue</p>
+                        <div class="stat-trend trend-up">
+                            <i class="fas fa-arrow-up"></i>
+                            <span id="revenue-trend">0% from last month</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="stat-content">
-                    <h3 id="total-revenue">₹0</h3>
-                    <p>Total Revenue</p>
-                    <div class="stat-trend trend-up">
-                        <i class="fas fa-arrow-up"></i>
-                        <span>12% from last month</span>
+                
+                <div class="stat-card-premium">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="total-clients">0</h3>
+                        <p>Active Clients</p>
+                        <div class="stat-trend trend-up">
+                            <i class="fas fa-arrow-up"></i>
+                            <span id="clients-trend">0 new this month</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stat-card-premium">
+                    <div class="stat-icon">
+                        <i class="fas fa-file-invoice"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="pending-invoices-count">0</h3>
+                        <p>Pending Invoices</p>
+                        <div class="stat-trend trend-down">
+                            <i class="fas fa-arrow-down"></i>
+                            <span id="overdue-count">0 overdue</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stat-card-premium">
+                    <div class="stat-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="renewals-due-count">0</h3>
+                        <p>Renewals Due (7 days)</p>
+                        <div class="stat-trend trend-up">
+                            <i class="fas fa-bell"></i>
+                            <span>Send reminders</span>
+                        </div>
                     </div>
                 </div>
             </div>
-            
-            <div class="stat-card-premium">
-                <div class="stat-icon">
-                    <i class="fas fa-users"></i>
-                </div>
-                <div class="stat-content">
-                    <h3 id="total-clients">0</h3>
-                    <p>Active Clients</p>
-                    <div class="stat-trend trend-up">
-                        <i class="fas fa-arrow-up"></i>
-                        <span>8 new this month</span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="stat-card-premium">
-                <div class="stat-icon">
-                    <i class="fas fa-file-invoice"></i>
-                </div>
-                <div class="stat-content">
-                    <h3 id="pending-invoices">0</h3>
-                    <p>Pending Invoices</p>
-                    <div class="stat-trend trend-down">
-                        <i class="fas fa-arrow-down"></i>
-                        <span>3 overdue</span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="stat-card-premium">
-                <div class="stat-icon">
-                    <i class="fas fa-calendar-alt"></i>
-                </div>
-                <div class="stat-content">
-                    <h3 id="renewals-due">0</h3>
-                    <p>Renewals Due (7 days)</p>
-                    <div class="stat-trend trend-up">
-                        <i class="fas fa-bell"></i>
-                        <span>Send reminders</span>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <!-- Charts Section -->
-        <div class="charts-grid fade-in-up">
-            <div class="chart-card">
-                <div class="chart-header">
-                    <h3>Revenue Overview</h3>
-                    <div class="chart-actions">
-                        <select class="form-control-premium" style="width: auto;" id="revenue-period">
-                            <option value="7d">Last 7 Days</option>
-                            <option value="30d" selected>Last 30 Days</option>
-                            <option value="90d">Last 90 Days</option>
+            <!-- Charts Section -->
+            <div class="charts-grid fade-in-up">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>Revenue Overview</h3>
+                        <div class="chart-actions">
+                            <select class="form-control-premium" style="width: auto;" id="revenue-period">
+                                <option value="7d">Last 7 Days</option>
+                                <option value="30d" selected>Last 30 Days</option>
+                                <option value="90d">Last 90 Days</option>
+                            </select>
+                        </div>
+                    </div>
+                    <canvas id="revenueChart" height="250"></canvas>
+                </div>
+                
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>Payment Status</h3>
+                    </div>
+                    <canvas id="paymentChart" height="250"></canvas>
+                </div>
+            </div>
+
+            <!-- Recent Invoices Table -->
+            <div class="table-card fade-in-up">
+                <div class="table-header">
+                    <h3>Recent Invoices</h3>
+                    <button class="btn-premium btn-sm-premium btn-secondary-premium" id="view-all-invoices">
+                        <i class="fas fa-eye"></i> View All
+                    </button>
+                </div>
+                <div class="table-container">
+                    <table class="premium-table">
+                        <thead>
+                            <tr>
+                                <th>Invoice ID</th>
+                                <th>Client</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recent-invoices-body">
+                            <!-- Data will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="mt-4 fade-in-up">
+                <div class="table-header">
+                    <h3>Quick Actions</h3>
+                </div>
+                <div class="flex gap-4 mt-4">
+                    <button class="btn-premium btn-secondary-premium" id="send-reminders-btn">
+                        <i class="fas fa-bell"></i> Send Reminders
+                    </button>
+                    <button class="btn-premium btn-secondary-premium" id="export-data-btn">
+                        <i class="fas fa-download"></i> Export Data
+                    </button>
+                    <button class="btn-premium btn-secondary-premium" id="create-subscription-btn">
+                        <i class="fas fa-calendar-plus"></i> Create Subscription
+                    </button>
+                    <button class="btn-premium btn-secondary-premium" id="view-reports-btn">
+                        <i class="fas fa-chart-pie"></i> View Reports
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Clients Section -->
+        <section id="clients" class="dashboard-section" style="display: none;">
+            <div class="dashboard-header">
+                <h1>Clients Management</h1>
+                <div class="header-actions">
+                    <button class="btn-premium btn-secondary-premium" id="refresh-clients">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                    <button class="btn-premium btn-primary-premium" id="add-client-btn">
+                        <i class="fas fa-plus"></i> New Client
+                    </button>
+                </div>
+            </div>
+
+            <!-- Search and Filters -->
+            <div class="glass-card p-6 mb-6 fade-in-up">
+                <div class="flex gap-4 items-center">
+                    <div class="flex-1">
+                        <input type="text" class="form-control-premium" id="client-search" placeholder="Search clients by name, email, or phone...">
+                    </div>
+                    <select class="form-control-premium" style="width: 200px;" id="client-status-filter">
+                        <option value="">All Status</option>
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                        <option value="overdue">Payment Overdue</option>
+                    </select>
+                    <button class="btn-premium btn-secondary-premium" id="clear-filters">
+                        <i class="fas fa-times"></i> Clear
+                    </button>
+                </div>
+            </div>
+
+            <!-- Clients Table -->
+            <div class="table-card fade-in-up">
+                <div class="table-header">
+                    <h3>All Clients</h3>
+                    <div class="text-sm opacity-70" id="clients-count">Loading...</div>
+                </div>
+                <div class="table-container">
+                    <table class="premium-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Status</th>
+                                <th>Total Spent</th>
+                                <th>Join Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="clients-table-body">
+                            <tr>
+                                <td colspan="8" class="text-center p-8">
+                                    <div class="loading-spinner"></div>
+                                    <p class="mt-4">Loading clients...</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Subscriptions Section -->
+        <section id="subscriptions" class="dashboard-section" style="display: none;">
+            <div class="dashboard-header">
+                <h1>Subscriptions Management</h1>
+                <div class="header-actions">
+                    <button class="btn-premium btn-secondary-premium" id="refresh-subscriptions">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                    <button class="btn-premium btn-primary-premium" id="add-subscription-btn">
+                        <i class="fas fa-plus"></i> New Subscription
+                    </button>
+                </div>
+            </div>
+
+            <!-- Subscription Stats -->
+            <div class="stats-grid mb-6">
+                <div class="stat-card-premium">
+                    <div class="stat-icon">
+                        <i class="fas fa-sync-alt"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="active-subscriptions-count">0</h3>
+                        <p>Active Subscriptions</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card-premium">
+                    <div class="stat-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="expiring-subscriptions-count">0</h3>
+                        <p>Expiring This Week</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card-premium">
+                    <div class="stat-icon">
+                        <i class="fas fa-rupee-sign"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="mrr-display">₹0</h3>
+                        <p>Monthly Recurring Revenue</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card-premium">
+                    <div class="stat-icon">
+                        <i class="fas fa-percentage"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="renewal-rate">0%</h3>
+                        <p>Renewal Rate</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="flex border-b border-glass-border mb-6">
+                <button class="tab-btn active" data-tab="active-subscriptions">Active</button>
+                <button class="tab-btn" data-tab="expiring-subscriptions">Expiring Soon</button>
+                <button class="tab-btn" data-tab="all-subscriptions">All Subscriptions</button>
+            </div>
+
+            <!-- Subscriptions Tables -->
+            <div class="tab-content active" id="active-subscriptions">
+                <div class="table-card">
+                    <div class="table-header">
+                        <h3>Active Subscriptions</h3>
+                    </div>
+                    <div class="table-container">
+                        <table class="premium-table">
+                            <thead>
+                                <tr>
+                                    <th>Subscription ID</th>
+                                    <th>Client</th>
+                                    <th>Plan</th>
+                                    <th>Amount</th>
+                                    <th>Start Date</th>
+                                    <th>Renewal Date</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="active-subscriptions-body">
+                                <!-- Data loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="expiring-subscriptions" style="display: none;">
+                <div class="table-card">
+                    <div class="table-header">
+                        <h3>Subscriptions Expiring Soon</h3>
+                    </div>
+                    <div class="table-container">
+                        <table class="premium-table">
+                            <thead>
+                                <tr>
+                                    <th>Subscription ID</th>
+                                    <th>Client</th>
+                                    <th>Plan</th>
+                                    <th>Amount</th>
+                                    <th>Renewal Date</th>
+                                    <th>Days Left</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="expiring-subscriptions-body">
+                                <!-- Data loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="all-subscriptions" style="display: none;">
+                <div class="table-card">
+                    <div class="table-header">
+                        <h3>All Subscriptions</h3>
+                    </div>
+                    <div class="table-container">
+                        <table class="premium-table">
+                            <thead>
+                                <tr>
+                                    <th>Subscription ID</th>
+                                    <th>Client</th>
+                                    <th>Plan</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Created</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="all-subscriptions-body">
+                                <!-- Data loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Invoices Section -->
+        <section id="invoices" class="dashboard-section" style="display: none;">
+            <div class="dashboard-header">
+                <h1>Invoices Management</h1>
+                <div class="header-actions">
+                    <button class="btn-premium btn-secondary-premium" id="refresh-invoices">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                    <button class="btn-premium btn-primary-premium" id="new-invoice-tab-btn">
+                        <i class="fas fa-plus"></i> New Invoice
+                    </button>
+                </div>
+            </div>
+
+            <!-- Invoice Stats -->
+            <div class="stats-grid mb-6">
+                <div class="stat-card-premium">
+                    <div class="stat-icon">
+                        <i class="fas fa-file-invoice"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="total-invoices-count">0</h3>
+                        <p>Total Invoices</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card-premium">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="pending-tab-count">0</h3>
+                        <p>Pending</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card-premium">
+                    <div class="stat-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="paid-tab-count">0</h3>
+                        <p>Paid</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card-premium">
+                    <div class="stat-icon">
+                        <i class="fas fa-exclamation-circle"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="overdue-tab-count">0</h3>
+                        <p>Overdue</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="flex border-b border-glass-border mb-6">
+                <button class="tab-btn active" data-tab="all-invoices-tab">All Invoices</button>
+                <button class="tab-btn" data-tab="pending-invoices-tab">Pending</button>
+                <button class="tab-btn" data-tab="paid-invoices-tab">Paid</button>
+                <button class="tab-btn" data-tab="overdue-invoices-tab">Overdue</button>
+            </div>
+
+            <!-- Invoices Tables -->
+            <div class="tab-content active" id="all-invoices-tab">
+                <div class="table-card">
+                    <div class="table-header">
+                        <h3>All Invoices</h3>
+                        <div class="flex gap-2">
+                            <input type="date" class="form-control-premium" style="width: 150px;" id="invoice-date-from">
+                            <input type="date" class="form-control-premium" style="width: 150px;" id="invoice-date-to">
+                            <button class="btn-premium btn-sm-premium btn-secondary-premium" id="filter-invoices">
+                                Filter
+                            </button>
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        <table class="premium-table">
+                            <thead>
+                                <tr>
+                                    <th>Invoice ID</th>
+                                    <th>Client</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Due Date</th>
+                                    <th>Created</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="all-invoices-body">
+                                <!-- Data loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="pending-invoices-tab" style="display: none;">
+                <div class="table-card">
+                    <div class="table-header">
+                        <h3>Pending Invoices</h3>
+                    </div>
+                    <div class="table-container">
+                        <table class="premium-table">
+                            <thead>
+                                <tr>
+                                    <th>Invoice ID</th>
+                                    <th>Client</th>
+                                    <th>Amount</th>
+                                    <th>Due Date</th>
+                                    <th>Days Overdue</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="pending-invoices-body-tab">
+                                <!-- Data loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="paid-invoices-tab" style="display: none;">
+                <div class="table-card">
+                    <div class="table-header">
+                        <h3>Paid Invoices</h3>
+                    </div>
+                    <div class="table-container">
+                        <table class="premium-table">
+                            <thead>
+                                <tr>
+                                    <th>Invoice ID</th>
+                                    <th>Client</th>
+                                    <th>Amount</th>
+                                    <th>Paid Date</th>
+                                    <th>Payment Method</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="paid-invoices-body">
+                                <!-- Data loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="overdue-invoices-tab" style="display: none;">
+                <div class="table-card">
+                    <div class="table-header">
+                        <h3>Overdue Invoices</h3>
+                    </div>
+                    <div class="table-container">
+                        <table class="premium-table">
+                            <thead>
+                                <tr>
+                                    <th>Invoice ID</th>
+                                    <th>Client</th>
+                                    <th>Amount</th>
+                                    <th>Due Date</th>
+                                    <th>Days Overdue</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="overdue-invoices-body">
+                                <!-- Data loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Payments Section -->
+        <section id="payments" class="dashboard-section" style="display: none;">
+            <div class="dashboard-header">
+                <h1>Payments History</h1>
+                <div class="header-actions">
+                    <button class="btn-premium btn-secondary-premium" id="refresh-payments">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                    <button class="btn-premium btn-secondary-premium" id="export-payments-btn">
+                        <i class="fas fa-download"></i> Export
+                    </button>
+                </div>
+            </div>
+
+            <!-- Payment Stats -->
+            <div class="stats-grid mb-6">
+                <div class="stat-card-premium">
+                    <div class="stat-icon">
+                        <i class="fas fa-rupee-sign"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="total-payments-amount">₹0</h3>
+                        <p>Total Payments</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card-premium">
+                    <div class="stat-icon">
+                        <i class="fas fa-calendar-day"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="today-payments">₹0</h3>
+                        <p>Today's Payments</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card-premium">
+                    <div class="stat-icon">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="razorpay-payments">0</h3>
+                        <p>Razorpay Payments</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card-premium">
+                    <div class="stat-icon">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="cash-payments">0</h3>
+                        <p>Cash/Other Payments</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payments Table -->
+            <div class="table-card">
+                <div class="table-header">
+                    <h3>All Payments</h3>
+                    <div class="flex gap-2">
+                        <input type="date" class="form-control-premium" style="width: 150px;" id="payment-date-from">
+                        <input type="date" class="form-control-premium" style="width: 150px;" id="payment-date-to">
+                        <select class="form-control-premium" style="width: 150px;" id="payment-method-filter">
+                            <option value="">All Methods</option>
+                            <option value="razorpay">Razorpay</option>
+                            <option value="cash">Cash</option>
+                            <option value="bank_transfer">Bank Transfer</option>
+                            <option value="upi">UPI</option>
                         </select>
+                        <button class="btn-premium btn-sm-premium btn-secondary-premium" id="filter-payments">
+                            Filter
+                        </button>
                     </div>
                 </div>
-                <canvas id="revenueChart" height="250"></canvas>
-            </div>
-            
-            <div class="chart-card">
-                <div class="chart-header">
-                    <h3>Payment Status</h3>
+                <div class="table-container">
+                    <table class="premium-table">
+                        <thead>
+                            <tr>
+                                <th>Payment ID</th>
+                                <th>Invoice ID</th>
+                                <th>Client</th>
+                                <th>Amount</th>
+                                <th>Payment Method</th>
+                                <th>Status</th>
+                                <th>Payment Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="payments-table-body">
+                            <!-- Data loaded here -->
+                        </tbody>
+                    </table>
                 </div>
-                <canvas id="paymentChart" height="250"></canvas>
             </div>
-        </div>
+        </section>
 
-        <!-- Recent Invoices Table -->
-        <div class="table-card fade-in-up">
-            <div class="table-header">
-                <h3>Recent Invoices</h3>
-                <button class="btn-premium btn-sm-premium btn-secondary-premium" id="view-all-invoices">
-                    <i class="fas fa-eye"></i> View All
-                </button>
+        <!-- Settings Section -->
+        <section id="settings" class="dashboard-section" style="display: none;">
+            <div class="dashboard-header">
+                <h1>System Settings</h1>
+                <div class="header-actions">
+                    <button class="btn-premium btn-primary-premium" id="save-settings-btn">
+                        <i class="fas fa-save"></i> Save Settings
+                    </button>
+                </div>
             </div>
-            <div class="table-container">
-                <table class="premium-table">
-                    <thead>
-                        <tr>
-                            <th>Invoice ID</th>
-                            <th>Client</th>
-                            <th>Amount</th>
-                            <th>Status</th>
-                            <th>Date</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="recent-invoices-body">
-                        <!-- Data will be loaded here -->
-                        <tr>
-                            <td colspan="6" class="text-center p-4">
-                                <div class="loading-spinner"></div>
-                                <p>Loading invoices...</p>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
 
-        <!-- Quick Actions -->
-        <div class="mt-4 fade-in-up">
-            <div class="table-header">
-                <h3>Quick Actions</h3>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- General Settings -->
+                <div class="glass-card p-6">
+                    <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+                        <i class="fas fa-cog"></i> General Settings
+                    </h3>
+                    
+                    <div class="form-group-premium">
+                        <label class="form-label-premium">Company Name</label>
+                        <input type="text" class="form-control-premium" id="company-name" value="InfoGrip Media Solution">
+                    </div>
+                    
+                    <div class="form-group-premium">
+                        <label class="form-label-premium">Default GST Percentage</label>
+                        <input type="number" class="form-control-premium" id="default-gst" value="18" min="0" max="100" step="0.1">
+                        <div class="text-sm opacity-70 mt-1">Default GST applied to all invoices</div>
+                    </div>
+                    
+                    <div class="form-group-premium">
+                        <label class="form-label-premium">Invoice Due Days</label>
+                        <input type="number" class="form-control-premium" id="invoice-due-days" value="15" min="1" max="90">
+                        <div class="text-sm opacity-70 mt-1">Number of days until invoice is due</div>
+                    </div>
+                </div>
+
+                <!-- Reminder Settings -->
+                <div class="glass-card p-6">
+                    <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+                        <i class="fas fa-bell"></i> Reminder Settings
+                    </h3>
+                    
+                    <div class="form-group-premium">
+                        <label class="form-label-premium">Invoice Reminder Days</label>
+                        <input type="number" class="form-control-premium" id="reminder-days" value="3" min="0" max="30">
+                        <div class="text-sm opacity-70 mt-1">Send reminder X days before due date</div>
+                    </div>
+                    
+                    <div class="form-group-premium">
+                        <label class="form-label-premium">Subscription Reminder Days</label>
+                        <input type="number" class="form-control-premium" id="subscription-reminder-days" value="7" min="0" max="30">
+                        <div class="text-sm opacity-70 mt-1">Send reminder X days before renewal</div>
+                    </div>
+                    
+                    <div class="form-group-premium">
+                        <label class="form-label-premium">
+                            <input type="checkbox" id="auto-send-reminders" checked> Auto-send reminders
+                        </label>
+                        <div class="text-sm opacity-70 mt-1">Automatically send payment reminders</div>
+                    </div>
+                </div>
+
+                <!-- Service Pricing -->
+                <div class="glass-card p-6">
+                    <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+                        <i class="fas fa-tags"></i> Service Pricing
+                    </h3>
+                    
+                    <div class="form-group-premium">
+                        <label class="form-label-premium">Social Media Management (Monthly)</label>
+                        <input type="number" class="form-control-premium" id="price-social-media" value="2000" min="0">
+                    </div>
+                    
+                    <div class="form-group-premium">
+                        <label class="form-label-premium">Website Development</label>
+                        <input type="number" class="form-control-premium" id="price-website" value="15000" min="0">
+                    </div>
+                    
+                    <div class="form-group-premium">
+                        <label class="form-label-premium">SEO Services (Monthly)</label>
+                        <input type="number" class="form-control-premium" id="price-seo" value="5000" min="0">
+                    </div>
+                    
+                    <div class="form-group-premium">
+                        <label class="form-label-premium">Content Writing (Per Article)</label>
+                        <input type="number" class="form-control-premium" id="price-content" value="500" min="0">
+                    </div>
+                </div>
+
+                <!-- API Configuration -->
+                <div class="glass-card p-6">
+                    <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+                        <i class="fas fa-key"></i> API Configuration
+                    </h3>
+                    
+                    <div class="form-group-premium">
+                        <label class="form-label-premium">Google Apps Script URL</label>
+                        <input type="text" class="form-control-premium" id="api-url" 
+                               value="https://script.google.com/macros/s/AKfycbx07QetFwOnkrHlNs2XWHKJUf-FVamBxzvr_ea75x1aJvV1A2wfsBIM3LkZZJfnalm5/exec">
+                    </div>
+                    
+                    <div class="form-group-premium">
+                        <label class="form-label-premium">Razorpay Key ID</label>
+                        <input type="text" class="form-control-premium" id="razorpay-key" 
+                               value="rzp_test_RmL6IMlQKxUoC3">
+                    </div>
+                    
+                    <div class="form-group-premium">
+                        <label class="form-label-premium">Admin Secret Key</label>
+                        <div class="flex gap-2">
+                            <input type="password" class="form-control-premium" id="admin-secret" 
+                                   value="YOUR_ADMIN_SECRET_HERE">
+                            <button type="button" class="btn-premium btn-sm-premium btn-secondary-premium" id="toggle-secret">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <div class="text-sm opacity-70 mt-1">Used to authenticate API requests</div>
+                    </div>
+                </div>
             </div>
-            <div class="flex gap-4 mt-4">
-                <button class="btn-premium btn-secondary-premium" id="send-reminders-btn">
-                    <i class="fas fa-bell"></i> Send Reminders
-                </button>
-                <button class="btn-premium btn-secondary-premium" id="export-data-btn">
-                    <i class="fas fa-download"></i> Export Data
-                </button>
-                <button class="btn-premium btn-secondary-premium" id="create-subscription-btn">
-                    <i class="fas fa-calendar-plus"></i> Create Subscription
-                </button>
-                <button class="btn-premium btn-secondary-premium" id="view-reports-btn">
-                    <i class="fas fa-chart-pie"></i> View Reports
-                </button>
+
+            <!-- Danger Zone -->
+            <div class="glass-card p-6 mt-6 border border-red-500">
+                <h3 class="text-xl font-bold mb-4 text-red-400">
+                    <i class="fas fa-exclamation-triangle"></i> Danger Zone
+                </h3>
+                
+                <div class="flex gap-4">
+                    <button class="btn-premium btn-secondary-premium border-red-500 text-red-400" id="clear-cache-btn">
+                        <i class="fas fa-trash"></i> Clear Cache
+                    </button>
+                    
+                    <button class="btn-premium btn-secondary-premium border-red-500 text-red-400" id="reset-settings-btn">
+                        <i class="fas fa-redo"></i> Reset to Default
+                    </button>
+                    
+                    <button class="btn-premium border-red-500 bg-red-500/20 text-red-400" id="test-api-btn">
+                        <i class="fas fa-vial"></i> Test API Connection
+                    </button>
+                </div>
             </div>
-        </div>
+        </section>
 
         <!-- Premium Footer -->
         <footer class="premium-footer">
@@ -344,9 +977,9 @@
                         <label class="form-label-premium">Services</label>
                         <div id="service-items">
                             <div class="service-row flex gap-4 mb-3">
-                                <input type="text" class="form-control-premium" placeholder="Service name" value="Social Media Management" readonly>
-                                <input type="number" class="form-control-premium" placeholder="Qty" value="1" min="1" style="width: 80px;">
-                                <input type="number" class="form-control-premium" placeholder="Price" value="2000" min="0" style="width: 120px;">
+                                <input type="text" class="form-control-premium service-name" placeholder="Service name" value="Social Media Management">
+                                <input type="number" class="form-control-premium service-qty" placeholder="Qty" value="1" min="1" style="width: 80px;">
+                                <input type="number" class="form-control-premium service-price" placeholder="Price" value="2000" min="0" style="width: 120px;">
                                 <button type="button" class="btn-premium btn-sm-premium btn-secondary-premium remove-service">
                                     <i class="fas fa-times"></i>
                                 </button>
@@ -400,9 +1033,2814 @@
         </div>
     </div>
 
+    <!-- New Client Modal -->
+    <div class="modal-overlay-premium" id="client-modal">
+        <div class="modal-premium">
+            <div class="modal-header-premium">
+                <h3>Add New Client</h3>
+                <button class="modal-close-premium" id="close-client-modal">&times;</button>
+            </div>
+            <div class="modal-body-premium">
+                <form id="client-form">
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <div class="form-group-premium">
+                            <label class="form-label-premium">First Name *</label>
+                            <input type="text" class="form-control-premium" id="client-fname" required>
+                        </div>
+                        <div class="form-group-premium">
+                            <label class="form-label-premium">Last Name *</label>
+                            <input type="text" class="form-control-premium" id="client-lname" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group-premium">
+                        <label class="form-label-premium">Email Address *</label>
+                        <input type="email" class="form-control-premium" id="client-email" required>
+                    </div>
+                    
+                    <div class="form-group-premium">
+                        <label class="form-label-premium">Phone Number *</label>
+                        <input type="tel" class="form-control-premium" id="client-phone" required>
+                    </div>
+                    
+                    <div class="form-group-premium">
+                        <label class="form-label-premium">Company Name</label>
+                        <input type="text" class="form-control-premium" id="client-company">
+                    </div>
+                    
+                    <div class="form-group-premium">
+                        <label class="form-label-premium">Address</label>
+                        <textarea class="form-control-premium" id="client-address" rows="3"></textarea>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <div class="form-group-premium">
+                            <label class="form-label-premium">City</label>
+                            <input type="text" class="form-control-premium" id="client-city">
+                        </div>
+                        <div class="form-group-premium">
+                            <label class="form-label-premium">State</label>
+                            <input type="text" class="form-control-premium" id="client-state">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group-premium">
+                        <label class="form-label-premium">Notes</label>
+                        <textarea class="form-control-premium" id="client-notes" rows="2"></textarea>
+                    </div>
+                    
+                    <div class="flex justify-between mt-6">
+                        <button type="button" class="btn-premium btn-secondary-premium" id="cancel-client">
+                            Cancel
+                        </button>
+                        <button type="submit" class="btn-premium btn-primary-premium" id="save-client-btn">
+                            <i class="fas fa-save"></i> Save Client
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- View Client Modal -->
+    <div class="modal-overlay-premium" id="view-client-modal">
+        <div class="modal-premium" style="max-width: 800px;">
+            <div class="modal-header-premium">
+                <h3>Client Details</h3>
+                <button class="modal-close-premium" id="close-view-client-modal">&times;</button>
+            </div>
+            <div class="modal-body-premium">
+                <div id="client-details-content">
+                    <!-- Client details loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- New Subscription Modal -->
+    <div class="modal-overlay-premium" id="subscription-modal">
+        <div class="modal-premium">
+            <div class="modal-header-premium">
+                <h3>Create New Subscription</h3>
+                <button class="modal-close-premium" id="close-subscription-modal">&times;</button>
+            </div>
+            <div class="modal-body-premium">
+                <form id="subscription-form">
+                    <div class="form-group-premium">
+                        <label class="form-label-premium">Select Client *</label>
+                        <select class="form-control-premium" id="subscription-client-select" required>
+                            <option value="">Select client...</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group-premium">
+                        <label class="form-label-premium">Plan Type *</label>
+                        <select class="form-control-premium" id="subscription-plan" required>
+                            <option value="">Select plan...</option>
+                            <option value="social_media">Social Media Management - ₹2,000/month</option>
+                            <option value="seo">SEO Services - ₹5,000/month</option>
+                            <option value="website">Website Maintenance - ₹3,000/month</option>
+                            <option value="content">Content Writing - ₹1,500/month</option>
+                            <option value="custom">Custom Plan</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group-premium" id="custom-plan-group" style="display: none;">
+                        <label class="form-label-premium">Custom Plan Name</label>
+                        <input type="text" class="form-control-premium" id="custom-plan-name" placeholder="Enter plan name">
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <div class="form-group-premium">
+                            <label class="form-label-premium">Amount (₹) *</label>
+                            <input type="number" class="form-control-premium" id="subscription-amount" value="2000" min="0" required>
+                        </div>
+                        <div class="form-group-premium">
+                            <label class="form-label-premium">Billing Cycle *</label>
+                            <select class="form-control-premium" id="subscription-cycle" required>
+                                <option value="monthly">Monthly</option>
+                                <option value="quarterly">Quarterly</option>
+                                <option value="half_yearly">Half Yearly</option>
+                                <option value="yearly">Yearly</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <div class="form-group-premium">
+                            <label class="form-label-premium">Start Date *</label>
+                            <input type="date" class="form-control-premium" id="subscription-start" required>
+                        </div>
+                        <div class="form-group-premium">
+                            <label class="form-label-premium">Auto Renew</label>
+                            <div class="mt-2">
+                                <label class="inline-flex items-center">
+                                    <input type="checkbox" class="form-checkbox" id="auto-renew" checked>
+                                    <span class="ml-2">Automatically renew subscription</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group-premium">
+                        <label class="form-label-premium">Notes</label>
+                        <textarea class="form-control-premium" id="subscription-notes" rows="2"></textarea>
+                    </div>
+                    
+                    <div class="flex justify-between mt-6">
+                        <button type="button" class="btn-premium btn-secondary-premium" id="cancel-subscription">
+                            Cancel
+                        </button>
+                        <button type="submit" class="btn-premium btn-primary-premium" id="save-subscription-btn">
+                            <i class="fas fa-save"></i> Create Subscription
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div class="modal-overlay-premium" id="confirmation-modal">
+        <div class="modal-premium" style="max-width: 400px;">
+            <div class="modal-header-premium">
+                <h3 id="confirmation-title">Confirm Action</h3>
+                <button class="modal-close-premium" id="close-confirmation-modal">&times;</button>
+            </div>
+            <div class="modal-body-premium">
+                <p id="confirmation-message">Are you sure you want to perform this action?</p>
+                <div class="flex justify-between mt-6">
+                    <button type="button" class="btn-premium btn-secondary-premium" id="cancel-confirmation">
+                        Cancel
+                    </button>
+                    <button type="button" class="btn-premium btn-primary-premium" id="confirm-action">
+                        Confirm
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Notification Toast -->
     <div class="toast-container" id="toast-container"></div>
 
-    <script src="admin.js"></script>
+    <!-- Loader Overlay -->
+    <div class="loader-overlay" id="loader-overlay" style="display: none;">
+        <div class="loading-spinner"></div>
+        <p class="mt-4">Loading...</p>
+    </div>
+
+    <script>
+    // ============================================
+    // INFOGRIP PREMIUM CRM SYSTEM
+    // Fully Functional Admin Dashboard
+    // ============================================
+
+    // Global State
+    const GLOBAL = {
+        clients: [],
+        subscriptions: [],
+        invoices: [],
+        payments: [],
+        dashboardStats: {},
+        currentClientId: null,
+        currentInvoiceId: null,
+        currentSubscriptionId: null,
+        confirmationCallback: null
+    };
+
+    // Configuration
+    const CONFIG = {
+        API_BASE: "https://script.google.com/macros/s/AKfycbx07QetFwOnkrHlNs2XWHKJUf-FVamBxzvr_ea75x1aJvV1A2wfsBIM3LkZZJfnalm5/exec",
+        RAZORPAY_KEY_ID: "rzp_test_RmL6IMlQKxUoC3",
+        ADMIN_SECRET: localStorage.getItem('admin_secret') || 'YOUR_ADMIN_SECRET_HERE'
+    };
+
+    // Main Application
+    class InfoGripCRM {
+        constructor() {
+            this.currentSection = 'dashboard';
+            this.charts = {};
+            this.init();
+        }
+
+        init() {
+            this.bindEvents();
+            this.initCharts();
+            this.loadDashboardData();
+            this.setupRouting();
+            this.applySavedTheme();
+            this.showToast('InfoGrip CRM loaded successfully!', 'success');
+        }
+
+        bindEvents() {
+            // Theme Toggle
+            document.getElementById('theme-toggle').addEventListener('click', () => this.toggleTheme());
+            
+            // Menu Toggle
+            document.getElementById('menu-toggle').addEventListener('click', () => this.toggleSidebar());
+            
+            // Dashboard Buttons
+            document.getElementById('refresh-btn').addEventListener('click', () => this.refreshDashboard());
+            document.getElementById('new-invoice-btn').addEventListener('click', () => this.openInvoiceModal());
+            document.getElementById('send-reminders-btn').addEventListener('click', () => this.sendReminders());
+            document.getElementById('export-data-btn').addEventListener('click', () => this.exportData());
+            document.getElementById('create-subscription-btn').addEventListener('click', () => this.openSubscriptionModal());
+            document.getElementById('view-reports-btn').addEventListener('click', () => this.viewReports());
+            document.getElementById('view-all-invoices').addEventListener('click', () => this.switchSection('invoices'));
+            
+            // Clients Section
+            document.getElementById('add-client-btn').addEventListener('click', () => this.openClientModal());
+            document.getElementById('refresh-clients').addEventListener('click', () => this.loadClients());
+            document.getElementById('clear-filters').addEventListener('click', () => this.clearClientFilters());
+            document.getElementById('client-search').addEventListener('input', (e) => this.filterClients(e.target.value));
+            document.getElementById('client-status-filter').addEventListener('change', () => this.filterClients());
+            document.getElementById('new-client-sidebar').addEventListener('click', (e) => {
+                e.preventDefault();
+                this.switchSection('clients');
+                setTimeout(() => this.openClientModal(), 100);
+            });
+            
+            // Subscriptions Section
+            document.getElementById('add-subscription-btn').addEventListener('click', () => this.openSubscriptionModal());
+            document.getElementById('refresh-subscriptions').addEventListener('click', () => this.loadSubscriptions());
+            document.querySelectorAll('[data-tab]').forEach(tab => {
+                tab.addEventListener('click', (e) => {
+                    const tabId = e.target.getAttribute('data-tab');
+                    this.switchTab(tabId);
+                });
+            });
+            
+            // Invoices Section
+            document.getElementById('new-invoice-tab-btn').addEventListener('click', () => this.openInvoiceModal());
+            document.getElementById('refresh-invoices').addEventListener('click', () => this.loadInvoices());
+            document.getElementById('filter-invoices').addEventListener('click', () => this.filterInvoices());
+            document.getElementById('new-invoice-sidebar').addEventListener('click', (e) => {
+                e.preventDefault();
+                this.switchSection('invoices');
+                setTimeout(() => this.openInvoiceModal(), 100);
+            });
+            
+            // Payments Section
+            document.getElementById('refresh-payments').addEventListener('click', () => this.loadPayments());
+            document.getElementById('export-payments-btn').addEventListener('click', () => this.exportPayments());
+            document.getElementById('filter-payments').addEventListener('click', () => this.filterPayments());
+            
+            // Settings Section
+            document.getElementById('save-settings-btn').addEventListener('click', () => this.saveSettings());
+            document.getElementById('toggle-secret').addEventListener('click', () => this.toggleSecretVisibility());
+            document.getElementById('test-api-btn').addEventListener('click', () => this.testAPIConnection());
+            document.getElementById('clear-cache-btn').addEventListener('click', () => this.clearCache());
+            document.getElementById('reset-settings-btn').addEventListener('click', () => this.resetSettings());
+            
+            // Invoice Modal
+            document.getElementById('close-invoice-modal').addEventListener('click', () => this.closeInvoiceModal());
+            document.getElementById('cancel-invoice').addEventListener('click', () => this.closeInvoiceModal());
+            document.getElementById('add-service-btn').addEventListener('click', () => this.addServiceRow());
+            document.getElementById('invoice-form').addEventListener('submit', (e) => this.handleInvoiceSubmit(e));
+            
+            // Client Modal
+            document.getElementById('close-client-modal').addEventListener('click', () => this.closeClientModal());
+            document.getElementById('cancel-client').addEventListener('click', () => this.closeClientModal());
+            document.getElementById('client-form').addEventListener('submit', (e) => this.handleClientSubmit(e));
+            
+            // Subscription Modal
+            document.getElementById('close-subscription-modal').addEventListener('click', () => this.closeSubscriptionModal());
+            document.getElementById('cancel-subscription').addEventListener('click', () => this.closeSubscriptionModal());
+            document.getElementById('subscription-plan').addEventListener('change', (e) => this.handlePlanChange(e));
+            document.getElementById('subscription-form').addEventListener('submit', (e) => this.handleSubscriptionSubmit(e));
+            
+            // Confirmation Modal
+            document.getElementById('close-confirmation-modal').addEventListener('click', () => this.closeConfirmationModal());
+            document.getElementById('cancel-confirmation').addEventListener('click', () => this.closeConfirmationModal());
+            document.getElementById('confirm-action').addEventListener('click', () => this.executeConfirmedAction());
+            
+            // Close modals on overlay click
+            document.querySelectorAll('.modal-overlay-premium').forEach(modal => {
+                modal.addEventListener('click', (e) => {
+                    if (e.target === e.currentTarget) {
+                        if (modal.id === 'invoice-modal') this.closeInvoiceModal();
+                        if (modal.id === 'client-modal') this.closeClientModal();
+                        if (modal.id === 'subscription-modal') this.closeSubscriptionModal();
+                        if (modal.id === 'confirmation-modal') this.closeConfirmationModal();
+                        if (modal.id === 'view-client-modal') this.closeViewClientModal();
+                    }
+                });
+            });
+            
+            // Input Calculations
+            document.addEventListener('input', (e) => {
+                if (e.target.matches('.service-price, .service-qty, #discount, #gst-percent')) {
+                    this.calculateInvoiceTotals();
+                }
+            });
+            
+            // Revenue Period Change
+            document.getElementById('revenue-period').addEventListener('change', () => this.loadRevenueData());
+        }
+
+        setupRouting() {
+            // Sidebar navigation
+            document.querySelectorAll('.sidebar-link, .nav-link').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const target = link.getAttribute('data-target');
+                    this.switchSection(target);
+                    
+                    // Update active states
+                    document.querySelectorAll('.sidebar-link, .nav-link').forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
+                    
+                    // Close sidebar on mobile
+                    if (window.innerWidth < 992) {
+                        document.getElementById('sidebar').classList.remove('active');
+                    }
+                });
+            });
+            
+            // Handle URL hash changes
+            window.addEventListener('hashchange', () => {
+                const hash = window.location.hash.replace('#', '');
+                if (hash && document.getElementById(hash)) {
+                    this.switchSection(hash);
+                }
+            });
+            
+            // Initial section based on URL hash
+            const hash = window.location.hash.replace('#', '');
+            if (hash && document.getElementById(hash)) {
+                this.switchSection(hash);
+            }
+        }
+
+        switchSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.dashboard-section').forEach(section => {
+                section.style.display = 'none';
+            });
+            
+            // Show target section
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.style.display = 'block';
+                this.currentSection = sectionId;
+                
+                // Load section data
+                switch(sectionId) {
+                    case 'clients':
+                        this.loadClients();
+                        break;
+                    case 'subscriptions':
+                        this.loadSubscriptions();
+                        break;
+                    case 'invoices':
+                        this.loadInvoices();
+                        break;
+                    case 'payments':
+                        this.loadPayments();
+                        break;
+                    case 'settings':
+                        this.loadSettings();
+                        break;
+                }
+                
+                // Update URL hash
+                window.location.hash = sectionId;
+            }
+        }
+
+        switchTab(tabId) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.style.display = 'none';
+            });
+            
+            // Remove active class from all tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show target tab content
+            const targetTab = document.getElementById(tabId);
+            if (targetTab) {
+                targetTab.style.display = 'block';
+            }
+            
+            // Activate clicked tab button
+            const activeBtn = document.querySelector(`.tab-btn[data-tab="${tabId}"]`);
+            if (activeBtn) {
+                activeBtn.classList.add('active');
+            }
+        }
+
+        // ============================================
+        // DASHBOARD FUNCTIONS
+        // ============================================
+
+        async loadDashboardData() {
+            try {
+                this.showLoader();
+                
+                // Load dashboard stats
+                const response = await fetch(`${CONFIG.API_BASE}/getDashboardStats?admin_secret=${CONFIG.ADMIN_SECRET}`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    GLOBAL.dashboardStats = data;
+                    this.updateDashboardStats(data);
+                    this.loadRevenueData();
+                    this.loadPaymentStats();
+                    this.loadRecentInvoices();
+                } else {
+                    this.showToast('Failed to load dashboard data', 'error');
+                }
+            } catch (error) {
+                console.error('Error loading dashboard:', error);
+                this.showToast('Connection error. Please check your internet.', 'error');
+            } finally {
+                this.hideLoader();
+            }
+        }
+
+        updateDashboardStats(data) {
+            // Update KPI cards
+            document.getElementById('total-revenue').textContent = `₹${data.total_revenue || '0'}`;
+            document.getElementById('total-clients').textContent = data.active_clients || '0';
+            document.getElementById('pending-invoices-count').textContent = data.pending_invoices || '0';
+            document.getElementById('renewals-due-count').textContent = data.renewals_due || '0';
+            
+            // Update badges in sidebar
+            document.getElementById('pending-count').textContent = data.pending_invoices || '0';
+            document.getElementById('renewals-count').textContent = data.renewals_due || '0';
+            
+            // Update trends
+            document.getElementById('revenue-trend').textContent = `${data.revenue_growth || '0'}% from last month`;
+            document.getElementById('clients-trend').textContent = `${data.new_clients || '0'} new this month`;
+            document.getElementById('overdue-count').textContent = `${data.overdue_invoices || '0'} overdue`;
+        }
+
+        async loadRecentInvoices() {
+            try {
+                const response = await fetch(`${CONFIG.API_BASE}/listInvoices?admin_secret=${CONFIG.ADMIN_SECRET}&limit=5`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    GLOBAL.invoices = data.invoices || [];
+                    this.renderRecentInvoices(GLOBAL.invoices);
+                }
+            } catch (error) {
+                console.error('Error loading invoices:', error);
+            }
+        }
+
+        renderRecentInvoices(invoices) {
+            const tbody = document.getElementById('recent-invoices-body');
+            if (!tbody) return;
+            
+            if (!invoices || invoices.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="text-center p-8">
+                            <i class="fas fa-inbox text-4xl opacity-50 mb-3"></i>
+                            <p>No invoices found</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            tbody.innerHTML = invoices.map(invoice => `
+                <tr>
+                    <td><strong>${invoice.invoice_id || 'N/A'}</strong></td>
+                    <td>${invoice.client_name || 'Unknown Client'}</td>
+                    <td class="font-bold">₹${invoice.total_amount || 0}</td>
+                    <td>
+                        <span class="badge-premium ${invoice.status === 'Paid' ? 'badge-success' : invoice.status === 'Pending' ? 'badge-warning' : 'badge-danger'}">
+                            ${invoice.status || 'Pending'}
+                        </span>
+                    </td>
+                    <td>${this.formatDate(invoice.created_at)}</td>
+                    <td>
+                        <div class="flex gap-2">
+                            <button class="btn-premium btn-sm-premium btn-secondary-premium view-invoice-btn" data-id="${invoice.invoice_id}">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            ${invoice.status === 'Pending' ? `
+                                <button class="btn-premium btn-sm-premium btn-primary-premium send-invoice-reminder-btn" data-id="${invoice.invoice_id}">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            ` : ''}
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+            
+            // Add event listeners
+            document.querySelectorAll('.view-invoice-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const invoiceId = e.currentTarget.getAttribute('data-id');
+                    this.viewInvoice(invoiceId);
+                });
+            });
+            
+            document.querySelectorAll('.send-invoice-reminder-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const invoiceId = e.currentTarget.getAttribute('data-id');
+                    this.sendInvoiceReminder(invoiceId);
+                });
+            });
+        }
+
+        async loadRevenueData() {
+            try {
+                const period = document.getElementById('revenue-period').value;
+                const days = period === '7d' ? 7 : period === '90d' ? 90 : 30;
+                
+                const response = await fetch(`${CONFIG.API_BASE}/getRevenueData?admin_secret=${CONFIG.ADMIN_SECRET}&days=${days}`);
+                const data = await response.json();
+                
+                if (data.success && this.charts.revenue) {
+                    this.updateRevenueChart(data);
+                }
+            } catch (error) {
+                console.error('Error loading revenue data:', error);
+            }
+        }
+
+        async loadPaymentStats() {
+            try {
+                const response = await fetch(`${CONFIG.API_BASE}/getPaymentStats?admin_secret=${CONFIG.ADMIN_SECRET}`);
+                const data = await response.json();
+                
+                if (data.success && this.charts.payment) {
+                    this.updatePaymentChart(data);
+                }
+            } catch (error) {
+                console.error('Error loading payment stats:', error);
+            }
+        }
+
+        initCharts() {
+            // Revenue Chart
+            const revenueCtx = document.getElementById('revenueChart');
+            if (revenueCtx) {
+                this.charts.revenue = new Chart(revenueCtx, {
+                    type: 'line',
+                    data: {
+                        labels: [],
+                        datasets: [{
+                            label: 'Revenue (₹)',
+                            data: [],
+                            borderColor: '#fdcb54',
+                            backgroundColor: 'rgba(253, 203, 84, 0.1)',
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.4,
+                            pointBackgroundColor: '#fdcb54',
+                            pointBorderColor: '#fff',
+                            pointBorderWidth: 2,
+                            pointRadius: 6
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                backgroundColor: 'rgba(0, 28, 79, 0.9)',
+                                titleColor: '#fdcb54',
+                                bodyColor: '#fff',
+                                borderColor: '#fdcb54',
+                                borderWidth: 1,
+                                callbacks: {
+                                    label: function(context) {
+                                        return '₹' + context.parsed.y.toLocaleString();
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                                ticks: {
+                                    color: 'rgba(255, 255, 255, 0.7)',
+                                    callback: function(value) {
+                                        return '₹' + value.toLocaleString();
+                                    }
+                                }
+                            },
+                            x: {
+                                grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                                ticks: { color: 'rgba(255, 255, 255, 0.7)' }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Payment Chart
+            const paymentCtx = document.getElementById('paymentChart');
+            if (paymentCtx) {
+                this.charts.payment = new Chart(paymentCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Paid', 'Pending', 'Failed'],
+                        datasets: [{
+                            data: [0, 0, 0],
+                            backgroundColor: [
+                                'rgba(0, 208, 156, 0.8)',
+                                'rgba(255, 193, 7, 0.8)',
+                                'rgba(255, 71, 87, 0.8)'
+                            ],
+                            borderColor: [
+                                'rgba(0, 208, 156, 1)',
+                                'rgba(255, 193, 7, 1)',
+                                'rgba(255, 71, 87, 1)'
+                            ],
+                            borderWidth: 2,
+                            hoverOffset: 15
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    color: 'rgba(255, 255, 255, 0.8)',
+                                    padding: 20,
+                                    font: { size: 12 }
+                                }
+                            },
+                            tooltip: {
+                                backgroundColor: 'rgba(0, 28, 79, 0.9)',
+                                bodyColor: '#fff',
+                                borderColor: '#fdcb54',
+                                borderWidth: 1,
+                                callbacks: {
+                                    label: function(context) {
+                                        return `${context.label}: ${context.raw} invoices`;
+                                    }
+                                }
+                            }
+                        },
+                        cutout: '70%'
+                    }
+                });
+            }
+        }
+
+        updateRevenueChart(data) {
+            if (!this.charts.revenue) return;
+            
+            if (data.labels && data.values) {
+                this.charts.revenue.data.labels = data.labels;
+                this.charts.revenue.data.datasets[0].data = data.values;
+            } else {
+                // Generate sample data if API doesn't provide
+                const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'];
+                const newData = labels.map(() => Math.floor(Math.random() * 30000) + 10000);
+                this.charts.revenue.data.labels = labels;
+                this.charts.revenue.data.datasets[0].data = newData;
+            }
+            
+            this.charts.revenue.update();
+        }
+
+        updatePaymentChart(data) {
+            if (!this.charts.payment) return;
+            
+            if (data.paid !== undefined) {
+                this.charts.payment.data.datasets[0].data = [
+                    data.paid || 0,
+                    data.pending || 0,
+                    data.failed || 0
+                ];
+            }
+            
+            this.charts.payment.update();
+        }
+
+        refreshDashboard() {
+            this.showToast('Refreshing dashboard...', 'info');
+            this.loadDashboardData();
+        }
+
+        // ============================================
+        // CLIENTS MANAGEMENT
+        // ============================================
+
+        async loadClients() {
+            try {
+                this.showLoader();
+                
+                const response = await fetch(`${CONFIG.API_BASE}/listClients?admin_secret=${CONFIG.ADMIN_SECRET}`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    GLOBAL.clients = data.clients || [];
+                    this.renderClients(GLOBAL.clients);
+                    this.updateClientSelect();
+                } else {
+                    this.showToast('Failed to load clients', 'error');
+                }
+            } catch (error) {
+                console.error('Error loading clients:', error);
+                this.showToast('Error loading clients', 'error');
+            } finally {
+                this.hideLoader();
+            }
+        }
+
+        renderClients(clients) {
+            const tbody = document.getElementById('clients-table-body');
+            if (!tbody) return;
+            
+            if (!clients || clients.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="8" class="text-center p-8">
+                            <i class="fas fa-users text-4xl opacity-50 mb-3"></i>
+                            <p>No clients found</p>
+                            <button class="btn-premium btn-primary-premium mt-4" id="add-first-client">
+                                <i class="fas fa-plus"></i> Add Your First Client
+                            </button>
+                        </td>
+                    </tr>
+                `;
+                
+                document.getElementById('add-first-client')?.addEventListener('click', () => this.openClientModal());
+                return;
+            }
+            
+            tbody.innerHTML = clients.map(client => `
+                <tr>
+                    <td><strong>#${client.client_id || client.id || 'N/A'}</strong></td>
+                    <td>
+                        <div class="flex items-center gap-3">
+                            <div class="avatar" style="width: 32px; height: 32px; font-size: 0.8rem;">
+                                ${client.name ? client.name.charAt(0).toUpperCase() : 'C'}
+                            </div>
+                            <div>
+                                <div class="font-medium">${client.name || 'Unnamed Client'}</div>
+                                <div class="text-sm opacity-70">${client.company || ''}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>${client.email || 'N/A'}</td>
+                    <td>${client.phone || 'N/A'}</td>
+                    <td>
+                        <span class="badge-premium ${client.status === 'active' ? 'badge-success' : client.status === 'overdue' ? 'badge-danger' : 'badge-secondary'}">
+                            ${client.status || 'active'}
+                        </span>
+                    </td>
+                    <td class="font-bold">₹${client.total_spent || 0}</td>
+                    <td>${this.formatDate(client.created_at)}</td>
+                    <td>
+                        <div class="flex gap-2">
+                            <button class="btn-premium btn-sm-premium btn-secondary-premium view-client-btn" data-id="${client.client_id || client.id}">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="btn-premium btn-sm-premium btn-primary-premium edit-client-btn" data-id="${client.client_id || client.id}">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn-premium btn-sm-premium btn-secondary-premium quick-invoice-btn" data-id="${client.client_id || client.id}">
+                                <i class="fas fa-file-invoice"></i>
+                            </button>
+                            <button class="btn-premium btn-sm-premium btn-danger-premium delete-client-btn" data-id="${client.client_id || client.id}">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+            
+            // Update count
+            document.getElementById('clients-count').textContent = `${clients.length} clients found`;
+            
+            // Add event listeners
+            document.querySelectorAll('.view-client-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const clientId = e.currentTarget.getAttribute('data-id');
+                    this.viewClient(clientId);
+                });
+            });
+            
+            document.querySelectorAll('.edit-client-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const clientId = e.currentTarget.getAttribute('data-id');
+                    this.editClient(clientId);
+                });
+            });
+            
+            document.querySelectorAll('.quick-invoice-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const clientId = e.currentTarget.getAttribute('data-id');
+                    this.createQuickInvoice(clientId);
+                });
+            });
+            
+            document.querySelectorAll('.delete-client-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const clientId = e.currentTarget.getAttribute('data-id');
+                    this.confirmDeleteClient(clientId);
+                });
+            });
+        }
+
+        filterClients(searchTerm = null) {
+            const search = searchTerm || document.getElementById('client-search').value.toLowerCase();
+            const statusFilter = document.getElementById('client-status-filter').value;
+            
+            let filtered = GLOBAL.clients;
+            
+            if (search) {
+                filtered = filtered.filter(client => 
+                    (client.name && client.name.toLowerCase().includes(search)) ||
+                    (client.email && client.email.toLowerCase().includes(search)) ||
+                    (client.phone && client.phone.includes(search)) ||
+                    (client.company && client.company.toLowerCase().includes(search))
+                );
+            }
+            
+            if (statusFilter) {
+                filtered = filtered.filter(client => client.status === statusFilter);
+            }
+            
+            this.renderClients(filtered);
+        }
+
+        clearClientFilters() {
+            document.getElementById('client-search').value = '';
+            document.getElementById('client-status-filter').value = '';
+            this.renderClients(GLOBAL.clients);
+        }
+
+        openClientModal() {
+            document.getElementById('client-modal').classList.add('active');
+            document.getElementById('client-form').reset();
+            document.getElementById('save-client-btn').innerHTML = '<i class="fas fa-save"></i> Save Client';
+            document.getElementById('save-client-btn').disabled = false;
+        }
+
+        closeClientModal() {
+            document.getElementById('client-modal').classList.remove('active');
+        }
+
+        async handleClientSubmit(e) {
+            e.preventDefault();
+            
+            try {
+                const formData = {
+                    admin_secret: CONFIG.ADMIN_SECRET,
+                    name: document.getElementById('client-fname').value + ' ' + document.getElementById('client-lname').value,
+                    email: document.getElementById('client-email').value,
+                    phone: document.getElementById('client-phone').value,
+                    company: document.getElementById('client-company').value,
+                    address: document.getElementById('client-address').value,
+                    city: document.getElementById('client-city').value,
+                    state: document.getElementById('client-state').value,
+                    notes: document.getElementById('client-notes').value,
+                    status: 'active'
+                };
+                
+                // Show loading
+                const submitBtn = document.getElementById('save-client-btn');
+                submitBtn.innerHTML = '<div class="loading-spinner" style="width: 20px; height: 20px;"></div>';
+                submitBtn.disabled = true;
+                
+                // Create client via API
+                const response = await fetch(`${CONFIG.API_BASE}/createClient`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    this.showToast('Client created successfully!', 'success');
+                    this.closeClientModal();
+                    this.loadClients();
+                    this.loadDashboardData(); // Refresh dashboard stats
+                } else {
+                    this.showToast(result.error || 'Failed to create client', 'error');
+                }
+                
+            } catch (error) {
+                console.error('Error creating client:', error);
+                this.showToast('Error creating client. Please try again.', 'error');
+            } finally {
+                const submitBtn = document.getElementById('save-client-btn');
+                submitBtn.innerHTML = '<i class="fas fa-save"></i> Save Client';
+                submitBtn.disabled = false;
+            }
+        }
+
+        async viewClient(clientId) {
+            try {
+                this.showLoader();
+                
+                const response = await fetch(`${CONFIG.API_BASE}/getClientById?admin_secret=${CONFIG.ADMIN_SECRET}&client_id=${clientId}`);
+                const data = await response.json();
+                
+                if (data.success && data.client) {
+                    this.renderClientDetails(data.client);
+                    document.getElementById('view-client-modal').classList.add('active');
+                } else {
+                    this.showToast('Client not found', 'error');
+                }
+            } catch (error) {
+                console.error('Error loading client:', error);
+                this.showToast('Error loading client details', 'error');
+            } finally {
+                this.hideLoader();
+            }
+        }
+
+        renderClientDetails(client) {
+            const content = document.getElementById('client-details-content');
+            
+            const invoices = GLOBAL.invoices.filter(inv => inv.client_id === client.client_id);
+            const totalSpent = invoices.reduce((sum, inv) => sum + (parseFloat(inv.total_amount) || 0), 0);
+            
+            content.innerHTML = `
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="lg:col-span-2">
+                        <div class="glass-card p-6 mb-6">
+                            <div class="flex items-center gap-4 mb-6">
+                                <div class="avatar" style="width: 60px; height: 60px; font-size: 1.5rem;">
+                                    ${client.name ? client.name.charAt(0).toUpperCase() : 'C'}
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-bold">${client.name || 'Unnamed Client'}</h3>
+                                    <p class="opacity-70">${client.company || 'No company'}</p>
+                                </div>
+                                <span class="badge-premium ${client.status === 'active' ? 'badge-success' : 'badge-danger'} ml-auto">
+                                    ${client.status || 'active'}
+                                </span>
+                            </div>
+                            
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="text-sm opacity-70">Email</label>
+                                    <p class="font-medium">${client.email || 'N/A'}</p>
+                                </div>
+                                <div>
+                                    <label class="text-sm opacity-70">Phone</label>
+                                    <p class="font-medium">${client.phone || 'N/A'}</p>
+                                </div>
+                                <div>
+                                    <label class="text-sm opacity-70">Address</label>
+                                    <p class="font-medium">${client.address || 'N/A'}</p>
+                                </div>
+                                <div>
+                                    <label class="text-sm opacity-70">City/State</label>
+                                    <p class="font-medium">${client.city || ''} ${client.state || ''}</p>
+                                </div>
+                            </div>
+                            
+                            ${client.notes ? `
+                                <div class="mt-4 pt-4 border-t border-glass-border">
+                                    <label class="text-sm opacity-70">Notes</label>
+                                    <p class="font-medium">${client.notes}</p>
+                                </div>
+                            ` : ''}
+                        </div>
+                        
+                        <div class="glass-card p-6">
+                            <h4 class="text-lg font-bold mb-4">Recent Invoices</h4>
+                            ${invoices.length > 0 ? `
+                                <table class="w-full">
+                                    <thead>
+                                        <tr class="text-left border-b border-glass-border">
+                                            <th class="pb-2">Invoice ID</th>
+                                            <th class="pb-2">Amount</th>
+                                            <th class="pb-2">Status</th>
+                                            <th class="pb-2">Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${invoices.slice(0, 5).map(inv => `
+                                            <tr class="border-b border-glass-border">
+                                                <td class="py-2">${inv.invoice_id}</td>
+                                                <td class="py-2 font-bold">₹${inv.total_amount}</td>
+                                                <td class="py-2">
+                                                    <span class="badge-premium ${inv.status === 'Paid' ? 'badge-success' : 'badge-warning'}">
+                                                        ${inv.status}
+                                                    </span>
+                                                </td>
+                                                <td class="py-2">${this.formatDate(inv.created_at)}</td>
+                                            </tr>
+                                        `).join('')}
+                                    </tbody>
+                                </table>
+                            ` : '<p class="opacity-70">No invoices found</p>'}
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="glass-card p-6 mb-6">
+                            <h4 class="text-lg font-bold mb-4">Quick Stats</h4>
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="text-sm opacity-70">Total Invoices</label>
+                                    <p class="text-2xl font-bold">${invoices.length}</p>
+                                </div>
+                                <div>
+                                    <label class="text-sm opacity-70">Total Spent</label>
+                                    <p class="text-2xl font-bold text-gradient">₹${totalSpent.toLocaleString()}</p>
+                                </div>
+                                <div>
+                                    <label class="text-sm opacity-70">Pending Invoices</label>
+                                    <p class="text-2xl font-bold">${invoices.filter(inv => inv.status === 'Pending').length}</p>
+                                </div>
+                                <div>
+                                    <label class="text-sm opacity-70">Member Since</label>
+                                    <p class="text-lg font-medium">${this.formatDate(client.created_at)}</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="glass-card p-6">
+                            <h4 class="text-lg font-bold mb-4">Quick Actions</h4>
+                            <div class="space-y-3">
+                                <button class="btn-premium btn-primary-premium w-full" onclick="crm.createQuickInvoice('${client.client_id || client.id}')">
+                                    <i class="fas fa-file-invoice"></i> Create Invoice
+                                </button>
+                                <button class="btn-premium btn-secondary-premium w-full" onclick="crm.editClient('${client.client_id || client.id}')">
+                                    <i class="fas fa-edit"></i> Edit Client
+                                </button>
+                                <button class="btn-premium btn-secondary-premium w-full" onclick="crm.openSubscriptionModal('${client.client_id || client.id}')">
+                                    <i class="fas fa-calendar-plus"></i> Add Subscription
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        closeViewClientModal() {
+            document.getElementById('view-client-modal').classList.remove('active');
+        }
+
+        editClient(clientId) {
+            // For now, just view the client
+            // In a full implementation, you would load the client data into the form
+            this.viewClient(clientId);
+            this.showToast('Edit functionality coming soon!', 'info');
+        }
+
+        createQuickInvoice(clientId) {
+            this.switchSection('invoices');
+            setTimeout(() => {
+                this.openInvoiceModal();
+                const clientSelect = document.getElementById('client-select');
+                if (clientSelect) {
+                    clientSelect.value = clientId;
+                }
+            }, 100);
+        }
+
+        confirmDeleteClient(clientId) {
+            const client = GLOBAL.clients.find(c => (c.client_id || c.id) === clientId);
+            if (!client) return;
+            
+            GLOBAL.currentClientId = clientId;
+            GLOBAL.confirmationCallback = () => this.deleteClient(clientId);
+            
+            document.getElementById('confirmation-title').textContent = 'Delete Client';
+            document.getElementById('confirmation-message').innerHTML = `
+                Are you sure you want to delete <strong>${client.name}</strong>?<br>
+                This action cannot be undone.
+            `;
+            
+            document.getElementById('confirmation-modal').classList.add('active');
+        }
+
+        async deleteClient(clientId) {
+            try {
+                const response = await fetch(`${CONFIG.API_BASE}/deleteClient`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        admin_secret: CONFIG.ADMIN_SECRET,
+                        client_id: clientId
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    this.showToast('Client deleted successfully!', 'success');
+                    this.loadClients();
+                    this.loadDashboardData();
+                } else {
+                    this.showToast(data.error || 'Failed to delete client', 'error');
+                }
+            } catch (error) {
+                console.error('Error deleting client:', error);
+                this.showToast('Error deleting client', 'error');
+            }
+        }
+
+        updateClientSelect() {
+            const select = document.getElementById('client-select');
+            const subscriptionSelect = document.getElementById('subscription-client-select');
+            
+            if (!select || !subscriptionSelect) return;
+            
+            // Clear existing options
+            select.innerHTML = '<option value="">Search or select client...</option>';
+            subscriptionSelect.innerHTML = '<option value="">Select client...</option>';
+            
+            // Add client options
+            GLOBAL.clients.forEach(client => {
+                const option = document.createElement('option');
+                option.value = client.client_id || client.id;
+                option.textContent = `${client.name} (${client.phone})`;
+                select.appendChild(option.cloneNode(true));
+                subscriptionSelect.appendChild(option);
+            });
+        }
+
+        // ============================================
+        // SUBSCRIPTIONS MANAGEMENT
+        // ============================================
+
+        async loadSubscriptions() {
+            try {
+                this.showLoader();
+                
+                const response = await fetch(`${CONFIG.API_BASE}/listSubscriptions?admin_secret=${CONFIG.ADMIN_SECRET}`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    GLOBAL.subscriptions = data.subscriptions || [];
+                    this.renderSubscriptions(GLOBAL.subscriptions);
+                    
+                    // Load expiring subscriptions
+                    this.loadExpiringSubscriptions();
+                } else {
+                    this.showToast('Failed to load subscriptions', 'error');
+                }
+            } catch (error) {
+                console.error('Error loading subscriptions:', error);
+                this.showToast('Error loading subscriptions', 'error');
+            } finally {
+                this.hideLoader();
+            }
+        }
+
+        renderSubscriptions(subscriptions) {
+            const activeBody = document.getElementById('active-subscriptions-body');
+            const allBody = document.getElementById('all-subscriptions-body');
+            
+            const activeSubs = subscriptions.filter(sub => sub.status === 'active');
+            const expiredSubs = subscriptions.filter(sub => sub.status === 'expired');
+            const cancelledSubs = subscriptions.filter(sub => sub.status === 'cancelled');
+            
+            // Update stats
+            document.getElementById('active-subscriptions-count').textContent = activeSubs.length;
+            
+            // Calculate MRR
+            const mrr = activeSubs.reduce((sum, sub) => sum + (parseFloat(sub.amount) || 0), 0);
+            document.getElementById('mrr-display').textContent = `₹${mrr.toLocaleString()}`;
+            
+            // Calculate renewal rate
+            const totalSubs = subscriptions.length;
+            const renewedSubs = subscriptions.filter(sub => sub.renewed_count > 0).length;
+            const renewalRate = totalSubs > 0 ? Math.round((renewedSubs / totalSubs) * 100) : 0;
+            document.getElementById('renewal-rate').textContent = `${renewalRate}%`;
+            
+            // Render active subscriptions
+            if (activeBody) {
+                if (activeSubs.length === 0) {
+                    activeBody.innerHTML = `
+                        <tr>
+                            <td colspan="8" class="text-center p-8">
+                                <i class="fas fa-sync-alt text-4xl opacity-50 mb-3"></i>
+                                <p>No active subscriptions found</p>
+                            </td>
+                        </tr>
+                    `;
+                } else {
+                    activeBody.innerHTML = activeSubs.map(sub => `
+                        <tr>
+                            <td><strong>#${sub.subscription_id || sub.id}</strong></td>
+                            <td>${sub.client_name || 'Unknown Client'}</td>
+                            <td>${sub.plan_name || sub.plan_type || 'Custom Plan'}</td>
+                            <td class="font-bold">₹${sub.amount || 0}</td>
+                            <td>${this.formatDate(sub.start_date)}</td>
+                            <td>${this.formatDate(sub.renewal_date)}</td>
+                            <td>
+                                <span class="badge-premium badge-success">Active</span>
+                            </td>
+                            <td>
+                                <div class="flex gap-2">
+                                    <button class="btn-premium btn-sm-premium btn-secondary-premium" onclick="crm.sendSubscriptionReminder('${sub.subscription_id || sub.id}')">
+                                        <i class="fas fa-bell"></i>
+                                    </button>
+                                    <button class="btn-premium btn-sm-premium btn-primary-premium" onclick="crm.renewSubscription('${sub.subscription_id || sub.id}')">
+                                        <i class="fas fa-sync-alt"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    `).join('');
+                }
+            }
+            
+            // Render all subscriptions
+            if (allBody) {
+                const allSubs = [...activeSubs, ...expiredSubs, ...cancelledSubs];
+                if (allSubs.length === 0) {
+                    allBody.innerHTML = `
+                        <tr>
+                            <td colspan="7" class="text-center p-8">
+                                <i class="fas fa-sync-alt text-4xl opacity-50 mb-3"></i>
+                                <p>No subscriptions found</p>
+                            </td>
+                        </tr>
+                    `;
+                } else {
+                    allBody.innerHTML = allSubs.map(sub => `
+                        <tr>
+                            <td><strong>#${sub.subscription_id || sub.id}</strong></td>
+                            <td>${sub.client_name || 'Unknown Client'}</td>
+                            <td>${sub.plan_name || sub.plan_type || 'Custom Plan'}</td>
+                            <td class="font-bold">₹${sub.amount || 0}</td>
+                            <td>
+                                <span class="badge-premium ${sub.status === 'active' ? 'badge-success' : sub.status === 'expired' ? 'badge-warning' : 'badge-danger'}">
+                                    ${sub.status || 'active'}
+                                </span>
+                            </td>
+                            <td>${this.formatDate(sub.created_at || sub.start_date)}</td>
+                            <td>
+                                <div class="flex gap-2">
+                                    ${sub.status === 'active' ? `
+                                        <button class="btn-premium btn-sm-premium btn-secondary-premium" onclick="crm.sendSubscriptionReminder('${sub.subscription_id || sub.id}')">
+                                            <i class="fas fa-bell"></i>
+                                        </button>
+                                        <button class="btn-premium btn-sm-premium btn-primary-premium" onclick="crm.renewSubscription('${sub.subscription_id || sub.id}')">
+                                            <i class="fas fa-sync-alt"></i>
+                                        </button>
+                                    ` : ''}
+                                </div>
+                            </td>
+                        </tr>
+                    `).join('');
+                }
+            }
+        }
+
+        async loadExpiringSubscriptions() {
+            try {
+                const response = await fetch(`${CONFIG.API_BASE}/getExpiringSubscriptions?admin_secret=${CONFIG.ADMIN_SECRET}&days=7`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    this.renderExpiringSubscriptions(data.subscriptions || []);
+                    document.getElementById('expiring-subscriptions-count').textContent = data.subscriptions?.length || 0;
+                }
+            } catch (error) {
+                console.error('Error loading expiring subscriptions:', error);
+            }
+        }
+
+        renderExpiringSubscriptions(subscriptions) {
+            const body = document.getElementById('expiring-subscriptions-body');
+            if (!body) return;
+            
+            if (!subscriptions || subscriptions.length === 0) {
+                body.innerHTML = `
+                    <tr>
+                        <td colspan="7" class="text-center p-8">
+                            <i class="fas fa-check-circle text-4xl opacity-50 mb-3"></i>
+                            <p>No subscriptions expiring soon</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            body.innerHTML = subscriptions.map(sub => {
+                const renewalDate = new Date(sub.renewal_date);
+                const today = new Date();
+                const daysLeft = Math.ceil((renewalDate - today) / (1000 * 60 * 60 * 24));
+                
+                return `
+                    <tr>
+                        <td><strong>#${sub.subscription_id || sub.id}</strong></td>
+                        <td>${sub.client_name || 'Unknown Client'}</td>
+                        <td>${sub.plan_name || sub.plan_type || 'Custom Plan'}</td>
+                        <td class="font-bold">₹${sub.amount || 0}</td>
+                        <td>${this.formatDate(sub.renewal_date)}</td>
+                        <td>
+                            <span class="badge-premium ${daysLeft <= 3 ? 'badge-danger' : 'badge-warning'}">
+                                ${daysLeft} days
+                            </span>
+                        </td>
+                        <td>
+                            <div class="flex gap-2">
+                                <button class="btn-premium btn-sm-premium btn-secondary-premium" onclick="crm.sendSubscriptionReminder('${sub.subscription_id || sub.id}')">
+                                    <i class="fas fa-bell"></i>
+                                </button>
+                                <button class="btn-premium btn-sm-premium btn-primary-premium" onclick="crm.renewSubscription('${sub.subscription_id || sub.id}')">
+                                    <i class="fas fa-sync-alt"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        openSubscriptionModal(preSelectedClientId = null) {
+            document.getElementById('subscription-modal').classList.add('active');
+            document.getElementById('subscription-form').reset();
+            
+            // Set today's date as default start date
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('subscription-start').value = today;
+            
+            // Pre-select client if provided
+            if (preSelectedClientId) {
+                document.getElementById('subscription-client-select').value = preSelectedClientId;
+            }
+            
+            // Set default amount based on plan
+            document.getElementById('subscription-plan').addEventListener('change', (e) => this.handlePlanChange(e));
+        }
+
+        closeSubscriptionModal() {
+            document.getElementById('subscription-modal').classList.remove('active');
+        }
+
+        handlePlanChange(e) {
+            const plan = e.target.value;
+            const customGroup = document.getElementById('custom-plan-group');
+            const amountField = document.getElementById('subscription-amount');
+            
+            if (plan === 'custom') {
+                customGroup.style.display = 'block';
+                amountField.value = '';
+            } else {
+                customGroup.style.display = 'none';
+                
+                // Set amount based on plan
+                switch(plan) {
+                    case 'social_media':
+                        amountField.value = '2000';
+                        break;
+                    case 'seo':
+                        amountField.value = '5000';
+                        break;
+                    case 'website':
+                        amountField.value = '3000';
+                        break;
+                    case 'content':
+                        amountField.value = '1500';
+                        break;
+                    default:
+                        amountField.value = '';
+                }
+            }
+        }
+
+        async handleSubscriptionSubmit(e) {
+            e.preventDefault();
+            
+            try {
+                const formData = {
+                    admin_secret: CONFIG.ADMIN_SECRET,
+                    client_id: document.getElementById('subscription-client-select').value,
+                    plan_type: document.getElementById('subscription-plan').value,
+                    plan_name: document.getElementById('subscription-plan').value === 'custom' 
+                        ? document.getElementById('custom-plan-name').value 
+                        : document.getElementById('subscription-plan').options[document.getElementById('subscription-plan').selectedIndex].text,
+                    amount: document.getElementById('subscription-amount').value,
+                    billing_cycle: document.getElementById('subscription-cycle').value,
+                    start_date: document.getElementById('subscription-start').value,
+                    auto_renew: document.getElementById('auto-renew').checked ? 'yes' : 'no',
+                    notes: document.getElementById('subscription-notes').value,
+                    status: 'active'
+                };
+                
+                // Show loading
+                const submitBtn = document.getElementById('save-subscription-btn');
+                submitBtn.innerHTML = '<div class="loading-spinner" style="width: 20px; height: 20px;"></div>';
+                submitBtn.disabled = true;
+                
+                // Create subscription via API
+                const response = await fetch(`${CONFIG.API_BASE}/createSubscription`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    this.showToast('Subscription created successfully!', 'success');
+                    this.closeSubscriptionModal();
+                    this.loadSubscriptions();
+                    this.loadDashboardData();
+                } else {
+                    this.showToast(result.error || 'Failed to create subscription', 'error');
+                }
+                
+            } catch (error) {
+                console.error('Error creating subscription:', error);
+                this.showToast('Error creating subscription. Please try again.', 'error');
+            } finally {
+                const submitBtn = document.getElementById('save-subscription-btn');
+                submitBtn.innerHTML = '<i class="fas fa-save"></i> Create Subscription';
+                submitBtn.disabled = false;
+            }
+        }
+
+        async sendSubscriptionReminder(subscriptionId) {
+            try {
+                this.showToast('Sending reminder...', 'info');
+                
+                const response = await fetch(`${CONFIG.API_BASE}/sendSubscriptionReminder`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        admin_secret: CONFIG.ADMIN_SECRET,
+                        subscription_id: subscriptionId
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    this.showToast('Reminder sent successfully!', 'success');
+                } else {
+                    this.showToast(data.error || 'Failed to send reminder', 'error');
+                }
+            } catch (error) {
+                console.error('Error sending reminder:', error);
+                this.showToast('Error sending reminder', 'error');
+            }
+        }
+
+        async renewSubscription(subscriptionId) {
+            try {
+                // Find the subscription
+                const subscription = GLOBAL.subscriptions.find(sub => (sub.subscription_id || sub.id) === subscriptionId);
+                if (!subscription) {
+                    this.showToast('Subscription not found', 'error');
+                    return;
+                }
+                
+                // Create invoice for renewal
+                const invoiceData = {
+                    admin_secret: CONFIG.ADMIN_SECRET,
+                    client_id: subscription.client_id,
+                    services_json: JSON.stringify([{
+                        name: `Subscription Renewal - ${subscription.plan_name || subscription.plan_type}`,
+                        quantity: 1,
+                        price: subscription.amount
+                    }]),
+                    subtotal: subscription.amount,
+                    discount: 0,
+                    gst_percent: 18,
+                    total_amount: subscription.amount * 1.18,
+                    notes: `Renewal for subscription #${subscriptionId}`
+                };
+                
+                const response = await fetch(`${CONFIG.API_BASE}/createPaymentRecord`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(invoiceData)
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    this.showToast('Renewal invoice created successfully!', 'success');
+                    
+                    // Update subscription renewal date
+                    const updateResponse = await fetch(`${CONFIG.API_BASE}/updateSubscription`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            admin_secret: CONFIG.ADMIN_SECRET,
+                            subscription_id: subscriptionId,
+                            renewal_date: this.calculateRenewalDate(new Date(), subscription.billing_cycle)
+                        })
+                    });
+                    
+                    this.loadSubscriptions();
+                    this.loadInvoices();
+                } else {
+                    this.showToast(data.error || 'Failed to create renewal invoice', 'error');
+                }
+            } catch (error) {
+                console.error('Error renewing subscription:', error);
+                this.showToast('Error renewing subscription', 'error');
+            }
+        }
+
+        calculateRenewalDate(startDate, cycle) {
+            const date = new Date(startDate);
+            switch(cycle) {
+                case 'monthly':
+                    date.setMonth(date.getMonth() + 1);
+                    break;
+                case 'quarterly':
+                    date.setMonth(date.getMonth() + 3);
+                    break;
+                case 'half_yearly':
+                    date.setMonth(date.getMonth() + 6);
+                    break;
+                case 'yearly':
+                    date.setFullYear(date.getFullYear() + 1);
+                    break;
+            }
+            return date.toISOString().split('T')[0];
+        }
+
+        // ============================================
+        // INVOICES MANAGEMENT
+        // ============================================
+
+        async loadInvoices() {
+            try {
+                this.showLoader();
+                
+                const response = await fetch(`${CONFIG.API_BASE}/listInvoices?admin_secret=${CONFIG.ADMIN_SECRET}`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    GLOBAL.invoices = data.invoices || [];
+                    this.renderInvoices(GLOBAL.invoices);
+                } else {
+                    this.showToast('Failed to load invoices', 'error');
+                }
+            } catch (error) {
+                console.error('Error loading invoices:', error);
+                this.showToast('Error loading invoices', 'error');
+            } finally {
+                this.hideLoader();
+            }
+        }
+
+        renderInvoices(invoices) {
+            // Update stats
+            const total = invoices.length;
+            const pending = invoices.filter(inv => inv.status === 'Pending').length;
+            const paid = invoices.filter(inv => inv.status === 'Paid').length;
+            const overdue = invoices.filter(inv => {
+                if (inv.status !== 'Pending') return false;
+                if (!inv.due_date) return false;
+                const dueDate = new Date(inv.due_date);
+                return dueDate < new Date();
+            }).length;
+            
+            document.getElementById('total-invoices-count').textContent = total;
+            document.getElementById('pending-tab-count').textContent = pending;
+            document.getElementById('paid-tab-count').textContent = paid;
+            document.getElementById('overdue-tab-count').textContent = overdue;
+            
+            // Render all invoices
+            this.renderInvoiceTable('all-invoices-body', invoices);
+            
+            // Render pending invoices
+            const pendingInvoices = invoices.filter(inv => inv.status === 'Pending');
+            this.renderPendingInvoices(pendingInvoices);
+            
+            // Render paid invoices
+            const paidInvoices = invoices.filter(inv => inv.status === 'Paid');
+            this.renderPaidInvoices(paidInvoices);
+            
+            // Render overdue invoices
+            const overdueInvoices = invoices.filter(inv => {
+                if (inv.status !== 'Pending') return false;
+                if (!inv.due_date) return false;
+                const dueDate = new Date(inv.due_date);
+                return dueDate < new Date();
+            });
+            this.renderOverdueInvoices(overdueInvoices);
+        }
+
+        renderInvoiceTable(tableId, invoices) {
+            const tbody = document.getElementById(tableId);
+            if (!tbody) return;
+            
+            if (!invoices || invoices.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" class="text-center p-8">
+                            <i class="fas fa-file-invoice text-4xl opacity-50 mb-3"></i>
+                            <p>No invoices found</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            tbody.innerHTML = invoices.map(invoice => {
+                const dueDate = invoice.due_date ? new Date(invoice.due_date) : null;
+                const today = new Date();
+                const isOverdue = dueDate && dueDate < today && invoice.status === 'Pending';
+                const daysOverdue = isOverdue ? Math.ceil((today - dueDate) / (1000 * 60 * 60 * 24)) : 0;
+                
+                return `
+                    <tr>
+                        <td><strong>${invoice.invoice_id || 'N/A'}</strong></td>
+                        <td>${invoice.client_name || 'Unknown Client'}</td>
+                        <td class="font-bold">₹${invoice.total_amount || 0}</td>
+                        <td>
+                            <span class="badge-premium ${invoice.status === 'Paid' ? 'badge-success' : isOverdue ? 'badge-danger' : 'badge-warning'}">
+                                ${isOverdue ? 'Overdue' : invoice.status || 'Pending'}
+                            </span>
+                        </td>
+                        <td>${dueDate ? this.formatDate(dueDate) : 'N/A'}</td>
+                        <td>${this.formatDate(invoice.created_at)}</td>
+                        <td>
+                            <div class="flex gap-2">
+                                <button class="btn-premium btn-sm-premium btn-secondary-premium view-invoice-btn" data-id="${invoice.invoice_id}">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                ${invoice.status === 'Pending' ? `
+                                    <button class="btn-premium btn-sm-premium btn-primary-premium copy-payment-link-btn" data-id="${invoice.invoice_id}">
+                                        <i class="fas fa-link"></i>
+                                    </button>
+                                    <button class="btn-premium btn-sm-premium btn-success-premium mark-paid-btn" data-id="${invoice.invoice_id}">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                ` : ''}
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+            
+            // Add event listeners
+            this.addInvoiceEventListeners();
+        }
+
+        renderPendingInvoices(invoices) {
+            const tbody = document.getElementById('pending-invoices-body-tab');
+            if (!tbody) return;
+            
+            if (!invoices || invoices.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="text-center p-8">
+                            <i class="fas fa-clock text-4xl opacity-50 mb-3"></i>
+                            <p>No pending invoices</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            tbody.innerHTML = invoices.map(invoice => {
+                const dueDate = invoice.due_date ? new Date(invoice.due_date) : null;
+                const today = new Date();
+                const isOverdue = dueDate && dueDate < today;
+                const daysOverdue = isOverdue ? Math.ceil((today - dueDate) / (1000 * 60 * 60 * 24)) : 0;
+                
+                return `
+                    <tr>
+                        <td><strong>${invoice.invoice_id || 'N/A'}</strong></td>
+                        <td>${invoice.client_name || 'Unknown Client'}</td>
+                        <td class="font-bold">₹${invoice.total_amount || 0}</td>
+                        <td>${dueDate ? this.formatDate(dueDate) : 'N/A'}</td>
+                        <td>
+                            ${isOverdue ? `
+                                <span class="badge-premium badge-danger">${daysOverdue} days overdue</span>
+                            ` : '<span class="badge-premium badge-warning">Not due yet</span>'}
+                        </td>
+                        <td>
+                            <div class="flex gap-2">
+                                <button class="btn-premium btn-sm-premium btn-secondary-premium view-invoice-btn" data-id="${invoice.invoice_id}">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="btn-premium btn-sm-premium btn-primary-premium copy-payment-link-btn" data-id="${invoice.invoice_id}">
+                                    <i class="fas fa-link"></i>
+                                </button>
+                                <button class="btn-premium btn-sm-premium btn-success-premium mark-paid-btn" data-id="${invoice.invoice_id}">
+                                    <i class="fas fa-check"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+            
+            this.addInvoiceEventListeners();
+        }
+
+        renderPaidInvoices(invoices) {
+            const tbody = document.getElementById('paid-invoices-body');
+            if (!tbody) return;
+            
+            if (!invoices || invoices.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="text-center p-8">
+                            <i class="fas fa-check-circle text-4xl opacity-50 mb-3"></i>
+                            <p>No paid invoices</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            tbody.innerHTML = invoices.map(invoice => `
+                <tr>
+                    <td><strong>${invoice.invoice_id || 'N/A'}</strong></td>
+                    <td>${invoice.client_name || 'Unknown Client'}</td>
+                    <td class="font-bold">₹${invoice.total_amount || 0}</td>
+                    <td>${invoice.payment_date ? this.formatDate(invoice.payment_date) : 'N/A'}</td>
+                    <td>${invoice.payment_method || 'N/A'}</td>
+                    <td>
+                        <div class="flex gap-2">
+                            <button class="btn-premium btn-sm-premium btn-secondary-premium view-invoice-btn" data-id="${invoice.invoice_id}">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="btn-premium btn-sm-premium btn-secondary-premium download-invoice-btn" data-id="${invoice.invoice_id}">
+                                <i class="fas fa-download"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+            
+            this.addInvoiceEventListeners();
+        }
+
+        renderOverdueInvoices(invoices) {
+            const tbody = document.getElementById('overdue-invoices-body');
+            if (!tbody) return;
+            
+            if (!invoices || invoices.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="text-center p-8">
+                            <i class="fas fa-exclamation-triangle text-4xl opacity-50 mb-3"></i>
+                            <p>No overdue invoices</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            tbody.innerHTML = invoices.map(invoice => {
+                const dueDate = new Date(invoice.due_date);
+                const today = new Date();
+                const daysOverdue = Math.ceil((today - dueDate) / (1000 * 60 * 60 * 24));
+                
+                return `
+                    <tr>
+                        <td><strong>${invoice.invoice_id || 'N/A'}</strong></td>
+                        <td>${invoice.client_name || 'Unknown Client'}</td>
+                        <td class="font-bold">₹${invoice.total_amount || 0}</td>
+                        <td>${this.formatDate(dueDate)}</td>
+                        <td>
+                            <span class="badge-premium badge-danger">${daysOverdue} days overdue</span>
+                        </td>
+                        <td>
+                            <div class="flex gap-2">
+                                <button class="btn-premium btn-sm-premium btn-secondary-premium view-invoice-btn" data-id="${invoice.invoice_id}">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="btn-premium btn-sm-premium btn-primary-premium copy-payment-link-btn" data-id="${invoice.invoice_id}">
+                                    <i class="fas fa-link"></i>
+                                </button>
+                                <button class="btn-premium btn-sm-premium btn-danger-premium send-reminder-btn" data-id="${invoice.invoice_id}">
+                                    <i class="fas fa-bell"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+            
+            this.addInvoiceEventListeners();
+        }
+
+        addInvoiceEventListeners() {
+            // View invoice
+            document.querySelectorAll('.view-invoice-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const invoiceId = e.currentTarget.getAttribute('data-id');
+                    this.viewInvoice(invoiceId);
+                });
+            });
+            
+            // Copy payment link
+            document.querySelectorAll('.copy-payment-link-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const invoiceId = e.currentTarget.getAttribute('data-id');
+                    this.copyPaymentLink(invoiceId);
+                });
+            });
+            
+            // Mark as paid
+            document.querySelectorAll('.mark-paid-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const invoiceId = e.currentTarget.getAttribute('data-id');
+                    this.markInvoiceAsPaid(invoiceId);
+                });
+            });
+            
+            // Download invoice
+            document.querySelectorAll('.download-invoice-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const invoiceId = e.currentTarget.getAttribute('data-id');
+                    this.downloadInvoice(invoiceId);
+                });
+            });
+            
+            // Send reminder
+            document.querySelectorAll('.send-reminder-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const invoiceId = e.currentTarget.getAttribute('data-id');
+                    this.sendInvoiceReminder(invoiceId);
+                });
+            });
+        }
+
+        filterInvoices() {
+            const fromDate = document.getElementById('invoice-date-from').value;
+            const toDate = document.getElementById('invoice-date-to').value;
+            
+            let filtered = GLOBAL.invoices;
+            
+            if (fromDate) {
+                const from = new Date(fromDate);
+                filtered = filtered.filter(invoice => {
+                    const invoiceDate = new Date(invoice.created_at);
+                    return invoiceDate >= from;
+                });
+            }
+            
+            if (toDate) {
+                const to = new Date(toDate);
+                to.setHours(23, 59, 59, 999);
+                filtered = filtered.filter(invoice => {
+                    const invoiceDate = new Date(invoice.created_at);
+                    return invoiceDate <= to;
+                });
+            }
+            
+            this.renderInvoiceTable('all-invoices-body', filtered);
+        }
+
+        openInvoiceModal() {
+            document.getElementById('invoice-modal').classList.add('active');
+            this.updateClientSelect();
+            this.calculateInvoiceTotals();
+        }
+
+        closeInvoiceModal() {
+            document.getElementById('invoice-modal').classList.remove('active');
+            this.resetInvoiceForm();
+        }
+
+        addServiceRow() {
+            const serviceItems = document.getElementById('service-items');
+            
+            const row = document.createElement('div');
+            row.className = 'service-row flex gap-4 mb-3';
+            row.innerHTML = `
+                <input type="text" class="form-control-premium service-name" placeholder="Service name">
+                <input type="number" class="form-control-premium service-qty" placeholder="Qty" value="1" min="1" style="width: 80px;">
+                <input type="number" class="form-control-premium service-price" placeholder="Price" value="0" min="0" style="width: 120px;">
+                <button type="button" class="btn-premium btn-sm-premium btn-secondary-premium remove-service">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            
+            serviceItems.appendChild(row);
+            
+            // Add event listener to remove button
+            row.querySelector('.remove-service').addEventListener('click', () => {
+                row.remove();
+                this.calculateInvoiceTotals();
+            });
+            
+            this.calculateInvoiceTotals();
+        }
+
+        calculateInvoiceTotals() {
+            let subtotal = 0;
+            
+            document.querySelectorAll('.service-row').forEach(row => {
+                const qty = parseFloat(row.querySelector('.service-qty').value) || 0;
+                const price = parseFloat(row.querySelector('.service-price').value) || 0;
+                subtotal += qty * price;
+            });
+            
+            const discount = parseFloat(document.getElementById('discount').value) || 0;
+            const gstPercent = parseFloat(document.getElementById('gst-percent').value) || 0;
+            
+            const taxableAmount = subtotal - discount;
+            const gstAmount = (taxableAmount * gstPercent) / 100;
+            const total = taxableAmount + gstAmount;
+            
+            // Update displays
+            document.getElementById('subtotal-display').textContent = `₹${subtotal.toLocaleString()}`;
+            document.getElementById('discount-display').textContent = `₹${discount.toLocaleString()}`;
+            document.getElementById('gst-display').textContent = `₹${gstAmount.toLocaleString()} (${gstPercent}%)`;
+            document.getElementById('total-display').textContent = `₹${total.toLocaleString()}`;
+        }
+
+        async handleInvoiceSubmit(e) {
+            e.preventDefault();
+            
+            try {
+                const clientId = document.getElementById('client-select').value;
+                if (!clientId) {
+                    this.showToast('Please select a client', 'warning');
+                    return;
+                }
+                
+                // Gather services
+                const services = [];
+                document.querySelectorAll('.service-row').forEach(row => {
+                    const name = row.querySelector('.service-name').value;
+                    const qty = parseFloat(row.querySelector('.service-qty').value) || 1;
+                    const price = parseFloat(row.querySelector('.service-price').value) || 0;
+                    
+                    if (name && price > 0) {
+                        services.push({
+                            name: name,
+                            quantity: qty,
+                            price: price
+                        });
+                    }
+                });
+                
+                if (services.length === 0) {
+                    this.showToast('Please add at least one service', 'warning');
+                    return;
+                }
+                
+                const subtotal = parseFloat(document.getElementById('subtotal-display').textContent.replace(/[₹,]/g, ''));
+                const discount = parseFloat(document.getElementById('discount').value) || 0;
+                const gstPercent = parseFloat(document.getElementById('gst-percent').value) || 0;
+                const total = parseFloat(document.getElementById('total-display').textContent.replace(/[₹,]/g, ''));
+                
+                const invoiceData = {
+                    admin_secret: CONFIG.ADMIN_SECRET,
+                    client_id: clientId,
+                    services_json: JSON.stringify(services),
+                    subtotal: subtotal,
+                    discount: discount,
+                    gst_percent: gstPercent,
+                    total_amount: total,
+                    created_by: 'Admin'
+                };
+                
+                // Show loading
+                const submitBtn = document.getElementById('generate-invoice-btn');
+                const originalText = submitBtn.innerHTML;
+                submitBtn.innerHTML = '<div class="loading-spinner" style="width: 20px; height: 20px;"></div>';
+                submitBtn.disabled = true;
+                
+                // Create invoice via API
+                const response = await fetch(`${CONFIG.API_BASE}/createPaymentRecord`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(invoiceData)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    this.showToast('Invoice created successfully!', 'success');
+                    
+                    // Show checkout link
+                    if (result.checkout_link) {
+                        this.showToast(`Checkout link: ${result.checkout_link}`, 'info', 10000);
+                        // Copy to clipboard
+                        navigator.clipboard.writeText(result.checkout_link);
+                    }
+                    
+                    // Close modal
+                    this.closeInvoiceModal();
+                    
+                    // Refresh data
+                    this.loadDashboardData();
+                    this.loadInvoices();
+                    
+                } else {
+                    this.showToast(result.error || 'Failed to create invoice', 'error');
+                }
+                
+            } catch (error) {
+                console.error('Error creating invoice:', error);
+                this.showToast('Error creating invoice. Please try again.', 'error');
+            } finally {
+                const submitBtn = document.getElementById('generate-invoice-btn');
+                submitBtn.innerHTML = '<i class="fas fa-file-invoice"></i> Generate Invoice';
+                submitBtn.disabled = false;
+            }
+        }
+
+        resetInvoiceForm() {
+            document.getElementById('invoice-form').reset();
+            document.getElementById('service-items').innerHTML = `
+                <div class="service-row flex gap-4 mb-3">
+                    <input type="text" class="form-control-premium service-name" placeholder="Service name" value="Social Media Management">
+                    <input type="number" class="form-control-premium service-qty" placeholder="Qty" value="1" min="1" style="width: 80px;">
+                    <input type="number" class="form-control-premium service-price" placeholder="Price" value="2000" min="0" style="width: 120px;">
+                    <button type="button" class="btn-premium btn-sm-premium btn-secondary-premium remove-service">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            `;
+            this.calculateInvoiceTotals();
+        }
+
+        async viewInvoice(invoiceId) {
+            try {
+                const response = await fetch(`${CONFIG.API_BASE}/getInvoiceById?invoice_id=${invoiceId}&admin_secret=${CONFIG.ADMIN_SECRET}`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Open invoice in new tab or show in modal
+                    const checkoutUrl = `checkout.html?invoice_id=${invoiceId}`;
+                    window.open(checkoutUrl, '_blank');
+                } else {
+                    this.showToast('Invoice not found', 'error');
+                }
+            } catch (error) {
+                console.error('Error viewing invoice:', error);
+                this.showToast('Error loading invoice', 'error');
+            }
+        }
+
+        async copyPaymentLink(invoiceId) {
+            try {
+                const response = await fetch(`${CONFIG.API_BASE}/getInvoiceById?invoice_id=${invoiceId}&admin_secret=${CONFIG.ADMIN_SECRET}`);
+                const data = await response.json();
+                
+                if (data.success && data.invoice) {
+                    const checkoutLink = data.invoice.checkout_link;
+                    if (checkoutLink) {
+                        navigator.clipboard.writeText(checkoutLink);
+                        this.showToast('Payment link copied to clipboard!', 'success');
+                    } else {
+                        this.showToast('No payment link available for this invoice', 'warning');
+                    }
+                } else {
+                    this.showToast('Invoice not found', 'error');
+                }
+            } catch (error) {
+                console.error('Error copying payment link:', error);
+                this.showToast('Error copying payment link', 'error');
+            }
+        }
+
+        async markInvoiceAsPaid(invoiceId) {
+            try {
+                const response = await fetch(`${CONFIG.API_BASE}/markInvoiceAsPaid`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        admin_secret: CONFIG.ADMIN_SECRET,
+                        invoice_id: invoiceId,
+                        payment_method: 'manual',
+                        payment_date: new Date().toISOString().split('T')[0]
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    this.showToast('Invoice marked as paid!', 'success');
+                    this.loadInvoices();
+                    this.loadDashboardData();
+                } else {
+                    this.showToast(data.error || 'Failed to mark invoice as paid', 'error');
+                }
+            } catch (error) {
+                console.error('Error marking invoice as paid:', error);
+                this.showToast('Error marking invoice as paid', 'error');
+            }
+        }
+
+        async downloadInvoice(invoiceId) {
+            try {
+                const response = await fetch(`${CONFIG.API_BASE}/generateInvoicePDF?invoice_id=${invoiceId}&admin_secret=${CONFIG.ADMIN_SECRET}`);
+                
+                if (response.ok) {
+                    const blob = await response.blob();
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `invoice-${invoiceId}.pdf`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    window.URL.revokeObjectURL(url);
+                    
+                    this.showToast('Invoice downloaded!', 'success');
+                } else {
+                    this.showToast('Failed to download invoice', 'error');
+                }
+            } catch (error) {
+                console.error('Error downloading invoice:', error);
+                this.showToast('Error downloading invoice', 'error');
+            }
+        }
+
+        async sendInvoiceReminder(invoiceId) {
+            try {
+                this.showToast('Sending reminder...', 'info');
+                
+                const response = await fetch(`${CONFIG.API_BASE}/sendInvoiceReminder`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        admin_secret: CONFIG.ADMIN_SECRET,
+                        invoice_id: invoiceId
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    this.showToast('Reminder sent successfully!', 'success');
+                    if (data.wa_link) {
+                        // Open WhatsApp link
+                        window.open(data.wa_link, '_blank');
+                    }
+                } else {
+                    this.showToast(data.error || 'Failed to send reminder', 'error');
+                }
+                
+            } catch (error) {
+                console.error('Error sending reminder:', error);
+                this.showToast('Error sending reminder', 'error');
+            }
+        }
+
+        // ============================================
+        // PAYMENTS MANAGEMENT
+        // ============================================
+
+        async loadPayments() {
+            try {
+                this.showLoader();
+                
+                const response = await fetch(`${CONFIG.API_BASE}/listPayments?admin_secret=${CONFIG.ADMIN_SECRET}`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    GLOBAL.payments = data.payments || [];
+                    this.renderPayments(GLOBAL.payments);
+                } else {
+                    this.showToast('Failed to load payments', 'error');
+                }
+            } catch (error) {
+                console.error('Error loading payments:', error);
+                this.showToast('Error loading payments', 'error');
+            } finally {
+                this.hideLoader();
+            }
+        }
+
+        renderPayments(payments) {
+            const tbody = document.getElementById('payments-table-body');
+            if (!tbody) return;
+            
+            // Calculate stats
+            const totalAmount = payments.reduce((sum, payment) => sum + (parseFloat(payment.amount) || 0), 0);
+            const today = new Date().toISOString().split('T')[0];
+            const todayPayments = payments.filter(p => p.payment_date === today);
+            const todayAmount = todayPayments.reduce((sum, payment) => sum + (parseFloat(payment.amount) || 0), 0);
+            const razorpayPayments = payments.filter(p => p.payment_method === 'razorpay').length;
+            const cashPayments = payments.filter(p => p.payment_method === 'cash' || p.payment_method === 'manual').length;
+            
+            // Update stats
+            document.getElementById('total-payments-amount').textContent = `₹${totalAmount.toLocaleString()}`;
+            document.getElementById('today-payments').textContent = `₹${todayAmount.toLocaleString()}`;
+            document.getElementById('razorpay-payments').textContent = razorpayPayments;
+            document.getElementById('cash-payments').textContent = cashPayments;
+            
+            if (!payments || payments.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="8" class="text-center p-8">
+                            <i class="fas fa-credit-card text-4xl opacity-50 mb-3"></i>
+                            <p>No payments found</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            tbody.innerHTML = payments.map(payment => `
+                <tr>
+                    <td><strong>${payment.payment_id || payment.id || 'N/A'}</strong></td>
+                    <td>${payment.invoice_id || 'N/A'}</td>
+                    <td>${payment.client_name || 'Unknown Client'}</td>
+                    <td class="font-bold">₹${payment.amount || 0}</td>
+                    <td>
+                        <span class="badge-premium ${payment.payment_method === 'razorpay' ? 'badge-info' : payment.payment_method === 'cash' ? 'badge-secondary' : 'badge-warning'}">
+                            ${payment.payment_method || 'Unknown'}
+                        </span>
+                    </td>
+                    <td>
+                        <span class="badge-premium badge-success">Completed</span>
+                    </td>
+                    <td>${this.formatDate(payment.payment_date || payment.created_at)}</td>
+                    <td>
+                        <div class="flex gap-2">
+                            <button class="btn-premium btn-sm-premium btn-secondary-premium view-payment-invoice-btn" data-id="${payment.invoice_id}">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="btn-premium btn-sm-premium btn-secondary-premium download-payment-invoice-btn" data-id="${payment.invoice_id}">
+                                <i class="fas fa-download"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+            
+            // Add event listeners
+            document.querySelectorAll('.view-payment-invoice-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const invoiceId = e.currentTarget.getAttribute('data-id');
+                    this.viewInvoice(invoiceId);
+                });
+            });
+            
+            document.querySelectorAll('.download-payment-invoice-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const invoiceId = e.currentTarget.getAttribute('data-id');
+                    this.downloadInvoice(invoiceId);
+                });
+            });
+        }
+
+        filterPayments() {
+            const fromDate = document.getElementById('payment-date-from').value;
+            const toDate = document.getElementById('payment-date-to').value;
+            const methodFilter = document.getElementById('payment-method-filter').value;
+            
+            let filtered = GLOBAL.payments;
+            
+            if (fromDate) {
+                const from = new Date(fromDate);
+                filtered = filtered.filter(payment => {
+                    const paymentDate = new Date(payment.payment_date || payment.created_at);
+                    return paymentDate >= from;
+                });
+            }
+            
+            if (toDate) {
+                const to = new Date(toDate);
+                to.setHours(23, 59, 59, 999);
+                filtered = filtered.filter(payment => {
+                    const paymentDate = new Date(payment.payment_date || payment.created_at);
+                    return paymentDate <= to;
+                });
+            }
+            
+            if (methodFilter) {
+                filtered = filtered.filter(payment => payment.payment_method === methodFilter);
+            }
+            
+            this.renderPayments(filtered);
+        }
+
+        exportPayments() {
+            const payments = GLOBAL.payments;
+            
+            if (payments.length === 0) {
+                this.showToast('No payments to export', 'warning');
+                return;
+            }
+            
+            // Create CSV data
+            const headers = ['Payment ID', 'Invoice ID', 'Client', 'Amount', 'Payment Method', 'Status', 'Payment Date'];
+            const rows = payments.map(payment => [
+                payment.payment_id || payment.id,
+                payment.invoice_id,
+                payment.client_name,
+                `₹${payment.amount}`,
+                payment.payment_method,
+                'Completed',
+                this.formatDate(payment.payment_date || payment.created_at)
+            ]);
+            
+            const csvContent = [headers, ...rows].map(row => row.join(',')).join('\n');
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `infogrip-payments-${new Date().toISOString().split('T')[0]}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+            
+            this.showToast('Payments exported successfully!', 'success');
+        }
+
+        // ============================================
+        // SETTINGS MANAGEMENT
+        // ============================================
+
+        loadSettings() {
+            // Load settings from localStorage
+            const settings = JSON.parse(localStorage.getItem('infogrip_settings') || '{}');
+            
+            // Apply settings to form
+            document.getElementById('company-name').value = settings.company_name || 'InfoGrip Media Solution';
+            document.getElementById('default-gst').value = settings.default_gst || 18;
+            document.getElementById('invoice-due-days').value = settings.invoice_due_days || 15;
+            document.getElementById('reminder-days').value = settings.reminder_days || 3;
+            document.getElementById('subscription-reminder-days').value = settings.subscription_reminder_days || 7;
+            document.getElementById('auto-send-reminders').checked = settings.auto_send_reminders !== false;
+            
+            // Service pricing
+            document.getElementById('price-social-media').value = settings.price_social_media || 2000;
+            document.getElementById('price-website').value = settings.price_website || 15000;
+            document.getElementById('price-seo').value = settings.price_seo || 5000;
+            document.getElementById('price-content').value = settings.price_content || 500;
+            
+            // API Configuration
+            document.getElementById('api-url').value = CONFIG.API_BASE;
+            document.getElementById('razorpay-key').value = CONFIG.RAZORPAY_KEY_ID;
+            document.getElementById('admin-secret').value = CONFIG.ADMIN_SECRET;
+        }
+
+        saveSettings() {
+            try {
+                const settings = {
+                    company_name: document.getElementById('company-name').value,
+                    default_gst: parseFloat(document.getElementById('default-gst').value),
+                    invoice_due_days: parseInt(document.getElementById('invoice-due-days').value),
+                    reminder_days: parseInt(document.getElementById('reminder-days').value),
+                    subscription_reminder_days: parseInt(document.getElementById('subscription-reminder-days').value),
+                    auto_send_reminders: document.getElementById('auto-send-reminders').checked,
+                    
+                    // Service pricing
+                    price_social_media: parseFloat(document.getElementById('price-social-media').value),
+                    price_website: parseFloat(document.getElementById('price-website').value),
+                    price_seo: parseFloat(document.getElementById('price-seo').value),
+                    price_content: parseFloat(document.getElementById('price-content').value)
+                };
+                
+                // Save to localStorage
+                localStorage.setItem('infogrip_settings', JSON.stringify(settings));
+                
+                // Update API configuration
+                const newApiUrl = document.getElementById('api-url').value;
+                const newRazorpayKey = document.getElementById('razorpay-key').value;
+                const newAdminSecret = document.getElementById('admin-secret').value;
+                
+                if (newApiUrl) CONFIG.API_BASE = newApiUrl;
+                if (newRazorpayKey) CONFIG.RAZORPAY_KEY_ID = newRazorpayKey;
+                if (newAdminSecret) {
+                    CONFIG.ADMIN_SECRET = newAdminSecret;
+                    localStorage.setItem('admin_secret', newAdminSecret);
+                }
+                
+                this.showToast('Settings saved successfully!', 'success');
+                
+            } catch (error) {
+                console.error('Error saving settings:', error);
+                this.showToast('Error saving settings', 'error');
+            }
+        }
+
+        toggleSecretVisibility() {
+            const secretField = document.getElementById('admin-secret');
+            const toggleBtn = document.getElementById('toggle-secret');
+            
+            if (secretField.type === 'password') {
+                secretField.type = 'text';
+                toggleBtn.innerHTML = '<i class="fas fa-eye-slash"></i>';
+            } else {
+                secretField.type = 'password';
+                toggleBtn.innerHTML = '<i class="fas fa-eye"></i>';
+            }
+        }
+
+        async testAPIConnection() {
+            try {
+                this.showToast('Testing API connection...', 'info');
+                
+                const response = await fetch(`${CONFIG.API_BASE}/test?admin_secret=${CONFIG.ADMIN_SECRET}`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    this.showToast('API connection successful!', 'success');
+                } else {
+                    this.showToast('API connection failed: ' + (data.error || 'Unknown error'), 'error');
+                }
+            } catch (error) {
+                console.error('API test failed:', error);
+                this.showToast('API connection failed: ' + error.message, 'error');
+            }
+        }
+
+        clearCache() {
+            localStorage.removeItem('infogrip_settings');
+            localStorage.removeItem('admin_secret');
+            localStorage.removeItem('theme');
+            
+            // Clear global state
+            GLOBAL.clients = [];
+            GLOBAL.subscriptions = [];
+            GLOBAL.invoices = [];
+            GLOBAL.payments = [];
+            
+            // Reload settings
+            this.loadSettings();
+            
+            this.showToast('Cache cleared successfully!', 'success');
+        }
+
+        resetSettings() {
+            if (confirm('Are you sure you want to reset all settings to default? This cannot be undone.')) {
+                localStorage.clear();
+                window.location.reload();
+            }
+        }
+
+        // ============================================
+        // UTILITY FUNCTIONS
+        // ============================================
+
+        toggleTheme() {
+            document.body.classList.toggle('dark-theme');
+            const icon = document.querySelector('#theme-toggle i');
+            if (document.body.classList.contains('dark-theme')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        applySavedTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const themeToggle = document.getElementById('theme-toggle');
+            
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-theme');
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            } else {
+                document.body.classList.remove('dark-theme');
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            }
+        }
+
+        toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('active');
+        }
+
+        async sendReminders() {
+            try {
+                this.showToast('Sending reminders...', 'info');
+                
+                const response = await fetch(`${CONFIG.API_BASE}/sendAllReminders`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        admin_secret: CONFIG.ADMIN_SECRET,
+                        days: 7
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    this.showToast(`Sent ${data.count || 0} reminders successfully!`, 'success');
+                } else {
+                    this.showToast(data.error || 'Failed to send reminders', 'error');
+                }
+                
+            } catch (error) {
+                console.error('Error sending reminders:', error);
+                this.showToast('Error sending reminders', 'error');
+            }
+        }
+
+        exportData() {
+            const data = [
+                ['Invoice ID', 'Client', 'Amount', 'Status', 'Date'],
+                ...GLOBAL.invoices.map(inv => [
+                    inv.invoice_id,
+                    inv.client_name,
+                    `₹${inv.total_amount}`,
+                    inv.status,
+                    this.formatDate(inv.created_at)
+                ])
+            ];
+            
+            const csvContent = data.map(row => row.join(',')).join('\n');
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `infogrip-invoices-${new Date().toISOString().split('T')[0]}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+            
+            this.showToast('Data exported successfully!', 'success');
+        }
+
+        viewReports() {
+            this.showToast('Reports feature coming soon!', 'info');
+            // In future, this could open a reports modal or page
+        }
+
+        openConfirmationModal(title, message, callback) {
+            GLOBAL.confirmationCallback = callback;
+            document.getElementById('confirmation-title').textContent = title;
+            document.getElementById('confirmation-message').innerHTML = message;
+            document.getElementById('confirmation-modal').classList.add('active');
+        }
+
+        closeConfirmationModal() {
+            document.getElementById('confirmation-modal').classList.remove('active');
+            GLOBAL.confirmationCallback = null;
+        }
+
+        executeConfirmedAction() {
+            if (GLOBAL.confirmationCallback) {
+                GLOBAL.confirmationCallback();
+            }
+            this.closeConfirmationModal();
+        }
+
+        showLoader() {
+            document.getElementById('loader-overlay').style.display = 'flex';
+        }
+
+        hideLoader() {
+            document.getElementById('loader-overlay').style.display = 'none';
+        }
+
+        showToast(message, type = 'info', duration = 3000) {
+            const container = document.getElementById('toast-container');
+            
+            const toast = document.createElement('div');
+            toast.className = `toast-premium toast-${type}`;
+            toast.innerHTML = `
+                <div class="toast-icon">
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : type === 'warning' ? 'exclamation-triangle' : 'info-circle'}"></i>
+                </div>
+                <div class="toast-message">${message}</div>
+                <button class="toast-close">&times;</button>
+            `;
+            
+            container.appendChild(toast);
+            
+            // Add close button listener
+            toast.querySelector('.toast-close').addEventListener('click', () => {
+                toast.remove();
+            });
+            
+            // Auto remove after duration
+            setTimeout(() => {
+                if (toast.parentNode) {
+                    toast.remove();
+                }
+            }, duration);
+        }
+
+        formatDate(dateString) {
+            if (!dateString) return 'N/A';
+            try {
+                const date = new Date(dateString);
+                return date.toLocaleDateString('en-IN', {
+                    day: '2-digit',
+                    month: 'short',
+                    year: 'numeric'
+                });
+            } catch (e) {
+                return dateString;
+            }
+        }
+    }
+
+    // Initialize the CRM system
+    document.addEventListener('DOMContentLoaded', () => {
+        window.crm = new InfoGripCRM();
+    });
+
+    // Add missing CSS styles
+    const additionalStyles = `
+    .loader-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 28, 79, 0.8);
+        backdrop-filter: blur(10px);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+    }
+    
+    .loader-overlay .loading-spinner {
+        margin: 0;
+    }
+    
+    .loader-overlay p {
+        color: white;
+        margin-top: 1rem;
+    }
+    
+    .tab-btn {
+        background: none;
+        border: none;
+        color: var(--white);
+        padding: 12px 24px;
+        cursor: pointer;
+        opacity: 0.7;
+        position: relative;
+        transition: var(--transition);
+    }
+    
+    .tab-btn:hover {
+        opacity: 1;
+    }
+    
+    .tab-btn.active {
+        opacity: 1;
+        color: var(--orange);
+    }
+    
+    .tab-btn.active::after {
+        content: '';
+        position: absolute;
+        bottom: -1px;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: var(--gradient-orange);
+    }
+    
+    .tab-content {
+        display: none;
+    }
+    
+    .tab-content.active {
+        display: block;
+    }
+    
+    .btn-danger-premium {
+        background: rgba(255, 71, 87, 0.2);
+        color: #ff4757;
+        border: 2px solid rgba(255, 71, 87, 0.3);
+    }
+    
+    .btn-danger-premium:hover {
+        background: rgba(255, 71, 87, 0.3);
+        border-color: #ff4757;
+    }
+    
+    .btn-success-premium {
+        background: rgba(0, 208, 156, 0.2);
+        color: #00d09c;
+        border: 2px solid rgba(0, 208, 156, 0.3);
+    }
+    
+    .btn-success-premium:hover {
+        background: rgba(0, 208, 156, 0.3);
+        border-color: #00d09c;
+    }
+    
+    .badge-secondary {
+        background: rgba(108, 117, 125, 0.2);
+        color: #6c757d;
+        border: 1px solid rgba(108, 117, 125, 0.3);
+    }
+    
+    .grid {
+        display: grid;
+    }
+    
+    .grid-cols-1 {
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
+    
+    .grid-cols-2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    
+    @media (min-width: 1024px) {
+        .lg\\:grid-cols-2 {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+        .lg\\:grid-cols-3 {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+    }
+    
+    .space-y-4 > * + * {
+        margin-top: 1rem;
+    }
+    
+    .space-y-3 > * + * {
+        margin-top: 0.75rem;
+    }
+    
+    .inline-flex {
+        display: inline-flex;
+    }
+    
+    .items-center {
+        align-items: center;
+    }
+    
+    .ml-auto {
+        margin-left: auto;
+    }
+    
+    .w-full {
+        width: 100%;
+    }
+    
+    .form-checkbox {
+        width: 1rem;
+        height: 1rem;
+        border-radius: 0.25rem;
+        border: 1px solid var(--glass-border);
+        background: var(--glass-bg);
+    }
+    
+    .form-checkbox:checked {
+        background-color: var(--orange);
+        border-color: var(--orange);
+    }
+    `;
+
+    const styleEl = document.createElement('style');
+    styleEl.textContent = additionalStyles;
+    document.head.appendChild(styleEl);
+    </script>
 </body>
 </html>
