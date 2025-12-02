@@ -2,8 +2,8 @@
 
 // Configuration
 const CONFIG = {
-    API_BASE: 'https://script.google.com/macros/s/AKfycbxPEEknW4i9O_eXyzueU5ltjnpl2uDx4MOAaJ6dBbb5PkTK4b8fvMTJvvDvQGycaz85/exec',
-    ADMIN_SECRET: localStorage.getItem('admin_secret') || '',
+    API_BASE: 'https://script.google.com/macros/s/AKfyckwFEktwM490_ekyzwel51tjpn12uDvdW0AaJ6dBbbSPkTK4b8fvMT1vvDvQGycaz85/exec',
+    ADMIN_SECRET: 'infogrip_secure_2025',
     LOGO_URL: 'https://i.postimg.cc/Nj3bmPwC/Infogrip-Medi-Soluiton-(Social-Media)-(1).png',
     WHATSAPP_NUMBER: '+916367556906',
     EMAIL: 'infogripmarketing@gmail.com'
@@ -50,7 +50,7 @@ function showLoginModal() {
         const secret = document.getElementById('adminSecret').value;
         
         // Simple authentication (in production, verify with server)
-        if (secret === CONFIG.ADMIN_SECRET || secret === 'infogrip123') {
+        if (secret === 'infogrip_secure_2025' && email === 'admin@infogrip.com' && password === 'infogrip123') {
             localStorage.setItem('admin_token', btoa(email + ':' + Date.now()));
             localStorage.setItem('token_expiry', new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString());
             localStorage.setItem('admin_user', JSON.stringify({
@@ -61,7 +61,7 @@ function showLoginModal() {
             loginModal.style.display = 'none';
             location.reload();
         } else {
-            alert('Invalid credentials');
+            alert('Invalid credentials. Use:\nEmail: admin@infogrip.com\nPassword: infogrip123\nAdmin Secret: infogrip_secure_2025');
         }
     };
 }
@@ -182,11 +182,7 @@ function navigateToPage(page) {
 async function loadDashboardData() {
     try {
         // Fetch dashboard data from API
-        const response = await fetch(`${CONFIG.API_BASE}?action=getDashboardData`, {
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem('admin_token')}`
-            }
-        });
+        const response = await fetch(`${CONFIG.API_BASE}?action=getDashboardData&admin_secret=${CONFIG.ADMIN_SECRET}`);
         
         const data = await response.json();
         
@@ -331,11 +327,7 @@ function updateExpiringSubscriptions(subscriptions) {
 async function loadClients() {
     try {
         // Fetch clients from API
-        const response = await fetch(`${CONFIG.API_BASE}?action=getClients`, {
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem('admin_token')}`
-            }
-        });
+        const response = await fetch(`${CONFIG.API_BASE}?action=getClients&admin_secret=${CONFIG.ADMIN_SECRET}`);
         
         const data = await response.json();
         clients = data.clients || [];
@@ -483,29 +475,15 @@ async function saveClient() {
     }
     
     try {
-        // Check for duplicates
-        const duplicate = clients.find(client => 
-            client.phone === clientData.phone && 
-            (!clientData.id || client.id !== clientData.id)
-        );
+        // Create form data for POST request
+        const formData = new FormData();
+        formData.append('admin_secret', CONFIG.ADMIN_SECRET);
+        formData.append('clientData', JSON.stringify(clientData));
         
-        if (duplicate) {
-            showDuplicateModal(duplicate, clientData);
-            return;
-        }
+        // Save client via API - using GET method with URL parameters to avoid CORS
+        const url = `${CONFIG.API_BASE}?action=saveClient&admin_secret=${CONFIG.ADMIN_SECRET}&clientData=${encodeURIComponent(JSON.stringify(clientData))}`;
         
-        // Save client via API
-        const response = await fetch(`${CONFIG.API_BASE}?action=saveClient`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('admin_token')}`
-            },
-            body: JSON.stringify({
-                ...clientData,
-                admin_secret: CONFIG.ADMIN_SECRET
-            })
-        });
+        const response = await fetch(url);
         
         const result = await response.json();
         
@@ -515,7 +493,11 @@ async function saveClient() {
             loadClients();
             loadDashboardData(); // Refresh dashboard
         } else {
-            alert('Error saving client: ' + result.message);
+            if (result.duplicate) {
+                alert('Client with this phone number already exists: ' + result.existingClient);
+            } else {
+                alert('Error saving client: ' + result.message);
+            }
         }
     } catch (error) {
         console.error('Error saving client:', error);
@@ -732,18 +714,12 @@ async function generateInvoice() {
     
     try {
         // Generate invoice via API
-        const response = await fetch(`${CONFIG.API_BASE}?action=createInvoice`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('admin_token')}`
-            },
-            body: JSON.stringify({
-                ...invoiceData,
-                total_amount: totalAmount,
-                admin_secret: CONFIG.ADMIN_SECRET
-            })
-        });
+        const url = `${CONFIG.API_BASE}?action=createInvoice&admin_secret=${CONFIG.ADMIN_SECRET}&invoiceData=${encodeURIComponent(JSON.stringify({
+            ...invoiceData,
+            total_amount: totalAmount
+        }))}`;
+        
+        const response = await fetch(url);
         
         const result = await response.json();
         
@@ -836,7 +812,7 @@ function debounce(func, wait) {
 // Load services from API or use defaults
 async function loadServices() {
     try {
-        const response = await fetch(`${CONFIG.API_BASE}?action=getServices`);
+        const response = await fetch(`${CONFIG.API_BASE}?action=getServices&admin_secret=${CONFIG.ADMIN_SECRET}`);
         const data = await response.json();
         services = data.services || getDefaultServices();
     } catch (error) {
