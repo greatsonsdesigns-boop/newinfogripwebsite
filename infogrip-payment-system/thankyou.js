@@ -1,6 +1,6 @@
 // Thank You Page Configuration
 const THANKYOU_CONFIG = {
-    API_BASE: 'https://script.google.com/macros/s/YOUR_APPS_SCRIPT_ID/exec'
+    API_BASE: 'https://script.google.com/macros/s/AKfycbx07QetFwOnkrHlNs2XWHKJUf-FVamBxzvr_ea75x1aJvV1A2wfsBIM3LkZZJfnalm5/exec'
 };
 
 // State
