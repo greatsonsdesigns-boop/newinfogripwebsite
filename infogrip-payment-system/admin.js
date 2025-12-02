@@ -1,8 +1,8 @@
 // Configuration
 const CONFIG = {
-    API_BASE: 'https://script.google.com/macros/s/YOUR_APPS_SCRIPT_ID/exec',
+    API_BASE: 'https://script.google.com/macros/s/AKfycbx07QetFwOnkrHlNs2XWHKJUf-FVamBxzvr_ea75x1aJvV1A2wfsBIM3LkZZJfnalm5/exec',
     ADMIN_SECRET: localStorage.getItem('admin_secret') || '',
-    RAZORPAY_KEY_ID: 'YOUR_RAZORPAY_KEY_ID',
+    RAZORPAY_KEY_ID: 'rzp_test_RmL6IMlQKxUoC3',
     DEFAULT_SERVICES: [
         { name: 'Social Media Management', price: 2000 },
         { name: 'Website Development', price: 3999 },
