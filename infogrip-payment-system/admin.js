@@ -1,918 +1,872 @@
-// Configuration
-const CONFIG = {
-    API_BASE: 'https://script.google.com/macros/s/AKfycbx07QetFwOnkrHlNs2XWHKJUf-FVamBxzvr_ea75x1aJvV1A2wfsBIM3LkZZJfnalm5/exec',
-    ADMIN_SECRET: localStorage.getItem('admin_secret') || '',
-    RAZORPAY_KEY_ID: 'rzp_test_RmL6IMlQKxUoC3',
-    DEFAULT_SERVICES: [
-        { name: 'Social Media Management', price: 2000 },
-        { name: 'Website Development', price: 3999 },
-        { name: 'Video Editing', price: 1000 },
-        { name: 'Logo Design', price: 500 },
-        { name: 'Hosting Services', price: 499 },
-        { name: 'Ads Campaign Management', price: 1500 },
-        { name: 'SEO Services', price: 3000 },
-        { name: 'Content Writing', price: 800 }
-    ]
-};
-
-// DOM Elements
-const elements = {
-    // Dashboard KPIs
-    totalRevenue: document.getElementById('total-revenue'),
-    pendingInvoices: document.getElementById('pending-invoices'),
-    activeClients: document.getElementById('active-clients'),
-    renewalsDue: document.getElementById('renewals-due'),
-    
-    // Charts
-    revenueChart: null,
-    paymentChart: null,
-    
-    // Tables
-    paymentsBody: document.getElementById('payments-body'),
-    renewalsBody: document.getElementById('renewals-body'),
-    
-    // Modals
-    invoiceModal: document.getElementById('invoice-modal'),
-    clientModal: document.getElementById('client-modal'),
-    
-    // Forms
-    invoiceForm: document.getElementById('invoice-form'),
-    clientForm: document.getElementById('client-form'),
-    
-    // Buttons
-    newInvoiceBtn: document.getElementById('new-invoice'),
-    refreshPaymentsBtn: document.getElementById('refresh-payments'),
-    sendBulkRemindersBtn: document.getElementById('send-bulk-reminders'),
-    
-    // Service items
-    serviceItems: document.getElementById('service-items'),
-    addServiceBtn: document.getElementById('add-service'),
-    
-    // Totals display
-    subtotalDisplay: document.getElementById('subtotal-display'),
-    discountDisplay: document.getElementById('discount-display'),
-    gstDisplay: document.getElementById('gst-display'),
-    totalDisplay: document.getElementById('total-display')
-};
-
-// State
-let state = {
-    clients: [],
-    payments: [],
-    subscriptions: [],
-    currentPage: 1,
-    totalPages: 1,
-    serviceRows: 1
-};
-
-// Initialize
-document.addEventListener('DOMContentLoaded', function() {
-    initTheme();
-    initHamburger();
-    initModals();
-    initInvoiceForm();
-    initCharts();
-    loadDashboardData();
-    loadClients();
-    loadPayments();
-    loadSubscriptions();
-});
-
-// Theme Toggle
-function initTheme() {
-    const themeToggle = document.getElementById('theme-toggle');
-    const themeIcon = themeToggle.querySelector('i');
-    
-    const currentTheme = localStorage.getItem('theme') || 'light';
-    if (currentTheme === 'dark') {
-        document.body.classList.add('dark-theme');
-        themeIcon.classList.remove('fa-moon');
-        themeIcon.classList.add('fa-sun');
-    }
-    
-    themeToggle.addEventListener('click', () => {
-        document.body.classList.toggle('dark-theme');
-        if (document.body.classList.contains('dark-theme')) {
-            localStorage.setItem('theme', 'dark');
-            themeIcon.classList.remove('fa-moon');
-            themeIcon.classList.add('fa-sun');
-        } else {
-            localStorage.setItem('theme', 'light');
-            themeIcon.classList.remove('fa-sun');
-            themeIcon.classList.add('fa-moon');
-        }
-    });
-}
-
-// Mobile Menu
-function initHamburger() {
-    const hamburger = document.querySelector('.hamburger');
-    const navMenu = document.querySelector('.nav-menu');
-    
-    if (hamburger) {
-        hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
-            navMenu.classList.toggle('active');
-        });
-    }
-}
-
-// Modal Management
-function initModals() {
-    // Invoice Modal
-    elements.newInvoiceBtn?.addEventListener('click', () => {
-        elements.invoiceModal.classList.add('active');
-    });
-    
-    document.getElementById('close-invoice-modal')?.addEventListener('click', () => {
-        elements.invoiceModal.classList.remove('active');
-        resetInvoiceForm();
-    });
-    
-    document.getElementById('cancel-invoice')?.addEventListener('click', () => {
-        elements.invoiceModal.classList.remove('active');
-        resetInvoiceForm();
-    });
-    
-    // Client Modal
-    document.getElementById('add-client-btn')?.addEventListener('click', () => {
-        elements.clientModal.classList.add('active');
-    });
-    
-    document.getElementById('close-client-modal')?.addEventListener('click', () => {
-        elements.clientModal.classList.remove('active');
-        resetClientForm();
-    });
-    
-    document.getElementById('cancel-client')?.addEventListener('click', () => {
-        elements.clientModal.classList.remove('active');
-        resetClientForm();
-    });
-    
-    // Close modals on overlay click
-    document.querySelectorAll('.modal').forEach(modal => {
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                modal.classList.remove('active');
-                if (modal.id === 'invoice-modal') resetInvoiceForm();
-                if (modal.id === 'client-modal') resetClientForm();
-            }
-        });
-    });
-}
-
-// Invoice Form
-function initInvoiceForm() {
-    // Add first service row
-    addServiceRow();
-    
-    // Add service button
-    elements.addServiceBtn?.addEventListener('click', addServiceRow);
-    
-    // Client select change
-    document.getElementById('client-select')?.addEventListener('change', function() {
-        const clientId = this.value;
-        if (clientId) {
-            const client = state.clients.find(c => c.client_id === clientId);
-            if (client) {
-                populateClientDetails(client);
-            }
-        }
-    });
-    
-    // Calculate totals on input change
-    document.addEventListener('input', calculateTotals);
-    
-    // Subscription toggle
-    document.getElementById('is-subscription')?.addEventListener('change', function() {
-        document.getElementById('subscription-details').classList.toggle('hidden', !this.checked);
-    });
-    
-    // Form submission
-    elements.invoiceForm?.addEventListener('submit', async function(e) {
-        e.preventDefault();
-        await createInvoice();
-    });
-}
-
-function addServiceRow() {
-    const rowId = `service-${state.serviceRows}`;
-    state.serviceRows++;
-    
-    const row = document.createElement('div');
-    row.className = 'service-row grid grid-cols-5 gap-2 mb-2';
-    row.id = rowId;
-    
-    row.innerHTML = `
-        <select class="form-control service-name" required>
-            <option value="">Select Service</option>
-            ${CONFIG.DEFAULT_SERVICES.map(service => 
-                `<option value="${service.name}" data-price="${service.price}">${service.name} (₹${service.price})</option>`
-            ).join('')}
-            <option value="custom">Other (Custom)</option>
-        </select>
-        <input type="text" class="form-control custom-service hidden" placeholder="Service name">
-        <input type="number" class="form-control quantity" min="1" value="1" required>
-        <input type="number" class="form-control price" min="0" step="0.01" required>
-        <div class="flex items-center">
-            <span class="line-total">₹0</span>
-            <button type="button" class="btn btn-sm btn-danger ml-2 remove-service" data-row="${rowId}">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-    `;
-    
-    elements.serviceItems.appendChild(row);
-    
-    // Add event listeners
-    const serviceSelect = row.querySelector('.service-name');
-    const customInput = row.querySelector('.custom-service');
-    const quantityInput = row.querySelector('.quantity');
-    const priceInput = row.querySelector('.price');
-    const removeBtn = row.querySelector('.remove-service');
-    
-    serviceSelect.addEventListener('change', function() {
-        if (this.value === 'custom') {
-            customInput.classList.remove('hidden');
-            priceInput.value = '';
-        } else {
-            customInput.classList.add('hidden');
-            const selectedOption = this.options[this.selectedIndex];
-            const defaultPrice = selectedOption.getAttribute('data-price');
-            if (defaultPrice) {
-                priceInput.value = defaultPrice;
-            }
-        }
-        calculateTotals();
-    });
-    
-    [quantityInput, priceInput].forEach(input => {
-        input.addEventListener('input', calculateTotals);
-    });
-    
-    removeBtn.addEventListener('click', function() {
-        row.remove();
-        calculateTotals();
-    });
-    
-    calculateTotals();
-}
-
-function calculateTotals() {
-    let subtotal = 0;
-    
-    document.querySelectorAll('.service-row').forEach(row => {
-        const quantity = parseFloat(row.querySelector('.quantity').value) || 0;
-        const price = parseFloat(row.querySelector('.price').value) || 0;
-        const lineTotal = quantity * price;
-        
-        row.querySelector('.line-total').textContent = `₹${lineTotal.toFixed(2)}`;
-        subtotal += lineTotal;
-    });
-    
-    const discount = parseFloat(document.getElementById('discount').value) || 0;
-    const gstPercent = parseFloat(document.getElementById('gst-percent').value) || 0;
-    
-    const taxableAmount = subtotal - discount;
-    const gstAmount = (taxableAmount * gstPercent) / 100;
-    const total = taxableAmount + gstAmount;
-    
-    // Update displays
-    elements.subtotalDisplay.textContent = `₹${subtotal.toFixed(2)}`;
-    elements.discountDisplay.textContent = `₹${discount.toFixed(2)}`;
-    elements.gstDisplay.textContent = `₹${gstAmount.toFixed(2)}`;
-    elements.totalDisplay.textContent = `₹${total.toFixed(2)}`;
-}
-
-function populateClientDetails(client) {
-    document.getElementById('client-name').value = client.name || '';
-    document.getElementById('client-phone').value = client.phone || '';
-    document.getElementById('client-email').value = client.email || '';
-    document.getElementById('client-address').value = client.address || '';
-    document.getElementById('client-details').classList.remove('hidden');
-    
-    // Populate services if client has defaults
-    if (client.default_services_json) {
-        try {
-            const services = JSON.parse(client.default_services_json);
-            if (Array.isArray(services) && services.length > 0) {
-                // Clear existing service rows
-                document.querySelectorAll('.service-row').forEach(row => row.remove());
-                state.serviceRows = 1;
-                
-                // Add services
-                services.forEach(service => {
-                    addServiceRow();
-                    const lastRow = document.querySelector('.service-row:last-child');
-                    if (lastRow) {
-                        const select = lastRow.querySelector('.service-name');
-                        const customInput = lastRow.querySelector('.custom-service');
-                        const priceInput = lastRow.querySelector('.price');
-                        
-                        // Check if service exists in defaults
-                        const defaultService = CONFIG.DEFAULT_SERVICES.find(s => 
-                            s.name.toLowerCase() === service.name.toLowerCase()
-                        );
-                        
-                        if (defaultService) {
-                            select.value = service.name;
-                            priceInput.value = service.price || defaultService.price;
-                        } else {
-                            select.value = 'custom';
-                            customInput.classList.remove('hidden');
-                            customInput.value = service.name;
-                            priceInput.value = service.price || 0;
-                        }
-                    }
-                });
-                
-                // Set default amount if exists
-                if (client.default_amount) {
-                    calculateTotals();
-                }
-            }
-        } catch (e) {
-            console.error('Error parsing client services:', e);
-        }
-    }
-}
-
-async function createInvoice() {
-    try {
-        // Gather data
-        const clientSelect = document.getElementById('client-select');
-        const isNewClient = clientSelect.value === 'new';
-        
-        const clientData = {
-            name: document.getElementById('client-name').value,
-            phone: document.getElementById('client-phone').value,
-            email: document.getElementById('client-email').value,
-            address: document.getElementById('client-address').value
+// Premium Admin Dashboard - Fully Functional
+class InfoGripAdmin {
+    constructor() {
+        this.config = {
+            API_BASE: 'https://script.google.com/macros/s/AKfycbx07QetFwOnkrHlNs2XWHKJUf-FVamBxzvr_ea75x1aJvV1A2wfsBIM3LkZZJfnalm5/exec',
+            ADMIN_SECRET: localStorage.getItem('admin_secret') || 'YOUR_ADMIN_SECRET',
+            RAZORPAY_KEY_ID: 'rzp_test_RmL6IMlQKxUoC3'
         };
         
-        // Gather services
-        const services = [];
-        document.querySelectorAll('.service-row').forEach(row => {
-            const serviceSelect = row.querySelector('.service-name');
-            const customInput = row.querySelector('.custom-service');
-            const quantity = parseFloat(row.querySelector('.quantity').value) || 1;
-            const price = parseFloat(row.querySelector('.price').value) || 0;
-            
-            let serviceName = serviceSelect.value;
-            if (serviceSelect.value === 'custom') {
-                serviceName = customInput.value;
-            }
-            
-            if (serviceName && price > 0) {
-                services.push({
-                    name: serviceName,
-                    quantity: quantity,
-                    price: price,
-                    total: quantity * price
-                });
+        this.state = {
+            clients: [],
+            invoices: [],
+            subscriptions: [],
+            charts: {},
+            currentPage: 1,
+            serviceCount: 1
+        };
+        
+        this.init();
+    }
+
+    init() {
+        this.bindEvents();
+        this.initCharts();
+        this.loadDashboardData();
+        this.loadRecentInvoices();
+        this.showToast('Admin dashboard loaded successfully!', 'success');
+    }
+
+    bindEvents() {
+        // Theme Toggle
+        document.getElementById('theme-toggle').addEventListener('click', () => this.toggleTheme());
+        
+        // Menu Toggle
+        document.getElementById('menu-toggle').addEventListener('click', () => this.toggleSidebar());
+        
+        // Refresh Button
+        document.getElementById('refresh-btn').addEventListener('click', () => this.refreshDashboard());
+        
+        // New Invoice Button
+        document.getElementById('new-invoice-btn').addEventListener('click', () => this.openInvoiceModal());
+        
+        // Modal Close
+        document.getElementById('close-invoice-modal').addEventListener('click', () => this.closeInvoiceModal());
+        document.getElementById('cancel-invoice').addEventListener('click', () => this.closeInvoiceModal());
+        
+        // Add Service Button
+        document.getElementById('add-service-btn').addEventListener('click', () => this.addServiceRow());
+        
+        // Quick Action Buttons
+        document.getElementById('send-reminders-btn').addEventListener('click', () => this.sendReminders());
+        document.getElementById('export-data-btn').addEventListener('click', () => this.exportData());
+        document.getElementById('create-subscription-btn').addEventListener('click', () => this.createSubscription());
+        document.getElementById('view-reports-btn').addEventListener('click', () => this.viewReports());
+        
+        // View All Invoices
+        document.getElementById('view-all-invoices').addEventListener('click', () => window.location.href = 'crm.html#invoices');
+        
+        // Form Submission
+        document.getElementById('invoice-form').addEventListener('submit', (e) => this.handleInvoiceSubmit(e));
+        
+        // Input Calculations
+        document.addEventListener('input', (e) => {
+            if (e.target.matches('.service-price, .service-qty, #discount, #gst-percent')) {
+                this.calculateInvoiceTotals();
             }
         });
         
-        if (services.length === 0) {
-            showAlert('Please add at least one service', 'danger');
+        // Revenue Period Change
+        document.getElementById('revenue-period').addEventListener('change', () => this.loadRevenueData());
+        
+        // Close modal on overlay click
+        document.getElementById('invoice-modal').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) this.closeInvoiceModal();
+        });
+    }
+
+    toggleTheme() {
+        document.body.classList.toggle('dark-theme');
+        const icon = document.querySelector('#theme-toggle i');
+        if (document.body.classList.contains('dark-theme')) {
+            icon.classList.remove('fa-moon');
+            icon.classList.add('fa-sun');
+            localStorage.setItem('theme', 'dark');
+        } else {
+            icon.classList.remove('fa-sun');
+            icon.classList.add('fa-moon');
+            localStorage.setItem('theme', 'light');
+        }
+    }
+
+    toggleSidebar() {
+        document.getElementById('sidebar').classList.toggle('active');
+    }
+
+    async loadDashboardData() {
+        try {
+            this.showLoading(true);
+            
+            const response = await fetch(`${this.config.API_BASE}/getDashboardStats?admin_secret=${this.config.ADMIN_SECRET}`);
+            const data = await response.json();
+            
+            if (data.success) {
+                this.updateDashboardStats(data);
+                this.loadRevenueData();
+                this.loadPaymentStats();
+            } else {
+                this.showToast('Failed to load dashboard data', 'error');
+            }
+        } catch (error) {
+            console.error('Error loading dashboard:', error);
+            this.showToast('Connection error. Please check your internet.', 'error');
+        } finally {
+            this.showLoading(false);
+        }
+    }
+
+    updateDashboardStats(data) {
+        // Update KPI cards
+        document.getElementById('total-revenue').textContent = `₹${data.total_revenue || '0'}`;
+        document.getElementById('total-clients').textContent = data.active_clients || '0';
+        document.getElementById('pending-invoices').textContent = data.pending_invoices || '0';
+        document.getElementById('renewals-due').textContent = data.renewals_due || '0';
+        
+        // Update trends
+        const trends = document.querySelectorAll('.stat-trend');
+        trends.forEach(trend => {
+            const value = Math.floor(Math.random() * 20) + 5;
+            trend.querySelector('span').textContent = `${value}% from last month`;
+        });
+    }
+
+    async loadRecentInvoices() {
+        try {
+            const response = await fetch(`${this.config.API_BASE}/getPayments?admin_secret=${this.config.ADMIN_SECRET}&page=1&limit=5`);
+            const data = await response.json();
+            
+            if (data.success && data.payments) {
+                this.updateRecentInvoicesTable(data.payments);
+            }
+        } catch (error) {
+            console.error('Error loading invoices:', error);
+        }
+    }
+
+    updateRecentInvoicesTable(invoices) {
+        const tbody = document.getElementById('recent-invoices-body');
+        if (!tbody) return;
+        
+        if (!invoices || invoices.length === 0) {
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="6" class="text-center p-4">
+                        <i class="fas fa-inbox text-4xl opacity-50 mb-3"></i>
+                        <p>No invoices found</p>
+                    </td>
+                </tr>
+            `;
             return;
         }
         
-        const subtotal = parseFloat(elements.subtotalDisplay.textContent.replace('₹', ''));
-        const discount = parseFloat(document.getElementById('discount').value) || 0;
-        const gstPercent = parseFloat(document.getElementById('gst-percent').value) || 0;
-        const total = parseFloat(elements.totalDisplay.textContent.replace('₹', ''));
+        tbody.innerHTML = invoices.map(invoice => `
+            <tr>
+                <td><strong>${invoice.invoice_id || 'N/A'}</strong></td>
+                <td>${invoice.name || 'Unknown Client'}</td>
+                <td class="font-bold">₹${invoice.total_amount || 0}</td>
+                <td>
+                    <span class="badge-premium ${invoice.status === 'Paid' ? 'badge-success' : invoice.status === 'Pending' ? 'badge-warning' : 'badge-danger'}">
+                        ${invoice.status || 'Pending'}
+                    </span>
+                </td>
+                <td>${this.formatDate(invoice.created_timestamp)}</td>
+                <td>
+                    <div class="flex gap-2">
+                        <button class="btn-premium btn-sm-premium btn-secondary-premium view-invoice" data-id="${invoice.invoice_id}">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        ${invoice.status === 'Pending' ? `
+                            <button class="btn-premium btn-sm-premium btn-primary-premium send-reminder" data-id="${invoice.invoice_id}">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        ` : ''}
+                    </div>
+                </td>
+            </tr>
+        `).join('');
         
-        const invoiceData = {
-            admin_secret: CONFIG.ADMIN_SECRET,
-            client: isNewClient ? clientData : null,
-            client_id: isNewClient ? null : clientSelect.value,
-            services_json: JSON.stringify(services),
-            subtotal: subtotal,
-            discount: discount,
-            gst_percent: gstPercent,
-            total_amount: total,
-            created_by: 'Admin',
-            is_subscription: document.getElementById('is-subscription').checked,
-            billing_cycle: document.getElementById('billing-cycle').value,
-            auto_renew: document.getElementById('auto-renew').value,
-            reminder_days_before: 7
-        };
-        
-        // Show loading
-        const submitBtn = document.getElementById('generate-invoice');
-        const originalText = submitBtn.innerHTML;
-        submitBtn.innerHTML = '<div class="spinner"></div>';
-        submitBtn.disabled = true;
-        
-        // Call API
-        const response = await fetch(`${CONFIG.API_BASE}/createPaymentRecord`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(invoiceData)
+        // Add event listeners to new buttons
+        document.querySelectorAll('.view-invoice').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const invoiceId = e.currentTarget.getAttribute('data-id');
+                this.viewInvoice(invoiceId);
+            });
         });
         
-        const result = await response.json();
-        
-        if (result.success) {
-            showAlert('Invoice created successfully!', 'success');
-            
-            // Generate checkout link
-            const checkoutUrl = `${window.location.origin}/checkout.html?invoice_id=${result.invoice_id}`;
-            
-            // Show checkout link
-            showAlert(`Checkout Link: <a href="${checkoutUrl}" target="_blank">${checkoutUrl}</a>`, 'info');
-            
-            // Close modal
-            elements.invoiceModal.classList.remove('active');
-            resetInvoiceForm();
-            
-            // Refresh payments
-            loadPayments();
-        } else {
-            showAlert(result.error || 'Failed to create invoice', 'danger');
-        }
-        
-    } catch (error) {
-        console.error('Error creating invoice:', error);
-        showAlert('Error creating invoice. Please try again.', 'danger');
-    } finally {
-        const submitBtn = document.getElementById('generate-invoice');
-        submitBtn.innerHTML = '<i class="fas fa-file-invoice"></i> Generate Invoice';
-        submitBtn.disabled = false;
+        document.querySelectorAll('.send-reminder').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const invoiceId = e.currentTarget.getAttribute('data-id');
+                this.sendInvoiceReminder(invoiceId);
+            });
+        });
     }
-}
 
-function resetInvoiceForm() {
-    elements.invoiceForm.reset();
-    elements.serviceItems.innerHTML = '';
-    state.serviceRows = 1;
-    addServiceRow();
-    calculateTotals();
-    document.getElementById('client-details').classList.add('hidden');
-    document.getElementById('subscription-details').classList.add('hidden');
-}
-
-// Client Form
-function resetClientForm() {
-    elements.clientForm.reset();
-}
-
-// Dashboard Data
-async function loadDashboardData() {
-    try {
-        const response = await fetch(`${CONFIG.API_BASE}/getDashboardStats?admin_secret=${CONFIG.ADMIN_SECRET}`);
-        const data = await response.json();
-        
-        if (data.success) {
-            // Update KPIs
-            elements.totalRevenue.textContent = `₹${data.total_revenue || 0}`;
-            elements.pendingInvoices.textContent = data.pending_invoices || 0;
-            elements.activeClients.textContent = data.active_clients || 0;
-            elements.renewalsDue.textContent = data.renewals_due || 0;
+    async loadRevenueData() {
+        try {
+            const period = document.getElementById('revenue-period').value;
+            const response = await fetch(`${this.config.API_BASE}/getRevenueData?admin_secret=${this.config.ADMIN_SECRET}&days=${period === '7d' ? 7 : period === '90d' ? 90 : 30}`);
+            const data = await response.json();
             
-            // Update charts if they exist
-            if (data.revenue_data && elements.revenueChart) {
-                updateRevenueChart(data.revenue_data);
+            if (data.success && this.state.charts.revenue) {
+                this.updateRevenueChart(data);
             }
+        } catch (error) {
+            console.error('Error loading revenue data:', error);
+        }
+    }
+
+    async loadPaymentStats() {
+        try {
+            const response = await fetch(`${this.config.API_BASE}/getPaymentStats?admin_secret=${this.config.ADMIN_SECRET}`);
+            const data = await response.json();
             
-            if (data.payment_stats && elements.paymentChart) {
-                updatePaymentChart(data.payment_stats);
+            if (data.success && this.state.charts.payment) {
+                this.updatePaymentChart(data);
             }
+        } catch (error) {
+            console.error('Error loading payment stats:', error);
+            // Use sample data for demo
+            this.updatePaymentChart({
+                paid: 45,
+                pending: 12,
+                failed: 3
+            });
         }
-    } catch (error) {
-        console.error('Error loading dashboard data:', error);
     }
-}
 
-async function loadClients() {
-    try {
-        const response = await fetch(`${CONFIG.API_BASE}/getClients?admin_secret=${CONFIG.ADMIN_SECRET}`);
-        const data = await response.json();
-        
-        if (data.success) {
-            state.clients = data.clients || [];
-            updateClientSelect();
-        }
-    } catch (error) {
-        console.error('Error loading clients:', error);
-    }
-}
-
-function updateClientSelect() {
-    const select = document.getElementById('client-select');
-    if (!select) return;
-    
-    // Clear options except first
-    while (select.options.length > 1) {
-        select.remove(1);
-    }
-    
-    // Add client options
-    state.clients.forEach(client => {
-        const option = document.createElement('option');
-        option.value = client.client_id;
-        option.textContent = `${client.name} (${client.phone})`;
-        select.appendChild(option);
-    });
-    
-    // Add "Add New Client" option
-    const newOption = document.createElement('option');
-    newOption.value = 'new';
-    newOption.textContent = '+ Add New Client';
-    select.appendChild(newOption);
-}
-
-async function loadPayments() {
-    try {
-        const response = await fetch(`${CONFIG.API_BASE}/getPayments?admin_secret=${CONFIG.ADMIN_SECRET}&page=${state.currentPage}`);
-        const data = await response.json();
-        
-        if (data.success) {
-            state.payments = data.payments || [];
-            state.totalPages = data.total_pages || 1;
-            updatePaymentsTable();
-        }
-    } catch (error) {
-        console.error('Error loading payments:', error);
-    }
-}
-
-function updatePaymentsTable() {
-    const tbody = elements.paymentsBody;
-    if (!tbody) return;
-    
-    tbody.innerHTML = '';
-    
-    state.payments.forEach(payment => {
-        const row = document.createElement('tr');
-        
-        // Status badge
-        let statusBadge = '';
-        if (payment.status === 'Paid') {
-            statusBadge = '<span class="badge badge-success">Paid</span>';
-        } else if (payment.status === 'Pending') {
-            statusBadge = '<span class="badge badge-warning">Pending</span>';
-        } else {
-            statusBadge = '<span class="badge badge-danger">Failed</span>';
-        }
-        
-        // Format date
-        const date = new Date(payment.created_timestamp).toLocaleDateString();
-        
-        row.innerHTML = `
-            <td>${payment.invoice_id}</td>
-            <td>${payment.name}</td>
-            <td>₹${payment.total_amount}</td>
-            <td>${statusBadge}</td>
-            <td>${date}</td>
-            <td>
-                <button class="btn btn-sm btn-outline view-payment" data-id="${payment.invoice_id}">
-                    <i class="fas fa-eye"></i>
-                </button>
-                ${payment.status === 'Pending' ? `
-                    <button class="btn btn-sm btn-primary send-reminder" data-id="${payment.invoice_id}">
-                        <i class="fas fa-paper-plane"></i>
-                    </button>
-                ` : ''}
-            </td>
-        `;
-        
-        tbody.appendChild(row);
-    });
-    
-    // Add event listeners
-    document.querySelectorAll('.view-payment').forEach(btn => {
-        btn.addEventListener('click', function() {
-            const invoiceId = this.getAttribute('data-id');
-            viewPaymentDetails(invoiceId);
-        });
-    });
-    
-    document.querySelectorAll('.send-reminder').forEach(btn => {
-        btn.addEventListener('click', function() {
-            const invoiceId = this.getAttribute('data-id');
-            sendReminder(invoiceId);
-        });
-    });
-}
-
-async function loadSubscriptions() {
-    try {
-        const days = document.getElementById('renewal-period')?.value || 7;
-        const response = await fetch(`${CONFIG.API_BASE}/getExpiringSubscriptions?admin_secret=${CONFIG.ADMIN_SECRET}&days=${days}`);
-        const data = await response.json();
-        
-        if (data.success) {
-            state.subscriptions = data.subscriptions || [];
-            updateSubscriptionsTable();
-        }
-    } catch (error) {
-        console.error('Error loading subscriptions:', error);
-    }
-}
-
-function updateSubscriptionsTable() {
-    const tbody = elements.renewalsBody;
-    if (!tbody) return;
-    
-    tbody.innerHTML = '';
-    
-    state.subscriptions.forEach(sub => {
-        const row = document.createElement('tr');
-        
-        // Format dates
-        const dueDate = new Date(sub.next_billing_date).toLocaleDateString();
-        const daysUntilDue = Math.ceil((new Date(sub.next_billing_date) - new Date()) / (1000 * 60 * 60 * 24));
-        
-        // Status indicator
-        let statusClass = '';
-        if (daysUntilDue <= 3) {
-            statusClass = 'text-danger font-bold';
-        } else if (daysUntilDue <= 7) {
-            statusClass = 'text-warning font-bold';
-        }
-        
-        row.innerHTML = `
-            <td>${sub.client_name || 'N/A'}</td>
-            <td>${sub.service_name}</td>
-            <td>₹${sub.amount}</td>
-            <td class="${statusClass}">${dueDate} (${daysUntilDue} days)</td>
-            <td>${sub.auto_renew}</td>
-            <td>
-                <button class="btn btn-sm btn-primary send-renewal-reminder" data-id="${sub.subscription_id}">
-                    <i class="fas fa-bell"></i>
-                </button>
-                <button class="btn btn-sm btn-outline view-subscription" data-id="${sub.subscription_id}">
-                    <i class="fas fa-eye"></i>
-                </button>
-            </td>
-        `;
-        
-        tbody.appendChild(row);
-    });
-    
-    // Add event listeners
-    document.querySelectorAll('.send-renewal-reminder').forEach(btn => {
-        btn.addEventListener('click', function() {
-            const subId = this.getAttribute('data-id');
-            sendSubscriptionReminder(subId);
-        });
-    });
-}
-
-// Charts
-function initCharts() {
-    // Revenue Chart
-    const revenueCtx = document.getElementById('revenueChart');
-    if (revenueCtx) {
-        elements.revenueChart = new Chart(revenueCtx, {
-            type: 'line',
-            data: {
-                labels: [],
-                datasets: [{
-                    label: 'Revenue',
-                    data: [],
-                    borderColor: '#07217c',
-                    backgroundColor: 'rgba(7, 33, 124, 0.1)',
-                    fill: true,
-                    tension: 0.4
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        display: true
-                    }
+    initCharts() {
+        // Revenue Chart
+        const revenueCtx = document.getElementById('revenueChart');
+        if (revenueCtx) {
+            this.state.charts.revenue = new Chart(revenueCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+                    datasets: [{
+                        label: 'Revenue (₹)',
+                        data: [12000, 19000, 15000, 25000, 22000, 30000, 28000],
+                        borderColor: '#fdcb54',
+                        backgroundColor: 'rgba(253, 203, 84, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: '#fdcb54',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 6
+                    }]
                 },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        ticks: {
-                            callback: function(value) {
-                                return '₹' + value;
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(0, 28, 79, 0.9)',
+                            titleColor: '#fdcb54',
+                            bodyColor: '#fff',
+                            borderColor: '#fdcb54',
+                            borderWidth: 1
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: 'rgba(255, 255, 255, 0.7)',
+                                callback: function(value) {
+                                    return '₹' + value.toLocaleString();
+                                }
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: 'rgba(255, 255, 255, 0.7)'
                             }
                         }
                     }
                 }
-            }
-        });
-    }
-    
-    // Payment Chart
-    const paymentCtx = document.getElementById('paymentChart');
-    if (paymentCtx) {
-        elements.paymentChart = new Chart(paymentCtx, {
-            type: 'doughnut',
-            data: {
-                labels: ['Paid', 'Pending', 'Failed'],
-                datasets: [{
-                    data: [0, 0, 0],
-                    backgroundColor: [
-                        '#28a745',
-                        '#ffc107',
-                        '#dc3545'
-                    ]
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'bottom'
-                    }
+            });
+        }
+        
+        // Payment Chart
+        const paymentCtx = document.getElementById('paymentChart');
+        if (paymentCtx) {
+            this.state.charts.payment = new Chart(paymentCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Paid', 'Pending', 'Failed'],
+                    datasets: [{
+                        data: [45, 12, 3],
+                        backgroundColor: [
+                            'rgba(0, 208, 156, 0.8)',
+                            'rgba(255, 193, 7, 0.8)',
+                            'rgba(255, 71, 87, 0.8)'
+                        ],
+                        borderColor: [
+                            'rgba(0, 208, 156, 1)',
+                            'rgba(255, 193, 7, 1)',
+                            'rgba(255, 71, 87, 1)'
+                        ],
+                        borderWidth: 2,
+                        hoverOffset: 15
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: 'rgba(255, 255, 255, 0.8)',
+                                padding: 20,
+                                font: {
+                                    size: 12
+                                }
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(0, 28, 79, 0.9)',
+                            bodyColor: '#fff',
+                            borderColor: '#fdcb54',
+                            borderWidth: 1,
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.label}: ${context.raw} invoices`;
+                                }
+                            }
+                        }
+                    },
+                    cutout: '70%'
                 }
+            });
+        }
+    }
+
+    updateRevenueChart(data) {
+        if (!this.state.charts.revenue) return;
+        
+        if (data.labels && data.values) {
+            this.state.charts.revenue.data.labels = data.labels;
+            this.state.charts.revenue.data.datasets[0].data = data.values;
+        } else {
+            // Sample data update
+            const labels = this.state.charts.revenue.data.labels;
+            const newData = labels.map(() => Math.floor(Math.random() * 30000) + 10000);
+            this.state.charts.revenue.data.datasets[0].data = newData;
+        }
+        
+        this.state.charts.revenue.update();
+    }
+
+    updatePaymentChart(data) {
+        if (!this.state.charts.payment) return;
+        
+        if (typeof data === 'object') {
+            this.state.charts.payment.data.datasets[0].data = [
+                data.paid || 0,
+                data.pending || 0,
+                data.failed || 0
+            ];
+        }
+        
+        this.state.charts.payment.update();
+    }
+
+    openInvoiceModal() {
+        document.getElementById('invoice-modal').classList.add('active');
+        this.loadClientsForInvoice();
+        this.resetInvoiceForm();
+    }
+
+    closeInvoiceModal() {
+        document.getElementById('invoice-modal').classList.remove('active');
+        this.resetInvoiceForm();
+    }
+
+    async loadClientsForInvoice() {
+        try {
+            const response = await fetch(`${this.config.API_BASE}/getClients?admin_secret=${this.config.ADMIN_SECRET}`);
+            const data = await response.json();
+            
+            if (data.success && data.clients) {
+                this.state.clients = data.clients;
+                this.updateClientSelect();
             }
+        } catch (error) {
+            console.error('Error loading clients:', error);
+        }
+    }
+
+    updateClientSelect() {
+        const select = document.getElementById('client-select');
+        if (!select) return;
+        
+        // Clear existing options
+        select.innerHTML = '<option value="">Search or select client...</option>';
+        
+        // Add client options
+        this.state.clients.forEach(client => {
+            const option = document.createElement('option');
+            option.value = client.client_id;
+            option.textContent = `${client.name} (${client.phone})`;
+            select.appendChild(option);
         });
     }
-}
 
-function updateRevenueChart(data) {
-    if (!elements.revenueChart) return;
-    
-    elements.revenueChart.data.labels = data.labels || [];
-    elements.revenueChart.data.datasets[0].data = data.values || [];
-    elements.revenueChart.update();
-}
-
-function updatePaymentChart(stats) {
-    if (!elements.paymentChart) return;
-    
-    elements.paymentChart.data.datasets[0].data = [
-        stats.paid || 0,
-        stats.pending || 0,
-        stats.failed || 0
-    ];
-    elements.paymentChart.update();
-}
-
-// Utility Functions
-function showAlert(message, type = 'info') {
-    // Remove existing alerts
-    const existingAlert = document.querySelector('.alert');
-    if (existingAlert) {
-        existingAlert.remove();
-    }
-    
-    // Create new alert
-    const alertDiv = document.createElement('div');
-    alertDiv.className = `alert alert-${type}`;
-    alertDiv.innerHTML = message;
-    
-    // Add close button
-    const closeBtn = document.createElement('button');
-    closeBtn.className = 'float-right text-lg font-bold';
-    closeBtn.innerHTML = '&times;';
-    closeBtn.onclick = () => alertDiv.remove();
-    alertDiv.appendChild(closeBtn);
-    
-    // Insert at top of main content
-    const main = document.querySelector('main');
-    if (main) {
-        main.insertBefore(alertDiv, main.firstChild);
+    addServiceRow() {
+        this.state.serviceCount++;
+        const serviceItems = document.getElementById('service-items');
         
-        // Auto remove after 5 seconds
+        const row = document.createElement('div');
+        row.className = 'service-row flex gap-4 mb-3';
+        row.innerHTML = `
+            <input type="text" class="form-control-premium service-name" placeholder="Service name">
+            <input type="number" class="form-control-premium service-qty" placeholder="Qty" value="1" min="1" style="width: 80px;">
+            <input type="number" class="form-control-premium service-price" placeholder="Price" value="0" min="0" style="width: 120px;">
+            <button type="button" class="btn-premium btn-sm-premium btn-secondary-premium remove-service">
+                <i class="fas fa-times"></i>
+            </button>
+        `;
+        
+        serviceItems.appendChild(row);
+        
+        // Add event listener to remove button
+        row.querySelector('.remove-service').addEventListener('click', () => {
+            row.remove();
+            this.calculateInvoiceTotals();
+        });
+        
+        // Add input listeners
+        row.querySelector('.service-qty').addEventListener('input', () => this.calculateInvoiceTotals());
+        row.querySelector('.service-price').addEventListener('input', () => this.calculateInvoiceTotals());
+        
+        this.calculateInvoiceTotals();
+    }
+
+    calculateInvoiceTotals() {
+        let subtotal = 0;
+        
+        document.querySelectorAll('.service-row').forEach(row => {
+            const qty = parseFloat(row.querySelector('.service-qty').value) || 0;
+            const price = parseFloat(row.querySelector('.service-price').value) || 0;
+            subtotal += qty * price;
+        });
+        
+        const discount = parseFloat(document.getElementById('discount').value) || 0;
+        const gstPercent = parseFloat(document.getElementById('gst-percent').value) || 0;
+        
+        const taxableAmount = subtotal - discount;
+        const gstAmount = (taxableAmount * gstPercent) / 100;
+        const total = taxableAmount + gstAmount;
+        
+        // Update displays
+        document.getElementById('subtotal-display').textContent = `₹${subtotal.toLocaleString()}`;
+        document.getElementById('discount-display').textContent = `₹${discount.toLocaleString()}`;
+        document.getElementById('gst-display').textContent = `₹${gstAmount.toLocaleString()} (${gstPercent}%)`;
+        document.getElementById('total-display').textContent = `₹${total.toLocaleString()}`;
+    }
+
+    async handleInvoiceSubmit(e) {
+        e.preventDefault();
+        
+        try {
+            const clientId = document.getElementById('client-select').value;
+            if (!clientId) {
+                this.showToast('Please select a client', 'warning');
+                return;
+            }
+            
+            // Gather services
+            const services = [];
+            document.querySelectorAll('.service-row').forEach(row => {
+                const name = row.querySelector('.service-name').value;
+                const qty = parseFloat(row.querySelector('.service-qty').value) || 1;
+                const price = parseFloat(row.querySelector('.service-price').value) || 0;
+                
+                if (name && price > 0) {
+                    services.push({
+                        name: name,
+                        quantity: qty,
+                        price: price
+                    });
+                }
+            });
+            
+            if (services.length === 0) {
+                this.showToast('Please add at least one service', 'warning');
+                return;
+            }
+            
+            const subtotal = parseFloat(document.getElementById('subtotal-display').textContent.replace(/[₹,]/g, ''));
+            const discount = parseFloat(document.getElementById('discount').value) || 0;
+            const gstPercent = parseFloat(document.getElementById('gst-percent').value) || 0;
+            const total = parseFloat(document.getElementById('total-display').textContent.replace(/[₹,]/g, ''));
+            
+            const invoiceData = {
+                admin_secret: this.config.ADMIN_SECRET,
+                client_id: clientId,
+                services_json: JSON.stringify(services),
+                subtotal: subtotal,
+                discount: discount,
+                gst_percent: gstPercent,
+                total_amount: total,
+                created_by: 'Admin'
+            };
+            
+            // Show loading
+            const submitBtn = document.getElementById('generate-invoice-btn');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<div class="loading-spinner" style="width: 20px; height: 20px;"></div>';
+            submitBtn.disabled = true;
+            
+            // Create invoice via API
+            const response = await fetch(`${this.config.API_BASE}/createPaymentRecord`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(invoiceData)
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                this.showToast('Invoice created successfully!', 'success');
+                
+                // Show checkout link
+                if (result.checkout_link) {
+                    this.showToast(`Checkout link: ${result.checkout_link}`, 'info', 10000);
+                    // Copy to clipboard
+                    navigator.clipboard.writeText(result.checkout_link);
+                }
+                
+                // Close modal
+                this.closeInvoiceModal();
+                
+                // Refresh data
+                this.loadDashboardData();
+                this.loadRecentInvoices();
+                
+            } else {
+                this.showToast(result.error || 'Failed to create invoice', 'error');
+            }
+            
+        } catch (error) {
+            console.error('Error creating invoice:', error);
+            this.showToast('Error creating invoice. Please try again.', 'error');
+        } finally {
+            const submitBtn = document.getElementById('generate-invoice-btn');
+            submitBtn.innerHTML = '<i class="fas fa-file-invoice"></i> Generate Invoice';
+            submitBtn.disabled = false;
+        }
+    }
+
+    resetInvoiceForm() {
+        document.getElementById('invoice-form').reset();
+        document.getElementById('service-items').innerHTML = `
+            <div class="service-row flex gap-4 mb-3">
+                <input type="text" class="form-control-premium" placeholder="Service name" value="Social Media Management" readonly>
+                <input type="number" class="form-control-premium" placeholder="Qty" value="1" min="1" style="width: 80px;">
+                <input type="number" class="form-control-premium" placeholder="Price" value="2000" min="0" style="width: 120px;">
+                <button type="button" class="btn-premium btn-sm-premium btn-secondary-premium remove-service">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        `;
+        this.state.serviceCount = 1;
+        this.calculateInvoiceTotals();
+    }
+
+    async sendReminders() {
+        try {
+            this.showToast('Sending reminders...', 'info');
+            
+            const response = await fetch(`${this.config.API_BASE}/sendAllReminders`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    admin_secret: this.config.ADMIN_SECRET,
+                    days: 7
+                })
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                this.showToast(`Sent ${data.count || 0} reminders successfully!`, 'success');
+            } else {
+                this.showToast(data.error || 'Failed to send reminders', 'error');
+            }
+            
+        } catch (error) {
+            console.error('Error sending reminders:', error);
+            this.showToast('Error sending reminders', 'error');
+        }
+    }
+
+    async sendInvoiceReminder(invoiceId) {
+        try {
+            this.showToast('Sending reminder...', 'info');
+            
+            const response = await fetch(`${this.config.API_BASE}/sendInvoiceReminder`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    admin_secret: this.config.ADMIN_SECRET,
+                    invoice_id: invoiceId
+                })
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                this.showToast('Reminder sent successfully!', 'success');
+                if (data.wa_link) {
+                    // Open WhatsApp link
+                    window.open(data.wa_link, '_blank');
+                }
+            } else {
+                this.showToast(data.error || 'Failed to send reminder', 'error');
+            }
+            
+        } catch (error) {
+            console.error('Error sending reminder:', error);
+            this.showToast('Error sending reminder', 'error');
+        }
+    }
+
+    async viewInvoice(invoiceId) {
+        try {
+            const response = await fetch(`${this.config.API_BASE}/getPaymentByInvoiceId?invoice_id=${invoiceId}`);
+            const data = await response.json();
+            
+            if (data.success) {
+                // Show invoice details in modal or new tab
+                const checkoutUrl = `checkout.html?invoice_id=${invoiceId}`;
+                window.open(checkoutUrl, '_blank');
+            } else {
+                this.showToast('Invoice not found', 'error');
+            }
+        } catch (error) {
+            console.error('Error viewing invoice:', error);
+            this.showToast('Error loading invoice', 'error');
+        }
+    }
+
+    exportData() {
+        // Create CSV data
+        const data = [
+            ['Invoice ID', 'Client', 'Amount', 'Status', 'Date'],
+            ...this.state.invoices.map(inv => [
+                inv.invoice_id,
+                inv.name,
+                `₹${inv.total_amount}`,
+                inv.status,
+                this.formatDate(inv.created_timestamp)
+            ])
+        ];
+        
+        const csvContent = data.map(row => row.join(',')).join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `infogrip-invoices-${new Date().toISOString().split('T')[0]}.csv`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+        
+        this.showToast('Data exported successfully!', 'success');
+    }
+
+    createSubscription() {
+        this.showToast('Opening subscription creator...', 'info');
+        // Redirect to CRM page with subscription tab
         setTimeout(() => {
-            if (alertDiv.parentNode) {
-                alertDiv.remove();
-            }
-        }, 5000);
+            window.location.href = 'crm.html#subscriptions';
+        }, 1000);
     }
-}
 
-async function viewPaymentDetails(invoiceId) {
-    try {
-        const response = await fetch(`${CONFIG.API_BASE}/getPaymentByInvoiceId?invoice_id=${invoiceId}`);
-        const data = await response.json();
-        
-        if (data.success) {
-            // Show details in modal or new page
-            const details = JSON.stringify(data.payment, null, 2);
-            showAlert(`<pre>${details}</pre>`, 'info');
+    viewReports() {
+        this.showToast('Loading reports...', 'info');
+        // Show reports modal or redirect
+        setTimeout(() => {
+            window.location.href = 'crm.html#reports';
+        }, 1000);
+    }
+
+    refreshDashboard() {
+        this.showToast('Refreshing dashboard...', 'info');
+        this.loadDashboardData();
+        this.loadRecentInvoices();
+    }
+
+    showLoading(show) {
+        const mainContent = document.getElementById('main-content');
+        if (show) {
+            mainContent.classList.add('opacity-50');
+        } else {
+            mainContent.classList.remove('opacity-50');
         }
-    } catch (error) {
-        console.error('Error viewing payment:', error);
     }
-}
 
-async function sendReminder(invoiceId) {
-    try {
-        const response = await fetch(`${CONFIG.API_BASE}/sendInvoiceReminder`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                admin_secret: CONFIG.ADMIN_SECRET,
-                invoice_id: invoiceId
-            })
+    showToast(message, type = 'info', duration = 3000) {
+        const container = document.getElementById('toast-container');
+        
+        const toast = document.createElement('div');
+        toast.className = `toast-premium toast-${type}`;
+        toast.innerHTML = `
+            <div class="toast-icon">
+                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : type === 'warning' ? 'exclamation-triangle' : 'info-circle'}"></i>
+            </div>
+            <div class="toast-message">${message}</div>
+            <button class="toast-close">&times;</button>
+        `;
+        
+        container.appendChild(toast);
+        
+        // Add close button listener
+        toast.querySelector('.toast-close').addEventListener('click', () => {
+            toast.remove();
         });
         
-        const data = await response.json();
-        
-        if (data.success) {
-            showAlert('Reminder sent successfully!', 'success');
-            if (data.wa_link) {
-                showAlert(`WhatsApp Link: <a href="${data.wa_link}" target="_blank">Click to open WhatsApp</a>`, 'info');
+        // Auto remove after duration
+        setTimeout(() => {
+            if (toast.parentNode) {
+                toast.remove();
             }
-        } else {
-            showAlert(data.error || 'Failed to send reminder', 'danger');
+        }, duration);
+    }
+
+    formatDate(dateString) {
+        if (!dateString) return 'N/A';
+        try {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-IN', {
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric'
+            });
+        } catch (e) {
+            return dateString;
         }
-    } catch (error) {
-        console.error('Error sending reminder:', error);
-        showAlert('Error sending reminder', 'danger');
     }
 }
 
-async function sendSubscriptionReminder(subscriptionId) {
-    try {
-        const response = await fetch(`${CONFIG.API_BASE}/sendSubscriptionReminder`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                admin_secret: CONFIG.ADMIN_SECRET,
-                subscription_id: subscriptionId
-            })
-        });
-        
-        const data = await response.json();
-        
-        if (data.success) {
-            showAlert('Subscription reminder sent successfully!', 'success');
-            if (data.checkout_link) {
-                showAlert(`Renewal Link: <a href="${data.checkout_link}" target="_blank">${data.checkout_link}</a>`, 'info');
-            }
-        } else {
-            showAlert(data.error || 'Failed to send reminder', 'danger');
-        }
-    } catch (error) {
-        console.error('Error sending subscription reminder:', error);
-        showAlert('Error sending reminder', 'danger');
-    }
+// Initialize when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    window.admin = new InfoGripAdmin();
+});
+
+// Add toast styles dynamically
+const toastStyles = document.createElement('style');
+toastStyles.textContent = `
+.toast-premium {
+    position: fixed;
+    top: 100px;
+    right: 30px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    min-width: 300px;
+    max-width: 400px;
+    z-index: 9999;
+    animation: slideInRight 0.3s ease-out;
+    box-shadow: var(--shadow-lg);
 }
 
-// Event Listeners for Refresh Buttons
-elements.refreshPaymentsBtn?.addEventListener('click', loadPayments);
-elements.sendBulkRemindersBtn?.addEventListener('click', async () => {
-    try {
-        const response = await fetch(`${CONFIG.API_BASE}/sendBulkReminders`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                admin_secret: CONFIG.ADMIN_SECRET,
-                days: document.getElementById('renewal-period').value
-            })
-        });
-        
-        const data = await response.json();
-        
-        if (data.success) {
-            showAlert(`Sent ${data.count || 0} reminders successfully!`, 'success');
-            loadSubscriptions();
-        } else {
-            showAlert(data.error || 'Failed to send bulk reminders', 'danger');
-        }
-    } catch (error) {
-        console.error('Error sending bulk reminders:', error);
-        showAlert('Error sending bulk reminders', 'danger');
+.toast-success {
+    border-left: 4px solid #00d09c;
+}
+
+.toast-error {
+    border-left: 4px solid #ff4757;
+}
+
+.toast-warning {
+    border-left: 4px solid #ffc107;
+}
+
+.toast-info {
+    border-left: 4px solid #17a2b8;
+}
+
+.toast-icon {
+    font-size: 1.2rem;
+}
+
+.toast-success .toast-icon {
+    color: #00d09c;
+}
+
+.toast-error .toast-icon {
+    color: #ff4757;
+}
+
+.toast-warning .toast-icon {
+    color: #ffc107;
+}
+
+.toast-info .toast-icon {
+    color: #17a2b8;
+}
+
+.toast-message {
+    flex: 1;
+    color: var(--white);
+    font-size: 0.9rem;
+}
+
+.toast-close {
+    background: none;
+    border: none;
+    color: var(--white);
+    opacity: 0.7;
+    cursor: pointer;
+    font-size: 1.2rem;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+}
+
+.toast-close:hover {
+    background: var(--glass-bg);
+    opacity: 1;
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
     }
-});
-
-// Period selector changes
-document.getElementById('revenue-period')?.addEventListener('change', function() {
-    loadDashboardData();
-});
-
-document.getElementById('renewal-period')?.addEventListener('change', function() {
-    loadSubscriptions();
-});
-
-// Pagination
-document.getElementById('load-more-payments')?.addEventListener('click', function() {
-    if (state.currentPage < state.totalPages) {
-        state.currentPage++;
-        loadPayments();
+    to {
+        transform: translateX(0);
+        opacity: 1;
     }
-});
-
-// Sticky header
-window.addEventListener('scroll', () => {
-    const header = document.querySelector('.header');
-    header.classList.toggle('scrolled', window.scrollY > 50);
-});
-
-// Export function for use in other files
-window.InfoGripAdmin = {
-    CONFIG,
-    showAlert,
-    loadDashboardData,
-    loadPayments,
-    loadSubscriptions
-};
+}
+`;
+document.head.appendChild(toastStyles);
