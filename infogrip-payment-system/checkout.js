@@ -1,489 +1,460 @@
-// InfoGrip Checkout Page JavaScript
-
-// Configuration
-const CONFIG = {
-    API_BASE: 'https://script.google.com/macros/s/AKfycbxPEEknW4i9O_eXyzueU5ltjnpl2uDx4MOAaJ6dBbb5PkTK4b8fvMTJvvDvQGycaz85/exec',
-    RAZORPAY_KEY_ID: 'rzp_test_RmL6IMlQKxUoC3' // Will be loaded from API
+// Checkout Configuration
+const CHECKOUT_CONFIG = {
+    API_BASE: 'https://script.google.com/macros/s/YOUR_APPS_SCRIPT_ID/exec',
+    RAZORPAY_KEY_ID: 'YOUR_RAZORPAY_KEY_ID'
 };
 
-// Get invoice ID from URL
-const urlParams = new URLSearchParams(window.location.search);
-const invoiceId = urlParams.get('invoice_id');
+// State
+let checkoutState = {
+    invoice: null,
+    order: null,
+    paymentInProgress: false
+};
 
-// Initialize the page
-document.addEventListener('DOMContentLoaded', async function() {
+// Initialize
+document.addEventListener('DOMContentLoaded', function() {
+    initTheme();
+    initHamburger();
+    initEventListeners();
+    loadInvoiceFromURL();
+});
+
+// Theme Toggle
+function initTheme() {
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeIcon = themeToggle?.querySelector('i');
+    
+    if (!themeToggle || !themeIcon) return;
+    
+    const currentTheme = localStorage.getItem('theme') || 'light';
+    if (currentTheme === 'dark') {
+        document.body.classList.add('dark-theme');
+        themeIcon.classList.remove('fa-moon');
+        themeIcon.classList.add('fa-sun');
+    }
+    
+    themeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark-theme');
+        if (document.body.classList.contains('dark-theme')) {
+            localStorage.setItem('theme', 'dark');
+            themeIcon.classList.remove('fa-moon');
+            themeIcon.classList.add('fa-sun');
+        } else {
+            localStorage.setItem('theme', 'light');
+            themeIcon.classList.remove('fa-sun');
+            themeIcon.classList.add('fa-moon');
+        }
+    });
+}
+
+// Mobile Menu
+function initHamburger() {
+    const hamburger = document.querySelector('.hamburger');
+    const navMenu = document.querySelector('.nav-menu');
+    
+    if (hamburger && navMenu) {
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+    }
+}
+
+// Event Listeners
+function initEventListeners() {
+    // Terms checkbox
+    document.getElementById('terms')?.addEventListener('change', function() {
+        const payButton = document.getElementById('pay-button');
+        if (payButton) {
+            payButton.disabled = !this.checked;
+        }
+    });
+    
+    // Pay button
+    document.getElementById('pay-button')?.addEventListener('click', initiatePayment);
+    
+    // Retry payment
+    document.getElementById('retry-payment')?.addEventListener('click', () => {
+        document.getElementById('payment-failed').classList.add('hidden');
+        document.getElementById('payment-form').classList.remove('hidden');
+    });
+    
+    // Payment method change
+    document.querySelectorAll('input[name="payment-method"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+            updatePaymentMethod(this.value);
+        });
+    });
+}
+
+// Load Invoice from URL
+function loadInvoiceFromURL() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const invoiceId = urlParams.get('invoice_id');
+    
     if (!invoiceId) {
         showError('Invoice ID is required in the URL');
         return;
     }
     
-    try {
-        await loadInvoiceData();
-        setupEventListeners();
-    } catch (error) {
-        console.error('Error initializing checkout:', error);
-        showError('Failed to load invoice. Please check the link or contact support.');
-    }
-});
+    fetchInvoice(invoiceId);
+}
 
-// Load invoice data from API
-async function loadInvoiceData() {
-    showLoading(true);
-    
+// Fetch Invoice Details
+async function fetchInvoice(invoiceId) {
     try {
-        const response = await fetch(`${CONFIG.API_BASE}?action=getPayment&invoice_id=${invoiceId}`);
+        showLoading();
+        
+        const response = await fetch(`${CHECKOUT_CONFIG.API_BASE}/getPaymentByInvoiceId?invoice_id=${invoiceId}`);
         const data = await response.json();
         
         if (data.success) {
-            populateInvoiceData(data.invoice);
+            checkoutState.invoice = data.payment;
+            displayInvoiceDetails();
+            enablePaymentForm();
         } else {
-            throw new Error(data.message || 'Failed to load invoice');
+            showError(data.error || 'Invoice not found');
         }
     } catch (error) {
-        console.error('Error loading invoice:', error);
-        showError('Failed to load invoice data: ' + error.message);
-    } finally {
-        showLoading(false);
+        console.error('Error fetching invoice:', error);
+        showError('Failed to load invoice. Please try again.');
     }
 }
 
-// Populate invoice data on the page
-function populateInvoiceData(invoice) {
-    // Update basic info
-    document.getElementById('invoiceId').textContent = invoice.invoice_id || invoiceId;
-    document.getElementById('clientName').textContent = invoice.name || 'Customer';
-    document.getElementById('clientPhone').textContent = invoice.phone || 'N/A';
-    document.getElementById('clientEmail').textContent = invoice.email || 'N/A';
+// Display Invoice Details
+function displayInvoiceDetails() {
+    const invoice = checkoutState.invoice;
+    if (!invoice) return;
     
-    // Update client action links
-    if (invoice.phone) {
-        const cleanPhone = invoice.phone.replace(/\D/g, '');
-        document.getElementById('callClient').href = `tel:+91${cleanPhone}`;
-        document.getElementById('whatsappClient').href = `https://wa.me/91${cleanPhone}`;
-    }
-    if (invoice.email) {
-        document.getElementById('emailClient').href = `mailto:${invoice.email}`;
-    }
+    // Update status
+    document.getElementById('invoice-status').textContent = invoice.status || 'Pending';
     
-    // Parse and display invoice items
-    let items = [];
+    // Client info
+    document.getElementById('client-name').textContent = invoice.name || '';
+    document.getElementById('client-phone').textContent = formatPhone(invoice.phone) || '';
+    document.getElementById('client-email').textContent = invoice.email || '';
+    document.getElementById('client-address').textContent = invoice.address || '';
+    
+    // Invoice details
+    document.getElementById('invoice-id').textContent = invoice.invoice_id || '';
+    document.getElementById('invoice-date').textContent = formatDate(invoice.created_timestamp) || '';
+    document.getElementById('created-by').textContent = invoice.created_by || 'Admin';
+    
+    // Services
+    const servicesList = document.getElementById('services-list');
+    servicesList.innerHTML = '';
+    
     try {
-        items = typeof invoice.services_json === 'string' 
-            ? JSON.parse(invoice.services_json) 
-            : invoice.services_json || [];
+        const services = JSON.parse(invoice.services_json || '[]');
+        services.forEach(service => {
+            const item = document.createElement('div');
+            item.className = 'invoice-item';
+            item.innerHTML = `
+                <div>${service.name}</div>
+                <div class="text-right">${service.quantity || 1}</div>
+                <div class="text-right">₹${service.price || 0}</div>
+                <div class="text-right">₹${(service.quantity || 1) * (service.price || 0)}</div>
+            `;
+            servicesList.appendChild(item);
+        });
     } catch (e) {
-        console.error('Error parsing services JSON:', e);
-        items = [];
+        console.error('Error parsing services:', e);
     }
     
-    populateInvoiceItems(items);
-    updateSummary(invoice);
+    // Totals
+    document.getElementById('subtotal-summary').textContent = `₹${invoice.subtotal || 0}`;
+    document.getElementById('discount-summary').textContent = `₹${invoice.discount || 0}`;
+    document.getElementById('gst-percent-summary').textContent = invoice.gst_percent || 0;
+    document.getElementById('gst-amount-summary').textContent = `₹${invoice.gst_amount || 0}`;
+    document.getElementById('total-summary').textContent = `₹${invoice.total_amount || 0}`;
+    
+    // Update pay button
+    document.getElementById('pay-amount').textContent = `₹${invoice.total_amount || 0}`;
+    
+    // Show content
+    document.getElementById('loading').classList.add('hidden');
+    document.getElementById('invoice-content').classList.remove('hidden');
 }
 
-function populateInvoiceItems(items) {
-    const tbody = document.getElementById('invoiceItems');
+// Enable Payment Form
+function enablePaymentForm() {
+    const invoice = checkoutState.invoice;
+    if (!invoice) return;
     
-    if (!items || items.length === 0) {
-        tbody.innerHTML = `
-            <tr>
-                <td colspan="4" class="text-center py-4">
-                    <i class="fas fa-exclamation-circle"></i> No items found
-                </td>
-            </tr>
-        `;
+    // Check if invoice is already paid
+    if (invoice.status === 'Paid') {
+        document.getElementById('payment-form').classList.add('hidden');
+        document.getElementById('payment-success').classList.remove('hidden');
+        
+        // Redirect to thank you page after 3 seconds
+        setTimeout(() => {
+            window.location.href = `thankyou.html?invoice_id=${invoice.invoice_id}&payment_id=${invoice.payment_id}`;
+        }, 3000);
         return;
     }
     
-    const html = items.map(item => `
-        <tr>
-            <td>
-                <strong>${item.name || 'Service'}</strong>
-                ${item.description ? `<br><small class="text-muted">${item.description}</small>` : ''}
-            </td>
-            <td>${item.qty || 1}</td>
-            <td>₹${(item.unit_price || 0).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
-            <td>₹${(item.total || 0).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
-        </tr>
-    `).join('');
+    // Show payment form
+    document.getElementById('payment-form').classList.remove('hidden');
     
-    tbody.innerHTML = html;
+    // Check if client info is missing
+    if (!invoice.name || !invoice.phone || !invoice.email) {
+        document.getElementById('new-client-form').classList.remove('hidden');
+        
+        // Pre-fill if partial info exists
+        if (invoice.name) document.getElementById('payer-name').value = invoice.name;
+        if (invoice.phone) document.getElementById('payer-phone').value = invoice.phone;
+        if (invoice.email) document.getElementById('payer-email').value = invoice.email;
+        if (invoice.address) document.getElementById('payer-address').value = invoice.address;
+    }
 }
 
-function updateSummary(invoice) {
-    const subtotal = parseFloat(invoice.subtotal) || 0;
-    const discount = parseFloat(invoice.discount) || 0;
-    const gstPercent = parseFloat(invoice.gst_percent) || 0;
-    const gstAmount = parseFloat(invoice.gst_amount) || 0;
-    const total = parseFloat(invoice.total_amount) || 0;
-    
-    document.getElementById('summarySubtotal').textContent = formatCurrency(subtotal);
-    document.getElementById('summaryDiscount').textContent = formatCurrency(discount, true);
-    document.getElementById('summaryGST').textContent = formatCurrency(gstAmount);
-    document.getElementById('summaryTotal').textContent = formatCurrency(total);
+// Update Payment Method
+function updatePaymentMethod(method) {
+    // TODO: Implement different payment method UIs
+    console.log('Payment method changed to:', method);
 }
 
-// Setup event listeners
-function setupEventListeners() {
-    document.getElementById('payButton').addEventListener('click', initiatePayment);
-}
-
-// Initiate Razorpay payment
+// Initiate Payment
 async function initiatePayment() {
-    showLoading(true);
+    if (checkoutState.paymentInProgress) return;
+    
+    const invoice = checkoutState.invoice;
+    if (!invoice) return;
+    
+    // Validate form for new clients
+    if (document.getElementById('new-client-form') && !document.getElementById('new-client-form').classList.contains('hidden')) {
+        if (!validateClientForm()) {
+            return;
+        }
+        
+        // Update client info
+        invoice.name = document.getElementById('payer-name').value;
+        invoice.phone = document.getElementById('payer-phone').value;
+        invoice.email = document.getElementById('payer-email').value;
+        invoice.address = document.getElementById('payer-address').value;
+    }
     
     try {
-        // Get Razorpay order from server
-        const response = await fetch(`${CONFIG.API_BASE}?action=createRazorpayOrder`, {
+        checkoutState.paymentInProgress = true;
+        
+        // Show processing
+        document.getElementById('payment-form').classList.add('hidden');
+        document.getElementById('payment-processing').classList.remove('hidden');
+        
+        // Create Razorpay order
+        const orderResponse = await fetch(`${CHECKOUT_CONFIG.API_BASE}/createRazorpayOrder`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                invoice_id: invoiceId,
-                admin_secret: 'YOUR_ADMIN_SECRET' // This should come from server session
+                invoice_id: invoice.invoice_id,
+                admin_secret: 'YOUR_ADMIN_SECRET' // In production, this should be handled server-side
             })
         });
         
-        const data = await response.json();
+        const orderData = await orderResponse.json();
         
-        if (data.success) {
-            // Store order info
-            CONFIG.RAZORPAY_KEY_ID = data.key_id;
-            
-            // Create Razorpay checkout options
-            const options = {
-                key: data.key_id,
-                amount: data.amount,
-                currency: "INR",
-                name: "InfoGrip Media Solution",
-                description: `Payment for Invoice ${invoiceId}`,
-                image: "https://i.postimg.cc/Nj3bmPwC/Infogrip-Medi-Soluiton-(Social-Media)-(1).png",
-                order_id: data.order_id,
-                handler: function(response) {
-                    handlePaymentSuccess(response);
-                },
-                prefill: {
-                    name: document.getElementById('clientName').textContent,
-                    email: document.getElementById('clientEmail').textContent,
-                    contact: document.getElementById('clientPhone').textContent.replace(/\D/g, '')
-                },
-                notes: {
-                    invoice_id: invoiceId
-                },
-                theme: {
-                    color: "#001c4f"
-                },
-                modal: {
-                    ondismiss: function() {
-                        showLoading(false);
-                    }
-                }
-            };
-            
-            const rzp = new Razorpay(options);
-            rzp.open();
-            
+        if (orderData.success) {
+            checkoutState.order = orderData.order;
+            openRazorpayCheckout(orderData.order);
         } else {
-            throw new Error(data.message || 'Failed to create payment order');
+            throw new Error(orderData.error || 'Failed to create payment order');
         }
+        
     } catch (error) {
-        console.error('Payment initiation error:', error);
-        showError('Failed to initiate payment: ' + error.message);
+        console.error('Error initiating payment:', error);
+        showPaymentError(error.message);
     } finally {
-        showLoading(false);
+        checkoutState.paymentInProgress = false;
     }
 }
 
-// Handle successful payment
-async function handlePaymentSuccess(paymentResponse) {
-    showLoading(true);
+// Open Razorpay Checkout
+function openRazorpayCheckout(order) {
+    const options = {
+        key: CHECKOUT_CONFIG.RAZORPAY_KEY_ID,
+        amount: order.amount,
+        currency: order.currency,
+        name: 'InfoGrip Media Solution',
+        description: `Payment for Invoice ${checkoutState.invoice.invoice_id}`,
+        order_id: order.id,
+        handler: async function(response) {
+            await verifyPayment(response);
+        },
+        prefill: {
+            name: checkoutState.invoice.name,
+            email: checkoutState.invoice.email,
+            contact: checkoutState.invoice.phone
+        },
+        notes: {
+            invoice_id: checkoutState.invoice.invoice_id
+        },
+        theme: {
+            color: '#001c4f'
+        },
+        modal: {
+            ondismiss: function() {
+                // User closed the modal
+                document.getElementById('payment-processing').classList.add('hidden');
+                document.getElementById('payment-form').classList.remove('hidden');
+            }
+        }
+    };
     
+    const rzp = new Razorpay(options);
+    rzp.open();
+}
+
+// Verify Payment
+async function verifyPayment(response) {
     try {
-        // Verify payment with server
-        const response = await fetch(`${CONFIG.API_BASE}?action=confirmPayment`, {
+        const verifyResponse = await fetch(`${CHECKOUT_CONFIG.API_BASE}/confirmPayment`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                razorpay_payment_id: paymentResponse.razorpay_payment_id,
-                razorpay_order_id: paymentResponse.razorpay_order_id,
-                razorpay_signature: paymentResponse.razorpay_signature,
-                invoice_id: invoiceId
+                invoice_id: checkoutState.invoice.invoice_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_signature: response.razorpay_signature,
+                payment_method: 'razorpay'
             })
         });
         
-        const data = await response.json();
+        const verifyData = await verifyResponse.json();
         
-        if (data.success) {
-            // Redirect to thank you page with success data
-            window.location.href = `thankyou.html?invoice_id=${invoiceId}&payment_id=${paymentResponse.razorpay_payment_id}&pdf_link=${encodeURIComponent(data.invoice_pdf_link)}`;
+        if (verifyData.success) {
+            // Show success
+            document.getElementById('payment-processing').classList.add('hidden');
+            document.getElementById('payment-success').classList.remove('hidden');
+            
+            // Redirect to thank you page
+            setTimeout(() => {
+                window.location.href = `thankyou.html?invoice_id=${checkoutState.invoice.invoice_id}&payment_id=${response.razorpay_payment_id}`;
+            }, 2000);
         } else {
-            throw new Error(data.message || 'Payment verification failed');
+            throw new Error(verifyData.error || 'Payment verification failed');
         }
+        
     } catch (error) {
-        console.error('Payment verification error:', error);
-        showError('Payment verification failed: ' + error.message);
-    } finally {
-        showLoading(false);
+        console.error('Error verifying payment:', error);
+        showPaymentError(error.message);
     }
+}
+
+// Validate Client Form
+function validateClientForm() {
+    const name = document.getElementById('payer-name').value.trim();
+    const phone = document.getElementById('payer-phone').value.trim();
+    const email = document.getElementById('payer-email').value.trim();
+    
+    if (!name) {
+        showAlert('Please enter your name', 'danger');
+        return false;
+    }
+    
+    if (!phone || !/^[0-9]{10}$/.test(phone)) {
+        showAlert('Please enter a valid 10-digit phone number', 'danger');
+        return false;
+    }
+    
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        showAlert('Please enter a valid email address', 'danger');
+        return false;
+    }
+    
+    return true;
 }
 
 // Utility Functions
-function formatCurrency(amount, showNegative = false) {
-    if (showNegative && amount > 0) {
-        return `-₹${amount.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-    }
-    return `₹${amount.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-}
-
-function showLoading(show) {
-    const modal = document.getElementById('loadingModal');
-    modal.style.display = show ? 'flex' : 'none';
+function showLoading() {
+    document.getElementById('loading').classList.remove('hidden');
+    document.getElementById('invoice-content').classList.add('hidden');
+    document.getElementById('error-message').classList.add('hidden');
+    document.getElementById('payment-form').classList.add('hidden');
 }
 
 function showError(message) {
-    // Create error modal
-    const errorHTML = `
-        <div class="modal" id="errorModal">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h3>Error</h3>
-                        <button class="modal-close" onclick="document.getElementById('errorModal').style.display='none'">&times;</button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="error-icon">
-                            <i class="fas fa-exclamation-triangle"></i>
-                        </div>
-                        <p>${message}</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-primary" onclick="document.getElementById('errorModal').style.display='none'">OK</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    `;
-    
-    // Remove existing error modal
-    const existingError = document.getElementById('errorModal');
-    if (existingError) {
-        existingError.remove();
+    document.getElementById('loading').classList.add('hidden');
+    document.getElementById('invoice-content').classList.add('hidden');
+    document.getElementById('error-message').classList.remove('hidden');
+    document.getElementById('error-text').textContent = message;
+}
+
+function showPaymentError(message) {
+    document.getElementById('payment-processing').classList.add('hidden');
+    document.getElementById('payment-failed').classList.remove('hidden');
+    document.getElementById('failure-reason').textContent = message;
+}
+
+function formatPhone(phone) {
+    if (!phone) return '';
+    const cleaned = phone.replace(/\D/g, '');
+    if (cleaned.length === 10) {
+        return `+91 ${cleaned.slice(0, 5)} ${cleaned.slice(5)}`;
     }
-    
-    // Add new error modal
-    document.body.insertAdjacentHTML('beforeend', errorHTML);
-    document.getElementById('errorModal').style.display = 'flex';
+    return phone;
 }
 
-// Add CSS for checkout page
-const checkoutCSS = `
-.checkout-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-.checkout-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 0;
-    border-bottom: 2px solid #f0f0f0;
-    margin-bottom: 30px;
-}
-
-.checkout-header .logo {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.checkout-header .logo img {
-    height: 50px;
-}
-
-.checkout-header .logo h1 {
-    font-size: 1.5rem;
-    color: #001c4f;
-    margin: 0;
-}
-
-.secure-badge {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 20px;
-    background: #28a745;
-    color: white;
-    border-radius: 50px;
-    font-weight: 600;
-}
-
-.checkout-content {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 30px;
-}
-
-@media (max-width: 992px) {
-    .checkout-content {
-        grid-template-columns: 1fr;
+function formatDate(dateString) {
+    if (!dateString) return '';
+    try {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-IN', {
+            day: '2-digit',
+            month: 'short',
+            year: 'numeric'
+        });
+    } catch (e) {
+        return dateString;
     }
 }
 
-.invoice-details .card {
-    margin-bottom: 20px;
+function showAlert(message, type = 'info') {
+    // Remove existing alerts
+    const existingAlert = document.querySelector('.alert');
+    if (existingAlert) {
+        existingAlert.remove();
+    }
+    
+    // Create new alert
+    const alertDiv = document.createElement('div');
+    alertDiv.className = `alert alert-${type}`;
+    alertDiv.innerHTML = message;
+    
+    // Add close button
+    const closeBtn = document.createElement('button');
+    closeBtn.className = 'float-right text-lg font-bold';
+    closeBtn.innerHTML = '&times;';
+    closeBtn.onclick = () => alertDiv.remove();
+    alertDiv.appendChild(closeBtn);
+    
+    // Insert at top of main content
+    const main = document.querySelector('main');
+    if (main) {
+        main.insertBefore(alertDiv, main.firstChild);
+        
+        // Auto remove after 5 seconds
+        setTimeout(() => {
+            if (alertDiv.parentNode) {
+                alertDiv.remove();
+            }
+        }, 5000);
+    }
 }
 
-.client-info {
-    padding: 20px;
-    border-bottom: 1px solid #e0e0e0;
-}
+// Sticky header
+window.addEventListener('scroll', () => {
+    const header = document.querySelector('.header');
+    if (header) {
+        header.classList.toggle('scrolled', window.scrollY > 50);
+    }
+});
 
-.client-details p {
-    margin: 5px 0;
-}
-
-.client-actions {
-    display: flex;
-    gap: 10px;
-    margin-top: 15px;
-}
-
-.invoice-items {
-    padding: 20px;
-}
-
-.trust-badges {
-    display: flex;
-    justify-content: space-around;
-    padding: 20px;
-    background: #f8f9fa;
-    border-radius: 12px;
-    margin-top: 20px;
-}
-
-.badge-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: #666;
-}
-
-.badge-item i {
-    color: #001c4f;
-    font-size: 1.2rem;
-}
-
-.sticky-summary {
-    position: sticky;
-    top: 20px;
-}
-
-.payment-methods {
-    margin-top: 20px;
-    padding-top: 20px;
-    border-top: 1px solid #e0e0e0;
-}
-
-.method-icons {
-    display: flex;
-    gap: 15px;
-    font-size: 1.8rem;
-    color: #666;
-    margin-top: 10px;
-}
-
-.payment-info {
-    margin-top: 20px;
-    padding: 15px;
-    background: #f8f9fa;
-    border-radius: 8px;
-    font-size: 0.9rem;
-}
-
-.payment-info p {
-    margin: 5px 0;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.support-card {
-    margin-top: 20px;
-    padding: 20px;
-    background: #001c4f;
-    color: white;
-    border-radius: 12px;
-}
-
-.support-card h4 {
-    color: white;
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.support-contacts {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-top: 15px;
-}
-
-.support-link {
-    color: white;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
-    transition: all 0.3s;
-}
-
-.support-link:hover {
-    background: rgba(255, 255, 255, 0.2);
-}
-
-.checkout-footer {
-    margin-top: 40px;
-    padding: 20px 0;
-    border-top: 1px solid #e0e0e0;
-    text-align: center;
-    color: #666;
-}
-
-.footer-links {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-top: 10px;
-}
-
-.footer-links a {
-    color: #001c4f;
-    text-decoration: none;
-}
-
-.spinner {
-    font-size: 2rem;
-    color: #fdcb54;
-}
-
-.error-icon {
-    text-align: center;
-    font-size: 3rem;
-    color: #dc3545;
-    margin-bottom: 20px;
-}
-`;
-
-// Inject checkout-specific CSS
-const style = document.createElement('style');
-style.textContent = checkoutCSS;
-document.head.appendChild(style);
+// Export checkout functions
+window.InfoGripCheckout = {
+    loadInvoiceFromURL,
+    initiatePayment
+};
