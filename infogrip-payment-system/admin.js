@@ -2,8 +2,8 @@
 
 // Configuration
 const CONFIG = {
-    API_BASE: 'https://script.google.com/macros/s/AKfyckwFEktwM490_ekyzwel51tjpn12uDvdW0AaJ6dBbbSPkTK4b8fvMT1vvDvQGycaz85/exec',
-    ADMIN_SECRET: 'infogrip_secure_2025',
+    API_BASE: 'https://script.google.com/macros/s/AKfycbzS3VYqHSL3z1O5zaKL1opvEteZzPxfFNKZ9IYqtDCEZEhRc2NXVZzGrcVWym-rvmqI/exec',
+    ADMIN_SECRET: 'infogrip123',
     LOGO_URL: 'https://i.postimg.cc/Nj3bmPwC/Infogrip-Medi-Soluiton-(Social-Media)-(1).png',
     WHATSAPP_NUMBER: '+916367556906',
     EMAIL: 'infogripmarketing@gmail.com'
@@ -49,8 +49,8 @@ function showLoginModal() {
         const password = document.getElementById('adminPassword').value;
         const secret = document.getElementById('adminSecret').value;
         
-        // Simple authentication (in production, verify with server)
-        if (secret === 'infogrip_secure_2025' && email === 'admin@infogrip.com' && password === 'infogrip123') {
+        // Simple authentication - matches our backend
+        if (secret === 'infogrip123' && email === 'admin@infogrip.com') {
             localStorage.setItem('admin_token', btoa(email + ':' + Date.now()));
             localStorage.setItem('token_expiry', new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString());
             localStorage.setItem('admin_user', JSON.stringify({
@@ -61,7 +61,7 @@ function showLoginModal() {
             loginModal.style.display = 'none';
             location.reload();
         } else {
-            alert('Invalid credentials. Use:\nEmail: admin@infogrip.com\nPassword: infogrip123\nAdmin Secret: infogrip_secure_2025');
+            alert('Invalid credentials. Use:\nEmail: admin@infogrip.com\nAdmin Secret: infogrip123');
         }
     };
 }
@@ -181,36 +181,23 @@ function navigateToPage(page) {
 // Dashboard Functions
 async function loadDashboardData() {
     try {
-        // Fetch dashboard data from API
-        const response = await fetch(`${CONFIG.API_BASE}?action=getDashboardData&admin_secret=${CONFIG.ADMIN_SECRET}`);
-        
+        const response = await fetch(`${CONFIG.API_BASE}?action=getClients&admin_secret=${CONFIG.ADMIN_SECRET}`);
         const data = await response.json();
         
         if (data.success) {
-            // Update KPI cards
-            document.getElementById('totalClients').textContent = data.totalClients || '0';
-            document.getElementById('activeSubscriptions').textContent = data.activeSubscriptions || '0';
-            document.getElementById('monthlyRevenue').textContent = formatCurrency(data.monthlyRevenue || 0);
-            document.getElementById('todayPayments').textContent = data.todayPayments || '0';
-            
-            // Update recent activities
-            updateActivities(data.recentActivities || []);
-            
-            // Update expiring subscriptions
-            updateExpiringSubscriptions(data.expiringSubscriptions || []);
-            
-            // Update chart data if available
-            if (data.revenueData && revenueChart) {
-                updateRevenueChart(data.revenueData);
-            }
+            // Update dashboard counts
+            document.getElementById('totalClients').textContent = data.clients.length || '0';
+            document.getElementById('activeSubscriptions').textContent = '0'; // Will update later
+            document.getElementById('monthlyRevenue').textContent = '₹0'; // Will update later
+            document.getElementById('todayPayments').textContent = '0'; // Will update later
         }
     } catch (error) {
         console.error('Error loading dashboard data:', error);
-        // Use mock data for demo
-        document.getElementById('totalClients').textContent = '127';
-        document.getElementById('activeSubscriptions').textContent = '89';
-        document.getElementById('monthlyRevenue').textContent = '₹1,84,500';
-        document.getElementById('todayPayments').textContent = '12';
+        // Use mock data
+        document.getElementById('totalClients').textContent = '0';
+        document.getElementById('activeSubscriptions').textContent = '0';
+        document.getElementById('monthlyRevenue').textContent = '₹0';
+        document.getElementById('todayPayments').textContent = '0';
     }
 }
 
@@ -326,15 +313,26 @@ function updateExpiringSubscriptions(subscriptions) {
 // Client Management Functions
 async function loadClients() {
     try {
-        // Fetch clients from API
-        const response = await fetch(`${CONFIG.API_BASE}?action=getClients&admin_secret=${CONFIG.ADMIN_SECRET}`);
+        const url = `${CONFIG.API_BASE}?action=getClients&admin_secret=${CONFIG.ADMIN_SECRET}`;
+        console.log('Loading clients from:', url);
         
+        const response = await fetch(url);
         const data = await response.json();
-        clients = data.clients || [];
-        renderClientsTable(clients);
+        
+        console.log('Clients response:', data);
+        
+        if (data.success) {
+            clients = data.clients || [];
+            renderClientsTable(clients);
+        } else {
+            console.error('API error:', data.error);
+            clients = getMockClients();
+            renderClientsTable(clients);
+        }
+        
     } catch (error) {
         console.error('Error loading clients:', error);
-        // Use mock data for demo
+        // Use mock data as fallback
         clients = getMockClients();
         renderClientsTable(clients);
     }
@@ -446,7 +444,6 @@ function showClientModal(editMode = false, clientId = null) {
 
 async function saveClient() {
     const clientData = {
-        id: document.getElementById('clientId').value,
         name: document.getElementById('clientName').value,
         phone: document.getElementById('clientPhone').value,
         email: document.getElementById('clientEmail').value,
@@ -455,53 +452,47 @@ async function saveClient() {
         notes: document.getElementById('clientNotes').value
     };
     
-    // Validate required fields
+    // Validate
     if (!clientData.name || !clientData.phone) {
         alert('Name and phone number are required');
         return;
     }
     
-    // Validate phone number
-    const phoneRegex = /^[0-9]{10}$/;
-    if (!phoneRegex.test(clientData.phone.replace(/\D/g, ''))) {
+    // Simple phone validation
+    if (clientData.phone.replace(/\D/g, '').length !== 10) {
         alert('Please enter a valid 10-digit phone number');
         return;
     }
     
-    // Validate email if provided
-    if (clientData.email && !validateEmail(clientData.email)) {
-        alert('Please enter a valid email address');
-        return;
-    }
-    
     try {
-        // Create form data for POST request
-        const formData = new FormData();
-        formData.append('admin_secret', CONFIG.ADMIN_SECRET);
-        formData.append('clientData', JSON.stringify(clientData));
+        // Build URL with parameters
+        const url = `${CONFIG.API_BASE}?action=saveClient&admin_secret=${CONFIG.ADMIN_SECRET}` +
+                    `&name=${encodeURIComponent(clientData.name)}` +
+                    `&phone=${encodeURIComponent(clientData.phone)}` +
+                    `&email=${encodeURIComponent(clientData.email || '')}` +
+                    `&address=${encodeURIComponent(clientData.address || '')}` +
+                    `&tags=${encodeURIComponent(clientData.tags || '')}` +
+                    `&notes=${encodeURIComponent(clientData.notes || '')}`;
         
-        // Save client via API - using GET method with URL parameters to avoid CORS
-        const url = `${CONFIG.API_BASE}?action=saveClient&admin_secret=${CONFIG.ADMIN_SECRET}&clientData=${encodeURIComponent(JSON.stringify(clientData))}`;
+        console.log('Saving client URL:', url);
         
+        // Make the request
         const response = await fetch(url);
-        
         const result = await response.json();
         
+        console.log('Save result:', result);
+        
         if (result.success) {
-            alert('Client saved successfully!');
+            alert('✅ Client saved successfully!');
             document.getElementById('clientModal').style.display = 'none';
-            loadClients();
-            loadDashboardData(); // Refresh dashboard
+            loadClients(); // Refresh the list
         } else {
-            if (result.duplicate) {
-                alert('Client with this phone number already exists: ' + result.existingClient);
-            } else {
-                alert('Error saving client: ' + result.message);
-            }
+            alert('❌ Error: ' + (result.error || result.message || 'Unknown error'));
         }
+        
     } catch (error) {
-        console.error('Error saving client:', error);
-        alert('Error saving client. Please try again.');
+        console.error('Save client error:', error);
+        alert('❌ Network error. Please check console and try again.');
     }
 }
 
