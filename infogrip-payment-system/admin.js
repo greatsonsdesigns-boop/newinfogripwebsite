@@ -1,11 +1,9 @@
 // InfoGrip CRM & Billing System - Admin Dashboard JavaScript
-// FIXED VERSION - NO AUTO-LOGOUT
 
 // Configuration
 const CONFIG = {
-    API_BASE: 'https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec',
-    ADMIN_SECRET: 'infogrip2025',
-    SESSION_TIMEOUT: 24 * 60 * 60 * 1000, // 24 hours
+    API_BASE: 'https://script.google.com/macros/s/YOUR_APPS_SCRIPT_WEB_APP_ID/exec',
+    ADMIN_SECRET: localStorage.getItem('admin_secret') || '',
     LOGO_URL: 'https://i.postimg.cc/Nj3bmPwC/Infogrip-Medi-Soluiton-(Social-Media)-(1).png',
     WHATSAPP_NUMBER: '+916367556906',
     EMAIL: 'infogripmarketing@gmail.com'
@@ -17,7 +15,6 @@ let clients = [];
 let services = [];
 let currentInvoiceItems = [];
 let revenueChart = null;
-let sessionTimer = null;
 
 // Initialize the application
 document.addEventListener('DOMContentLoaded', function() {
@@ -28,319 +25,104 @@ document.addEventListener('DOMContentLoaded', function() {
     setupCharts();
 });
 
-// ==================== AUTHENTICATION FUNCTIONS (FIXED) ====================
+// Authentication Functions
 function checkAuth() {
-    console.log('🔐 Checking authentication...');
-    
-    // FIX: Always check if user data exists
     const token = localStorage.getItem('admin_token');
-    const user = localStorage.getItem('admin_user');
+    const expiry = localStorage.getItem('token_expiry');
     
-    if (!token || !user) {
-        console.log('No session found, showing login');
+    if (!token || !expiry || new Date(expiry) < new Date()) {
         showLoginModal();
-        return;
-    }
-    
-    try {
-        currentUser = JSON.parse(user);
-        console.log('✅ User logged in:', currentUser);
+    } else {
+        currentUser = JSON.parse(localStorage.getItem('admin_user'));
         updateAdminInfo();
-        
-        // Hide login modal if open
-        const loginModal = document.getElementById('loginModal');
-        if (loginModal) {
-            loginModal.style.display = 'none';
-        }
-        
-        // Show dashboard
-        navigateToPage('dashboard');
-        
-    } catch (error) {
-        console.error('Error parsing user:', error);
-        showLoginModal();
     }
 }
 
 function showLoginModal() {
-    console.log('Showing login modal...');
-    
     const loginModal = document.getElementById('loginModal');
-    if (!loginModal) {
-        console.error('Login modal not found!');
-        return;
-    }
-    
     loginModal.style.display = 'flex';
     
-    // Auto-fill test credentials
-    document.getElementById('adminEmail').value = 'admin@infogrip.com';
-    document.getElementById('adminPassword').value = 'infogrip123';
-    document.getElementById('adminSecret').value = 'infogrip2025';
-    
-    // Clear previous handlers
-    const form = document.getElementById('loginForm');
-    if (form) {
-        form.onsubmit = function(e) {
-            e.preventDefault();
-            handleLogin();
-        };
-    }
-}
-
-function handleLogin() {
-    const email = document.getElementById('adminEmail').value.trim();
-    const password = document.getElementById('adminPassword').value.trim();
-    const secret = document.getElementById('adminSecret').value.trim();
-    
-    console.log('Login attempt:', email);
-    
-    // Test credentials
-    const testCredentials = [
-        { email: 'admin@infogrip.com', password: 'infogrip123', secret: 'infogrip2025' },
-        { email: 'user@infogrip.com', password: 'password123', secret: 'infogrip2025' },
-        { email: 'test@infogrip.com', password: 'test123', secret: 'infogrip2025' }
-    ];
-    
-    const isValid = testCredentials.some(cred => 
-        cred.email === email && 
-        cred.password === password && 
-        cred.secret === secret
-    );
-    
-    if (isValid) {
-        loginSuccess(email);
-    } else {
-        Swal.fire({
-            icon: 'error',
-            title: 'Login Failed',
-            text: 'Use: admin@infogrip.com / infogrip123 / infogrip2025',
-            confirmButtonText: 'OK'
-        });
-    }
-}
-
-function loginSuccess(email) {
-    console.log('✅ Login successful for:', email);
-    
-    // Set permanent session (24 hours)
-    const expiryTime = new Date(Date.now() + CONFIG.SESSION_TIMEOUT);
-    
-    // Store session data
-    localStorage.setItem('admin_token', 'valid_session_' + Date.now());
-    localStorage.setItem('token_expiry', expiryTime.toISOString());
-    localStorage.setItem('admin_user', JSON.stringify({
-        email: email,
-        name: email.split('@')[0].toUpperCase(),
-        loginTime: new Date().toISOString()
-    }));
-    
-    // Hide login modal
-    document.getElementById('loginModal').style.display = 'none';
-    
-    // Show success
-    Swal.fire({
-        icon: 'success',
-        title: 'Login Successful!',
-        text: 'Welcome to InfoGrip CRM',
-        timer: 1500,
-        showConfirmButton: false
-    }).then(() => {
-        location.reload();
-    });
+    document.getElementById('loginForm').onsubmit = async function(e) {
+        e.preventDefault();
+        
+        const email = document.getElementById('adminEmail').value;
+        const password = document.getElementById('adminPassword').value;
+        const secret = document.getElementById('adminSecret').value;
+        
+        // Simple authentication (in production, verify with server)
+        if (secret === CONFIG.ADMIN_SECRET || secret === 'infogrip123') {
+            localStorage.setItem('admin_token', btoa(email + ':' + Date.now()));
+            localStorage.setItem('token_expiry', new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString());
+            localStorage.setItem('admin_user', JSON.stringify({
+                email: email,
+                name: email.split('@')[0]
+            }));
+            
+            loginModal.style.display = 'none';
+            location.reload();
+        } else {
+            alert('Invalid credentials');
+        }
+    };
 }
 
 function updateAdminInfo() {
     if (currentUser) {
-        const adminNameEl = document.getElementById('adminName');
-        if (adminNameEl) {
-            adminNameEl.textContent = currentUser.name;
-        }
-        
-        const avatarEl = document.querySelector('.avatar');
-        if (avatarEl && currentUser.name) {
-            avatarEl.textContent = currentUser.name.charAt(0);
-        }
+        document.getElementById('adminName').textContent = currentUser.name;
     }
 }
 
 function logout() {
-    Swal.fire({
-        title: 'Logout?',
-        text: 'Are you sure you want to logout?',
-        icon: 'question',
-        showCancelButton: true,
-        confirmButtonColor: '#001c4f',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, logout!'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            localStorage.clear();
-            sessionStorage.clear();
-            
-            if (sessionTimer) {
-                clearInterval(sessionTimer);
-            }
-            
-            Swal.fire({
-                icon: 'success',
-                title: 'Logged out!',
-                text: 'You have been successfully logged out.',
-                timer: 1500,
-                showConfirmButton: false
-            }).then(() => {
-                location.reload();
-            });
-        }
+    localStorage.removeItem('admin_token');
+    localStorage.removeItem('token_expiry');
+    localStorage.removeItem('admin_user');
+    location.reload();
+}
+
+// Event Listeners Setup
+function initEventListeners() {
+    // Sidebar Navigation
+    document.querySelectorAll('.sidebar-nav li').forEach(item => {
+        item.addEventListener('click', function() {
+            const page = this.getAttribute('data-page');
+            navigateToPage(page);
+        });
     });
-}
-// ==================== END AUTHENTICATION FUNCTIONS ====================
-
-// ==================== DASHBOARD FUNCTIONS ====================
-async function loadDashboardData() {
-    try {
-        // For now, use mock data
-        document.getElementById('totalClients').textContent = '127';
-        document.getElementById('activeSubscriptions').textContent = '89';
-        document.getElementById('monthlyRevenue').textContent = '₹1,84,500';
-        document.getElementById('todayPayments').textContent = '12';
-        
-        // Update recent activities
-        updateActivities([
-            {
-                type: 'success',
-                icon: 'check-circle',
-                title: 'Payment Received',
-                description: 'Rohit Sharma paid ₹8,500 for Social Media Management',
-                time: 'Just now'
-            },
-            {
-                type: 'info',
-                icon: 'user-plus',
-                title: 'New Client Added',
-                description: 'Simran Kaur added to CRM',
-                time: '2 hours ago'
-            }
-        ]);
-        
-        // Update expiring subscriptions
-        updateExpiringSubscriptions([
-            {
-                client_name: 'Rohit Sharma',
-                service_name: 'Social Media Management',
-                amount: 8500,
-                expiry_date: '25 Dec 2024',
-                days: 3
-            }
-        ]);
-        
-    } catch (error) {
-        console.error('Error loading dashboard:', error);
-    }
-}
-
-function setupCharts() {
-    const ctx = document.getElementById('revenueChart')?.getContext('2d');
-    if (!ctx) return;
     
-    revenueChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
-            datasets: [{
-                label: 'Revenue (₹)',
-                data: [85000, 102000, 95000, 120000, 135000, 145000, 184500],
-                borderColor: '#fdcb54',
-                backgroundColor: 'rgba(253, 203, 84, 0.1)',
-                borderWidth: 2,
-                fill: true,
-                tension: 0.4
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { legend: { display: true, position: 'top' } },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: {
-                        callback: function(value) {
-                            return '₹' + value.toLocaleString('en-IN');
-                        }
-                    }
-                }
-            }
-        }
+    // Quick Action Buttons
+    document.getElementById('quickInvoiceBtn').addEventListener('click', () => {
+        navigateToPage('create-invoice');
     });
+    
+    document.getElementById('quickClientBtn').addEventListener('click', () => {
+        showClientModal();
+    });
+    
+    document.getElementById('logoutBtn').addEventListener('click', logout);
+    
+    // Client Modal
+    document.getElementById('addClientBtn').addEventListener('click', showClientModal);
+    document.getElementById('quickAddClientBtn').addEventListener('click', showClientModal);
+    document.getElementById('saveClientBtn').addEventListener('click', saveClient);
+    
+    // Invoice Form
+    document.getElementById('addItemBtn').addEventListener('click', addInvoiceItem);
+    document.getElementById('discountType').addEventListener('change', updateDiscountField);
+    document.getElementById('generateInvoiceBtn').addEventListener('click', generateInvoice);
+    document.getElementById('isSubscription').addEventListener('change', toggleSubscriptionOptions);
+    
+    // Modal Close Buttons
+    document.querySelectorAll('.modal-close').forEach(btn => {
+        btn.addEventListener('click', function() {
+            this.closest('.modal').style.display = 'none';
+        });
+    });
+    
+    // Client Search
+    document.getElementById('clientSearch').addEventListener('input', debounce(searchClients, 300));
 }
 
-function updateActivities(activities) {
-    const container = document.getElementById('recentActivities');
-    if (!container) return;
-    
-    if (!activities || activities.length === 0) {
-        container.innerHTML = `
-            <div class="empty-state">
-                <i class="fas fa-history"></i>
-                <p>No recent activities</p>
-            </div>
-        `;
-        return;
-    }
-    
-    const html = activities.map(activity => `
-        <div class="activity-item">
-            <div class="activity-icon ${activity.type}">
-                <i class="fas fa-${activity.icon}"></i>
-            </div>
-            <div class="activity-content">
-                <h4>${activity.title}</h4>
-                <p>${activity.description}</p>
-                <span class="activity-time">${activity.time}</span>
-            </div>
-        </div>
-    `).join('');
-    
-    container.innerHTML = html;
-}
-
-function updateExpiringSubscriptions(subscriptions) {
-    const container = document.getElementById('expiringSubscriptions');
-    if (!container) return;
-    
-    if (!subscriptions || subscriptions.length === 0) {
-        container.innerHTML = `
-            <div class="empty-state">
-                <i class="fas fa-check-circle"></i>
-                <p>No subscriptions expiring soon</p>
-            </div>
-        `;
-        return;
-    }
-    
-    const html = subscriptions.map(sub => `
-        <div class="subscription-item mb-3 p-3 border rounded">
-            <div class="d-flex justify-content-between align-items-center">
-                <div>
-                    <h6 class="mb-1">${sub.client_name}</h6>
-                    <p class="mb-0 text-muted">${sub.service_name} - ${formatCurrency(sub.amount)}</p>
-                </div>
-                <span class="badge ${sub.days <= 3 ? 'bg-danger' : 'bg-warning'}">
-                    ${sub.days} days
-                </span>
-            </div>
-            <div class="mt-2">
-                <small class="text-muted">Expires: ${sub.expiry_date}</small>
-            </div>
-        </div>
-    `).join('');
-    
-    container.innerHTML = html;
-}
-// ==================== END DASHBOARD FUNCTIONS ====================
-
-// ==================== NAVIGATION FUNCTIONS ====================
+// Navigation Functions
 function navigateToPage(page) {
     // Update active nav item
     document.querySelectorAll('.sidebar-nav li').forEach(item => {
@@ -373,21 +155,14 @@ function navigateToPage(page) {
         'settings': 'System settings and configuration'
     };
     
-    const pageTitle = document.getElementById('pageTitle');
-    const pageSubtitle = document.getElementById('pageSubtitle');
-    
-    if (pageTitle) pageTitle.textContent = titles[page] || page;
-    if (pageSubtitle) pageSubtitle.textContent = subtitles[page] || '';
+    document.getElementById('pageTitle').textContent = titles[page] || page;
+    document.getElementById('pageSubtitle').textContent = subtitles[page] || '';
     
     // Show active page
     document.querySelectorAll('.page').forEach(p => {
         p.classList.remove('active');
     });
-    
-    const pageElement = document.getElementById(page + 'Page');
-    if (pageElement) {
-        pageElement.classList.add('active');
-    }
+    document.getElementById(page + 'Page').classList.add('active');
     
     // Load page-specific data
     switch(page) {
@@ -402,63 +177,172 @@ function navigateToPage(page) {
             break;
     }
 }
-// ==================== END NAVIGATION FUNCTIONS ====================
 
-// ==================== EVENT LISTENERS ====================
-function initEventListeners() {
-    // Sidebar Navigation
-    document.querySelectorAll('.sidebar-nav li').forEach(item => {
-        item.addEventListener('click', function() {
-            const page = this.getAttribute('data-page');
-            navigateToPage(page);
+// Dashboard Functions
+async function loadDashboardData() {
+    try {
+        // Fetch dashboard data from API
+        const response = await fetch(`${CONFIG.API_BASE}?action=getDashboardData`, {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('admin_token')}`
+            }
         });
-    });
-    
-    // Quick Action Buttons
-    document.getElementById('quickInvoiceBtn')?.addEventListener('click', () => {
-        navigateToPage('create-invoice');
-    });
-    
-    document.getElementById('quickClientBtn')?.addEventListener('click', () => {
-        showClientModal();
-    });
-    
-    document.getElementById('logoutBtn')?.addEventListener('click', logout);
-    
-    // Client Modal
-    document.getElementById('addClientBtn')?.addEventListener('click', showClientModal);
-    document.getElementById('quickAddClientBtn')?.addEventListener('click', showClientModal);
-    document.getElementById('saveClientBtn')?.addEventListener('click', saveClient);
-    
-    // Invoice Form
-    document.getElementById('addItemBtn')?.addEventListener('click', addInvoiceItem);
-    document.getElementById('discountType')?.addEventListener('change', updateDiscountField);
-    document.getElementById('generateInvoiceBtn')?.addEventListener('click', generateInvoice);
-    document.getElementById('isSubscription')?.addEventListener('change', toggleSubscriptionOptions);
-    
-    // Modal Close Buttons
-    document.querySelectorAll('.modal-close').forEach(btn => {
-        btn.addEventListener('click', function() {
-            this.closest('.modal').style.display = 'none';
-        });
-    });
-    
-    // Client Search
-    const clientSearch = document.getElementById('clientSearch');
-    if (clientSearch) {
-        clientSearch.addEventListener('input', debounce(searchClients, 300));
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            // Update KPI cards
+            document.getElementById('totalClients').textContent = data.totalClients || '0';
+            document.getElementById('activeSubscriptions').textContent = data.activeSubscriptions || '0';
+            document.getElementById('monthlyRevenue').textContent = formatCurrency(data.monthlyRevenue || 0);
+            document.getElementById('todayPayments').textContent = data.todayPayments || '0';
+            
+            // Update recent activities
+            updateActivities(data.recentActivities || []);
+            
+            // Update expiring subscriptions
+            updateExpiringSubscriptions(data.expiringSubscriptions || []);
+            
+            // Update chart data if available
+            if (data.revenueData && revenueChart) {
+                updateRevenueChart(data.revenueData);
+            }
+        }
+    } catch (error) {
+        console.error('Error loading dashboard data:', error);
+        // Use mock data for demo
+        document.getElementById('totalClients').textContent = '127';
+        document.getElementById('activeSubscriptions').textContent = '89';
+        document.getElementById('monthlyRevenue').textContent = '₹1,84,500';
+        document.getElementById('todayPayments').textContent = '12';
     }
 }
-// ==================== END EVENT LISTENERS ====================
 
-// ==================== CLIENT MANAGEMENT ====================
+function setupCharts() {
+    const ctx = document.getElementById('revenueChart').getContext('2d');
+    
+    revenueChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+            datasets: [{
+                label: 'Revenue (₹)',
+                data: [85000, 102000, 95000, 120000, 135000, 145000, 184500],
+                borderColor: '#fdcb54',
+                backgroundColor: 'rgba(253, 203, 84, 0.1)',
+                borderWidth: 2,
+                fill: true,
+                tension: 0.4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top'
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function(value) {
+                            return '₹' + value.toLocaleString('en-IN');
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
+function updateRevenueChart(data) {
+    if (revenueChart && data) {
+        revenueChart.data.datasets[0].data = data.values;
+        revenueChart.data.labels = data.labels;
+        revenueChart.update();
+    }
+}
+
+function updateActivities(activities) {
+    const container = document.getElementById('recentActivities');
+    if (!activities || activities.length === 0) {
+        container.innerHTML = `
+            <div class="empty-state">
+                <i class="fas fa-history"></i>
+                <p>No recent activities</p>
+            </div>
+        `;
+        return;
+    }
+    
+    const html = activities.map(activity => `
+        <div class="activity-item">
+            <div class="activity-icon ${activity.type}">
+                <i class="fas fa-${activity.icon}"></i>
+            </div>
+            <div class="activity-content">
+                <h4>${activity.title}</h4>
+                <p>${activity.description}</p>
+                <span class="activity-time">${activity.time}</span>
+            </div>
+        </div>
+    `).join('');
+    
+    container.innerHTML = html;
+}
+
+function updateExpiringSubscriptions(subscriptions) {
+    const container = document.getElementById('expiringSubscriptions');
+    
+    if (!subscriptions || subscriptions.length === 0) {
+        container.innerHTML = `
+            <div class="empty-state">
+                <i class="fas fa-check-circle"></i>
+                <p>No subscriptions expiring soon</p>
+            </div>
+        `;
+        return;
+    }
+    
+    const html = subscriptions.map(sub => `
+        <div class="subscription-item">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h6>${sub.client_name}</h6>
+                    <p class="mb-0">${sub.service_name} - ${formatCurrency(sub.amount)}</p>
+                </div>
+                <span class="badge ${sub.days <= 3 ? 'bg-danger' : 'bg-warning'}">
+                    ${sub.days} days
+                </span>
+            </div>
+            <div class="mt-2">
+                <small class="text-muted">Expires: ${sub.expiry_date}</small>
+            </div>
+        </div>
+    `).join('');
+    
+    container.innerHTML = html;
+}
+
+// Client Management Functions
 async function loadClients() {
     try {
-        // Mock data for now
-        clients = getMockClients();
+        // Fetch clients from API
+        const response = await fetch(`${CONFIG.API_BASE}?action=getClients`, {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('admin_token')}`
+            }
+        });
+        
+        const data = await response.json();
+        clients = data.clients || [];
         renderClientsTable(clients);
     } catch (error) {
         console.error('Error loading clients:', error);
+        // Use mock data for demo
         clients = getMockClients();
         renderClientsTable(clients);
     }
@@ -466,7 +350,6 @@ async function loadClients() {
 
 function renderClientsTable(clientsList) {
     const tbody = document.getElementById('clientsTableBody');
-    if (!tbody) return;
     
     if (clientsList.length === 0) {
         tbody.innerHTML = `
@@ -525,7 +408,7 @@ function renderClientsTable(clientsList) {
 }
 
 function searchClients() {
-    const query = document.getElementById('clientSearch')?.value.toLowerCase() || '';
+    const query = document.getElementById('clientSearch').value.toLowerCase();
     
     if (!query) {
         renderClientsTable(clients);
@@ -547,17 +430,18 @@ function showClientModal(editMode = false, clientId = null) {
     const title = document.getElementById('modalClientTitle');
     const form = document.getElementById('clientForm');
     
-    if (!modal || !title || !form) return;
-    
     if (editMode && clientId) {
         title.textContent = 'Edit Client';
+        // Load client data
         const client = clients.find(c => c.id === clientId);
         if (client) {
             document.getElementById('clientId').value = client.id;
             document.getElementById('clientName').value = client.name;
             document.getElementById('clientPhone').value = client.phone;
             document.getElementById('clientEmail').value = client.email;
+            document.getElementById('clientAddress').value = client.address || '';
             document.getElementById('clientTags').value = client.tags || '';
+            document.getElementById('clientNotes').value = client.notes || '';
         }
     } else {
         title.textContent = 'Add New Client';
@@ -574,31 +458,108 @@ async function saveClient() {
         name: document.getElementById('clientName').value,
         phone: document.getElementById('clientPhone').value,
         email: document.getElementById('clientEmail').value,
-        tags: document.getElementById('clientTags').value
+        address: document.getElementById('clientAddress').value,
+        tags: document.getElementById('clientTags').value,
+        notes: document.getElementById('clientNotes').value
     };
     
+    // Validate required fields
     if (!clientData.name || !clientData.phone) {
         alert('Name and phone number are required');
         return;
     }
     
+    // Validate phone number
+    const phoneRegex = /^[0-9]{10}$/;
+    if (!phoneRegex.test(clientData.phone.replace(/\D/g, ''))) {
+        alert('Please enter a valid 10-digit phone number');
+        return;
+    }
+    
+    // Validate email if provided
+    if (clientData.email && !validateEmail(clientData.email)) {
+        alert('Please enter a valid email address');
+        return;
+    }
+    
     try {
-        alert('Client saved successfully!');
-        document.getElementById('clientModal').style.display = 'none';
-        loadClients();
-        loadDashboardData();
+        // Check for duplicates
+        const duplicate = clients.find(client => 
+            client.phone === clientData.phone && 
+            (!clientData.id || client.id !== clientData.id)
+        );
+        
+        if (duplicate) {
+            showDuplicateModal(duplicate, clientData);
+            return;
+        }
+        
+        // Save client via API
+        const response = await fetch(`${CONFIG.API_BASE}?action=saveClient`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('admin_token')}`
+            },
+            body: JSON.stringify({
+                ...clientData,
+                admin_secret: CONFIG.ADMIN_SECRET
+            })
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            alert('Client saved successfully!');
+            document.getElementById('clientModal').style.display = 'none';
+            loadClients();
+            loadDashboardData(); // Refresh dashboard
+        } else {
+            alert('Error saving client: ' + result.message);
+        }
     } catch (error) {
         console.error('Error saving client:', error);
-        alert('Error saving client.');
+        alert('Error saving client. Please try again.');
     }
 }
-// ==================== END CLIENT MANAGEMENT ====================
 
-// ==================== INVOICE MANAGEMENT ====================
+function showDuplicateModal(existingClient, newClientData) {
+    const modal = document.getElementById('duplicateModal');
+    
+    document.getElementById('dupClientName').textContent = existingClient.name;
+    document.getElementById('dupClientPhone').textContent = existingClient.phone;
+    document.getElementById('dupClientEmail').textContent = existingClient.email;
+    
+    modal.style.display = 'flex';
+    
+    // Handle modal button clicks
+    document.getElementById('useExistingBtn').onclick = function() {
+        modal.style.display = 'none';
+        document.getElementById('clientModal').style.display = 'none';
+        // Use existing client for current operation
+    };
+    
+    document.getElementById('mergeBtn').onclick = function() {
+        // Merge logic would go here
+        modal.style.display = 'none';
+        alert('Merge functionality coming soon!');
+    };
+    
+    document.getElementById('createNewBtn').onclick = function() {
+        modal.style.display = 'none';
+        // Continue with save
+        continueSaveClient(newClientData);
+    };
+}
+
+async function continueSaveClient(clientData) {
+    // Implementation for saving despite duplicate
+    alert('Creating new client anyway...');
+}
+
+// Invoice Management Functions
 function addInvoiceItem() {
     const tbody = document.getElementById('invoiceItemsBody');
-    if (!tbody) return;
-    
     const rowCount = tbody.children.length;
     
     const html = `
@@ -660,8 +621,7 @@ function updateRowTotal(input) {
 
 function removeInvoiceItem(button) {
     const row = button.closest('tr');
-    const tbody = document.getElementById('invoiceItemsBody');
-    if (tbody && tbody.children.length > 1) {
+    if (document.getElementById('invoiceItemsBody').children.length > 1) {
         row.remove();
         updateRemoveButtons();
         updateInvoiceSummary();
@@ -669,7 +629,7 @@ function removeInvoiceItem(button) {
 }
 
 function updateRemoveButtons() {
-    const rows = document.getElementById('invoiceItemsBody')?.children || [];
+    const rows = document.getElementById('invoiceItemsBody').children;
     const removeButtons = document.querySelectorAll('.remove-item');
     
     removeButtons.forEach(button => {
@@ -685,9 +645,9 @@ function updateInvoiceSummary() {
         subtotal += total;
     });
     
-    const discountType = document.getElementById('discountType')?.value || 'none';
-    const discountValue = parseFloat(document.getElementById('discountValue')?.value) || 0;
-    const gstPercent = parseFloat(document.getElementById('gstPercent')?.value) || 18;
+    const discountType = document.getElementById('discountType').value;
+    const discountValue = parseFloat(document.getElementById('discountValue').value) || 0;
+    const gstPercent = parseFloat(document.getElementById('gstPercent').value) || 0;
     
     let discount = 0;
     if (discountType === 'fixed') {
@@ -701,92 +661,151 @@ function updateInvoiceSummary() {
     const totalAmount = afterDiscount + gstAmount;
     
     // Update display
-    const subtotalEl = document.getElementById('subtotalAmount');
-    const discountEl = document.getElementById('discountAmount');
-    const gstDisplay = document.getElementById('gstDisplay');
-    const gstAmountEl = document.getElementById('gstAmount');
-    const totalEl = document.getElementById('totalAmount');
-    
-    if (subtotalEl) subtotalEl.textContent = formatCurrency(subtotal);
-    if (discountEl) discountEl.textContent = formatCurrency(discount, true);
-    if (gstDisplay) gstDisplay.textContent = gstPercent;
-    if (gstAmountEl) gstAmountEl.textContent = formatCurrency(gstAmount);
-    if (totalEl) totalEl.textContent = formatCurrency(totalAmount);
+    document.getElementById('subtotalAmount').textContent = formatCurrency(subtotal);
+    document.getElementById('discountAmount').textContent = formatCurrency(discount, true);
+    document.getElementById('gstDisplay').textContent = gstPercent;
+    document.getElementById('gstAmount').textContent = formatCurrency(gstAmount);
+    document.getElementById('totalAmount').textContent = formatCurrency(totalAmount);
 }
 
 function updateDiscountField() {
-    const discountType = document.getElementById('discountType')?.value;
+    const discountType = document.getElementById('discountType').value;
     const discountValue = document.getElementById('discountValue');
     
-    if (discountValue) {
-        discountValue.disabled = discountType === 'none';
-        discountValue.placeholder = discountType === 'percentage' ? 'Percentage' : 'Amount';
-        updateInvoiceSummary();
-    }
+    discountValue.disabled = discountType === 'none';
+    discountValue.placeholder = discountType === 'percentage' ? 'Percentage' : 'Amount';
+    updateInvoiceSummary();
 }
 
 function toggleSubscriptionOptions() {
-    const isSubscription = document.getElementById('isSubscription')?.checked || false;
-    const options = document.getElementById('subscriptionOptions');
-    if (options) {
-        options.style.display = isSubscription ? 'block' : 'none';
-    }
+    const isSubscription = document.getElementById('isSubscription').checked;
+    document.getElementById('subscriptionOptions').style.display = isSubscription ? 'block' : 'none';
 }
 
 async function generateInvoice() {
     const clientSelect = document.getElementById('clientSelect');
-    const selectedClientId = clientSelect?.value;
+    const selectedClientId = clientSelect.value;
     
     if (!selectedClientId) {
         alert('Please select a client');
         return;
     }
     
-    // Show success modal
-    const totalAmount = parseFloat(document.getElementById('totalAmount')?.textContent?.replace(/[^0-9.-]+/g, "") || 0);
-    const invoiceId = 'INFO-' + new Date().getTime();
+    // Collect invoice data
+    const invoiceData = {
+        client_id: selectedClientId,
+        items: [],
+        discount_type: document.getElementById('discountType').value,
+        discount_value: parseFloat(document.getElementById('discountValue').value) || 0,
+        gst_percent: parseFloat(document.getElementById('gstPercent').value) || 0,
+        is_subscription: document.getElementById('isSubscription').checked,
+        billing_cycle: document.getElementById('billingCycle').value,
+        auto_renew: document.getElementById('autoRenew').checked,
+        save_as_default: document.getElementById('saveAsDefault').checked
+    };
     
-    showInvoiceSuccessModal(invoiceId, 'https://example.com/checkout', totalAmount);
+    // Collect items
+    document.querySelectorAll('#invoiceItemsBody tr').forEach(row => {
+        const service = row.querySelector('.service-select').value;
+        const description = row.querySelector('.description').value;
+        const quantity = parseFloat(row.querySelector('.quantity').value) || 1;
+        const unitPrice = parseFloat(row.querySelector('.unit-price').value) || 0;
+        
+        invoiceData.items.push({
+            service: service,
+            description: description,
+            quantity: quantity,
+            unit_price: unitPrice,
+            total: quantity * unitPrice
+        });
+    });
+    
+    // Validate items
+    if (invoiceData.items.length === 0) {
+        alert('Please add at least one invoice item');
+        return;
+    }
+    
+    // Calculate totals
+    updateInvoiceSummary();
+    const totalAmount = parseFloat(document.getElementById('totalAmount').textContent.replace(/[^0-9.-]+/g, ""));
+    
+    try {
+        // Generate invoice via API
+        const response = await fetch(`${CONFIG.API_BASE}?action=createInvoice`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('admin_token')}`
+            },
+            body: JSON.stringify({
+                ...invoiceData,
+                total_amount: totalAmount,
+                admin_secret: CONFIG.ADMIN_SECRET
+            })
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            showInvoiceSuccessModal(result.invoice_id, result.checkout_link, totalAmount);
+        } else {
+            alert('Error creating invoice: ' + result.message);
+        }
+    } catch (error) {
+        console.error('Error creating invoice:', error);
+        alert('Error creating invoice. Please try again.');
+    }
 }
 
 function showInvoiceSuccessModal(invoiceId, checkoutLink, amount) {
     const modal = document.getElementById('invoiceModal');
-    if (!modal) return;
     
-    const invoiceIdEl = document.getElementById('generatedInvoiceId');
-    const amountEl = document.getElementById('generatedAmount');
-    const linkInput = document.getElementById('paymentLink');
+    document.getElementById('generatedInvoiceId').textContent = invoiceId;
+    document.getElementById('generatedAmount').textContent = formatCurrency(amount);
+    document.getElementById('paymentLink').value = checkoutLink;
     
-    if (invoiceIdEl) invoiceIdEl.textContent = invoiceId;
-    if (amountEl) amountEl.textContent = formatCurrency(amount);
-    if (linkInput) linkInput.value = checkoutLink;
+    // Generate QR Code
+    const qrcodeContainer = document.getElementById('qrcode');
+    qrcodeContainer.innerHTML = '';
+    QRCode.toCanvas(qrcodeContainer, checkoutLink, {
+        width: 180,
+        margin: 1,
+        color: {
+            dark: '#001c4f',
+            light: '#ffffff'
+        }
+    }, function(error) {
+        if (error) console.error('QR Code generation error:', error);
+    });
     
-    // Setup buttons
-    document.getElementById('whatsappShareBtn')?.addEventListener('click', function() {
-        const message = `Hello! Please complete your payment of ${formatCurrency(amount)} for invoice ${invoiceId}.`;
+    // Setup share buttons
+    document.getElementById('whatsappShareBtn').onclick = function() {
+        const message = `Hello! Please complete your payment of ${formatCurrency(amount)} for invoice ${invoiceId}. Click here to pay: ${checkoutLink}`;
         const whatsappUrl = `https://wa.me/${CONFIG.WHATSAPP_NUMBER.replace('+', '')}?text=${encodeURIComponent(message)}`;
         window.open(whatsappUrl, '_blank');
-    });
+    };
     
-    document.getElementById('copyLinkBtn')?.addEventListener('click', function() {
+    document.getElementById('emailShareBtn').onclick = function() {
+        alert('Email sending functionality will be implemented in the backend');
+    };
+    
+    document.getElementById('copyLinkBtn').onclick = function() {
         const linkInput = document.getElementById('paymentLink');
-        if (linkInput) {
-            linkInput.select();
-            document.execCommand('copy');
-            alert('Payment link copied!');
-        }
-    });
+        linkInput.select();
+        document.execCommand('copy');
+        alert('Payment link copied to clipboard!');
+    };
     
     modal.style.display = 'flex';
 }
-// ==================== END INVOICE MANAGEMENT ====================
 
-// ==================== UTILITY FUNCTIONS ====================
+// Utility Functions
 function formatCurrency(amount, showNegative = false) {
     if (showNegative && amount > 0) {
-        return `-₹${amount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`;
+        return `-₹${amount.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
     }
-    return `₹${amount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`;
+    return `₹${amount.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 }
 
 function formatPhone(phone) {
@@ -795,6 +814,11 @@ function formatPhone(phone) {
         return cleaned.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
     }
     return phone;
+}
+
+function validateEmail(email) {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
 }
 
 function debounce(func, wait) {
@@ -809,24 +833,27 @@ function debounce(func, wait) {
     };
 }
 
+// Load services from API or use defaults
 async function loadServices() {
     try {
-        services = getDefaultServices();
-        
-        // Update service dropdowns
-        document.querySelectorAll('.service-select').forEach(select => {
-            if (select.innerHTML.includes('Select Service')) {
-                select.innerHTML = `
-                    <option value="">Select Service</option>
-                    ${services.map(s => `<option value="${s.id}" data-price="${s.price}">${s.name}</option>`).join('')}
-                    <option value="custom">Custom Service</option>
-                `;
-            }
-        });
+        const response = await fetch(`${CONFIG.API_BASE}?action=getServices`);
+        const data = await response.json();
+        services = data.services || getDefaultServices();
     } catch (error) {
         console.error('Error loading services:', error);
         services = getDefaultServices();
     }
+    
+    // Update service dropdowns
+    document.querySelectorAll('.service-select').forEach(select => {
+        if (select.innerHTML.includes('Select Service')) {
+            select.innerHTML = `
+                <option value="">Select Service</option>
+                ${services.map(s => `<option value="${s.id}" data-price="${s.price}">${s.name}</option>`).join('')}
+                <option value="custom">Custom Service</option>
+            `;
+        }
+    });
 }
 
 function getDefaultServices() {
@@ -850,8 +877,7 @@ function getMockClients() {
             email: 'rohit@example.com',
             active_subscriptions: 2,
             total_spent: 85000,
-            status: 'Active',
-            tags: 'VIP,Gym'
+            status: 'Active'
         },
         {
             id: '2',
@@ -861,14 +887,22 @@ function getMockClients() {
             email: 'simran@example.com',
             active_subscriptions: 1,
             total_spent: 45000,
-            status: 'Active',
-            tags: 'Beauty,Salon'
+            status: 'Active'
+        },
+        {
+            id: '3',
+            client_id: 'CL-0003',
+            name: 'Rajeev Mehra',
+            phone: '9876543212',
+            email: 'rajeev@example.com',
+            active_subscriptions: 0,
+            total_spent: 150000,
+            status: 'Expired'
         }
     ];
 }
-// ==================== END UTILITY FUNCTIONS ====================
 
-// ==================== GLOBAL FUNCTIONS (for onclick) ====================
+// Expose functions to global scope for onclick attributes
 window.viewClient = function(id) {
     alert('View client ' + id);
 };
@@ -878,34 +912,11 @@ window.editClient = function(id) {
 };
 
 window.deleteClient = function(id) {
-    if (confirm('Delete this client?')) {
-        alert('Client deleted (mock)');
-        loadClients();
+    if (confirm('Are you sure you want to delete this client?')) {
+        alert('Delete client ' + id + ' - This will be implemented in the backend');
     }
 };
 
 window.updateServicePrice = updateServicePrice;
 window.updateRowTotal = updateRowTotal;
 window.removeInvoiceItem = removeInvoiceItem;
-// ==================== END GLOBAL FUNCTIONS ====================
-
-// ==================== QUICK FIX FOR AUTO-LOGOUT ====================
-// Add this at the VERY END of the file
-(function() {
-    // Force permanent login
-    if (!localStorage.getItem('admin_token')) {
-        localStorage.setItem('admin_token', 'permanent_token_' + Date.now());
-    }
-    
-    if (!localStorage.getItem('admin_user')) {
-        localStorage.setItem('admin_user', JSON.stringify({
-            email: 'admin@infogrip.com',
-            name: 'ADMIN'
-        }));
-    }
-    
-    // Always set future expiry
-    localStorage.setItem('token_expiry', new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString());
-    
-    console.log('✅ Permanent login enabled');
-})();
