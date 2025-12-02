@@ -8,15 +8,1234 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* ===== BASE STYLES ===== */
+        :root {
+            --primary: #001c4f;
+            --secondary: #fdcb54;
+            --orange: #fdcb54;
+            --gradient-orange: linear-gradient(135deg, #fdcb54 0%, #ff9d00 100%);
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-shadow: 0 8px 32px rgba(0, 28, 79, 0.1);
+            --white: #ffffff;
+            --dark-bg: #0a0f1e;
+            --dark-glass: rgba(255, 255, 255, 0.03);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            color: #333;
+            min-height: 100vh;
+            transition: var(--transition);
+        }
+
+        body.dark-theme {
+            background: linear-gradient(135deg, #0a0f1e 0%, #1a1f2e 100%);
+            color: var(--white);
+        }
+
+        /* ===== PREMIUM HEADER ===== */
+        .premium-header {
+            background: var(--primary);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 28, 79, 0.1);
+        }
+
+        .navbar-premium {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+            height: 70px;
+            max-width: 100%;
+        }
+
+        .logo-premium {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-premium img {
+            height: 40px;
+            width: auto;
+        }
+
+        .logo-text h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: var(--gradient-orange);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 0;
+        }
+
+        .logo-text span {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.7);
+            display: block;
+            margin-top: 0.25rem;
+        }
+
+        .nav-premium {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--white);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-links i {
+            font-size: 1.1rem;
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .notification-bell,
+        .theme-toggle-premium {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .notification-bell:hover,
+        .theme-toggle-premium:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .user-profile:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--gradient-orange);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .user-info h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--white);
+            margin: 0;
+        }
+
+        .user-info p {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin: 0;
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            color: var(--white);
+            cursor: pointer;
+        }
+
+        /* ===== PREMIUM SIDEBAR ===== */
+        .premium-sidebar {
+            width: 250px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-right: 1px solid var(--glass-border);
+            position: fixed;
+            top: 70px;
+            left: 0;
+            bottom: 0;
+            padding: 2rem 0;
+            overflow-y: auto;
+            transition: var(--transition);
+            z-index: 900;
+        }
+
+        body.dark-theme .premium-sidebar {
+            background: rgba(10, 15, 30, 0.95);
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .menu-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem 1.5rem;
+            color: #666;
+            text-decoration: none;
+            transition: var(--transition);
+            border-left: 3px solid transparent;
+        }
+
+        body.dark-theme .sidebar-link {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .sidebar-link:hover,
+        .sidebar-link.active {
+            background: rgba(253, 203, 84, 0.1);
+            color: var(--primary);
+            border-left-color: var(--orange);
+        }
+
+        body.dark-theme .sidebar-link:hover,
+        body.dark-theme .sidebar-link.active {
+            background: rgba(253, 203, 84, 0.1);
+            color: var(--white);
+        }
+
+        .sidebar-link i {
+            width: 20px;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        .menu-divider {
+            height: 1px;
+            background: var(--glass-border);
+            margin: 1.5rem 1.5rem;
+        }
+
+        .badge-premium {
+            padding: 0.25rem 0.5rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .badge-danger {
+            background: rgba(255, 71, 87, 0.1);
+            color: #ff4757;
+            border: 1px solid rgba(255, 71, 87, 0.2);
+        }
+
+        .badge-warning {
+            background: rgba(255, 193, 7, 0.1);
+            color: #ffc107;
+            border: 1px solid rgba(255, 193, 7, 0.2);
+        }
+
+        .badge-success {
+            background: rgba(0, 208, 156, 0.1);
+            color: #00d09c;
+            border: 1px solid rgba(0, 208, 156, 0.2);
+        }
+
+        .ml-2 {
+            margin-left: 0.5rem;
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .premium-main {
+            margin-left: 250px;
+            margin-top: 70px;
+            padding: 2rem;
+            min-height: calc(100vh - 70px);
+        }
+
+        .dashboard-section {
+            display: block;
+        }
+
+        /* ===== DASHBOARD HEADER ===== */
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .dashboard-header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        body.dark-theme .dashboard-header h1 {
+            color: var(--white);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn-premium {
+            padding: 0.75rem 1.5rem;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .btn-primary-premium {
+            background: var(--gradient-orange);
+            color: var(--primary);
+            border: none;
+        }
+
+        .btn-primary-premium:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(253, 203, 84, 0.3);
+        }
+
+        .btn-secondary-premium {
+            background: var(--glass-bg);
+            color: var(--primary);
+            border: 2px solid var(--glass-border);
+        }
+
+        body.dark-theme .btn-secondary-premium {
+            color: var(--white);
+        }
+
+        .btn-secondary-premium:hover {
+            background: rgba(253, 203, 84, 0.1);
+            border-color: var(--orange);
+        }
+
+        .btn-sm-premium {
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+        }
+
+        /* ===== STATS GRID ===== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card-premium {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            transition: var(--transition);
+            box-shadow: var(--glass-shadow);
+        }
+
+        body.dark-theme .stat-card-premium {
+            background: var(--dark-glass);
+        }
+
+        .stat-card-premium:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 28, 79, 0.15);
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            background: var(--gradient-orange);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .stat-content h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+            color: var(--primary);
+        }
+
+        body.dark-theme .stat-content h3 {
+            color: var(--white);
+        }
+
+        .stat-content p {
+            color: #666;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        body.dark-theme .stat-content p {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .stat-trend {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.8rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+        }
+
+        .trend-up {
+            background: rgba(0, 208, 156, 0.1);
+            color: #00d09c;
+        }
+
+        .trend-down {
+            background: rgba(255, 71, 87, 0.1);
+            color: #ff4757;
+        }
+
+        /* ===== CHARTS SECTION ===== */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .chart-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: var(--glass-shadow);
+        }
+
+        body.dark-theme .chart-card {
+            background: var(--dark-glass);
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .chart-header h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        body.dark-theme .chart-header h3 {
+            color: var(--white);
+        }
+
+        /* ===== TABLE STYLES ===== */
+        .table-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: var(--glass-shadow);
+            margin-bottom: 1.5rem;
+        }
+
+        body.dark-theme .table-card {
+            background: var(--dark-glass);
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .table-header h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        body.dark-theme .table-header h3 {
+            color: var(--white);
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        .premium-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .premium-table thead {
+            background: rgba(253, 203, 84, 0.1);
+            border-bottom: 2px solid rgba(253, 203, 84, 0.2);
+        }
+
+        .premium-table th {
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 0.9rem;
+        }
+
+        body.dark-theme .premium-table th {
+            color: var(--white);
+        }
+
+        .premium-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--glass-border);
+            color: #666;
+        }
+
+        body.dark-theme .premium-table td {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .premium-table tbody tr:hover {
+            background: rgba(253, 203, 84, 0.05);
+        }
+
+        .premium-table .badge-premium {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        /* ===== FORM STYLES ===== */
+        .form-group-premium {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label-premium {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 0.9rem;
+        }
+
+        body.dark-theme .form-label-premium {
+            color: var(--white);
+        }
+
+        .form-control-premium {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            color: var(--primary);
+            font-size: 0.95rem;
+            transition: var(--transition);
+        }
+
+        body.dark-theme .form-control-premium {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--white);
+        }
+
+        .form-control-premium:focus {
+            outline: none;
+            border-color: var(--orange);
+            box-shadow: 0 0 0 3px rgba(253, 203, 84, 0.1);
+        }
+
+        /* ===== GLASS CARD ===== */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            box-shadow: var(--glass-shadow);
+        }
+
+        body.dark-theme .glass-card {
+            background: var(--dark-glass);
+        }
+
+        .p-6 {
+            padding: 1.5rem;
+        }
+
+        .p-4 {
+            padding: 1rem;
+        }
+
+        .mb-6 {
+            margin-bottom: 1.5rem;
+        }
+
+        .mb-4 {
+            margin-bottom: 1rem;
+        }
+
+        .mt-4 {
+            margin-top: 1rem;
+        }
+
+        .mt-6 {
+            margin-top: 1.5rem;
+        }
+
+        .mt-2 {
+            margin-top: 0.5rem;
+        }
+
+        .mt-1 {
+            margin-top: 0.25rem;
+        }
+
+        /* ===== FLEX UTILITIES ===== */
+        .flex {
+            display: flex;
+        }
+
+        .flex-col {
+            flex-direction: column;
+        }
+
+        .flex-1 {
+            flex: 1;
+        }
+
+        .items-center {
+            align-items: center;
+        }
+
+        .justify-between {
+            justify-content: space-between;
+        }
+
+        .justify-center {
+            justify-content: center;
+        }
+
+        .gap-2 {
+            gap: 0.5rem;
+        }
+
+        .gap-3 {
+            gap: 0.75rem;
+        }
+
+        .gap-4 {
+            gap: 1rem;
+        }
+
+        .gap-6 {
+            gap: 1.5rem;
+        }
+
+        /* ===== TEXT UTILITIES ===== */
+        .text-center {
+            text-align: center;
+        }
+
+        .text-xl {
+            font-size: 1.25rem;
+        }
+
+        .text-lg {
+            font-size: 1.125rem;
+        }
+
+        .text-sm {
+            font-size: 0.875rem;
+        }
+
+        .font-bold {
+            font-weight: 700;
+        }
+
+        .font-medium {
+            font-weight: 500;
+        }
+
+        .text-gradient {
+            background: var(--gradient-orange);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .opacity-70 {
+            opacity: 0.7;
+        }
+
+        /* ===== MODAL STYLES ===== */
+        .modal-overlay-premium {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            padding: 2rem;
+        }
+
+        .modal-overlay-premium.active {
+            display: flex;
+        }
+
+        .modal-premium {
+            background: var(--white);
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        body.dark-theme .modal-premium {
+            background: var(--dark-bg);
+            color: var(--white);
+        }
+
+        .modal-header-premium {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header-premium h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        body.dark-theme .modal-header-premium h3 {
+            color: var(--white);
+        }
+
+        .modal-close-premium {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            color: #666;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+
+        .modal-close-premium:hover {
+            background: rgba(0, 0, 0, 0.1);
+            color: var(--primary);
+        }
+
+        .modal-body-premium {
+            padding: 1.5rem;
+        }
+
+        /* ===== TOAST STYLES ===== */
+        .toast-container {
+            position: fixed;
+            top: 100px;
+            right: 2rem;
+            z-index: 3000;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .toast-premium {
+            background: var(--white);
+            border-radius: 8px;
+            padding: 1rem 1.5rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            animation: slideIn 0.3s ease;
+            min-width: 300px;
+            border-left: 4px solid transparent;
+        }
+
+        body.dark-theme .toast-premium {
+            background: var(--dark-bg);
+        }
+
+        .toast-success {
+            border-left-color: #00d09c;
+        }
+
+        .toast-error {
+            border-left-color: #ff4757;
+        }
+
+        .toast-warning {
+            border-left-color: #ffc107;
+        }
+
+        .toast-info {
+            border-left-color: #007bff;
+        }
+
+        .toast-icon {
+            font-size: 1.2rem;
+        }
+
+        .toast-success .toast-icon {
+            color: #00d09c;
+        }
+
+        .toast-error .toast-icon {
+            color: #ff4757;
+        }
+
+        .toast-warning .toast-icon {
+            color: #ffc107;
+        }
+
+        .toast-info .toast-icon {
+            color: #007bff;
+        }
+
+        .toast-message {
+            flex: 1;
+            font-size: 0.9rem;
+        }
+
+        .toast-close {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            color: #666;
+            cursor: pointer;
+            padding: 0;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* ===== LOADER STYLES ===== */
+        .loader-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 28, 79, 0.8);
+            backdrop-filter: blur(10px);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        .loader-overlay.active {
+            display: flex;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(253, 203, 84, 0.3);
+            border-top-color: var(--orange);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        .loader-overlay p {
+            color: var(--white);
+            margin-top: 1rem;
+            font-size: 1rem;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ===== TAB STYLES ===== */
+        .tab-btn {
+            background: none;
+            border: none;
+            color: #666;
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            opacity: 0.7;
+            position: relative;
+            transition: var(--transition);
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        body.dark-theme .tab-btn {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .tab-btn:hover {
+            opacity: 1;
+        }
+
+        .tab-btn.active {
+            opacity: 1;
+            color: var(--primary);
+        }
+
+        body.dark-theme .tab-btn.active {
+            color: var(--orange);
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--gradient-orange);
+            border-radius: 3px 3px 0 0;
+        }
+
+        .border-b {
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .border-t {
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .border-glass-border {
+            border-color: var(--glass-border);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* ===== GRID UTILITIES ===== */
+        .grid {
+            display: grid;
+        }
+
+        .grid-cols-1 {
+            grid-template-columns: 1fr;
+        }
+
+        .grid-cols-2 {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .grid-cols-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .grid-cols-4 {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        @media (min-width: 768px) {
+            .md\:grid-cols-2 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .lg\:grid-cols-2 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .lg\:grid-cols-3 {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .lg\:grid-cols-4 {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .space-y-4 > * + * {
+            margin-top: 1rem;
+        }
+
+        .space-y-3 > * + * {
+            margin-top: 0.75rem;
+        }
+
+        /* ===== ANIMATIONS ===== */
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== BADGE COLORS ===== */
+        .badge-secondary {
+            background: rgba(108, 117, 125, 0.1);
+            color: #6c757d;
+            border: 1px solid rgba(108, 117, 125, 0.2);
+        }
+
+        .badge-info {
+            background: rgba(23, 162, 184, 0.1);
+            color: #17a2b8;
+            border: 1px solid rgba(23, 162, 184, 0.2);
+        }
+
+        /* ===== BUTTON VARIANTS ===== */
+        .btn-danger-premium {
+            background: rgba(255, 71, 87, 0.1);
+            color: #ff4757;
+            border: 2px solid rgba(255, 71, 87, 0.3);
+        }
+
+        .btn-danger-premium:hover {
+            background: rgba(255, 71, 87, 0.2);
+            border-color: #ff4757;
+        }
+
+        .btn-success-premium {
+            background: rgba(0, 208, 156, 0.1);
+            color: #00d09c;
+            border: 2px solid rgba(0, 208, 156, 0.3);
+        }
+
+        .btn-success-premium:hover {
+            background: rgba(0, 208, 156, 0.2);
+            border-color: #00d09c;
+        }
+
+        /* ===== FORM CHECKBOX ===== */
+        .form-checkbox {
+            width: 1.1rem;
+            height: 1.1rem;
+            border-radius: 4px;
+            border: 2px solid var(--glass-border);
+            background: var(--glass-bg);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .form-checkbox:checked {
+            background-color: var(--orange);
+            border-color: var(--orange);
+        }
+
+        .inline-flex {
+            display: inline-flex;
+        }
+
+        .ml-auto {
+            margin-left: auto;
+        }
+
+        .w-full {
+            width: 100%;
+        }
+
+        /* ===== FOOTER ===== */
+        .premium-footer {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--glass-border);
+            text-align: center;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        body.dark-theme .premium-footer {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 1200px) {
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .premium-sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .premium-sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .premium-main {
+                margin-left: 0;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar-premium {
+                padding: 0 1rem;
+            }
+            
+            .premium-main {
+                padding: 1rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .dashboard-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .header-actions {
+                width: 100%;
+                justify-content: flex-start;
+            }
+            
+            .modal-premium {
+                max-width: 100%;
+                margin: 1rem;
+            }
+            
+            .grid-cols-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .user-profile .user-info {
+                display: none;
+            }
+            
+            .tab-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Premium Header -->
     <header class="premium-header">
         <nav class="navbar-premium">
             <div class="logo-premium">
-                <img src="https://i.postimg.cc/Nj3bmPwC/Infogrip-Medi-Soluiton-(Social-Media)-(1).png" alt="InfoGrip">
                 <div class="logo-text">
                     <h1>InfoGrip CRM</h1>
                     <span>Premium Admin Dashboard</span>
@@ -295,7 +1514,12 @@
                             </tr>
                         </thead>
                         <tbody id="recent-invoices-body">
-                            <!-- Data will be loaded here -->
+                            <tr>
+                                <td colspan="6" class="text-center p-8">
+                                    <div class="loading-spinner" style="width: 30px; height: 30px; margin: 0 auto;"></div>
+                                    <p class="mt-4">Loading invoices...</p>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -378,7 +1602,7 @@
                         <tbody id="clients-table-body">
                             <tr>
                                 <td colspan="8" class="text-center p-8">
-                                    <div class="loading-spinner"></div>
+                                    <div class="loading-spinner" style="width: 30px; height: 30px; margin: 0 auto;"></div>
                                     <p class="mt-4">Loading clients...</p>
                                 </td>
                             </tr>
@@ -473,7 +1697,12 @@
                                 </tr>
                             </thead>
                             <tbody id="active-subscriptions-body">
-                                <!-- Data loaded here -->
+                                <tr>
+                                    <td colspan="8" class="text-center p-8">
+                                        <div class="loading-spinner" style="width: 30px; height: 30px; margin: 0 auto;"></div>
+                                        <p class="mt-4">Loading subscriptions...</p>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -499,7 +1728,12 @@
                                 </tr>
                             </thead>
                             <tbody id="expiring-subscriptions-body">
-                                <!-- Data loaded here -->
+                                <tr>
+                                    <td colspan="7" class="text-center p-8">
+                                        <div class="loading-spinner" style="width: 30px; height: 30px; margin: 0 auto;"></div>
+                                        <p class="mt-4">Loading expiring subscriptions...</p>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -525,7 +1759,12 @@
                                 </tr>
                             </thead>
                             <tbody id="all-subscriptions-body">
-                                <!-- Data loaded here -->
+                                <tr>
+                                    <td colspan="7" class="text-center p-8">
+                                        <div class="loading-spinner" style="width: 30px; height: 30px; margin: 0 auto;"></div>
+                                        <p class="mt-4">Loading all subscriptions...</p>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -625,7 +1864,12 @@
                                 </tr>
                             </thead>
                             <tbody id="all-invoices-body">
-                                <!-- Data loaded here -->
+                                <tr>
+                                    <td colspan="7" class="text-center p-8">
+                                        <div class="loading-spinner" style="width: 30px; height: 30px; margin: 0 auto;"></div>
+                                        <p class="mt-4">Loading invoices...</p>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -650,7 +1894,12 @@
                                 </tr>
                             </thead>
                             <tbody id="pending-invoices-body-tab">
-                                <!-- Data loaded here -->
+                                <tr>
+                                    <td colspan="6" class="text-center p-8">
+                                        <div class="loading-spinner" style="width: 30px; height: 30px; margin: 0 auto;"></div>
+                                        <p class="mt-4">Loading pending invoices...</p>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -675,7 +1924,12 @@
                                 </tr>
                             </thead>
                             <tbody id="paid-invoices-body">
-                                <!-- Data loaded here -->
+                                <tr>
+                                    <td colspan="6" class="text-center p-8">
+                                        <div class="loading-spinner" style="width: 30px; height: 30px; margin: 0 auto;"></div>
+                                        <p class="mt-4">Loading paid invoices...</p>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -700,7 +1954,12 @@
                                 </tr>
                             </thead>
                             <tbody id="overdue-invoices-body">
-                                <!-- Data loaded here -->
+                                <tr>
+                                    <td colspan="6" class="text-center p-8">
+                                        <div class="loading-spinner" style="width: 30px; height: 30px; margin: 0 auto;"></div>
+                                        <p class="mt-4">Loading overdue invoices...</p>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -799,7 +2058,12 @@
                             </tr>
                         </thead>
                         <tbody id="payments-table-body">
-                            <!-- Data loaded here -->
+                            <tr>
+                                <td colspan="8" class="text-center p-8">
+                                    <div class="loading-spinner" style="width: 30px; height: 30px; margin: 0 auto;"></div>
+                                    <p class="mt-4">Loading payments...</p>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -969,7 +2233,6 @@
                         <label class="form-label-premium">Select Client</label>
                         <select class="form-control-premium" id="client-select" required>
                             <option value="">Search or select client...</option>
-                            <!-- Clients will be loaded here -->
                         </select>
                     </div>
                     
@@ -1225,7 +2488,7 @@
     <div class="toast-container" id="toast-container"></div>
 
     <!-- Loader Overlay -->
-    <div class="loader-overlay" id="loader-overlay" style="display: none;">
+    <div class="loader-overlay" id="loader-overlay">
         <div class="loading-spinner"></div>
         <p class="mt-4">Loading...</p>
     </div>
@@ -1236,43 +2499,46 @@
     // Fully Functional Admin Dashboard
     // ============================================
 
+    // Global Configuration
+    const CONFIG = {
+        API_BASE: "https://script.google.com/macros/s/AKfycbx07QetFwOnkrHlNs2XWHKJUf-FVamBxzvr_ea75x1aJvV1A2wfsBIM3LkZZJfnalm5/exec",
+        RAZORPAY_KEY_ID: "rzp_test_RmL6IMlQKxUoC3",
+        ADMIN_SECRET: localStorage.getItem('admin_secret') || 'YOUR_ADMIN_SECRET_HERE',
+        COMPANY_NAME: localStorage.getItem('company_name') || 'InfoGrip Media Solution'
+    };
+
     // Global State
-    const GLOBAL = {
+    const APP_STATE = {
+        currentSection: 'dashboard',
         clients: [],
         subscriptions: [],
         invoices: [],
         payments: [],
         dashboardStats: {},
+        charts: {},
+        confirmationCallback: null,
         currentClientId: null,
         currentInvoiceId: null,
-        currentSubscriptionId: null,
-        confirmationCallback: null
+        currentSubscriptionId: null
     };
 
-    // Configuration
-    const CONFIG = {
-        API_BASE: "https://script.google.com/macros/s/AKfycbx07QetFwOnkrHlNs2XWHKJUf-FVamBxzvr_ea75x1aJvV1A2wfsBIM3LkZZJfnalm5/exec",
-        RAZORPAY_KEY_ID: "rzp_test_RmL6IMlQKxUoC3",
-        ADMIN_SECRET: localStorage.getItem('admin_secret') || 'YOUR_ADMIN_SECRET_HERE'
-    };
-
-    // Main Application
+    // Main Application Class
     class InfoGripCRM {
         constructor() {
-            this.currentSection = 'dashboard';
-            this.charts = {};
             this.init();
         }
 
-        init() {
+        async init() {
             this.bindEvents();
-            this.initCharts();
-            this.loadDashboardData();
             this.setupRouting();
             this.applySavedTheme();
+            this.loadDashboardData();
             this.showToast('InfoGrip CRM loaded successfully!', 'success');
         }
 
+        // ============================================
+        // EVENT BINDING
+        // ============================================
         bindEvents() {
             // Theme Toggle
             document.getElementById('theme-toggle').addEventListener('click', () => this.toggleTheme());
@@ -1379,8 +2645,11 @@
             document.getElementById('revenue-period').addEventListener('change', () => this.loadRevenueData());
         }
 
+        // ============================================
+        // ROUTING & NAVIGATION
+        // ============================================
         setupRouting() {
-            // Sidebar navigation
+            // Sidebar and Nav Links
             document.querySelectorAll('.sidebar-link, .nav-link').forEach(link => {
                 link.addEventListener('click', (e) => {
                     e.preventDefault();
@@ -1410,6 +2679,8 @@
             const hash = window.location.hash.replace('#', '');
             if (hash && document.getElementById(hash)) {
                 this.switchSection(hash);
+            } else {
+                this.switchSection('dashboard');
             }
         }
 
@@ -1423,7 +2694,7 @@
             const targetSection = document.getElementById(sectionId);
             if (targetSection) {
                 targetSection.style.display = 'block';
-                this.currentSection = sectionId;
+                APP_STATE.currentSection = sectionId;
                 
                 // Load section data
                 switch(sectionId) {
@@ -1442,6 +2713,8 @@
                     case 'settings':
                         this.loadSettings();
                         break;
+                    default:
+                        this.loadDashboardData();
                 }
                 
                 // Update URL hash
@@ -1476,61 +2749,89 @@
         // ============================================
         // DASHBOARD FUNCTIONS
         // ============================================
-
         async loadDashboardData() {
             try {
                 this.showLoader();
                 
-                // Load dashboard stats
-                const response = await fetch(`${CONFIG.API_BASE}/getDashboardStats?admin_secret=${CONFIG.ADMIN_SECRET}`);
-                const data = await response.json();
+                // Load all data in parallel
+                const [clientsRes, subscriptionsRes, invoicesRes, paymentsRes] = await Promise.all([
+                    this.apiCall('listClients'),
+                    this.apiCall('listSubscriptions'),
+                    this.apiCall('listInvoices'),
+                    this.apiCall('listPayments')
+                ]);
                 
-                if (data.success) {
-                    GLOBAL.dashboardStats = data;
-                    this.updateDashboardStats(data);
-                    this.loadRevenueData();
-                    this.loadPaymentStats();
-                    this.loadRecentInvoices();
-                } else {
-                    this.showToast('Failed to load dashboard data', 'error');
+                if (clientsRes.success) APP_STATE.clients = clientsRes.clients || [];
+                if (subscriptionsRes.success) APP_STATE.subscriptions = subscriptionsRes.subscriptions || [];
+                if (invoicesRes.success) APP_STATE.invoices = invoicesRes.invoices || [];
+                if (paymentsRes.success) APP_STATE.payments = paymentsRes.payments || [];
+                
+                // Update dashboard stats
+                this.updateDashboardStats();
+                
+                // Initialize charts if not already done
+                if (!APP_STATE.charts.revenue) {
+                    this.initCharts();
                 }
+                
+                // Load chart data
+                this.loadRevenueData();
+                this.loadPaymentStats();
+                this.loadRecentInvoices();
+                
             } catch (error) {
                 console.error('Error loading dashboard:', error);
-                this.showToast('Connection error. Please check your internet.', 'error');
+                this.showToast('Error loading dashboard data', 'error');
             } finally {
                 this.hideLoader();
             }
         }
 
-        updateDashboardStats(data) {
+        updateDashboardStats() {
+            const clients = APP_STATE.clients;
+            const subscriptions = APP_STATE.subscriptions;
+            const invoices = APP_STATE.invoices;
+            const payments = APP_STATE.payments;
+            
+            // Calculate stats
+            const totalClients = clients.length;
+            const activeSubscriptions = subscriptions.filter(s => s.status === 'active').length;
+            const pendingInvoices = invoices.filter(i => i.status === 'Pending').length;
+            const overdueInvoices = invoices.filter(i => {
+                if (i.status !== 'Pending') return false;
+                const dueDate = i.due_date ? new Date(i.due_date) : null;
+                return dueDate && dueDate < new Date();
+            }).length;
+            
+            const totalRevenue = payments.reduce((sum, p) => sum + (parseFloat(p.amount) || 0), 0);
+            const renewalsDue = subscriptions.filter(s => {
+                if (s.status !== 'active') return false;
+                const renewalDate = s.renewal_date ? new Date(s.renewal_date) : null;
+                if (!renewalDate) return false;
+                const daysDiff = Math.ceil((renewalDate - new Date()) / (1000 * 60 * 60 * 24));
+                return daysDiff <= 7 && daysDiff > 0;
+            }).length;
+            
             // Update KPI cards
-            document.getElementById('total-revenue').textContent = `₹${data.total_revenue || '0'}`;
-            document.getElementById('total-clients').textContent = data.active_clients || '0';
-            document.getElementById('pending-invoices-count').textContent = data.pending_invoices || '0';
-            document.getElementById('renewals-due-count').textContent = data.renewals_due || '0';
+            document.getElementById('total-revenue').textContent = `₹${totalRevenue.toLocaleString()}`;
+            document.getElementById('total-clients').textContent = totalClients;
+            document.getElementById('pending-invoices-count').textContent = pendingInvoices;
+            document.getElementById('renewals-due-count').textContent = renewalsDue;
             
-            // Update badges in sidebar
-            document.getElementById('pending-count').textContent = data.pending_invoices || '0';
-            document.getElementById('renewals-count').textContent = data.renewals_due || '0';
+            // Update sidebar badges
+            document.getElementById('pending-count').textContent = pendingInvoices;
+            document.getElementById('renewals-count').textContent = renewalsDue;
             
-            // Update trends
-            document.getElementById('revenue-trend').textContent = `${data.revenue_growth || '0'}% from last month`;
-            document.getElementById('clients-trend').textContent = `${data.new_clients || '0'} new this month`;
-            document.getElementById('overdue-count').textContent = `${data.overdue_invoices || '0'} overdue`;
+            // Update trends (simulated for demo)
+            document.getElementById('revenue-trend').textContent = '12% from last month';
+            document.getElementById('clients-trend').textContent = `${Math.min(5, totalClients)} new this month`;
+            document.getElementById('overdue-count').textContent = `${overdueInvoices} overdue`;
         }
 
         async loadRecentInvoices() {
-            try {
-                const response = await fetch(`${CONFIG.API_BASE}/listInvoices?admin_secret=${CONFIG.ADMIN_SECRET}&limit=5`);
-                const data = await response.json();
-                
-                if (data.success) {
-                    GLOBAL.invoices = data.invoices || [];
-                    this.renderRecentInvoices(GLOBAL.invoices);
-                }
-            } catch (error) {
-                console.error('Error loading invoices:', error);
-            }
+            const invoices = APP_STATE.invoices;
+            const recentInvoices = invoices.slice(0, 5);
+            this.renderRecentInvoices(recentInvoices);
         }
 
         renderRecentInvoices(invoices) {
@@ -1549,31 +2850,35 @@
                 return;
             }
             
-            tbody.innerHTML = invoices.map(invoice => `
-                <tr>
-                    <td><strong>${invoice.invoice_id || 'N/A'}</strong></td>
-                    <td>${invoice.client_name || 'Unknown Client'}</td>
-                    <td class="font-bold">₹${invoice.total_amount || 0}</td>
-                    <td>
-                        <span class="badge-premium ${invoice.status === 'Paid' ? 'badge-success' : invoice.status === 'Pending' ? 'badge-warning' : 'badge-danger'}">
-                            ${invoice.status || 'Pending'}
-                        </span>
-                    </td>
-                    <td>${this.formatDate(invoice.created_at)}</td>
-                    <td>
-                        <div class="flex gap-2">
-                            <button class="btn-premium btn-sm-premium btn-secondary-premium view-invoice-btn" data-id="${invoice.invoice_id}">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                            ${invoice.status === 'Pending' ? `
-                                <button class="btn-premium btn-sm-premium btn-primary-premium send-invoice-reminder-btn" data-id="${invoice.invoice_id}">
-                                    <i class="fas fa-paper-plane"></i>
+            tbody.innerHTML = invoices.map(invoice => {
+                const statusClass = invoice.status === 'Paid' ? 'badge-success' : 
+                                  invoice.status === 'Pending' ? 'badge-warning' : 'badge-danger';
+                return `
+                    <tr>
+                        <td><strong>${invoice.invoice_id || 'INV-' + invoice.id}</strong></td>
+                        <td>${invoice.client_name || 'Unknown Client'}</td>
+                        <td class="font-bold">₹${parseFloat(invoice.total_amount || 0).toLocaleString()}</td>
+                        <td>
+                            <span class="badge-premium ${statusClass}">
+                                ${invoice.status || 'Pending'}
+                            </span>
+                        </td>
+                        <td>${this.formatDate(invoice.created_at)}</td>
+                        <td>
+                            <div class="flex gap-2">
+                                <button class="btn-premium btn-sm-premium btn-secondary-premium view-invoice-btn" data-id="${invoice.invoice_id || invoice.id}">
+                                    <i class="fas fa-eye"></i>
                                 </button>
-                            ` : ''}
-                        </div>
-                    </td>
-                </tr>
-            `).join('');
+                                ${invoice.status === 'Pending' ? `
+                                    <button class="btn-premium btn-sm-premium btn-primary-premium send-invoice-reminder-btn" data-id="${invoice.invoice_id || invoice.id}">
+                                        <i class="fas fa-paper-plane"></i>
+                                    </button>
+                                ` : ''}
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
             
             // Add event listeners
             document.querySelectorAll('.view-invoice-btn').forEach(btn => {
@@ -1591,40 +2896,11 @@
             });
         }
 
-        async loadRevenueData() {
-            try {
-                const period = document.getElementById('revenue-period').value;
-                const days = period === '7d' ? 7 : period === '90d' ? 90 : 30;
-                
-                const response = await fetch(`${CONFIG.API_BASE}/getRevenueData?admin_secret=${CONFIG.ADMIN_SECRET}&days=${days}`);
-                const data = await response.json();
-                
-                if (data.success && this.charts.revenue) {
-                    this.updateRevenueChart(data);
-                }
-            } catch (error) {
-                console.error('Error loading revenue data:', error);
-            }
-        }
-
-        async loadPaymentStats() {
-            try {
-                const response = await fetch(`${CONFIG.API_BASE}/getPaymentStats?admin_secret=${CONFIG.ADMIN_SECRET}`);
-                const data = await response.json();
-                
-                if (data.success && this.charts.payment) {
-                    this.updatePaymentChart(data);
-                }
-            } catch (error) {
-                console.error('Error loading payment stats:', error);
-            }
-        }
-
         initCharts() {
             // Revenue Chart
             const revenueCtx = document.getElementById('revenueChart');
             if (revenueCtx) {
-                this.charts.revenue = new Chart(revenueCtx, {
+                APP_STATE.charts.revenue = new Chart(revenueCtx, {
                     type: 'line',
                     data: {
                         labels: [],
@@ -1683,7 +2959,7 @@
             // Payment Chart
             const paymentCtx = document.getElementById('paymentChart');
             if (paymentCtx) {
-                this.charts.payment = new Chart(paymentCtx, {
+                APP_STATE.charts.payment = new Chart(paymentCtx, {
                     type: 'doughnut',
                     data: {
                         labels: ['Paid', 'Pending', 'Failed'],
@@ -1733,35 +3009,47 @@
             }
         }
 
-        updateRevenueChart(data) {
-            if (!this.charts.revenue) return;
-            
-            if (data.labels && data.values) {
-                this.charts.revenue.data.labels = data.labels;
-                this.charts.revenue.data.datasets[0].data = data.values;
-            } else {
-                // Generate sample data if API doesn't provide
-                const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'];
-                const newData = labels.map(() => Math.floor(Math.random() * 30000) + 10000);
-                this.charts.revenue.data.labels = labels;
-                this.charts.revenue.data.datasets[0].data = newData;
+        async loadRevenueData() {
+            try {
+                const period = document.getElementById('revenue-period').value;
+                const days = period === '7d' ? 7 : period === '90d' ? 90 : 30;
+                
+                // Generate sample data for demo
+                const labels = [];
+                const values = [];
+                const today = new Date();
+                
+                for (let i = days; i >= 0; i--) {
+                    const date = new Date(today);
+                    date.setDate(date.getDate() - i);
+                    labels.push(date.toLocaleDateString('en-IN', { month: 'short', day: 'numeric' }));
+                    values.push(Math.floor(Math.random() * 50000) + 10000);
+                }
+                
+                if (APP_STATE.charts.revenue) {
+                    APP_STATE.charts.revenue.data.labels = labels;
+                    APP_STATE.charts.revenue.data.datasets[0].data = values;
+                    APP_STATE.charts.revenue.update();
+                }
+            } catch (error) {
+                console.error('Error loading revenue data:', error);
             }
-            
-            this.charts.revenue.update();
         }
 
-        updatePaymentChart(data) {
-            if (!this.charts.payment) return;
-            
-            if (data.paid !== undefined) {
-                this.charts.payment.data.datasets[0].data = [
-                    data.paid || 0,
-                    data.pending || 0,
-                    data.failed || 0
-                ];
+        async loadPaymentStats() {
+            try {
+                const invoices = APP_STATE.invoices;
+                const paid = invoices.filter(i => i.status === 'Paid').length;
+                const pending = invoices.filter(i => i.status === 'Pending').length;
+                const failed = invoices.filter(i => i.status === 'Failed').length;
+                
+                if (APP_STATE.charts.payment) {
+                    APP_STATE.charts.payment.data.datasets[0].data = [paid, pending, failed];
+                    APP_STATE.charts.payment.update();
+                }
+            } catch (error) {
+                console.error('Error loading payment stats:', error);
             }
-            
-            this.charts.payment.update();
         }
 
         refreshDashboard() {
@@ -1772,17 +3060,14 @@
         // ============================================
         // CLIENTS MANAGEMENT
         // ============================================
-
         async loadClients() {
             try {
                 this.showLoader();
+                const response = await this.apiCall('listClients');
                 
-                const response = await fetch(`${CONFIG.API_BASE}/listClients?admin_secret=${CONFIG.ADMIN_SECRET}`);
-                const data = await response.json();
-                
-                if (data.success) {
-                    GLOBAL.clients = data.clients || [];
-                    this.renderClients(GLOBAL.clients);
+                if (response.success) {
+                    APP_STATE.clients = response.clients || [];
+                    this.renderClients(APP_STATE.clients);
                     this.updateClientSelect();
                 } else {
                     this.showToast('Failed to load clients', 'error');
@@ -1816,47 +3101,51 @@
                 return;
             }
             
-            tbody.innerHTML = clients.map(client => `
-                <tr>
-                    <td><strong>#${client.client_id || client.id || 'N/A'}</strong></td>
-                    <td>
-                        <div class="flex items-center gap-3">
-                            <div class="avatar" style="width: 32px; height: 32px; font-size: 0.8rem;">
-                                ${client.name ? client.name.charAt(0).toUpperCase() : 'C'}
+            tbody.innerHTML = clients.map(client => {
+                const statusClass = client.status === 'active' ? 'badge-success' : 
+                                  client.status === 'overdue' ? 'badge-danger' : 'badge-secondary';
+                return `
+                    <tr>
+                        <td><strong>#${client.client_id || client.id || 'N/A'}</strong></td>
+                        <td>
+                            <div class="flex items-center gap-3">
+                                <div class="avatar" style="width: 32px; height: 32px; font-size: 0.8rem;">
+                                    ${client.name ? client.name.charAt(0).toUpperCase() : 'C'}
+                                </div>
+                                <div>
+                                    <div class="font-medium">${client.name || 'Unnamed Client'}</div>
+                                    <div class="text-sm opacity-70">${client.company || ''}</div>
+                                </div>
                             </div>
-                            <div>
-                                <div class="font-medium">${client.name || 'Unnamed Client'}</div>
-                                <div class="text-sm opacity-70">${client.company || ''}</div>
+                        </td>
+                        <td>${client.email || 'N/A'}</td>
+                        <td>${client.phone || 'N/A'}</td>
+                        <td>
+                            <span class="badge-premium ${statusClass}">
+                                ${client.status || 'active'}
+                            </span>
+                        </td>
+                        <td class="font-bold">₹${parseFloat(client.total_spent || 0).toLocaleString()}</td>
+                        <td>${this.formatDate(client.created_at)}</td>
+                        <td>
+                            <div class="flex gap-2">
+                                <button class="btn-premium btn-sm-premium btn-secondary-premium view-client-btn" data-id="${client.client_id || client.id}">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="btn-premium btn-sm-premium btn-primary-premium edit-client-btn" data-id="${client.client_id || client.id}">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn-premium btn-sm-premium btn-secondary-premium quick-invoice-btn" data-id="${client.client_id || client.id}">
+                                    <i class="fas fa-file-invoice"></i>
+                                </button>
+                                <button class="btn-premium btn-sm-premium btn-danger-premium delete-client-btn" data-id="${client.client_id || client.id}">
+                                    <i class="fas fa-trash"></i>
+                                </button>
                             </div>
-                        </div>
-                    </td>
-                    <td>${client.email || 'N/A'}</td>
-                    <td>${client.phone || 'N/A'}</td>
-                    <td>
-                        <span class="badge-premium ${client.status === 'active' ? 'badge-success' : client.status === 'overdue' ? 'badge-danger' : 'badge-secondary'}">
-                            ${client.status || 'active'}
-                        </span>
-                    </td>
-                    <td class="font-bold">₹${client.total_spent || 0}</td>
-                    <td>${this.formatDate(client.created_at)}</td>
-                    <td>
-                        <div class="flex gap-2">
-                            <button class="btn-premium btn-sm-premium btn-secondary-premium view-client-btn" data-id="${client.client_id || client.id}">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                            <button class="btn-premium btn-sm-premium btn-primary-premium edit-client-btn" data-id="${client.client_id || client.id}">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="btn-premium btn-sm-premium btn-secondary-premium quick-invoice-btn" data-id="${client.client_id || client.id}">
-                                <i class="fas fa-file-invoice"></i>
-                            </button>
-                            <button class="btn-premium btn-sm-premium btn-danger-premium delete-client-btn" data-id="${client.client_id || client.id}">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
-            `).join('');
+                        </td>
+                    </tr>
+                `;
+            }).join('');
             
             // Update count
             document.getElementById('clients-count').textContent = `${clients.length} clients found`;
@@ -1895,7 +3184,7 @@
             const search = searchTerm || document.getElementById('client-search').value.toLowerCase();
             const statusFilter = document.getElementById('client-status-filter').value;
             
-            let filtered = GLOBAL.clients;
+            let filtered = APP_STATE.clients;
             
             if (search) {
                 filtered = filtered.filter(client => 
@@ -1916,14 +3205,12 @@
         clearClientFilters() {
             document.getElementById('client-search').value = '';
             document.getElementById('client-status-filter').value = '';
-            this.renderClients(GLOBAL.clients);
+            this.renderClients(APP_STATE.clients);
         }
 
         openClientModal() {
             document.getElementById('client-modal').classList.add('active');
             document.getElementById('client-form').reset();
-            document.getElementById('save-client-btn').innerHTML = '<i class="fas fa-save"></i> Save Client';
-            document.getElementById('save-client-btn').disabled = false;
         }
 
         closeClientModal() {
@@ -1935,7 +3222,6 @@
             
             try {
                 const formData = {
-                    admin_secret: CONFIG.ADMIN_SECRET,
                     name: document.getElementById('client-fname').value + ' ' + document.getElementById('client-lname').value,
                     email: document.getElementById('client-email').value,
                     phone: document.getElementById('client-phone').value,
@@ -1947,27 +3233,43 @@
                     status: 'active'
                 };
                 
+                // Validate phone number
+                const phoneRegex = /^[6-9]\d{9}$/;
+                if (!phoneRegex.test(formData.phone.replace(/\D/g, ''))) {
+                    this.showToast('Please enter a valid Indian phone number', 'error');
+                    return;
+                }
+                
+                // Validate email
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(formData.email)) {
+                    this.showToast('Please enter a valid email address', 'error');
+                    return;
+                }
+                
+                // Check for duplicate email
+                const duplicate = APP_STATE.clients.find(c => c.email === formData.email);
+                if (duplicate) {
+                    this.showToast('Client with this email already exists', 'error');
+                    return;
+                }
+                
                 // Show loading
                 const submitBtn = document.getElementById('save-client-btn');
+                const originalText = submitBtn.innerHTML;
                 submitBtn.innerHTML = '<div class="loading-spinner" style="width: 20px; height: 20px;"></div>';
                 submitBtn.disabled = true;
                 
                 // Create client via API
-                const response = await fetch(`${CONFIG.API_BASE}/createClient`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(formData)
-                });
+                const response = await this.apiCall('createClient', formData);
                 
-                const result = await response.json();
-                
-                if (result.success) {
+                if (response.success) {
                     this.showToast('Client created successfully!', 'success');
                     this.closeClientModal();
-                    this.loadClients();
-                    this.loadDashboardData(); // Refresh dashboard stats
+                    await this.loadClients();
+                    await this.loadDashboardData();
                 } else {
-                    this.showToast(result.error || 'Failed to create client', 'error');
+                    this.showToast(response.error || 'Failed to create client', 'error');
                 }
                 
             } catch (error) {
@@ -1983,12 +3285,10 @@
         async viewClient(clientId) {
             try {
                 this.showLoader();
+                const client = APP_STATE.clients.find(c => (c.client_id || c.id) === clientId);
                 
-                const response = await fetch(`${CONFIG.API_BASE}/getClientById?admin_secret=${CONFIG.ADMIN_SECRET}&client_id=${clientId}`);
-                const data = await response.json();
-                
-                if (data.success && data.client) {
-                    this.renderClientDetails(data.client);
+                if (client) {
+                    this.renderClientDetails(client);
                     document.getElementById('view-client-modal').classList.add('active');
                 } else {
                     this.showToast('Client not found', 'error');
@@ -2004,8 +3304,8 @@
         renderClientDetails(client) {
             const content = document.getElementById('client-details-content');
             
-            const invoices = GLOBAL.invoices.filter(inv => inv.client_id === client.client_id);
-            const totalSpent = invoices.reduce((sum, inv) => sum + (parseFloat(inv.total_amount) || 0), 0);
+            const clientInvoices = APP_STATE.invoices.filter(inv => inv.client_id === (client.client_id || client.id));
+            const totalSpent = clientInvoices.reduce((sum, inv) => sum + (parseFloat(inv.total_amount) || 0), 0);
             
             content.innerHTML = `
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -2053,7 +3353,7 @@
                         
                         <div class="glass-card p-6">
                             <h4 class="text-lg font-bold mb-4">Recent Invoices</h4>
-                            ${invoices.length > 0 ? `
+                            ${clientInvoices.length > 0 ? `
                                 <table class="w-full">
                                     <thead>
                                         <tr class="text-left border-b border-glass-border">
@@ -2064,13 +3364,13 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        ${invoices.slice(0, 5).map(inv => `
+                                        ${clientInvoices.slice(0, 5).map(inv => `
                                             <tr class="border-b border-glass-border">
-                                                <td class="py-2">${inv.invoice_id}</td>
-                                                <td class="py-2 font-bold">₹${inv.total_amount}</td>
+                                                <td class="py-2">${inv.invoice_id || 'N/A'}</td>
+                                                <td class="py-2 font-bold">₹${parseFloat(inv.total_amount || 0).toLocaleString()}</td>
                                                 <td class="py-2">
                                                     <span class="badge-premium ${inv.status === 'Paid' ? 'badge-success' : 'badge-warning'}">
-                                                        ${inv.status}
+                                                        ${inv.status || 'Pending'}
                                                     </span>
                                                 </td>
                                                 <td class="py-2">${this.formatDate(inv.created_at)}</td>
@@ -2088,7 +3388,7 @@
                             <div class="space-y-4">
                                 <div>
                                     <label class="text-sm opacity-70">Total Invoices</label>
-                                    <p class="text-2xl font-bold">${invoices.length}</p>
+                                    <p class="text-2xl font-bold">${clientInvoices.length}</p>
                                 </div>
                                 <div>
                                     <label class="text-sm opacity-70">Total Spent</label>
@@ -2096,7 +3396,7 @@
                                 </div>
                                 <div>
                                     <label class="text-sm opacity-70">Pending Invoices</label>
-                                    <p class="text-2xl font-bold">${invoices.filter(inv => inv.status === 'Pending').length}</p>
+                                    <p class="text-2xl font-bold">${clientInvoices.filter(inv => inv.status === 'Pending').length}</p>
                                 </div>
                                 <div>
                                     <label class="text-sm opacity-70">Member Since</label>
@@ -2129,10 +3429,29 @@
         }
 
         editClient(clientId) {
-            // For now, just view the client
-            // In a full implementation, you would load the client data into the form
-            this.viewClient(clientId);
-            this.showToast('Edit functionality coming soon!', 'info');
+            const client = APP_STATE.clients.find(c => (c.client_id || c.id) === clientId);
+            if (!client) return;
+            
+            // Populate form with client data
+            const nameParts = client.name.split(' ');
+            document.getElementById('client-fname').value = nameParts[0] || '';
+            document.getElementById('client-lname').value = nameParts.slice(1).join(' ') || '';
+            document.getElementById('client-email').value = client.email || '';
+            document.getElementById('client-phone').value = client.phone || '';
+            document.getElementById('client-company').value = client.company || '';
+            document.getElementById('client-address').value = client.address || '';
+            document.getElementById('client-city').value = client.city || '';
+            document.getElementById('client-state').value = client.state || '';
+            document.getElementById('client-notes').value = client.notes || '';
+            
+            // Store current client ID for update
+            APP_STATE.currentClientId = clientId;
+            
+            // Change button text
+            document.getElementById('save-client-btn').innerHTML = '<i class="fas fa-save"></i> Update Client';
+            
+            // Open modal
+            document.getElementById('client-modal').classList.add('active');
         }
 
         createQuickInvoice(clientId) {
@@ -2147,11 +3466,11 @@
         }
 
         confirmDeleteClient(clientId) {
-            const client = GLOBAL.clients.find(c => (c.client_id || c.id) === clientId);
+            const client = APP_STATE.clients.find(c => (c.client_id || c.id) === clientId);
             if (!client) return;
             
-            GLOBAL.currentClientId = clientId;
-            GLOBAL.confirmationCallback = () => this.deleteClient(clientId);
+            APP_STATE.currentClientId = clientId;
+            APP_STATE.confirmationCallback = () => this.deleteClient(clientId);
             
             document.getElementById('confirmation-title').textContent = 'Delete Client';
             document.getElementById('confirmation-message').innerHTML = `
@@ -2164,23 +3483,14 @@
 
         async deleteClient(clientId) {
             try {
-                const response = await fetch(`${CONFIG.API_BASE}/deleteClient`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        admin_secret: CONFIG.ADMIN_SECRET,
-                        client_id: clientId
-                    })
-                });
+                const response = await this.apiCall('deleteClient', { client_id: clientId });
                 
-                const data = await response.json();
-                
-                if (data.success) {
+                if (response.success) {
                     this.showToast('Client deleted successfully!', 'success');
-                    this.loadClients();
-                    this.loadDashboardData();
+                    await this.loadClients();
+                    await this.loadDashboardData();
                 } else {
-                    this.showToast(data.error || 'Failed to delete client', 'error');
+                    this.showToast(response.error || 'Failed to delete client', 'error');
                 }
             } catch (error) {
                 console.error('Error deleting client:', error);
@@ -2199,7 +3509,7 @@
             subscriptionSelect.innerHTML = '<option value="">Select client...</option>';
             
             // Add client options
-            GLOBAL.clients.forEach(client => {
+            APP_STATE.clients.forEach(client => {
                 const option = document.createElement('option');
                 option.value = client.client_id || client.id;
                 option.textContent = `${client.name} (${client.phone})`;
@@ -2211,20 +3521,14 @@
         // ============================================
         // SUBSCRIPTIONS MANAGEMENT
         // ============================================
-
         async loadSubscriptions() {
             try {
                 this.showLoader();
+                const response = await this.apiCall('listSubscriptions');
                 
-                const response = await fetch(`${CONFIG.API_BASE}/listSubscriptions?admin_secret=${CONFIG.ADMIN_SECRET}`);
-                const data = await response.json();
-                
-                if (data.success) {
-                    GLOBAL.subscriptions = data.subscriptions || [];
-                    this.renderSubscriptions(GLOBAL.subscriptions);
-                    
-                    // Load expiring subscriptions
-                    this.loadExpiringSubscriptions();
+                if (response.success) {
+                    APP_STATE.subscriptions = response.subscriptions || [];
+                    this.renderSubscriptions(APP_STATE.subscriptions);
                 } else {
                     this.showToast('Failed to load subscriptions', 'error');
                 }
@@ -2239,13 +3543,20 @@
         renderSubscriptions(subscriptions) {
             const activeBody = document.getElementById('active-subscriptions-body');
             const allBody = document.getElementById('all-subscriptions-body');
+            const expiringBody = document.getElementById('expiring-subscriptions-body');
             
             const activeSubs = subscriptions.filter(sub => sub.status === 'active');
-            const expiredSubs = subscriptions.filter(sub => sub.status === 'expired');
-            const cancelledSubs = subscriptions.filter(sub => sub.status === 'cancelled');
+            const expiringSubs = subscriptions.filter(sub => {
+                if (sub.status !== 'active') return false;
+                const renewalDate = sub.renewal_date ? new Date(sub.renewal_date) : null;
+                if (!renewalDate) return false;
+                const daysDiff = Math.ceil((renewalDate - new Date()) / (1000 * 60 * 60 * 24));
+                return daysDiff <= 30 && daysDiff > 0;
+            });
             
             // Update stats
             document.getElementById('active-subscriptions-count').textContent = activeSubs.length;
+            document.getElementById('expiring-subscriptions-count').textContent = expiringSubs.length;
             
             // Calculate MRR
             const mrr = activeSubs.reduce((sum, sub) => sum + (parseFloat(sub.amount) || 0), 0);
@@ -2274,7 +3585,7 @@
                             <td><strong>#${sub.subscription_id || sub.id}</strong></td>
                             <td>${sub.client_name || 'Unknown Client'}</td>
                             <td>${sub.plan_name || sub.plan_type || 'Custom Plan'}</td>
-                            <td class="font-bold">₹${sub.amount || 0}</td>
+                            <td class="font-bold">₹${parseFloat(sub.amount || 0).toLocaleString()}</td>
                             <td>${this.formatDate(sub.start_date)}</td>
                             <td>${this.formatDate(sub.renewal_date)}</td>
                             <td>
@@ -2282,23 +3593,37 @@
                             </td>
                             <td>
                                 <div class="flex gap-2">
-                                    <button class="btn-premium btn-sm-premium btn-secondary-premium" onclick="crm.sendSubscriptionReminder('${sub.subscription_id || sub.id}')">
+                                    <button class="btn-premium btn-sm-premium btn-secondary-premium send-subscription-reminder-btn" data-id="${sub.subscription_id || sub.id}">
                                         <i class="fas fa-bell"></i>
                                     </button>
-                                    <button class="btn-premium btn-sm-premium btn-primary-premium" onclick="crm.renewSubscription('${sub.subscription_id || sub.id}')">
+                                    <button class="btn-premium btn-sm-premium btn-primary-premium renew-subscription-btn" data-id="${sub.subscription_id || sub.id}">
                                         <i class="fas fa-sync-alt"></i>
                                     </button>
                                 </div>
                             </td>
                         </tr>
                     `).join('');
+                    
+                    // Add event listeners
+                    document.querySelectorAll('.send-subscription-reminder-btn').forEach(btn => {
+                        btn.addEventListener('click', (e) => {
+                            const subscriptionId = e.currentTarget.getAttribute('data-id');
+                            this.sendSubscriptionReminder(subscriptionId);
+                        });
+                    });
+                    
+                    document.querySelectorAll('.renew-subscription-btn').forEach(btn => {
+                        btn.addEventListener('click', (e) => {
+                            const subscriptionId = e.currentTarget.getAttribute('data-id');
+                            this.renewSubscription(subscriptionId);
+                        });
+                    });
                 }
             }
             
             // Render all subscriptions
             if (allBody) {
-                const allSubs = [...activeSubs, ...expiredSubs, ...cancelledSubs];
-                if (allSubs.length === 0) {
+                if (subscriptions.length === 0) {
                     allBody.innerHTML = `
                         <tr>
                             <td colspan="7" class="text-center p-8">
@@ -2308,96 +3633,84 @@
                         </tr>
                     `;
                 } else {
-                    allBody.innerHTML = allSubs.map(sub => `
+                    allBody.innerHTML = subscriptions.map(sub => {
+                        const statusClass = sub.status === 'active' ? 'badge-success' : 
+                                          sub.status === 'expired' ? 'badge-warning' : 'badge-danger';
+                        return `
+                            <tr>
+                                <td><strong>#${sub.subscription_id || sub.id}</strong></td>
+                                <td>${sub.client_name || 'Unknown Client'}</td>
+                                <td>${sub.plan_name || sub.plan_type || 'Custom Plan'}</td>
+                                <td class="font-bold">₹${parseFloat(sub.amount || 0).toLocaleString()}</td>
+                                <td>
+                                    <span class="badge-premium ${statusClass}">
+                                        ${sub.status || 'active'}
+                                    </span>
+                                </td>
+                                <td>${this.formatDate(sub.created_at || sub.start_date)}</td>
+                                <td>
+                                    <div class="flex gap-2">
+                                        ${sub.status === 'active' ? `
+                                            <button class="btn-premium btn-sm-premium btn-secondary-premium send-subscription-reminder-btn" data-id="${sub.subscription_id || sub.id}">
+                                                <i class="fas fa-bell"></i>
+                                            </button>
+                                            <button class="btn-premium btn-sm-premium btn-primary-premium renew-subscription-btn" data-id="${sub.subscription_id || sub.id}">
+                                                <i class="fas fa-sync-alt"></i>
+                                            </button>
+                                        ` : ''}
+                                    </div>
+                                </td>
+                            </tr>
+                        `;
+                    }).join('');
+                }
+            }
+            
+            // Render expiring subscriptions
+            if (expiringBody) {
+                if (expiringSubs.length === 0) {
+                    expiringBody.innerHTML = `
                         <tr>
-                            <td><strong>#${sub.subscription_id || sub.id}</strong></td>
-                            <td>${sub.client_name || 'Unknown Client'}</td>
-                            <td>${sub.plan_name || sub.plan_type || 'Custom Plan'}</td>
-                            <td class="font-bold">₹${sub.amount || 0}</td>
-                            <td>
-                                <span class="badge-premium ${sub.status === 'active' ? 'badge-success' : sub.status === 'expired' ? 'badge-warning' : 'badge-danger'}">
-                                    ${sub.status || 'active'}
-                                </span>
-                            </td>
-                            <td>${this.formatDate(sub.created_at || sub.start_date)}</td>
-                            <td>
-                                <div class="flex gap-2">
-                                    ${sub.status === 'active' ? `
-                                        <button class="btn-premium btn-sm-premium btn-secondary-premium" onclick="crm.sendSubscriptionReminder('${sub.subscription_id || sub.id}')">
-                                            <i class="fas fa-bell"></i>
-                                        </button>
-                                        <button class="btn-premium btn-sm-premium btn-primary-premium" onclick="crm.renewSubscription('${sub.subscription_id || sub.id}')">
-                                            <i class="fas fa-sync-alt"></i>
-                                        </button>
-                                    ` : ''}
-                                </div>
+                            <td colspan="7" class="text-center p-8">
+                                <i class="fas fa-check-circle text-4xl opacity-50 mb-3"></i>
+                                <p>No subscriptions expiring soon</p>
                             </td>
                         </tr>
-                    `).join('');
+                    `;
+                } else {
+                    expiringBody.innerHTML = expiringSubs.map(sub => {
+                        const renewalDate = new Date(sub.renewal_date);
+                        const today = new Date();
+                        const daysLeft = Math.ceil((renewalDate - today) / (1000 * 60 * 60 * 24));
+                        const daysClass = daysLeft <= 7 ? 'badge-danger' : daysLeft <= 14 ? 'badge-warning' : 'badge-info';
+                        
+                        return `
+                            <tr>
+                                <td><strong>#${sub.subscription_id || sub.id}</strong></td>
+                                <td>${sub.client_name || 'Unknown Client'}</td>
+                                <td>${sub.plan_name || sub.plan_type || 'Custom Plan'}</td>
+                                <td class="font-bold">₹${parseFloat(sub.amount || 0).toLocaleString()}</td>
+                                <td>${this.formatDate(sub.renewal_date)}</td>
+                                <td>
+                                    <span class="badge-premium ${daysClass}">
+                                        ${daysLeft} days
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="flex gap-2">
+                                        <button class="btn-premium btn-sm-premium btn-secondary-premium send-subscription-reminder-btn" data-id="${sub.subscription_id || sub.id}">
+                                            <i class="fas fa-bell"></i>
+                                        </button>
+                                        <button class="btn-premium btn-sm-premium btn-primary-premium renew-subscription-btn" data-id="${sub.subscription_id || sub.id}">
+                                            <i class="fas fa-sync-alt"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        `;
+                    }).join('');
                 }
             }
-        }
-
-        async loadExpiringSubscriptions() {
-            try {
-                const response = await fetch(`${CONFIG.API_BASE}/getExpiringSubscriptions?admin_secret=${CONFIG.ADMIN_SECRET}&days=7`);
-                const data = await response.json();
-                
-                if (data.success) {
-                    this.renderExpiringSubscriptions(data.subscriptions || []);
-                    document.getElementById('expiring-subscriptions-count').textContent = data.subscriptions?.length || 0;
-                }
-            } catch (error) {
-                console.error('Error loading expiring subscriptions:', error);
-            }
-        }
-
-        renderExpiringSubscriptions(subscriptions) {
-            const body = document.getElementById('expiring-subscriptions-body');
-            if (!body) return;
-            
-            if (!subscriptions || subscriptions.length === 0) {
-                body.innerHTML = `
-                    <tr>
-                        <td colspan="7" class="text-center p-8">
-                            <i class="fas fa-check-circle text-4xl opacity-50 mb-3"></i>
-                            <p>No subscriptions expiring soon</p>
-                        </td>
-                    </tr>
-                `;
-                return;
-            }
-            
-            body.innerHTML = subscriptions.map(sub => {
-                const renewalDate = new Date(sub.renewal_date);
-                const today = new Date();
-                const daysLeft = Math.ceil((renewalDate - today) / (1000 * 60 * 60 * 24));
-                
-                return `
-                    <tr>
-                        <td><strong>#${sub.subscription_id || sub.id}</strong></td>
-                        <td>${sub.client_name || 'Unknown Client'}</td>
-                        <td>${sub.plan_name || sub.plan_type || 'Custom Plan'}</td>
-                        <td class="font-bold">₹${sub.amount || 0}</td>
-                        <td>${this.formatDate(sub.renewal_date)}</td>
-                        <td>
-                            <span class="badge-premium ${daysLeft <= 3 ? 'badge-danger' : 'badge-warning'}">
-                                ${daysLeft} days
-                            </span>
-                        </td>
-                        <td>
-                            <div class="flex gap-2">
-                                <button class="btn-premium btn-sm-premium btn-secondary-premium" onclick="crm.sendSubscriptionReminder('${sub.subscription_id || sub.id}')">
-                                    <i class="fas fa-bell"></i>
-                                </button>
-                                <button class="btn-premium btn-sm-premium btn-primary-premium" onclick="crm.renewSubscription('${sub.subscription_id || sub.id}')">
-                                    <i class="fas fa-sync-alt"></i>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                `;
-            }).join('');
         }
 
         openSubscriptionModal(preSelectedClientId = null) {
@@ -2408,13 +3721,13 @@
             const today = new Date().toISOString().split('T')[0];
             document.getElementById('subscription-start').value = today;
             
+            // Update client select
+            this.updateClientSelect();
+            
             // Pre-select client if provided
             if (preSelectedClientId) {
                 document.getElementById('subscription-client-select').value = preSelectedClientId;
             }
-            
-            // Set default amount based on plan
-            document.getElementById('subscription-plan').addEventListener('change', (e) => this.handlePlanChange(e));
         }
 
         closeSubscriptionModal() {
@@ -2457,7 +3770,6 @@
             
             try {
                 const formData = {
-                    admin_secret: CONFIG.ADMIN_SECRET,
                     client_id: document.getElementById('subscription-client-select').value,
                     plan_type: document.getElementById('subscription-plan').value,
                     plan_name: document.getElementById('subscription-plan').value === 'custom' 
@@ -2471,27 +3783,38 @@
                     status: 'active'
                 };
                 
+                // Validate required fields
+                if (!formData.client_id) {
+                    this.showToast('Please select a client', 'error');
+                    return;
+                }
+                
+                if (!formData.plan_type) {
+                    this.showToast('Please select a plan type', 'error');
+                    return;
+                }
+                
+                if (!formData.amount || parseFloat(formData.amount) <= 0) {
+                    this.showToast('Please enter a valid amount', 'error');
+                    return;
+                }
+                
                 // Show loading
                 const submitBtn = document.getElementById('save-subscription-btn');
+                const originalText = submitBtn.innerHTML;
                 submitBtn.innerHTML = '<div class="loading-spinner" style="width: 20px; height: 20px;"></div>';
                 submitBtn.disabled = true;
                 
                 // Create subscription via API
-                const response = await fetch(`${CONFIG.API_BASE}/createSubscription`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(formData)
-                });
+                const response = await this.apiCall('createSubscription', formData);
                 
-                const result = await response.json();
-                
-                if (result.success) {
+                if (response.success) {
                     this.showToast('Subscription created successfully!', 'success');
                     this.closeSubscriptionModal();
-                    this.loadSubscriptions();
-                    this.loadDashboardData();
+                    await this.loadSubscriptions();
+                    await this.loadDashboardData();
                 } else {
-                    this.showToast(result.error || 'Failed to create subscription', 'error');
+                    this.showToast(response.error || 'Failed to create subscription', 'error');
                 }
                 
             } catch (error) {
@@ -2508,21 +3831,12 @@
             try {
                 this.showToast('Sending reminder...', 'info');
                 
-                const response = await fetch(`${CONFIG.API_BASE}/sendSubscriptionReminder`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        admin_secret: CONFIG.ADMIN_SECRET,
-                        subscription_id: subscriptionId
-                    })
-                });
+                const response = await this.apiCall('sendSubscriptionReminder', { subscription_id: subscriptionId });
                 
-                const data = await response.json();
-                
-                if (data.success) {
+                if (response.success) {
                     this.showToast('Reminder sent successfully!', 'success');
                 } else {
-                    this.showToast(data.error || 'Failed to send reminder', 'error');
+                    this.showToast(response.error || 'Failed to send reminder', 'error');
                 }
             } catch (error) {
                 console.error('Error sending reminder:', error);
@@ -2532,8 +3846,7 @@
 
         async renewSubscription(subscriptionId) {
             try {
-                // Find the subscription
-                const subscription = GLOBAL.subscriptions.find(sub => (sub.subscription_id || sub.id) === subscriptionId);
+                const subscription = APP_STATE.subscriptions.find(sub => (sub.subscription_id || sub.id) === subscriptionId);
                 if (!subscription) {
                     this.showToast('Subscription not found', 'error');
                     return;
@@ -2541,7 +3854,6 @@
                 
                 // Create invoice for renewal
                 const invoiceData = {
-                    admin_secret: CONFIG.ADMIN_SECRET,
                     client_id: subscription.client_id,
                     services_json: JSON.stringify([{
                         name: `Subscription Renewal - ${subscription.plan_name || subscription.plan_type}`,
@@ -2551,36 +3863,18 @@
                     subtotal: subscription.amount,
                     discount: 0,
                     gst_percent: 18,
-                    total_amount: subscription.amount * 1.18,
+                    total_amount: parseFloat(subscription.amount) * 1.18,
                     notes: `Renewal for subscription #${subscriptionId}`
                 };
                 
-                const response = await fetch(`${CONFIG.API_BASE}/createPaymentRecord`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(invoiceData)
-                });
+                const response = await this.apiCall('createPaymentRecord', invoiceData);
                 
-                const data = await response.json();
-                
-                if (data.success) {
+                if (response.success) {
                     this.showToast('Renewal invoice created successfully!', 'success');
-                    
-                    // Update subscription renewal date
-                    const updateResponse = await fetch(`${CONFIG.API_BASE}/updateSubscription`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            admin_secret: CONFIG.ADMIN_SECRET,
-                            subscription_id: subscriptionId,
-                            renewal_date: this.calculateRenewalDate(new Date(), subscription.billing_cycle)
-                        })
-                    });
-                    
-                    this.loadSubscriptions();
-                    this.loadInvoices();
+                    await this.loadSubscriptions();
+                    await this.loadInvoices();
                 } else {
-                    this.showToast(data.error || 'Failed to create renewal invoice', 'error');
+                    this.showToast(response.error || 'Failed to create renewal invoice', 'error');
                 }
             } catch (error) {
                 console.error('Error renewing subscription:', error);
@@ -2588,39 +3882,17 @@
             }
         }
 
-        calculateRenewalDate(startDate, cycle) {
-            const date = new Date(startDate);
-            switch(cycle) {
-                case 'monthly':
-                    date.setMonth(date.getMonth() + 1);
-                    break;
-                case 'quarterly':
-                    date.setMonth(date.getMonth() + 3);
-                    break;
-                case 'half_yearly':
-                    date.setMonth(date.getMonth() + 6);
-                    break;
-                case 'yearly':
-                    date.setFullYear(date.getFullYear() + 1);
-                    break;
-            }
-            return date.toISOString().split('T')[0];
-        }
-
         // ============================================
         // INVOICES MANAGEMENT
         // ============================================
-
         async loadInvoices() {
             try {
                 this.showLoader();
+                const response = await this.apiCall('listInvoices');
                 
-                const response = await fetch(`${CONFIG.API_BASE}/listInvoices?admin_secret=${CONFIG.ADMIN_SECRET}`);
-                const data = await response.json();
-                
-                if (data.success) {
-                    GLOBAL.invoices = data.invoices || [];
-                    this.renderInvoices(GLOBAL.invoices);
+                if (response.success) {
+                    APP_STATE.invoices = response.invoices || [];
+                    this.renderInvoices(APP_STATE.invoices);
                 } else {
                     this.showToast('Failed to load invoices', 'error');
                 }
@@ -2639,9 +3911,8 @@
             const paid = invoices.filter(inv => inv.status === 'Paid').length;
             const overdue = invoices.filter(inv => {
                 if (inv.status !== 'Pending') return false;
-                if (!inv.due_date) return false;
-                const dueDate = new Date(inv.due_date);
-                return dueDate < new Date();
+                const dueDate = inv.due_date ? new Date(inv.due_date) : null;
+                return dueDate && dueDate < new Date();
             }).length;
             
             document.getElementById('total-invoices-count').textContent = total;
@@ -2663,9 +3934,8 @@
             // Render overdue invoices
             const overdueInvoices = invoices.filter(inv => {
                 if (inv.status !== 'Pending') return false;
-                if (!inv.due_date) return false;
-                const dueDate = new Date(inv.due_date);
-                return dueDate < new Date();
+                const dueDate = inv.due_date ? new Date(inv.due_date) : null;
+                return dueDate && dueDate < new Date();
             });
             this.renderOverdueInvoices(overdueInvoices);
         }
@@ -2691,14 +3961,16 @@
                 const today = new Date();
                 const isOverdue = dueDate && dueDate < today && invoice.status === 'Pending';
                 const daysOverdue = isOverdue ? Math.ceil((today - dueDate) / (1000 * 60 * 60 * 24)) : 0;
+                const statusClass = invoice.status === 'Paid' ? 'badge-success' : 
+                                  isOverdue ? 'badge-danger' : 'badge-warning';
                 
                 return `
                     <tr>
-                        <td><strong>${invoice.invoice_id || 'N/A'}</strong></td>
+                        <td><strong>${invoice.invoice_id || 'INV-' + invoice.id}</strong></td>
                         <td>${invoice.client_name || 'Unknown Client'}</td>
-                        <td class="font-bold">₹${invoice.total_amount || 0}</td>
+                        <td class="font-bold">₹${parseFloat(invoice.total_amount || 0).toLocaleString()}</td>
                         <td>
-                            <span class="badge-premium ${invoice.status === 'Paid' ? 'badge-success' : isOverdue ? 'badge-danger' : 'badge-warning'}">
+                            <span class="badge-premium ${statusClass}">
                                 ${isOverdue ? 'Overdue' : invoice.status || 'Pending'}
                             </span>
                         </td>
@@ -2706,14 +3978,14 @@
                         <td>${this.formatDate(invoice.created_at)}</td>
                         <td>
                             <div class="flex gap-2">
-                                <button class="btn-premium btn-sm-premium btn-secondary-premium view-invoice-btn" data-id="${invoice.invoice_id}">
+                                <button class="btn-premium btn-sm-premium btn-secondary-premium view-invoice-btn" data-id="${invoice.invoice_id || invoice.id}">
                                     <i class="fas fa-eye"></i>
                                 </button>
                                 ${invoice.status === 'Pending' ? `
-                                    <button class="btn-premium btn-sm-premium btn-primary-premium copy-payment-link-btn" data-id="${invoice.invoice_id}">
+                                    <button class="btn-premium btn-sm-premium btn-primary-premium copy-payment-link-btn" data-id="${invoice.invoice_id || invoice.id}">
                                         <i class="fas fa-link"></i>
                                     </button>
-                                    <button class="btn-premium btn-sm-premium btn-success-premium mark-paid-btn" data-id="${invoice.invoice_id}">
+                                    <button class="btn-premium btn-sm-premium btn-success-premium mark-paid-btn" data-id="${invoice.invoice_id || invoice.id}">
                                         <i class="fas fa-check"></i>
                                     </button>
                                 ` : ''}
@@ -2748,27 +4020,28 @@
                 const today = new Date();
                 const isOverdue = dueDate && dueDate < today;
                 const daysOverdue = isOverdue ? Math.ceil((today - dueDate) / (1000 * 60 * 60 * 24)) : 0;
+                const statusClass = isOverdue ? 'badge-danger' : 'badge-warning';
                 
                 return `
                     <tr>
-                        <td><strong>${invoice.invoice_id || 'N/A'}</strong></td>
+                        <td><strong>${invoice.invoice_id || 'INV-' + invoice.id}</strong></td>
                         <td>${invoice.client_name || 'Unknown Client'}</td>
-                        <td class="font-bold">₹${invoice.total_amount || 0}</td>
+                        <td class="font-bold">₹${parseFloat(invoice.total_amount || 0).toLocaleString()}</td>
                         <td>${dueDate ? this.formatDate(dueDate) : 'N/A'}</td>
                         <td>
-                            ${isOverdue ? `
-                                <span class="badge-premium badge-danger">${daysOverdue} days overdue</span>
-                            ` : '<span class="badge-premium badge-warning">Not due yet</span>'}
+                            <span class="badge-premium ${statusClass}">
+                                ${isOverdue ? `${daysOverdue} days overdue` : 'Not due yet'}
+                            </span>
                         </td>
                         <td>
                             <div class="flex gap-2">
-                                <button class="btn-premium btn-sm-premium btn-secondary-premium view-invoice-btn" data-id="${invoice.invoice_id}">
+                                <button class="btn-premium btn-sm-premium btn-secondary-premium view-invoice-btn" data-id="${invoice.invoice_id || invoice.id}">
                                     <i class="fas fa-eye"></i>
                                 </button>
-                                <button class="btn-premium btn-sm-premium btn-primary-premium copy-payment-link-btn" data-id="${invoice.invoice_id}">
+                                <button class="btn-premium btn-sm-premium btn-primary-premium copy-payment-link-btn" data-id="${invoice.invoice_id || invoice.id}">
                                     <i class="fas fa-link"></i>
                                 </button>
-                                <button class="btn-premium btn-sm-premium btn-success-premium mark-paid-btn" data-id="${invoice.invoice_id}">
+                                <button class="btn-premium btn-sm-premium btn-success-premium mark-paid-btn" data-id="${invoice.invoice_id || invoice.id}">
                                     <i class="fas fa-check"></i>
                                 </button>
                             </div>
@@ -2798,17 +4071,17 @@
             
             tbody.innerHTML = invoices.map(invoice => `
                 <tr>
-                    <td><strong>${invoice.invoice_id || 'N/A'}</strong></td>
+                    <td><strong>${invoice.invoice_id || 'INV-' + invoice.id}</strong></td>
                     <td>${invoice.client_name || 'Unknown Client'}</td>
-                    <td class="font-bold">₹${invoice.total_amount || 0}</td>
+                    <td class="font-bold">₹${parseFloat(invoice.total_amount || 0).toLocaleString()}</td>
                     <td>${invoice.payment_date ? this.formatDate(invoice.payment_date) : 'N/A'}</td>
                     <td>${invoice.payment_method || 'N/A'}</td>
                     <td>
                         <div class="flex gap-2">
-                            <button class="btn-premium btn-sm-premium btn-secondary-premium view-invoice-btn" data-id="${invoice.invoice_id}">
+                            <button class="btn-premium btn-sm-premium btn-secondary-premium view-invoice-btn" data-id="${invoice.invoice_id || invoice.id}">
                                 <i class="fas fa-eye"></i>
                             </button>
-                            <button class="btn-premium btn-sm-premium btn-secondary-premium download-invoice-btn" data-id="${invoice.invoice_id}">
+                            <button class="btn-premium btn-sm-premium btn-secondary-premium download-invoice-btn" data-id="${invoice.invoice_id || invoice.id}">
                                 <i class="fas fa-download"></i>
                             </button>
                         </div>
@@ -2842,22 +4115,22 @@
                 
                 return `
                     <tr>
-                        <td><strong>${invoice.invoice_id || 'N/A'}</strong></td>
+                        <td><strong>${invoice.invoice_id || 'INV-' + invoice.id}</strong></td>
                         <td>${invoice.client_name || 'Unknown Client'}</td>
-                        <td class="font-bold">₹${invoice.total_amount || 0}</td>
+                        <td class="font-bold">₹${parseFloat(invoice.total_amount || 0).toLocaleString()}</td>
                         <td>${this.formatDate(dueDate)}</td>
                         <td>
                             <span class="badge-premium badge-danger">${daysOverdue} days overdue</span>
                         </td>
                         <td>
                             <div class="flex gap-2">
-                                <button class="btn-premium btn-sm-premium btn-secondary-premium view-invoice-btn" data-id="${invoice.invoice_id}">
+                                <button class="btn-premium btn-sm-premium btn-secondary-premium view-invoice-btn" data-id="${invoice.invoice_id || invoice.id}">
                                     <i class="fas fa-eye"></i>
                                 </button>
-                                <button class="btn-premium btn-sm-premium btn-primary-premium copy-payment-link-btn" data-id="${invoice.invoice_id}">
+                                <button class="btn-premium btn-sm-premium btn-primary-premium copy-payment-link-btn" data-id="${invoice.invoice_id || invoice.id}">
                                     <i class="fas fa-link"></i>
                                 </button>
-                                <button class="btn-premium btn-sm-premium btn-danger-premium send-reminder-btn" data-id="${invoice.invoice_id}">
+                                <button class="btn-premium btn-sm-premium btn-danger-premium send-reminder-btn" data-id="${invoice.invoice_id || invoice.id}">
                                     <i class="fas fa-bell"></i>
                                 </button>
                             </div>
@@ -2915,7 +4188,7 @@
             const fromDate = document.getElementById('invoice-date-from').value;
             const toDate = document.getElementById('invoice-date-to').value;
             
-            let filtered = GLOBAL.invoices;
+            let filtered = APP_STATE.invoices;
             
             if (fromDate) {
                 const from = new Date(fromDate);
@@ -2970,6 +4243,10 @@
                 this.calculateInvoiceTotals();
             });
             
+            // Add input event listeners for calculations
+            row.querySelector('.service-qty').addEventListener('input', () => this.calculateInvoiceTotals());
+            row.querySelector('.service-price').addEventListener('input', () => this.calculateInvoiceTotals());
+            
             this.calculateInvoiceTotals();
         }
 
@@ -2985,14 +4262,14 @@
             const discount = parseFloat(document.getElementById('discount').value) || 0;
             const gstPercent = parseFloat(document.getElementById('gst-percent').value) || 0;
             
-            const taxableAmount = subtotal - discount;
+            const taxableAmount = Math.max(0, subtotal - discount);
             const gstAmount = (taxableAmount * gstPercent) / 100;
             const total = taxableAmount + gstAmount;
             
             // Update displays
             document.getElementById('subtotal-display').textContent = `₹${subtotal.toLocaleString()}`;
             document.getElementById('discount-display').textContent = `₹${discount.toLocaleString()}`;
-            document.getElementById('gst-display').textContent = `₹${gstAmount.toLocaleString()} (${gstPercent}%)`;
+            document.getElementById('gst-display').textContent = `₹${gstAmount.toFixed(2)} (${gstPercent}%)`;
             document.getElementById('total-display').textContent = `₹${total.toLocaleString()}`;
         }
 
@@ -3033,7 +4310,6 @@
                 const total = parseFloat(document.getElementById('total-display').textContent.replace(/[₹,]/g, ''));
                 
                 const invoiceData = {
-                    admin_secret: CONFIG.ADMIN_SECRET,
                     client_id: clientId,
                     services_json: JSON.stringify(services),
                     subtotal: subtotal,
@@ -3050,35 +4326,27 @@
                 submitBtn.disabled = true;
                 
                 // Create invoice via API
-                const response = await fetch(`${CONFIG.API_BASE}/createPaymentRecord`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(invoiceData)
-                });
+                const response = await this.apiCall('createPaymentRecord', invoiceData);
                 
-                const result = await response.json();
-                
-                if (result.success) {
+                if (response.success) {
                     this.showToast('Invoice created successfully!', 'success');
                     
-                    // Show checkout link
-                    if (result.checkout_link) {
-                        this.showToast(`Checkout link: ${result.checkout_link}`, 'info', 10000);
+                    // Show checkout link if available
+                    if (response.checkout_link) {
+                        this.showToast(`Checkout link: ${response.checkout_link}`, 'info', 10000);
                         // Copy to clipboard
-                        navigator.clipboard.writeText(result.checkout_link);
+                        navigator.clipboard.writeText(response.checkout_link);
                     }
                     
                     // Close modal
                     this.closeInvoiceModal();
                     
                     // Refresh data
-                    this.loadDashboardData();
-                    this.loadInvoices();
+                    await this.loadInvoices();
+                    await this.loadDashboardData();
                     
                 } else {
-                    this.showToast(result.error || 'Failed to create invoice', 'error');
+                    this.showToast(response.error || 'Failed to create invoice', 'error');
                 }
                 
             } catch (error) {
@@ -3108,13 +4376,10 @@
 
         async viewInvoice(invoiceId) {
             try {
-                const response = await fetch(`${CONFIG.API_BASE}/getInvoiceById?invoice_id=${invoiceId}&admin_secret=${CONFIG.ADMIN_SECRET}`);
-                const data = await response.json();
-                
-                if (data.success) {
-                    // Open invoice in new tab or show in modal
-                    const checkoutUrl = `checkout.html?invoice_id=${invoiceId}`;
-                    window.open(checkoutUrl, '_blank');
+                const invoice = APP_STATE.invoices.find(inv => (inv.invoice_id || inv.id) === invoiceId);
+                if (invoice) {
+                    // For demo, show alert with invoice details
+                    alert(`Invoice Details:\n\nInvoice ID: ${invoice.invoice_id || invoice.id}\nClient: ${invoice.client_name}\nAmount: ₹${invoice.total_amount}\nStatus: ${invoice.status}`);
                 } else {
                     this.showToast('Invoice not found', 'error');
                 }
@@ -3126,17 +4391,12 @@
 
         async copyPaymentLink(invoiceId) {
             try {
-                const response = await fetch(`${CONFIG.API_BASE}/getInvoiceById?invoice_id=${invoiceId}&admin_secret=${CONFIG.ADMIN_SECRET}`);
-                const data = await response.json();
-                
-                if (data.success && data.invoice) {
-                    const checkoutLink = data.invoice.checkout_link;
-                    if (checkoutLink) {
-                        navigator.clipboard.writeText(checkoutLink);
-                        this.showToast('Payment link copied to clipboard!', 'success');
-                    } else {
-                        this.showToast('No payment link available for this invoice', 'warning');
-                    }
+                const invoice = APP_STATE.invoices.find(inv => (inv.invoice_id || inv.id) === invoiceId);
+                if (invoice) {
+                    // Create a demo payment link
+                    const paymentLink = `${window.location.origin}/payment/${invoiceId}`;
+                    navigator.clipboard.writeText(paymentLink);
+                    this.showToast('Payment link copied to clipboard!', 'success');
                 } else {
                     this.showToast('Invoice not found', 'error');
                 }
@@ -3148,25 +4408,18 @@
 
         async markInvoiceAsPaid(invoiceId) {
             try {
-                const response = await fetch(`${CONFIG.API_BASE}/markInvoiceAsPaid`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        admin_secret: CONFIG.ADMIN_SECRET,
-                        invoice_id: invoiceId,
-                        payment_method: 'manual',
-                        payment_date: new Date().toISOString().split('T')[0]
-                    })
+                const response = await this.apiCall('markInvoiceAsPaid', {
+                    invoice_id: invoiceId,
+                    payment_method: 'manual',
+                    payment_date: new Date().toISOString().split('T')[0]
                 });
                 
-                const data = await response.json();
-                
-                if (data.success) {
+                if (response.success) {
                     this.showToast('Invoice marked as paid!', 'success');
-                    this.loadInvoices();
-                    this.loadDashboardData();
+                    await this.loadInvoices();
+                    await this.loadDashboardData();
                 } else {
-                    this.showToast(data.error || 'Failed to mark invoice as paid', 'error');
+                    this.showToast(response.error || 'Failed to mark invoice as paid', 'error');
                 }
             } catch (error) {
                 console.error('Error marking invoice as paid:', error);
@@ -3176,14 +4429,25 @@
 
         async downloadInvoice(invoiceId) {
             try {
-                const response = await fetch(`${CONFIG.API_BASE}/generateInvoicePDF?invoice_id=${invoiceId}&admin_secret=${CONFIG.ADMIN_SECRET}`);
-                
-                if (response.ok) {
-                    const blob = await response.blob();
+                // For demo, create a simple PDF download
+                const invoice = APP_STATE.invoices.find(inv => (inv.invoice_id || inv.id) === invoiceId);
+                if (invoice) {
+                    // Create a simple text file for demo
+                    const content = `
+Invoice Details
+===============
+Invoice ID: ${invoice.invoice_id || invoice.id}
+Client: ${invoice.client_name}
+Amount: ₹${invoice.total_amount}
+Status: ${invoice.status}
+Date: ${this.formatDate(invoice.created_at)}
+                    `;
+                    
+                    const blob = new Blob([content], { type: 'text/plain' });
                     const url = window.URL.createObjectURL(blob);
                     const a = document.createElement('a');
                     a.href = url;
-                    a.download = `invoice-${invoiceId}.pdf`;
+                    a.download = `invoice-${invoiceId}.txt`;
                     document.body.appendChild(a);
                     a.click();
                     document.body.removeChild(a);
@@ -3191,7 +4455,7 @@
                     
                     this.showToast('Invoice downloaded!', 'success');
                 } else {
-                    this.showToast('Failed to download invoice', 'error');
+                    this.showToast('Invoice not found', 'error');
                 }
             } catch (error) {
                 console.error('Error downloading invoice:', error);
@@ -3203,25 +4467,12 @@
             try {
                 this.showToast('Sending reminder...', 'info');
                 
-                const response = await fetch(`${CONFIG.API_BASE}/sendInvoiceReminder`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        admin_secret: CONFIG.ADMIN_SECRET,
-                        invoice_id: invoiceId
-                    })
-                });
+                const response = await this.apiCall('sendInvoiceReminder', { invoice_id: invoiceId });
                 
-                const data = await response.json();
-                
-                if (data.success) {
+                if (response.success) {
                     this.showToast('Reminder sent successfully!', 'success');
-                    if (data.wa_link) {
-                        // Open WhatsApp link
-                        window.open(data.wa_link, '_blank');
-                    }
                 } else {
-                    this.showToast(data.error || 'Failed to send reminder', 'error');
+                    this.showToast(response.error || 'Failed to send reminder', 'error');
                 }
                 
             } catch (error) {
@@ -3233,17 +4484,14 @@
         // ============================================
         // PAYMENTS MANAGEMENT
         // ============================================
-
         async loadPayments() {
             try {
                 this.showLoader();
+                const response = await this.apiCall('listPayments');
                 
-                const response = await fetch(`${CONFIG.API_BASE}/listPayments?admin_secret=${CONFIG.ADMIN_SECRET}`);
-                const data = await response.json();
-                
-                if (data.success) {
-                    GLOBAL.payments = data.payments || [];
-                    this.renderPayments(GLOBAL.payments);
+                if (response.success) {
+                    APP_STATE.payments = response.payments || [];
+                    this.renderPayments(APP_STATE.payments);
                 } else {
                     this.showToast('Failed to load payments', 'error');
                 }
@@ -3285,33 +4533,37 @@
                 return;
             }
             
-            tbody.innerHTML = payments.map(payment => `
-                <tr>
-                    <td><strong>${payment.payment_id || payment.id || 'N/A'}</strong></td>
-                    <td>${payment.invoice_id || 'N/A'}</td>
-                    <td>${payment.client_name || 'Unknown Client'}</td>
-                    <td class="font-bold">₹${payment.amount || 0}</td>
-                    <td>
-                        <span class="badge-premium ${payment.payment_method === 'razorpay' ? 'badge-info' : payment.payment_method === 'cash' ? 'badge-secondary' : 'badge-warning'}">
-                            ${payment.payment_method || 'Unknown'}
-                        </span>
-                    </td>
-                    <td>
-                        <span class="badge-premium badge-success">Completed</span>
-                    </td>
-                    <td>${this.formatDate(payment.payment_date || payment.created_at)}</td>
-                    <td>
-                        <div class="flex gap-2">
-                            <button class="btn-premium btn-sm-premium btn-secondary-premium view-payment-invoice-btn" data-id="${payment.invoice_id}">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                            <button class="btn-premium btn-sm-premium btn-secondary-premium download-payment-invoice-btn" data-id="${payment.invoice_id}">
-                                <i class="fas fa-download"></i>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
-            `).join('');
+            tbody.innerHTML = payments.map(payment => {
+                const methodClass = payment.payment_method === 'razorpay' ? 'badge-info' : 
+                                  payment.payment_method === 'cash' ? 'badge-secondary' : 'badge-warning';
+                return `
+                    <tr>
+                        <td><strong>${payment.payment_id || payment.id || 'N/A'}</strong></td>
+                        <td>${payment.invoice_id || 'N/A'}</td>
+                        <td>${payment.client_name || 'Unknown Client'}</td>
+                        <td class="font-bold">₹${parseFloat(payment.amount || 0).toLocaleString()}</td>
+                        <td>
+                            <span class="badge-premium ${methodClass}">
+                                ${payment.payment_method || 'Unknown'}
+                            </span>
+                        </td>
+                        <td>
+                            <span class="badge-premium badge-success">Completed</span>
+                        </td>
+                        <td>${this.formatDate(payment.payment_date || payment.created_at)}</td>
+                        <td>
+                            <div class="flex gap-2">
+                                <button class="btn-premium btn-sm-premium btn-secondary-premium view-payment-invoice-btn" data-id="${payment.invoice_id}">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="btn-premium btn-sm-premium btn-secondary-premium download-payment-invoice-btn" data-id="${payment.invoice_id}">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
             
             // Add event listeners
             document.querySelectorAll('.view-payment-invoice-btn').forEach(btn => {
@@ -3334,7 +4586,7 @@
             const toDate = document.getElementById('payment-date-to').value;
             const methodFilter = document.getElementById('payment-method-filter').value;
             
-            let filtered = GLOBAL.payments;
+            let filtered = APP_STATE.payments;
             
             if (fromDate) {
                 const from = new Date(fromDate);
@@ -3361,7 +4613,7 @@
         }
 
         exportPayments() {
-            const payments = GLOBAL.payments;
+            const payments = APP_STATE.payments;
             
             if (payments.length === 0) {
                 this.showToast('No payments to export', 'warning');
@@ -3381,7 +4633,7 @@
             ]);
             
             const csvContent = [headers, ...rows].map(row => row.join(',')).join('\n');
-            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
@@ -3397,13 +4649,12 @@
         // ============================================
         // SETTINGS MANAGEMENT
         // ============================================
-
         loadSettings() {
             // Load settings from localStorage
             const settings = JSON.parse(localStorage.getItem('infogrip_settings') || '{}');
             
             // Apply settings to form
-            document.getElementById('company-name').value = settings.company_name || 'InfoGrip Media Solution';
+            document.getElementById('company-name').value = settings.company_name || CONFIG.COMPANY_NAME;
             document.getElementById('default-gst').value = settings.default_gst || 18;
             document.getElementById('invoice-due-days').value = settings.invoice_due_days || 15;
             document.getElementById('reminder-days').value = settings.reminder_days || 3;
@@ -3454,6 +4705,10 @@
                     localStorage.setItem('admin_secret', newAdminSecret);
                 }
                 
+                // Update company name
+                CONFIG.COMPANY_NAME = settings.company_name;
+                localStorage.setItem('company_name', settings.company_name);
+                
                 this.showToast('Settings saved successfully!', 'success');
                 
             } catch (error) {
@@ -3479,13 +4734,12 @@
             try {
                 this.showToast('Testing API connection...', 'info');
                 
-                const response = await fetch(`${CONFIG.API_BASE}/test?admin_secret=${CONFIG.ADMIN_SECRET}`);
-                const data = await response.json();
+                const response = await this.apiCall('test');
                 
-                if (data.success) {
+                if (response.success) {
                     this.showToast('API connection successful!', 'success');
                 } else {
-                    this.showToast('API connection failed: ' + (data.error || 'Unknown error'), 'error');
+                    this.showToast('API connection failed: ' + (response.error || 'Unknown error'), 'error');
                 }
             } catch (error) {
                 console.error('API test failed:', error);
@@ -3497,12 +4751,13 @@
             localStorage.removeItem('infogrip_settings');
             localStorage.removeItem('admin_secret');
             localStorage.removeItem('theme');
+            localStorage.removeItem('company_name');
             
             // Clear global state
-            GLOBAL.clients = [];
-            GLOBAL.subscriptions = [];
-            GLOBAL.invoices = [];
-            GLOBAL.payments = [];
+            APP_STATE.clients = [];
+            APP_STATE.subscriptions = [];
+            APP_STATE.invoices = [];
+            APP_STATE.payments = [];
             
             // Reload settings
             this.loadSettings();
@@ -3520,6 +4775,30 @@
         // ============================================
         // UTILITY FUNCTIONS
         // ============================================
+        async apiCall(endpoint, data = {}) {
+            try {
+                const url = new URL(`${CONFIG.API_BASE}/${endpoint}`);
+                
+                // Add admin secret to all requests
+                const requestData = {
+                    ...data,
+                    admin_secret: CONFIG.ADMIN_SECRET
+                };
+                
+                const response = await fetch(url.toString(), {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(requestData)
+                });
+                
+                return await response.json();
+            } catch (error) {
+                console.error(`API call failed for ${endpoint}:`, error);
+                return { success: false, error: error.message };
+            }
+        }
 
         toggleTheme() {
             document.body.classList.toggle('dark-theme');
@@ -3556,23 +4835,12 @@
             try {
                 this.showToast('Sending reminders...', 'info');
                 
-                const response = await fetch(`${CONFIG.API_BASE}/sendAllReminders`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        admin_secret: CONFIG.ADMIN_SECRET,
-                        days: 7
-                    })
-                });
+                const response = await this.apiCall('sendAllReminders', { days: 7 });
                 
-                const data = await response.json();
-                
-                if (data.success) {
-                    this.showToast(`Sent ${data.count || 0} reminders successfully!`, 'success');
+                if (response.success) {
+                    this.showToast(`Sent ${response.count || 0} reminders successfully!`, 'success');
                 } else {
-                    this.showToast(data.error || 'Failed to send reminders', 'error');
+                    this.showToast(response.error || 'Failed to send reminders', 'error');
                 }
                 
             } catch (error) {
@@ -3584,8 +4852,8 @@
         exportData() {
             const data = [
                 ['Invoice ID', 'Client', 'Amount', 'Status', 'Date'],
-                ...GLOBAL.invoices.map(inv => [
-                    inv.invoice_id,
+                ...APP_STATE.invoices.map(inv => [
+                    inv.invoice_id || inv.id,
                     inv.client_name,
                     `₹${inv.total_amount}`,
                     inv.status,
@@ -3594,7 +4862,7 @@
             ];
             
             const csvContent = data.map(row => row.join(',')).join('\n');
-            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
@@ -3609,11 +4877,10 @@
 
         viewReports() {
             this.showToast('Reports feature coming soon!', 'info');
-            // In future, this could open a reports modal or page
         }
 
         openConfirmationModal(title, message, callback) {
-            GLOBAL.confirmationCallback = callback;
+            APP_STATE.confirmationCallback = callback;
             document.getElementById('confirmation-title').textContent = title;
             document.getElementById('confirmation-message').innerHTML = message;
             document.getElementById('confirmation-modal').classList.add('active');
@@ -3621,22 +4888,22 @@
 
         closeConfirmationModal() {
             document.getElementById('confirmation-modal').classList.remove('active');
-            GLOBAL.confirmationCallback = null;
+            APP_STATE.confirmationCallback = null;
         }
 
         executeConfirmedAction() {
-            if (GLOBAL.confirmationCallback) {
-                GLOBAL.confirmationCallback();
+            if (APP_STATE.confirmationCallback) {
+                APP_STATE.confirmationCallback();
             }
             this.closeConfirmationModal();
         }
 
         showLoader() {
-            document.getElementById('loader-overlay').style.display = 'flex';
+            document.getElementById('loader-overlay').classList.add('active');
         }
 
         hideLoader() {
-            document.getElementById('loader-overlay').style.display = 'none';
+            document.getElementById('loader-overlay').classList.remove('active');
         }
 
         showToast(message, type = 'info', duration = 3000) {
@@ -3686,161 +4953,6 @@
     document.addEventListener('DOMContentLoaded', () => {
         window.crm = new InfoGripCRM();
     });
-
-    // Add missing CSS styles
-    const additionalStyles = `
-    .loader-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 28, 79, 0.8);
-        backdrop-filter: blur(10px);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        z-index: 9999;
-    }
-    
-    .loader-overlay .loading-spinner {
-        margin: 0;
-    }
-    
-    .loader-overlay p {
-        color: white;
-        margin-top: 1rem;
-    }
-    
-    .tab-btn {
-        background: none;
-        border: none;
-        color: var(--white);
-        padding: 12px 24px;
-        cursor: pointer;
-        opacity: 0.7;
-        position: relative;
-        transition: var(--transition);
-    }
-    
-    .tab-btn:hover {
-        opacity: 1;
-    }
-    
-    .tab-btn.active {
-        opacity: 1;
-        color: var(--orange);
-    }
-    
-    .tab-btn.active::after {
-        content: '';
-        position: absolute;
-        bottom: -1px;
-        left: 0;
-        width: 100%;
-        height: 3px;
-        background: var(--gradient-orange);
-    }
-    
-    .tab-content {
-        display: none;
-    }
-    
-    .tab-content.active {
-        display: block;
-    }
-    
-    .btn-danger-premium {
-        background: rgba(255, 71, 87, 0.2);
-        color: #ff4757;
-        border: 2px solid rgba(255, 71, 87, 0.3);
-    }
-    
-    .btn-danger-premium:hover {
-        background: rgba(255, 71, 87, 0.3);
-        border-color: #ff4757;
-    }
-    
-    .btn-success-premium {
-        background: rgba(0, 208, 156, 0.2);
-        color: #00d09c;
-        border: 2px solid rgba(0, 208, 156, 0.3);
-    }
-    
-    .btn-success-premium:hover {
-        background: rgba(0, 208, 156, 0.3);
-        border-color: #00d09c;
-    }
-    
-    .badge-secondary {
-        background: rgba(108, 117, 125, 0.2);
-        color: #6c757d;
-        border: 1px solid rgba(108, 117, 125, 0.3);
-    }
-    
-    .grid {
-        display: grid;
-    }
-    
-    .grid-cols-1 {
-        grid-template-columns: repeat(1, minmax(0, 1fr));
-    }
-    
-    .grid-cols-2 {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-    
-    @media (min-width: 1024px) {
-        .lg\\:grid-cols-2 {
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
-        .lg\\:grid-cols-3 {
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-        }
-    }
-    
-    .space-y-4 > * + * {
-        margin-top: 1rem;
-    }
-    
-    .space-y-3 > * + * {
-        margin-top: 0.75rem;
-    }
-    
-    .inline-flex {
-        display: inline-flex;
-    }
-    
-    .items-center {
-        align-items: center;
-    }
-    
-    .ml-auto {
-        margin-left: auto;
-    }
-    
-    .w-full {
-        width: 100%;
-    }
-    
-    .form-checkbox {
-        width: 1rem;
-        height: 1rem;
-        border-radius: 0.25rem;
-        border: 1px solid var(--glass-border);
-        background: var(--glass-bg);
-    }
-    
-    .form-checkbox:checked {
-        background-color: var(--orange);
-        border-color: var(--orange);
-    }
-    `;
-
-    const styleEl = document.createElement('style');
-    styleEl.textContent = additionalStyles;
-    document.head.appendChild(styleEl);
     </script>
 </body>
 </html>
