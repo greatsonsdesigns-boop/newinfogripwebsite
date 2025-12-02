@@ -2,7 +2,7 @@
 
 // Configuration
 const CONFIG = {
-    API_BASE: 'https://script.google.com/macros/s/YOUR_APPS_SCRIPT_WEB_APP_ID/exec',
+    API_BASE: 'https://script.google.com/macros/s/AKfycbxPEEknW4i9O_eXyzueU5ltjnpl2uDx4MOAaJ6dBbb5PkTK4b8fvMTJvvDvQGycaz85/exec',
     ADMIN_SECRET: localStorage.getItem('admin_secret') || '',
     LOGO_URL: 'https://i.postimg.cc/Nj3bmPwC/Infogrip-Medi-Soluiton-(Social-Media)-(1).png',
     WHATSAPP_NUMBER: '+916367556906',
