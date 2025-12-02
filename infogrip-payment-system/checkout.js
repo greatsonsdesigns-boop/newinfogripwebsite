@@ -2,8 +2,8 @@
 
 // Configuration
 const CONFIG = {
-    API_BASE: 'https://script.google.com/macros/s/YOUR_APPS_SCRIPT_WEB_APP_ID/exec',
-    RAZORPAY_KEY_ID: 'rzp_live_YOUR_KEY_ID' // Will be loaded from API
+    API_BASE: 'https://script.google.com/macros/s/AKfycbxPEEknW4i9O_eXyzueU5ltjnpl2uDx4MOAaJ6dBbb5PkTK4b8fvMTJvvDvQGycaz85/exec',
+    RAZORPAY_KEY_ID: 'rzp_test_RmL6IMlQKxUoC3' // Will be loaded from API
 };
 
 // Get invoice ID from URL
