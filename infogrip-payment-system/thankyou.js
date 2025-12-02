@@ -1,429 +1,405 @@
-// InfoGrip Thank You Page JavaScript
+// Thank You Page Configuration
+const THANKYOU_CONFIG = {
+    API_BASE: 'https://script.google.com/macros/s/YOUR_APPS_SCRIPT_ID/exec'
+};
 
-// Get URL parameters
-const urlParams = new URLSearchParams(window.location.search);
-const invoiceId = urlParams.get('invoice_id');
-const paymentId = urlParams.get('payment_id');
-const pdfLink = urlParams.get('pdf_link');
+// State
+let thankyouState = {
+    invoice: null,
+    payment: null
+};
 
-// Initialize the page
+// Initialize
 document.addEventListener('DOMContentLoaded', function() {
-    if (!invoiceId || !paymentId) {
-        showError('Invalid payment confirmation. Please contact support.');
+    initTheme();
+    initHamburger();
+    initEventListeners();
+    loadPaymentDetails();
+});
+
+// Theme Toggle
+function initTheme() {
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeIcon = themeToggle?.querySelector('i');
+    
+    if (!themeToggle || !themeIcon) return;
+    
+    const currentTheme = localStorage.getItem('theme') || 'light';
+    if (currentTheme === 'dark') {
+        document.body.classList.add('dark-theme');
+        themeIcon.classList.remove('fa-moon');
+        themeIcon.classList.add('fa-sun');
+    }
+    
+    themeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark-theme');
+        if (document.body.classList.contains('dark-theme')) {
+            localStorage.setItem('theme', 'dark');
+            themeIcon.classList.remove('fa-moon');
+            themeIcon.classList.add('fa-sun');
+        } else {
+            localStorage.setItem('theme', 'light');
+            themeIcon.classList.remove('fa-sun');
+            themeIcon.classList.add('fa-moon');
+        }
+    });
+}
+
+// Mobile Menu
+function initHamburger() {
+    const hamburger = document.querySelector('.hamburger');
+    const navMenu = document.querySelector('.nav-menu');
+    
+    if (hamburger && navMenu) {
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+    }
+}
+
+// Event Listeners
+function initEventListeners() {
+    // Download Invoice
+    document.getElementById('download-invoice')?.addEventListener('click', downloadInvoice);
+    
+    // WhatsApp Support
+    document.getElementById('whatsapp-support')?.addEventListener('click', openWhatsApp);
+    
+    // Resend Email
+    document.getElementById('resend-email')?.addEventListener('click', resendEmail);
+}
+
+// Load Payment Details
+async function loadPaymentDetails() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const invoiceId = urlParams.get('invoice_id');
+    const paymentId = urlParams.get('payment_id');
+    
+    if (!invoiceId) {
+        showError('Invoice ID is required');
         return;
     }
     
-    populatePaymentDetails();
-    setupEventListeners();
-    
-    // Auto-download invoice after 2 seconds (optional)
-    setTimeout(() => {
-        if (pdfLink) {
-            document.getElementById('downloadInvoiceBtn').click();
-        }
-    }, 2000);
-});
-
-// Populate payment details
-function populatePaymentDetails() {
-    document.getElementById('invoiceId').textContent = invoiceId || 'N/A';
-    document.getElementById('paymentId').textContent = paymentId || 'N/A';
-    document.getElementById('amountPaid').textContent = '₹' + (parseFloat(urlParams.get('amount') || 0).toLocaleString('en-IN', { minimumFractionDigits: 2 }));
-    document.getElementById('paymentDate').textContent = new Date().toLocaleString('en-IN', {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit'
-    });
-}
-
-// Setup event listeners
-function setupEventListeners() {
-    // Download Invoice Button
-    document.getElementById('downloadInvoiceBtn').addEventListener('click', function(e) {
-        e.preventDefault();
-        if (pdfLink) {
-            window.open(pdfLink, '_blank');
+    try {
+        // Fetch payment details
+        const response = await fetch(`${THANKYOU_CONFIG.API_BASE}/getPaymentDetails?invoice_id=${invoiceId}&payment_id=${paymentId}`);
+        const data = await response.json();
+        
+        if (data.success) {
+            thankyouState.invoice = data.invoice;
+            thankyouState.payment = data.payment;
+            displayPaymentDetails();
+            displayInvoiceSummary();
         } else {
-            alert('Invoice PDF is being generated. Please try again in a moment.');
+            showError(data.error || 'Payment details not found');
         }
-    });
-    
-    // WhatsApp Share Button
-    document.getElementById('whatsappShareBtn').addEventListener('click', function(e) {
-        e.preventDefault();
-        const message = `I have successfully completed the payment for invoice ${invoiceId}. Payment ID: ${paymentId}`;
-        const whatsappUrl = `https://wa.me/916367556906?text=${encodeURIComponent(message)}`;
-        window.open(whatsappUrl, '_blank');
-    });
-    
-    // Email Invoice Button
-    document.getElementById('emailInvoiceBtn').addEventListener('click', function(e) {
-        e.preventDefault();
-        const subject = `Invoice ${invoiceId} - Payment Confirmation`;
-        const body = `Dear Customer,\n\nThank you for your payment. Please find the invoice attached.\n\nInvoice ID: ${invoiceId}\nPayment ID: ${paymentId}\n\nBest regards,\nInfoGrip Media Solution`;
-        const mailtoUrl = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-        window.open(mailtoUrl, '_blank');
-    });
+    } catch (error) {
+        console.error('Error loading payment details:', error);
+        showError('Failed to load payment details');
+    }
 }
 
-// Show error message
-function showError(message) {
-    const errorHTML = `
-        <div class="error-message">
-            <div class="error-icon">
-                <i class="fas fa-exclamation-triangle"></i>
+// Display Payment Details
+function displayPaymentDetails() {
+    const payment = thankyouState.payment;
+    const invoice = thankyouState.invoice;
+    
+    if (!payment || !invoice) return;
+    
+    const detailsDiv = document.getElementById('payment-details');
+    detailsDiv.innerHTML = `
+        <div class="space-y-4">
+            <div class="detail-item">
+                <span class="detail-label">Payment ID:</span>
+                <span class="font-semibold">${payment.payment_id || 'N/A'}</span>
             </div>
-            <h2>Oops! Something went wrong</h2>
-            <p>${message}</p>
-            <a href="index.html" class="btn btn-primary">Return to Home</a>
+            <div class="detail-item">
+                <span class="detail-label">Invoice ID:</span>
+                <span class="font-semibold">${payment.invoice_id || 'N/A'}</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Amount Paid:</span>
+                <span class="text-2xl font-bold text-green-600">₹${payment.total_amount || 0}</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Payment Mode:</span>
+                <span class="font-semibold">${payment.payment_mode || 'Razorpay'}</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Payment Date:</span>
+                <span>${formatDateTime(payment.payment_timestamp)}</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Status:</span>
+                <span class="badge badge-success">PAID</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Client:</span>
+                <span>${payment.name || invoice.name}</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Email:</span>
+                <span>${payment.email || invoice.email}</span>
+            </div>
         </div>
     `;
+}
+
+// Display Invoice Summary
+function displayInvoiceSummary() {
+    const invoice = thankyouState.invoice;
+    if (!invoice) return;
     
-    document.querySelector('.success-message').innerHTML = errorHTML;
-}
-
-// Add CSS for thank you page
-const thankyouCSS = `
-.thankyou-container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 40px 20px;
-    text-align: center;
-}
-
-.success-animation {
-    margin: 50px auto;
-}
-
-.success-checkmark {
-    width: 80px;
-    height: 115px;
-    margin: 0 auto;
-}
-
-.check-icon {
-    width: 80px;
-    height: 80px;
-    position: relative;
-    border-radius: 50%;
-    box-sizing: content-box;
-    border: 4px solid #4CAF50;
-}
-
-.check-icon::before {
-    top: 3px;
-    left: -2px;
-    width: 30px;
-    transform-origin: 100% 50%;
-    border-radius: 100px 0 0 100px;
-}
-
-.check-icon::after {
-    top: 0;
-    left: 30px;
-    width: 60px;
-    transform-origin: 0 50%;
-    border-radius: 0 100px 100px 0;
-    animation: rotate-circle 4.25s ease-in;
-}
-
-.check-icon::before, .check-icon::after {
-    content: '';
-    height: 100px;
-    position: absolute;
-    background: #FFFFFF;
-    transform: rotate(-45deg);
-}
-
-.icon-line {
-    height: 5px;
-    background-color: #4CAF50;
-    display: block;
-    border-radius: 2px;
-    position: absolute;
-    z-index: 10;
-}
-
-.icon-line.line-tip {
-    top: 46px;
-    left: 14px;
-    width: 25px;
-    transform: rotate(45deg);
-    animation: icon-line-tip 0.75s;
-}
-
-.icon-line.line-long {
-    top: 38px;
-    right: 8px;
-    width: 47px;
-    transform: rotate(-45deg);
-    animation: icon-line-long 0.75s;
-}
-
-.icon-circle {
-    top: -4px;
-    left: -4px;
-    z-index: 10;
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    position: absolute;
-    box-sizing: content-box;
-    border: 4px solid rgba(76, 175, 80, .5);
-}
-
-.icon-fix {
-    top: 8px;
-    width: 5px;
-    left: 26px;
-    z-index: 1;
-    height: 85px;
-    position: absolute;
-    transform: rotate(-45deg);
-    background-color: #FFFFFF;
-}
-
-@keyframes rotate-circle {
-    0% {
-        transform: rotate(-45deg);
-    }
-    5% {
-        transform: rotate(-45deg);
-    }
-    12% {
-        transform: rotate(-405deg);
-    }
-    100% {
-        transform: rotate(-405deg);
+    const summaryDiv = document.getElementById('invoice-summary');
+    
+    try {
+        const services = JSON.parse(invoice.services_json || '[]');
+        
+        let servicesHtml = '';
+        if (services.length > 0) {
+            servicesHtml = services.map(service => `
+                <div class="invoice-item">
+                    <div>${service.name}</div>
+                    <div class="text-right">${service.quantity || 1}</div>
+                    <div class="text-right">₹${service.price || 0}</div>
+                    <div class="text-right">₹${(service.quantity || 1) * (service.price || 0)}</div>
+                </div>
+            `).join('');
+        }
+        
+        summaryDiv.innerHTML = `
+            <div>
+                <!-- Totals -->
+                <div class="border-t pt-4 mt-4">
+                    <div class="flex justify-between mb-2">
+                        <span>Subtotal:</span>
+                        <span>₹${invoice.subtotal || 0}</span>
+                    </div>
+                    <div class="flex justify-between mb-2">
+                        <span>Discount:</span>
+                        <span>- ₹${invoice.discount || 0}</span>
+                    </div>
+                    <div class="flex justify-between mb-2">
+                        <span>GST (${invoice.gst_percent || 0}%):</span>
+                        <span>₹${invoice.gst_amount || 0}</span>
+                    </div>
+                    <div class="flex justify-between text-xl font-bold mt-4 pt-4 border-t">
+                        <span>Total Amount:</span>
+                        <span class="text-green-600">₹${invoice.total_amount || 0}</span>
+                    </div>
+                </div>
+                
+                <!-- Invoice Notes -->
+                <div class="mt-6 p-4 bg-blue-50 rounded-lg">
+                    <h4 class="font-bold mb-2">Invoice Notes:</h4>
+                    <p class="text-sm">Invoice ID: ${invoice.invoice_id}</p>
+                    <p class="text-sm">Created: ${formatDate(invoice.created_timestamp)}</p>
+                    <p class="text-sm">Status: <span class="badge badge-success">PAID</span></p>
+                </div>
+            </div>
+        `;
+        
+        // Update download button with PDF link if available
+        if (invoice.invoice_pdf_link) {
+            const downloadBtn = document.getElementById('download-invoice');
+            if (downloadBtn) {
+                downloadBtn.onclick = () => {
+                    window.open(invoice.invoice_pdf_link, '_blank');
+                };
+            }
+        }
+        
+    } catch (error) {
+        console.error('Error displaying invoice summary:', error);
+        summaryDiv.innerHTML = '<p class="text-red-500">Error loading invoice details</p>';
     }
 }
 
-@keyframes icon-line-tip {
-    0% {
-        width: 0;
-        left: 1px;
-        top: 19px;
-    }
-    54% {
-        width: 0;
-        left: 1px;
-        top: 19px;
-    }
-    70% {
-        width: 50px;
-        left: -8px;
-        top: 37px;
-    }
-    84% {
-        width: 17px;
-        left: 21px;
-        top: 48px;
-    }
-    100% {
-        width: 25px;
-        left: 14px;
-        top: 45px;
+// Download Invoice
+function downloadInvoice() {
+    const invoice = thankyouState.invoice;
+    if (!invoice) return;
+    
+    if (invoice.invoice_pdf_link) {
+        window.open(invoice.invoice_pdf_link, '_blank');
+    } else {
+        // Generate download link from API
+        const url = `${THANKYOU_CONFIG.API_BASE}/downloadInvoice?invoice_id=${invoice.invoice_id}`;
+        window.open(url, '_blank');
     }
 }
 
-@keyframes icon-line-long {
-    0% {
-        width: 0;
-        right: 46px;
-        top: 54px;
-    }
-    65% {
-        width: 0;
-        right: 46px;
-        top: 54px;
-    }
-    84% {
-        width: 55px;
-        right: 0px;
-        top: 35px;
-    }
-    100% {
-        width: 47px;
-        right: 8px;
-        top: 38px;
-    }
-}
-
-.success-message {
-    margin: 40px 0;
-}
-
-.success-message h1 {
-    color: #4CAF50;
-    font-size: 2.5rem;
-    margin-bottom: 20px;
-}
-
-.success-details {
-    background: #f8f9fa;
-    padding: 20px;
-    border-radius: 12px;
-    margin: 30px auto;
-    max-width: 500px;
-    text-align: left;
-}
-
-.detail-item {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 0;
-    border-bottom: 1px solid #e0e0e0;
-}
-
-.detail-item:last-child {
-    border-bottom: none;
-}
-
-.action-buttons {
-    display: flex;
-    gap: 15px;
-    justify-content: center;
-    margin: 40px 0;
-    flex-wrap: wrap;
-}
-
-.action-buttons .btn-lg {
-    padding: 15px 30px;
-    font-size: 1.1rem;
-}
-
-.next-steps {
-    margin: 60px 0;
-}
-
-.steps-timeline {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 40px;
-    flex-wrap: wrap;
-}
-
-.step {
-    flex: 1;
-    min-width: 250px;
-    padding: 20px;
-    margin: 10px;
-}
-
-.step-icon {
-    width: 60px;
-    height: 60px;
-    background: #001c4f;
-    color: white;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-    margin: 0 auto 20px;
-}
-
-.step h3 {
-    margin-bottom: 10px;
-    color: #001c4f;
-}
-
-.step p {
-    color: #666;
-    line-height: 1.6;
-}
-
-.support-section {
-    background: #001c4f;
-    color: white;
-    padding: 40px;
-    border-radius: 12px;
-    margin: 40px 0;
-}
-
-.support-section h2 {
-    color: white;
-    margin-bottom: 15px;
-}
-
-.support-contacts {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    justify-content: center;
-    margin-top: 30px;
-}
-
-.support-link {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 15px 25px;
-    background: rgba(255, 255, 255, 0.1);
-    color: white;
-    text-decoration: none;
-    border-radius: 50px;
-    transition: all 0.3s;
-}
-
-.support-link:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: translateY(-2px);
-}
-
-.thankyou-footer {
-    margin-top: 40px;
-    padding-top: 20px;
-    border-top: 1px solid #e0e0e0;
-    color: #666;
-}
-
-.footer-links {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-top: 10px;
-}
-
-.footer-links a {
-    color: #001c4f;
-    text-decoration: none;
-}
-
-.error-message {
-    padding: 40px;
-    background: #fff5f5;
-    border-radius: 12px;
-    border: 2px solid #fed7d7;
-}
-
-.error-icon {
-    font-size: 3rem;
-    color: #e53e3e;
-    margin-bottom: 20px;
-}
-
-@media (max-width: 768px) {
-    .action-buttons {
-        flex-direction: column;
+// Open WhatsApp
+function openWhatsApp() {
+    const invoice = thankyouState.invoice;
+    if (!invoice) return;
+    
+    const phone = (invoice.phone || '').replace(/\D/g, '');
+    if (!phone) {
+        showAlert('Phone number not available for WhatsApp', 'warning');
+        return;
     }
     
-    .steps-timeline {
-        flex-direction: column;
-        align-items: center;
-    }
+    const message = encodeURIComponent(
+        `Hi InfoGrip Team,\n\nI just completed payment for Invoice ${invoice.invoice_id}.\nAmount: ₹${invoice.total_amount}\nPlease confirm and start my services.\n\nThank you!`
+    );
     
-    .support-contacts {
-        flex-direction: column;
+    const waLink = `https://wa.me/916367556906?text=${message}`;
+    window.open(waLink, '_blank');
+}
+
+// Resend Email
+async function resendEmail() {
+    const invoice = thankyouState.invoice;
+    if (!invoice) return;
+    
+    try {
+        const response = await fetch(`${THANKYOU_CONFIG.API_BASE}/resendInvoiceEmail`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                invoice_id: invoice.invoice_id
+            })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            showAlert('Invoice email resent successfully!', 'success');
+        } else {
+            showAlert(data.error || 'Failed to resend email', 'danger');
+        }
+    } catch (error) {
+        console.error('Error resending email:', error);
+        showAlert('Error resending email', 'danger');
     }
 }
-`;
 
-// Inject thank you page CSS
-const style = document.createElement('style');
-style.textContent = thankyouCSS;
-document.head.appendChild(style);
+// Utility Functions
+function formatDateTime(dateString) {
+    if (!dateString) return 'N/A';
+    try {
+        const date = new Date(dateString);
+        return date.toLocaleString('en-IN', {
+            day: '2-digit',
+            month: 'short',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: true
+        });
+    } catch (e) {
+        return dateString;
+    }
+}
+
+function formatDate(dateString) {
+    if (!dateString) return 'N/A';
+    try {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-IN', {
+            day: '2-digit',
+            month: 'short',
+            year: 'numeric'
+        });
+    } catch (e) {
+        return dateString;
+    }
+}
+
+function showError(message) {
+    const detailsDiv = document.getElementById('payment-details');
+    const summaryDiv = document.getElementById('invoice-summary');
+    
+    if (detailsDiv) {
+        detailsDiv.innerHTML = `
+            <div class="alert alert-danger">
+                <h4 class="font-bold mb-2">Error</h4>
+                <p>${message}</p>
+                <a href="index.html" class="btn btn-primary mt-4">
+                    <i class="fas fa-home"></i> Back to Home
+                </a>
+            </div>
+        `;
+    }
+    
+    if (summaryDiv) {
+        summaryDiv.innerHTML = `
+            <div class="alert alert-warning">
+                <p>${message}</p>
+            </div>
+        `;
+    }
+}
+
+function showAlert(message, type = 'info') {
+    // Remove existing alerts
+    const existingAlert = document.querySelector('.alert');
+    if (existingAlert) {
+        existingAlert.remove();
+    }
+    
+    // Create new alert
+    const alertDiv = document.createElement('div');
+    alertDiv.className = `alert alert-${type}`;
+    alertDiv.innerHTML = message;
+    
+    // Add close button
+    const closeBtn = document.createElement('button');
+    closeBtn.className = 'float-right text-lg font-bold';
+    closeBtn.innerHTML = '&times;';
+    closeBtn.onclick = () => alertDiv.remove();
+    alertDiv.appendChild(closeBtn);
+    
+    // Insert at top of main content
+    const main = document.querySelector('main');
+    if (main) {
+        main.insertBefore(alertDiv, main.firstChild);
+        
+        // Auto remove after 5 seconds
+        setTimeout(() => {
+            if (alertDiv.parentNode) {
+                alertDiv.remove();
+            }
+        }, 5000);
+    }
+}
+
+// Sticky header
+window.addEventListener('scroll', () => {
+    const header = document.querySelector('.header');
+    if (header) {
+        header.classList.toggle('scrolled', window.scrollY > 50);
+    }
+});
+
+// Auto-redirect to home after 60 seconds
+setTimeout(() => {
+    const redirectMsg = document.createElement('div');
+    redirectMsg.className = 'alert alert-info text-center';
+    redirectMsg.innerHTML = `
+        <p>You will be redirected to home page in 10 seconds...</p>
+        <button onclick="window.location.href='index.html'" class="btn btn-sm btn-primary mt-2">
+            Go Home Now
+        </button>
+    `;
+    
+    const main = document.querySelector('main');
+    if (main) {
+        main.appendChild(redirectMsg);
+    }
+    
+    setTimeout(() => {
+        window.location.href = 'index.html';
+    }, 10000);
+}, 60000);
+
+// Export thank you functions
+window.InfoGripThankYou = {
+    loadPaymentDetails,
+    downloadInvoice,
+    openWhatsApp
+};
