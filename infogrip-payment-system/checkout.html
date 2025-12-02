@@ -3,188 +3,303 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Secure Payment | InfoGrip Media Solution</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Secure Checkout - InfoGrip Media Solution</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/x-icon" href="https://i.postimg.cc/Nj3bmPwC/Infogrip-Medi-Soluiton-(Social-Media)-(1).png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 </head>
 <body>
-    <div class="container checkout-container">
-        <!-- Header -->
-        <header class="checkout-header">
-            <div class="logo">
-                <img src="https://i.postimg.cc/Nj3bmPwC/Infogrip-Medi-Soluiton-(Social-Media)-(1).png" alt="InfoGrip">
-                <h1>InfoGrip Media Solution</h1>
-            </div>
-            <div class="secure-badge">
-                <i class="fas fa-lock"></i>
-                <span>Secure Payment</span>
-            </div>
-        </header>
-
-        <div class="checkout-content">
-            <!-- Left Side - Invoice Details -->
-            <div class="invoice-details">
-                <div class="card">
-                    <div class="card-header">
-                        <h2>Invoice Details</h2>
-                        <div class="invoice-id">
-                            <span>Invoice ID:</span>
-                            <strong id="invoiceId">Loading...</strong>
-                        </div>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <nav class="navbar">
+                <a href="#" class="logo">
+                    <img src="https://i.postimg.cc/Nj3bmPwC/Infogrip-Medi-Soluiton-(Social-Media)-(1).png" alt="InfoGrip Media Solution">
+                </a>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="tel:+916367556906">
+                        <i class="fas fa-phone"></i> +91 6367556906
+                    </a></li>
+                </ul>
+                <div class="nav-actions">
+                    <button class="theme-toggle" id="theme-toggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <div class="hamburger">
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
                     </div>
-                    
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container" style="margin-top: 120px; min-height: 70vh;">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Invoice Summary -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Invoice Summary</h2>
+                    <span class="badge badge-primary" id="invoice-status">Loading...</span>
+                </div>
+                
+                <div id="loading" class="text-center py-8">
+                    <div class="spinner"></div>
+                    <p class="mt-4">Loading invoice details...</p>
+                </div>
+
+                <div id="invoice-content" class="hidden">
                     <!-- Client Info -->
-                    <div class="client-info">
-                        <h3>Bill To:</h3>
-                        <div class="client-details">
-                            <p><strong id="clientName">Loading...</strong></p>
-                            <p id="clientPhone">Loading...</p>
-                            <p id="clientEmail">Loading...</p>
+                    <div class="mb-6">
+                        <h3 class="text-lg font-bold mb-2">Bill To:</h3>
+                        <p id="client-name" class="font-semibold"></p>
+                        <p id="client-phone"></p>
+                        <p id="client-email"></p>
+                        <p id="client-address" class="text-gray-700"></p>
+                    </div>
+
+                    <!-- Invoice Details -->
+                    <div class="mb-6">
+                        <div class="flex justify-between mb-2">
+                            <span>Invoice ID:</span>
+                            <span id="invoice-id" class="font-semibold"></span>
                         </div>
-                        <div class="client-actions">
-                            <a href="#" id="callClient" class="btn btn-sm btn-outline">
-                                <i class="fas fa-phone"></i> Call
-                            </a>
-                            <a href="#" id="whatsappClient" class="btn btn-sm btn-outline">
-                                <i class="fab fa-whatsapp"></i> WhatsApp
-                            </a>
-                            <a href="#" id="emailClient" class="btn btn-sm btn-outline">
-                                <i class="fas fa-envelope"></i> Email
-                            </a>
+                        <div class="flex justify-between mb-2">
+                            <span>Date:</span>
+                            <span id="invoice-date"></span>
+                        </div>
+                        <div class="flex justify-between mb-2">
+                            <span>Created By:</span>
+                            <span id="created-by"></span>
                         </div>
                     </div>
 
-                    <!-- Invoice Items -->
-                    <div class="invoice-items">
-                        <h3>Items</h3>
-                        <div class="table-responsive">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>Description</th>
-                                        <th width="100">Qty</th>
-                                        <th width="150">Unit Price</th>
-                                        <th width="150">Total</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="invoiceItems">
-                                    <!-- Items will be loaded here -->
-                                </tbody>
-                            </table>
+                    <!-- Services Table -->
+                    <div class="mb-6">
+                        <h3 class="text-lg font-bold mb-3">Services</h3>
+                        <div class="invoice-item invoice-item-header">
+                            <div>Description</div>
+                            <div class="text-right">Qty</div>
+                            <div class="text-right">Price</div>
+                            <div class="text-right">Total</div>
                         </div>
+                        <div id="services-list">
+                            <!-- Services will be loaded here -->
+                        </div>
+                    </div>
+
+                    <!-- Totals -->
+                    <div class="border-t pt-4">
+                        <div class="flex justify-between mb-2">
+                            <span>Subtotal:</span>
+                            <span id="subtotal-summary">₹0</span>
+                        </div>
+                        <div class="flex justify-between mb-2">
+                            <span>Discount:</span>
+                            <span id="discount-summary">₹0</span>
+                        </div>
+                        <div class="flex justify-between mb-2">
+                            <span>GST (<span id="gst-percent-summary">0</span>%):</span>
+                            <span id="gst-amount-summary">₹0</span>
+                        </div>
+                        <div class="flex justify-between text-xl font-bold mt-4 pt-4 border-t">
+                            <span>Total Amount:</span>
+                            <span id="total-summary">₹0</span>
+                        </div>
+                    </div>
+
+                    <!-- Notes -->
+                    <div class="mt-6 p-4 bg-yellow-50 rounded-lg">
+                        <p class="text-sm">
+                            <i class="fas fa-info-circle text-yellow-600 mr-2"></i>
+                            This invoice will expire in 7 days. Please complete the payment to confirm your services.
+                        </p>
                     </div>
                 </div>
 
-                <!-- Trust Badges -->
-                <div class="trust-badges">
-                    <div class="badge-item">
-                        <i class="fas fa-shield-alt"></i>
-                        <span>256-bit SSL Secure</span>
-                    </div>
-                    <div class="badge-item">
-                        <i class="fas fa-lock"></i>
-                        <span>PCI DSS Compliant</span>
-                    </div>
-                    <div class="badge-item">
-                        <i class="fas fa-clock"></i>
-                        <span>Instant Confirmation</span>
+                <div id="error-message" class="hidden">
+                    <div class="alert alert-danger">
+                        <h4 class="font-bold mb-2">Invoice Not Found</h4>
+                        <p id="error-text"></p>
+                        <a href="admin.html" class="btn btn-primary mt-4">
+                            <i class="fas fa-arrow-left"></i> Back to Admin
+                        </a>
                     </div>
                 </div>
             </div>
 
-            <!-- Right Side - Payment Summary -->
-            <div class="payment-summary">
-                <div class="card sticky-summary">
-                    <div class="card-header">
-                        <h2>Payment Summary</h2>
-                    </div>
-                    <div class="card-body">
-                        <div class="summary-item">
-                            <span>Subtotal</span>
-                            <span id="summarySubtotal">₹0.00</span>
-                        </div>
-                        <div class="summary-item">
-                            <span>Discount</span>
-                            <span id="summaryDiscount">-₹0.00</span>
-                        </div>
-                        <div class="summary-item">
-                            <span>GST</span>
-                            <span id="summaryGST">₹0.00</span>
-                        </div>
-                        <div class="summary-total">
-                            <span>Total Amount</span>
-                            <span id="summaryTotal">₹0.00</span>
-                        </div>
+            <!-- Payment Section -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Secure Payment</h2>
+                    <i class="fas fa-lock text-green-500"></i>
+                </div>
 
-                        <!-- Payment Button -->
-                        <button class="btn btn-primary btn-block btn-lg mt-4" id="payButton">
-                            <i class="fas fa-lock"></i> Proceed to Secure Payment
-                        </button>
-
-                        <!-- Payment Methods -->
-                        <div class="payment-methods">
-                            <h4>We Accept:</h4>
-                            <div class="method-icons">
-                                <i class="fab fa-cc-visa"></i>
-                                <i class="fab fa-cc-mastercard"></i>
-                                <i class="fab fa-cc-amex"></i>
-                                <i class="fab fa-cc-rupay"></i>
-                                <i class="fas fa-university"></i>
-                                <i class="fas fa-mobile-alt"></i>
+                <div id="payment-form" class="hidden">
+                    <!-- Client Contact Form (for new clients) -->
+                    <div id="new-client-form" class="hidden mb-6">
+                        <h3 class="text-lg font-bold mb-4">Your Contact Information</h3>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="form-group">
+                                <label class="form-label">Full Name *</label>
+                                <input type="text" class="form-control" id="payer-name" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Phone Number *</label>
+                                <input type="tel" class="form-control" id="payer-phone" required pattern="^[0-9]{10}$">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Email Address *</label>
+                                <input type="email" class="form-control" id="payer-email" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Address</label>
+                                <input type="text" class="form-control" id="payer-address">
                             </div>
                         </div>
+                    </div>
 
-                        <!-- Info -->
-                        <div class="payment-info">
-                            <p><i class="fas fa-info-circle"></i> You will be redirected to Razorpay's secure payment gateway</p>
-                            <p><i class="fas fa-clock"></i> Invoice valid for 7 days</p>
+                    <!-- Payment Methods -->
+                    <div class="mb-6">
+                        <h3 class="text-lg font-bold mb-4">Select Payment Method</h3>
+                        <div class="grid grid-cols-3 gap-4">
+                            <label class="payment-method">
+                                <input type="radio" name="payment-method" value="razorpay" checked>
+                                <div class="payment-card">
+                                    <i class="fab fa-cc-visa text-blue-600 text-2xl"></i>
+                                    <span>Card/UPI/NetBanking</span>
+                                </div>
+                            </label>
+                            <label class="payment-method">
+                                <input type="radio" name="payment-method" value="upi">
+                                <div class="payment-card">
+                                    <i class="fas fa-mobile-alt text-purple-600 text-2xl"></i>
+                                    <span>UPI Apps</span>
+                                </div>
+                            </label>
+                            <label class="payment-method">
+                                <input type="radio" name="payment-method" value="bank">
+                                <div class="payment-card">
+                                    <i class="fas fa-university text-green-600 text-2xl"></i>
+                                    <span>Bank Transfer</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Terms & Conditions -->
+                    <div class="mb-6">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="terms" required>
+                            <label class="form-check-label" for="terms">
+                                I agree to the <a href="#" class="text-blue-600">Terms & Conditions</a> and 
+                                <a href="#" class="text-blue-600">Privacy Policy</a>
+                            </label>
+                        </div>
+                        <div class="form-check mt-2">
+                            <input type="checkbox" class="form-check-input" id="receipt">
+                            <label class="form-check-label" for="receipt">
+                                Email me a receipt and invoice
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Payment Button -->
+                    <button class="btn btn-primary btn-lg w-full" id="pay-button" disabled>
+                        <i class="fas fa-lock mr-2"></i>
+                        Pay Now <span id="pay-amount">₹0</span>
+                    </button>
+
+                    <!-- Alternative Payment -->
+                    <div class="mt-4 text-center">
+                        <p class="text-gray-600 mb-2">Alternative payment methods:</p>
+                        <div class="flex justify-center gap-4">
+                            <a href="#" class="btn btn-outline btn-sm">
+                                <i class="fab fa-whatsapp"></i> WhatsApp Pay
+                            </a>
+                            <a href="#" class="btn btn-outline btn-sm">
+                                <i class="fas fa-qrcode"></i> Scan QR
+                            </a>
                         </div>
                     </div>
                 </div>
 
-                <!-- Support -->
-                <div class="support-card">
-                    <h4><i class="fas fa-headset"></i> Need Help?</h4>
-                    <p>Contact our support team for assistance</p>
-                    <div class="support-contacts">
-                        <a href="tel:+916367556906" class="support-link">
-                            <i class="fas fa-phone"></i> +91 6367556906
-                        </a>
-                        <a href="mailto:infogripmarketing@gmail.com" class="support-link">
-                            <i class="fas fa-envelope"></i> infogripmarketing@gmail.com
-                        </a>
+                <!-- Payment Processing -->
+                <div id="payment-processing" class="hidden text-center py-8">
+                    <div class="spinner"></div>
+                    <p class="mt-4">Processing your payment...</p>
+                    <p class="text-sm text-gray-600 mt-2">Please do not close this window</p>
+                </div>
+
+                <!-- Payment Success -->
+                <div id="payment-success" class="hidden text-center py-8">
+                    <div class="text-5xl text-green-500 mb-4">
+                        <i class="fas fa-check-circle"></i>
                     </div>
+                    <h3 class="text-2xl font-bold mb-2">Payment Successful!</h3>
+                    <p class="text-gray-600 mb-6">Redirecting to thank you page...</p>
+                </div>
+
+                <!-- Payment Failed -->
+                <div id="payment-failed" class="hidden text-center py-8">
+                    <div class="text-5xl text-red-500 mb-4">
+                        <i class="fas fa-times-circle"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-2">Payment Failed</h3>
+                    <p class="text-gray-600 mb-4" id="failure-reason"></p>
+                    <button class="btn btn-primary" id="retry-payment">
+                        <i class="fas fa-redo mr-2"></i> Try Again
+                    </button>
                 </div>
             </div>
         </div>
+    </main>
 
-        <!-- Footer -->
-        <footer class="checkout-footer">
-            <p>&copy; 2025 InfoGrip Media Solution. All rights reserved.</p>
-            <div class="footer-links">
-                <a href="privacy-policy.html">Privacy Policy</a>
-                <a href="terms-conditions.html">Terms & Conditions</a>
-                <a href="refund-policy.html">Refund Policy</a>
-            </div>
-        </footer>
-    </div>
-
-    <!-- Loading Modal -->
-    <div class="modal" id="loadingModal">
-        <div class="modal-dialog modal-sm">
-            <div class="modal-content">
-                <div class="modal-body text-center">
-                    <div class="spinner">
-                        <i class="fas fa-circle-notch fa-spin"></i>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-col">
+                    <img src="https://i.postimg.cc/Nj3bmPwC/Infogrip-Medi-Soluiton-(Social-Media)-(1).png" alt="InfoGrip Media Solution" style="height: 70px; margin-bottom: 20px;">
+                    <p>Need Expert Help? We're Just a Message Away!</p>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/profile.php?id=61582320555612" class="social-link" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/infogrip.in/" class="social-link" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.linkedin.com/company/infogripsolution/?viewAsMember=true" class="social-link" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://x.com/InfoGrip" class="social-link" target="_blank"><i class="fab fa-twitter"></i></a>
                     </div>
-                    <p class="mt-3">Processing your payment...</p>
+                </div>
+                <div class="footer-col">
+                    <h3>Contact Info</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Jaipur, Rajasthan, India</p>
+                    <p><i class="fas fa-phone"></i> +91 6367556906</p>
+                    <p><i class="fas fa-envelope"></i> infogripmarketing@gmail.com</p>
+                </div>
+                <div class="footer-col">
+                    <h3>Secure Payment</h3>
+                    <p><i class="fas fa-shield-alt text-green-500"></i> 256-bit SSL Encryption</p>
+                    <p><i class="fas fa-lock text-green-500"></i> PCI-DSS Compliant</p>
+                    <p><i class="fas fa-check-circle text-green-500"></i> Razorpay Secure</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; InfoGrip Media Solution Ltd. All Rights Reserved 2025</p>
+                <div class="footer-bottom-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms & Conditions</a>
+                    <a href="#">Refund Policy</a>
                 </div>
             </div>
         </div>
-    </div>
+    </footer>
 
     <script src="checkout.js"></script>
 </body>
