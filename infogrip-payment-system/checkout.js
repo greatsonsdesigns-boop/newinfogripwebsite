@@ -1,7 +1,7 @@
 // Checkout Configuration
 const CHECKOUT_CONFIG = {
-    API_BASE: 'https://script.google.com/macros/s/YOUR_APPS_SCRIPT_ID/exec',
-    RAZORPAY_KEY_ID: 'YOUR_RAZORPAY_KEY_ID'
+    API_BASE: 'https://script.google.com/macros/s/AKfycbx07QetFwOnkrHlNs2XWHKJUf-FVamBxzvr_ea75x1aJvV1A2wfsBIM3LkZZJfnalm5/exec',
+    RAZORPAY_KEY_ID: 'rzp_test_RmL6IMlQKxUoC3'
 };
 
 // State
