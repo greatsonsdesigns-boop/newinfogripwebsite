@@ -3,7 +3,7 @@
 // -----------------------------
 
 // YOUR APPS SCRIPT DEPLOYMENT URL
-const GAS_URL = "https://script.google.com/macros/s/AKfycbxDpO32h-w4EMIuB1U8yr3YSsox9Y3kiQwZxHkgQIfxwmuVM219SVVpmUaKhTGcUcx3Nw/exec";
+const GAS_URL = "https://script.google.com/macros/s/AKfycybyik9o27gC80ASXTs-MXrZQ34XbQ9IX61oEVAgxep1L-_7_hJJoKXUZ-tQ7pKdb8kyBAg/exec";
 
 let token = null;
 
