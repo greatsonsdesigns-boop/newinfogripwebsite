@@ -1,6 +1,5 @@
 // ============================================
-// SERVICE CAROUSELS - COMPLETE FILE
-// Includes ALL 4 services: Website, Social Media, Political, Ads
+// FIXED SERVICE CAROUSELS - ALL 4 PAGES WORKING
 // ============================================
 
 const ServiceCarousels = {
@@ -9,8 +8,9 @@ const ServiceCarousels = {
     // 1. WEBSITE DEVELOPMENT CAROUSELS
     // ============================================
     initializeWebsiteCarousels: function() {
-        // Features Carousel
-        const websiteFeatures = [
+        console.log('Initializing Website Carousels...');
+        
+        const features = [
             {
                 icon: 'fas fa-palette',
                 title: 'Custom UI/UX Design',
@@ -53,9 +53,6 @@ const ServiceCarousels = {
             }
         ];
 
-        this.initializeCarousel('features-carousel', 'features-nav', websiteFeatures);
-
-        // Advanced Features Carousel
         const advancedFeatures = [
             {
                 icon: 'fas fa-laptop-code',
@@ -89,15 +86,20 @@ const ServiceCarousels = {
             }
         ];
 
-        this.initializeCarousel('advanced-slider', 'advanced-nav', advancedFeatures);
+        // Initialize both carousels
+        this.createCarousel('features-carousel', 'features-nav', features);
+        this.createCarousel('advanced-slider', 'advanced-nav', advancedFeatures);
+        
+        console.log('Website Carousels initialized successfully');
     },
 
     // ============================================
     // 2. SOCIAL MEDIA MANAGEMENT CAROUSELS
     // ============================================
     initializeSocialMediaCarousels: function() {
-        // Features Carousel
-        const socialMediaFeatures = [
+        console.log('Initializing Social Media Carousels...');
+        
+        const features = [
             {
                 icon: 'fas fa-pen-fancy',
                 title: 'Daily Content Creation',
@@ -140,9 +142,6 @@ const ServiceCarousels = {
             }
         ];
 
-        this.initializeCarousel('features-carousel', 'features-nav', socialMediaFeatures);
-
-        // Platforms Carousel
         const platforms = [
             {
                 icon: 'fab fa-instagram',
@@ -176,15 +175,19 @@ const ServiceCarousels = {
             }
         ];
 
-        this.initializeCarousel('platforms-carousel', 'platforms-nav', platforms);
+        this.createCarousel('features-carousel', 'features-nav', features);
+        this.createCarousel('platforms-carousel', 'platforms-nav', platforms);
+        
+        console.log('Social Media Carousels initialized successfully');
     },
 
     // ============================================
     // 3. POLITICAL BRANDING CAROUSELS
     // ============================================
     initializePoliticalCarousels: function() {
-        // Features Carousel
-        const politicalFeatures = [
+        console.log('Initializing Political Carousels...');
+        
+        const features = [
             {
                 icon: 'fas fa-bullhorn',
                 title: 'Strategic Messaging',
@@ -227,10 +230,7 @@ const ServiceCarousels = {
             }
         ];
 
-        this.initializeCarousel('features-carousel', 'features-nav', politicalFeatures);
-
-        // Audience Carousel
-        const politicalAudience = [
+        const audience = [
             {
                 icon: 'fas fa-user-tie',
                 title: 'Political Candidates',
@@ -263,18 +263,19 @@ const ServiceCarousels = {
             }
         ];
 
-        this.initializeCarousel('audience-carousel', 'audience-nav', politicalAudience);
+        this.createCarousel('features-carousel', 'features-nav', features);
+        this.createCarousel('audience-carousel', 'audience-nav', audience);
         
-        // Initialize Political-specific styling
-        this.stylePoliticalPage();
+        console.log('Political Carousels initialized successfully');
     },
 
     // ============================================
     // 4. ADS CAMPAIGN MANAGEMENT CAROUSELS
     // ============================================
     initializeAdsCarousels: function() {
-        // Features Carousel
-        const adsFeatures = [
+        console.log('Initializing Ads Carousels...');
+        
+        const features = [
             {
                 icon: 'fas fa-bullseye',
                 title: 'Audience Targeting',
@@ -317,10 +318,7 @@ const ServiceCarousels = {
             }
         ];
 
-        this.initializeCarousel('features-carousel', 'features-nav', adsFeatures);
-
-        // Platforms Carousel
-        const adsPlatforms = [
+        const platforms = [
             {
                 icon: 'fab fa-google',
                 title: 'Google Ads',
@@ -353,22 +351,24 @@ const ServiceCarousels = {
             }
         ];
 
-        this.initializeCarousel('platforms-carousel', 'platforms-nav', adsPlatforms);
+        this.createCarousel('features-carousel', 'features-nav', features);
+        this.createCarousel('platforms-carousel', 'platforms-nav', platforms);
         
-        // Initialize Ads-specific styling and metrics
-        this.styleAdsPage();
-        this.initializePerformanceMetrics();
+        // Add performance metrics
+        this.addPerformanceMetrics();
+        
+        console.log('Ads Carousels initialized successfully');
     },
 
     // ============================================
-    // GENERIC CAROUSEL INITIALIZATION
+    // UNIVERSAL CAROUSEL CREATION FUNCTION
     // ============================================
-    initializeCarousel: function(carouselId, navId, items) {
+    createCarousel: function(carouselId, navId, items) {
         const carousel = document.getElementById(carouselId);
         const nav = document.getElementById(navId);
         
         if (!carousel || !nav) {
-            console.warn(`Carousel ${carouselId} or nav ${navId} not found`);
+            console.error(`Carousel ${carouselId} or nav ${navId} not found`);
             return;
         }
 
@@ -377,12 +377,12 @@ const ServiceCarousels = {
         nav.innerHTML = '';
 
         let currentSlide = 0;
+        let autoSlideInterval;
 
         // Create carousel items
         items.forEach((item, index) => {
             const card = document.createElement('div');
             card.className = 'carousel-card';
-            if (index === 0) card.classList.add('active');
             card.innerHTML = `
                 <div class="carousel-icon">
                     <i class="${item.icon}"></i>
@@ -395,57 +395,18 @@ const ServiceCarousels = {
             // Create navigation dots
             const dot = document.createElement('div');
             dot.className = 'carousel-dot';
-            if (index === 0) dot.classList.add('active');
             dot.addEventListener('click', () => {
-                this.goToSlide(carouselId, navId, index);
+                this.goToSlide(carouselId, index);
+                this.resetAutoSlide();
             });
             nav.appendChild(dot);
         });
 
-        // Calculate items per view based on screen size
-        const calculateItemsPerView = () => {
-            if (window.innerWidth < 768) return 1;
-            if (window.innerWidth < 992) return 2;
-            return 3;
-        };
-
-        // Navigation functions
-        this.goToSlide = (carouselId, navId, index) => {
-            currentSlide = index;
-            const itemsPerView = calculateItemsPerView();
-            const translateX = -(currentSlide * (100 / itemsPerView));
-            
-            const carouselElement = document.getElementById(carouselId);
-            if (carouselElement) {
-                carouselElement.style.transform = `translateX(${translateX}%)`;
-            }
-            
-            // Update active card
-            document.querySelectorAll(`#${carouselId} .carousel-card`).forEach((card, i) => {
-                card.classList.toggle('active', i === currentSlide);
-            });
-            
-            // Update active dot
-            document.querySelectorAll(`#${navId} .carousel-dot`).forEach((dot, i) => {
-                dot.classList.toggle('active', i === currentSlide);
-            });
-        };
-
-        this.nextSlide = (carouselId, navId) => {
-            const itemsPerView = calculateItemsPerView();
-            const totalItems = items.length;
-            const totalSlides = Math.ceil(totalItems / itemsPerView);
-            currentSlide = (currentSlide + 1) % totalSlides;
-            this.goToSlide(carouselId, navId, currentSlide);
-        };
-
-        this.prevSlide = (carouselId, navId) => {
-            const itemsPerView = calculateItemsPerView();
-            const totalItems = items.length;
-            const totalSlides = Math.ceil(totalItems / itemsPerView);
-            currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
-            this.goToSlide(carouselId, navId, currentSlide);
-        };
+        // Initialize first slide
+        this.goToSlide(carouselId, 0);
+        
+        // Set up auto slide
+        this.startAutoSlide(carouselId);
 
         // Add event listeners for arrow buttons
         const container = carousel.closest('.service-carousel-container');
@@ -454,80 +415,103 @@ const ServiceCarousels = {
             const nextBtn = container.querySelector('.carousel-arrow.next');
             
             if (prevBtn) {
-                prevBtn.addEventListener('click', () => this.prevSlide(carouselId, navId));
+                prevBtn.addEventListener('click', () => {
+                    this.prevSlide(carouselId, items.length);
+                    this.resetAutoSlide();
+                });
             }
             
             if (nextBtn) {
-                nextBtn.addEventListener('click', () => this.nextSlide(carouselId, navId));
+                nextBtn.addEventListener('click', () => {
+                    this.nextSlide(carouselId, items.length);
+                    this.resetAutoSlide();
+                });
             }
         }
-
-        // Auto-advance carousel
-        const autoAdvanceInterval = setInterval(() => {
-            if (document.visibilityState === 'visible') {
-                this.nextSlide(carouselId, navId);
-            }
-        }, 5000);
-
-        // Stop auto-advance when page is not visible
-        document.addEventListener('visibilitychange', () => {
-            if (document.visibilityState === 'hidden') {
-                clearInterval(autoAdvanceInterval);
-            }
-        });
 
         // Handle window resize
         window.addEventListener('resize', () => {
-            this.goToSlide(carouselId, navId, currentSlide);
+            this.goToSlide(carouselId, currentSlide);
         });
     },
 
-    // ============================================
-    // POLITICAL PAGE STYLING
-    // ============================================
-    stylePoliticalPage: function() {
-        // Add political-specific classes
-        const processSection = document.querySelector('.service-process');
-        if (processSection) {
-            processSection.classList.add('political-process');
-        }
+    goToSlide: function(carouselId, index) {
+        const carousel = document.getElementById(carouselId);
+        if (!carousel) return;
         
-        // Style tags as political tags
-        const tags = document.querySelectorAll('.addon-tag');
-        tags.forEach(tag => {
-            tag.classList.add('political-tag');
+        const items = carousel.children;
+        const navContainer = carousel.nextElementSibling;
+        
+        if (!items.length || !navContainer) return;
+        
+        // Calculate items per view
+        const itemsPerView = this.getItemsPerView();
+        
+        // Update current slide
+        window.currentSlide = index;
+        
+        // Calculate translateX
+        const translateX = -(index * (100 / itemsPerView));
+        carousel.style.transform = `translateX(${translateX}%)`;
+        
+        // Update active dots
+        const dots = navContainer.querySelectorAll('.carousel-dot');
+        dots.forEach((dot, i) => {
+            dot.classList.toggle('active', i === index);
+        });
+        
+        // Update card active states
+        Array.from(items).forEach((card, i) => {
+            card.classList.toggle('active', i >= index && i < index + itemsPerView);
         });
     },
 
-    // ============================================
-    // ADS PAGE STYLING & METRICS
-    // ============================================
-    styleAdsPage: function() {
-        // Add ads-specific classes
-        const processSection = document.querySelector('.service-process');
-        if (processSection) {
-            processSection.classList.add('ads-process');
-        }
+    nextSlide: function(carouselId, totalItems) {
+        const carousel = document.getElementById(carouselId);
+        if (!carousel) return;
         
-        // Style tags as ads tags
-        const tags = document.querySelectorAll('.addon-tag');
-        tags.forEach(tag => {
-            tag.classList.add('ads-tag');
-        });
+        const itemsPerView = this.getItemsPerView();
+        const maxIndex = Math.max(0, Math.ceil(totalItems / itemsPerView) - 1);
         
-        // Add platform cards styling
-        const platformCards = document.querySelectorAll('#platforms-carousel .carousel-card');
-        platformCards.forEach(card => {
-            card.classList.add('platform-card');
-            const icon = card.querySelector('.carousel-icon i');
-            if (icon) {
-                icon.classList.add('platform-icon');
-            }
-        });
+        window.currentSlide = (window.currentSlide + 1) % (maxIndex + 1);
+        this.goToSlide(carouselId, window.currentSlide);
     },
-    
-    initializePerformanceMetrics: function() {
-        // Create performance metrics section if not exists
+
+    prevSlide: function(carouselId, totalItems) {
+        const carousel = document.getElementById(carouselId);
+        if (!carousel) return;
+        
+        const itemsPerView = this.getItemsPerView();
+        const maxIndex = Math.max(0, Math.ceil(totalItems / itemsPerView) - 1);
+        
+        window.currentSlide = (window.currentSlide - 1 + (maxIndex + 1)) % (maxIndex + 1);
+        this.goToSlide(carouselId, window.currentSlide);
+    },
+
+    getItemsPerView: function() {
+        if (window.innerWidth < 768) return 1;
+        if (window.innerWidth < 992) return 2;
+        return 3;
+    },
+
+    startAutoSlide: function(carouselId) {
+        const carousel = document.getElementById(carouselId);
+        if (!carousel) return;
+        
+        const items = carousel.children;
+        if (!items.length) return;
+        
+        window.autoSlideInterval = setInterval(() => {
+            this.nextSlide(carouselId, items.length);
+        }, 5000);
+    },
+
+    resetAutoSlide: function() {
+        clearInterval(window.autoSlideInterval);
+        this.startAutoSlide();
+    },
+
+    addPerformanceMetrics: function() {
         const ctaContent = document.querySelector('.cta-content');
         if (ctaContent && !document.querySelector('.performance-metrics')) {
             const metricsHTML = `
@@ -549,10 +533,6 @@ const ServiceCarousels = {
                         <div class="metric-label">Client Satisfaction</div>
                     </div>
                 </div>
-                <div class="roi-highlight">
-                    <h3>Performance Guarantee</h3>
-                    <p>We focus on delivering measurable results. Our data-driven approach ensures every rupee spent works harder to achieve your business objectives.</p>
-                </div>
             `;
             
             ctaContent.insertAdjacentHTML('beforeend', metricsHTML);
@@ -561,7 +541,7 @@ const ServiceCarousels = {
 };
 
 // ============================================
-// EXPORT FUNCTIONS FOR GLOBAL USE
+// GLOBAL INITIALIZATION FUNCTIONS
 // ============================================
 window.initializeWebsiteCarousels = () => ServiceCarousels.initializeWebsiteCarousels();
 window.initializeSocialMediaCarousels = () => ServiceCarousels.initializeSocialMediaCarousels();
@@ -569,42 +549,35 @@ window.initializePoliticalCarousels = () => ServiceCarousels.initializePolitical
 window.initializeAdsCarousels = () => ServiceCarousels.initializeAdsCarousels();
 
 // ============================================
-// AUTO-INITIALIZE ON DOM READY
+// AUTO-DETECT AND INITIALIZE
 // ============================================
 document.addEventListener('DOMContentLoaded', function() {
-    // Auto-initialize based on page title
-    const pageTitle = document.title;
+    console.log('DOM loaded, initializing carousels...');
     
-    if (pageTitle.includes('Website Development')) {
+    // Check which page we're on and initialize appropriate carousels
+    const path = window.location.pathname;
+    const title = document.title;
+    
+    if (path.includes('website-development') || title.includes('Website Development')) {
         ServiceCarousels.initializeWebsiteCarousels();
-    } else if (pageTitle.includes('Social Media Management')) {
+    } else if (path.includes('social-media-management') || title.includes('Social Media Management')) {
         ServiceCarousels.initializeSocialMediaCarousels();
-    } else if (pageTitle.includes('Political & Personal Branding')) {
+    } else if (path.includes('political-branding') || title.includes('Political & Personal Branding')) {
         ServiceCarousels.initializePoliticalCarousels();
-    } else if (pageTitle.includes('Ads Campaign Management')) {
+    } else if (path.includes('ads-campaign-management') || title.includes('Ads Campaign Management')) {
         ServiceCarousels.initializeAdsCarousels();
     }
     
-    // Initialize carousel animations
-    ServiceCarousels.initializeCarouselAnimations();
-});
-
-// ============================================
-// ADDITIONAL CAROUSEL ANIMATIONS
-// ============================================
-ServiceCarousels.initializeCarouselAnimations = function() {
     // Add hover effects to all carousel cards
     const cards = document.querySelectorAll('.carousel-card');
     cards.forEach(card => {
         card.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-10px) scale(1.02)';
+            this.style.transform = 'translateY(-10px)';
             this.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.15)';
             
-            // Animate icon
-            const icon = this.querySelector('.carousel-icon i');
+            const icon = this.querySelector('.carousel-icon');
             if (icon) {
-                icon.style.transform = 'rotate(360deg)';
-                icon.style.transition = 'transform 0.5s ease';
+                icon.style.transform = 'rotate(5deg) scale(1.1)';
             }
         });
         
@@ -614,11 +587,10 @@ ServiceCarousels.initializeCarouselAnimations = function() {
                 this.style.boxShadow = '';
             }
             
-            // Reset icon animation
-            const icon = this.querySelector('.carousel-icon i');
+            const icon = this.querySelector('.carousel-icon');
             if (icon) {
                 icon.style.transform = '';
             }
         });
     });
-};
+});
