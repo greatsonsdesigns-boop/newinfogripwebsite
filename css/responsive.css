@@ -1,0 +1,36 @@
+/* css/responsive.css */
+/* ============================================
+   MOBILE RESPONSIVE STYLES FOR ALL PAGES
+============================================ */
+
+/* Large Tablets (768px - 991px) */
+@media (max-width: 992px) {
+    /* All the tablet styles I provided */
+    .container { padding: 0 15px; }
+    .navbar { padding: 15px 0; }
+    /* ... rest of tablet styles ... */
+}
+
+/* Tablets (576px - 767px) */
+@media (max-width: 768px) {
+    /* All the mobile menu and tablet styles */
+    .hamburger { display: block; }
+    /* ... rest of mobile styles ... */
+}
+
+/* Mobile Phones (375px - 575px) */
+@media (max-width: 576px) {
+    /* Small mobile styles */
+    .container { padding: 0 12px; }
+    /* ... rest of small mobile styles ... */
+}
+
+/* Small Phones (below 375px) */
+@media (max-width: 374px) {
+    /* Extra small screens */
+    .hero h1 { font-size: 1.6rem; }
+    /* ... rest of extra small styles ... */
+}
+
+/* Add ALL the responsive styles I gave you here */
+/* Don't split them - put EVERYTHING in this ONE file */
