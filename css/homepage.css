@@ -1033,8 +1033,8 @@
 
 @media (max-width: 768px) {
     .hero {
-        padding: 140px 0 60px;
-        min-height: 70vh;
+        padding: 100px 0 80px;
+        min-height: auto; /* let content decide height */
     }
 
     .hero h1 {
