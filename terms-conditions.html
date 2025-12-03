@@ -11,6 +11,256 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/layout.css">
+    <style>
+        /* Additional styles specific to terms & conditions page */
+        .content-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+            transition: var(--transition);
+        }
+
+        .content-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .content-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .content-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: var(--light-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            font-size: 1.5rem;
+            color: var(--blue);
+            transition: var(--transition);
+            flex-shrink: 0;
+        }
+
+        .content-card:hover .content-icon {
+            background-color: var(--orange);
+            color: var(--dark-blue);
+        }
+
+        .content-header h2 {
+            font-size: 1.8rem;
+            margin-bottom: 0;
+            color: var(--blue);
+        }
+
+        .info-list {
+            margin: 20px 0;
+        }
+
+        .info-list li {
+            margin-bottom: 15px;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .info-list li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--orange);
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        .definition-list {
+            margin: 20px 0;
+        }
+
+        .definition-list li {
+            margin-bottom: 15px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .definition-list li strong {
+            color: var(--blue);
+        }
+
+        .info-box {
+            background: var(--light-blue);
+            border-left: 4px solid var(--orange);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+        }
+
+        .contact-box {
+            background: var(--light-blue);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .contact-box h3 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--blue);
+        }
+
+        .contact-details {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.1rem;
+        }
+
+        .contact-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--orange);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--dark-blue);
+            font-size: 1.1rem;
+        }
+
+        /* Hero section specific for policy pages */
+        .policy-hero {
+            background: linear-gradient(135deg, var(--dark-blue) 0%, var(--blue) 100%);
+            color: var(--white);
+            padding: 180px 0 120px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .policy-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" opacity="0.05"><path d="M0,0V800H1200V0ZM200,400C200,533,333,600,400,600S600,533,600,400,467,200,400,200,200,267,200,400Z" fill="white"/></svg>');
+            background-size: cover;
+        }
+
+        .policy-hero-content {
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .policy-hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            line-height: 1.1;
+            animation: fadeInUp 1s ease;
+        }
+
+        .policy-hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease 0.2s forwards;
+            opacity: 0;
+        }
+
+        .policy-hero-btns {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            animation: fadeInUp 1s ease 0.4s forwards;
+            opacity: 0;
+        }
+
+        .policy-hero-icon {
+            font-size: 5rem;
+            margin-bottom: 30px;
+            color: var(--orange);
+            animation: fadeInUp 1s ease 0.1s forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Content Sections */
+        .content-section {
+            padding: 80px 0;
+        }
+
+        @media (max-width: 992px) {
+            .policy-hero h1 {
+                font-size: 2.8rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .policy-hero {
+                padding: 150px 0 100px;
+            }
+
+            .policy-hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .content-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .content-icon {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+
+            .contact-details {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .policy-hero h1 {
+                font-size: 2rem;
+            }
+
+            .policy-hero p {
+                font-size: 1rem;
+            }
+
+            .content-card {
+                padding: 25px;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Header -->
@@ -60,11 +310,11 @@
     </section>
 
     <!-- Introduction Section -->
-    <section class="policy-content-section">
+    <section class="content-section">
         <div class="container">
-            <div class="policy-content-card">
-                <div class="policy-content-header">
-                    <div class="policy-content-icon">
+            <div class="content-card">
+                <div class="content-header">
+                    <div class="content-icon">
                         <i class="fas fa-info-circle"></i>
                     </div>
                     <h2>Introduction</h2>
@@ -75,16 +325,16 @@
     </section>
 
     <!-- Definitions Section -->
-    <section class="policy-content-section">
+    <section class="content-section">
         <div class="container">
-            <div class="policy-content-card">
-                <div class="policy-content-header">
-                    <div class="policy-content-icon">
+            <div class="content-card">
+                <div class="content-header">
+                    <div class="content-icon">
                         <i class="fas fa-book"></i>
                     </div>
                     <h2>Definitions</h2>
                 </div>
-                <ul class="policy-definition-list">
+                <ul class="definition-list">
                     <li>
                         <strong>Company</strong> refers to InfoGrip Media Solution, "we", "our", or "us".
                     </li>
@@ -103,11 +353,11 @@
     </section>
 
     <!-- Use of Website Section -->
-    <section class="policy-content-section">
+    <section class="content-section">
         <div class="container">
-            <div class="policy-content-card">
-                <div class="policy-content-header">
-                    <div class="policy-content-icon">
+            <div class="content-card">
+                <div class="content-header">
+                    <div class="content-icon">
                         <i class="fas fa-globe"></i>
                     </div>
                     <h2>Use of Website</h2>
@@ -118,16 +368,16 @@
     </section>
 
     <!-- Service Terms Section -->
-    <section class="policy-content-section">
+    <section class="content-section">
         <div class="container">
-            <div class="policy-content-card">
-                <div class="policy-content-header">
-                    <div class="policy-content-icon">
+            <div class="content-card">
+                <div class="content-header">
+                    <div class="content-icon">
                         <i class="fas fa-handshake"></i>
                     </div>
                     <h2>Service Terms</h2>
                 </div>
-                <ul class="policy-info-list">
+                <ul class="info-list">
                     <li>All services are provided based on the package, proposal, or agreement.</li>
                     <li>Deliverables, timelines, and responsibilities will be mutually agreed upon before starting any project.</li>
                     <li>We reserve the right to decline projects that violate ethical, legal, or political guidelines.</li>
@@ -138,11 +388,11 @@
     </section>
 
     <!-- Content Ownership Section -->
-    <section class="policy-content-section">
+    <section class="content-section">
         <div class="container">
-            <div class="policy-content-card">
-                <div class="policy-content-header">
-                    <div class="policy-content-icon">
+            <div class="content-card">
+                <div class="content-header">
+                    <div class="content-icon">
                         <i class="fas fa-copyright"></i>
                     </div>
                     <h2>Content Ownership</h2>
@@ -153,16 +403,16 @@
     </section>
 
     <!-- User Responsibilities Section -->
-    <section class="policy-content-section">
+    <section class="content-section">
         <div class="container">
-            <div class="policy-content-card">
-                <div class="policy-content-header">
-                    <div class="policy-content-icon">
+            <div class="content-card">
+                <div class="content-header">
+                    <div class="content-icon">
                         <i class="fas fa-user-check"></i>
                     </div>
                     <h2>User Responsibilities</h2>
                 </div>
-                <ul class="policy-info-list">
+                <ul class="info-list">
                     <li>Provide accurate and truthful information when contacting or onboarding.</li>
                     <li>Avoid unauthorized access or misuse of website resources.</li>
                     <li>Do not use our services for illegal activities.</li>
@@ -172,11 +422,11 @@
     </section>
 
     <!-- Payment & Refund Policy Section -->
-    <section class="policy-content-section">
+    <section class="content-section">
         <div class="container">
-            <div class="policy-content-card">
-                <div class="policy-content-header">
-                    <div class="policy-content-icon">
+            <div class="content-card">
+                <div class="content-header">
+                    <div class="content-icon">
                         <i class="fas fa-credit-card"></i>
                     </div>
                     <h2>Payment & Refund Policy</h2>
@@ -187,11 +437,11 @@
     </section>
 
     <!-- Third-Party Links Section -->
-    <section class="policy-content-section">
+    <section class="content-section">
         <div class="container">
-            <div class="policy-content-card">
-                <div class="policy-content-header">
-                    <div class="policy-content-icon">
+            <div class="content-card">
+                <div class="content-header">
+                    <div class="content-icon">
                         <i class="fas fa-external-link-alt"></i>
                     </div>
                     <h2>Third-Party Links</h2>
@@ -202,11 +452,11 @@
     </section>
 
     <!-- Limitation of Liability Section -->
-    <section class="policy-content-section">
+    <section class="content-section">
         <div class="container">
-            <div class="policy-content-card">
-                <div class="policy-content-header">
-                    <div class="policy-content-icon">
+            <div class="content-card">
+                <div class="content-header">
+                    <div class="content-icon">
                         <i class="fas fa-balance-scale"></i>
                     </div>
                     <h2>Limitation of Liability</h2>
@@ -217,11 +467,11 @@
     </section>
 
     <!-- Indemnification Section -->
-    <section class="policy-content-section">
+    <section class="content-section">
         <div class="container">
-            <div class="policy-content-card">
-                <div class="policy-content-header">
-                    <div class="policy-content-icon">
+            <div class="content-card">
+                <div class="content-header">
+                    <div class="content-icon">
                         <i class="fas fa-shield-alt"></i>
                     </div>
                     <h2>Indemnification</h2>
@@ -232,11 +482,11 @@
     </section>
 
     <!-- Termination of Access Section -->
-    <section class="policy-content-section">
+    <section class="content-section">
         <div class="container">
-            <div class="policy-content-card">
-                <div class="policy-content-header">
-                    <div class="policy-content-icon">
+            <div class="content-card">
+                <div class="content-header">
+                    <div class="content-icon">
                         <i class="fas fa-ban"></i>
                     </div>
                     <h2>Termination of Access</h2>
@@ -247,11 +497,11 @@
     </section>
 
     <!-- Governing Law Section -->
-    <section class="policy-content-section">
+    <section class="content-section">
         <div class="container">
-            <div class="policy-content-card">
-                <div class="policy-content-header">
-                    <div class="policy-content-icon">
+            <div class="content-card">
+                <div class="content-header">
+                    <div class="content-icon">
                         <i class="fas fa-gavel"></i>
                     </div>
                     <h2>Governing Law</h2>
@@ -262,11 +512,11 @@
     </section>
 
     <!-- Changes to Terms Section -->
-    <section class="policy-content-section">
+    <section class="content-section">
         <div class="container">
-            <div class="policy-content-card">
-                <div class="policy-content-header">
-                    <div class="policy-content-icon">
+            <div class="content-card">
+                <div class="content-header">
+                    <div class="content-icon">
                         <i class="fas fa-sync-alt"></i>
                     </div>
                     <h2>Changes to Terms</h2>
@@ -277,33 +527,33 @@
     </section>
 
     <!-- Contact Information Section -->
-    <section class="policy-content-section">
+    <section class="content-section">
         <div class="container">
-            <div class="policy-content-card">
-                <div class="policy-content-header">
-                    <div class="policy-content-icon">
+            <div class="content-card">
+                <div class="content-header">
+                    <div class="content-icon">
                         <i class="fas fa-envelope"></i>
                     </div>
                     <h2>Contact Information</h2>
                 </div>
                 <p>For any concerns regarding these Terms & Conditions, contact us:</p>
-                <div class="policy-contact-box">
+                <div class="contact-box">
                     <h3>Get In Touch</h3>
-                    <div class="policy-contact-details">
-                        <div class="policy-contact-item">
-                            <div class="policy-contact-icon">
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <div class="contact-icon">
                                 <i class="fas fa-envelope"></i>
                             </div>
                             <span>infogripmediasolution@gmail.com</span>
                         </div>
-                        <div class="policy-contact-item">
-                            <div class="policy-contact-icon">
+                        <div class="contact-item">
+                            <div class="contact-icon">
                                 <i class="fas fa-phone"></i>
                             </div>
                             <span>+91 63775 58006</span>
                         </div>
-                        <div class="policy-contact-item">
-                            <div class="policy-contact-icon">
+                        <div class="contact-item">
+                            <div class="contact-icon">
                                 <i class="fas fa-globe"></i>
                             </div>
                             <span>www.infogrip.in</span>
@@ -370,6 +620,26 @@
     </footer>
 
     <script src="js/main.js"></script>
-    <script src="js/navigation.js"></script>
+    <script>
+        // Policy page specific JavaScript
+        document.addEventListener('DOMContentLoaded', function() {
+            // Section fade-in on scroll
+            const sections = document.querySelectorAll('.content-section');
+
+            const sectionObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('fade-in');
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+
+            sections.forEach(section => {
+                sectionObserver.observe(section);
+            });
+        });
+    </script>
 </body>
 </html>
