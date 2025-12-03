@@ -1,5 +1,5 @@
 // admin.js
-const GAS_URL = 'https://script.google.com/macros/s/AKfycbzfKOzjLgbJx3mb0gg6rMjLnqHXBu7Xy-F1Kz5mR1jmxyeniie--FrEDjDRT3sYmXLDPQ/exec'; // e.g. https://script.google.com/macros/s/XXXX/exec
+const GAS_URL = 'REPLACE_WITH_YOUR_GAS_URL'; // e.g. https://script.google.com/macros/s/XXXX/exec
 let token = null;
 async function api(action, body){
   const url = GAS_URL + '?action=' + action;
