@@ -4,23 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Political & Personal Branding | InfoGrip Media Solution</title>
-    
-    <!-- External CSS Files -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/components.css">
     <link rel="stylesheet" href="../css/layout.css">
     <link rel="stylesheet" href="../css/services.css">
-    
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="../assets/favicon.ico">
 </head>
 <body>
     <!-- Header -->
@@ -28,7 +19,7 @@
         <div class="container">
             <nav class="navbar">
                 <a href="../index.html" class="logo">
-                    <img src="../images/logo.png" alt="InfoGrip Media Solution">
+                    <img src="https://i.postimg.cc/Nj3bmPwC/Infogrip-Medi-Soluiton-(Social-Media)-(1).png" alt="InfoGrip Media Solution">
                 </a>
                 <ul class="nav-menu">
                     <li><a href="../index.html">Home</a></li>
@@ -37,7 +28,7 @@
                     <li><a href="../index.html#testimonials">Testimonials</a></li>
                     <li><a href="../index.html#faq">FAQ</a></li>
                     <li><a href="../index.html#contact">Contact</a></li>
-                    <li><a href="onboarding.html" class="btn btn-primary">Get Started</a></li>
+                    <li><a href="#process" class="btn btn-primary">Our Strategy</a></li>
                     <li>
                         <button class="theme-toggle" id="theme-toggle">
                             <i class="fas fa-moon"></i>
@@ -54,186 +45,195 @@
     </header>
 
     <!-- Hero Section -->
-    <section class="hero service-hero political-branding-hero">
+    <section class="service-hero" style="background: linear-gradient(rgba(0, 28, 79, 0.85), rgba(7, 33, 124, 0.85)), url('https://i.postimg.cc/mZKS05PD/About-Us-(2).png'); background-size: cover; background-position: center;">
         <div class="container">
-            <div class="political-hero-content">
-                <div class="hero-text">
-                    <h1>Political & Personal Branding</h1>
-                    <p>Comprehensive campaign management and digital presence for political leaders.</p>
-                    <div class="hero-btns">
-                        <a href="../onboarding.html" class="btn btn-primary">Get Started</a>
-                        <a href="#services" class="btn btn-secondary">Our Services</a>
-                    </div>
-                </div>
-                <div class="hero-image">
-                    <!-- Background image handled in CSS -->
+            <div class="service-hero-content">
+                <h1>Political & Personal <span class="typing-text" id="typing-text"></span></h1>
+                <p>Strategic branding solutions for politicians, leaders, and public figures to connect with voters and build lasting influence.</p>
+                <div class="service-hero-btns">
+                    <a href="../onboarding.html" class="btn btn-primary">Start Your Campaign</a>
+                    <a href="#process" class="btn btn-secondary">Our Strategy</a>
                 </div>
             </div>
         </div>
-        <div class="hero-shapes">
-            <div class="shape shape-1"></div>
-            <div class="shape shape-2"></div>
-            <div class="shape shape-3"></div>
-        </div>
+        <div class="service-shape shape-1"></div>
+        <div class="service-shape shape-2"></div>
+        <div class="service-shape shape-3"></div>
     </section>
 
     <!-- Service Overview Section -->
     <section class="service-overview">
         <div class="container">
-            <div class="overview-container">
-                <div class="overview-content">
-                    <h2>Service Overview</h2>
-                    <p>We build powerful political brands that resonate with voters. From high-quality visuals for rallies to daily social media updates, we manage your reputation and ensure your message reaches every constituent.</p>
-                </div>
-                
-                <div class="action-card">
-                    <h3>Ready to Start?</h3>
-                    <div class="action-btns">
-                        <a href="tel:+916367556906" class="btn btn-primary">Book Free Consultation</a>
-                        <a href="../onboarding.html" class="btn btn-outline">Fill Onboarding Form</a>
-                    </div>
-                    <div class="contact-info">
-                        <p>Need Help?</p>
-                        <p class="phone">📞 +91 6367556906</p>
-                    </div>
-                </div>
+            <div class="section-title">
+                <h2>Service Overview</h2>
+            </div>
+            <div class="overview-content">
+                <p>We specialize in building powerful political and personal brands that resonate with target audiences. From comprehensive image makeovers to strategic messaging and digital presence management, we create authentic connections that drive votes, influence, and public trust.</p>
             </div>
         </div>
     </section>
 
-    <!-- Services Carousel Section -->
-    <section class="services-carousel-section" id="services">
+    <!-- What's Included Section -->
+    <section>
         <div class="container">
             <div class="section-title">
-                <h2>What's Included?</h2>
-                <p>Our comprehensive political branding services</p>
+                <h2>Comprehensive Branding Solutions</h2>
             </div>
-            
-            <div class="services-carousel">
+            <div class="service-carousel-container">
                 <button class="carousel-arrow prev">
                     <i class="fas fa-chevron-left"></i>
                 </button>
                 <button class="carousel-arrow next">
                     <i class="fas fa-chevron-right"></i>
                 </button>
-                <div class="services-track" id="services-track">
-                    <!-- Service slides will be added dynamically -->
+                <div class="service-carousel" id="features-carousel">
+                    <!-- Feature cards will be added dynamically -->
                 </div>
-                <div class="carousel-nav" id="carousel-nav">
+                <div class="carousel-nav" id="features-nav">
                     <!-- Navigation dots will be added dynamically -->
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- CTA Section -->
+    <section class="service-cta">
+        <div class="container">
+            <div class="cta-container">
+                <div class="cta-content">
+                    <h2>Ready to Build Your Political Legacy?</h2>
+                    <p>Political branding is more than just logos and slogans – it's about creating an authentic connection with voters, establishing credibility, and building trust that lasts beyond election cycles.</p>
+                    <p>Our team specializes in political communication strategies that work in today's digital landscape. We combine traditional political wisdom with modern digital tactics to create campaigns that win elections and build lasting political capital.</p>
+                </div>
+                
+                <!-- CTA Sidebar -->
+                <div class="cta-sidebar" id="cta-sidebar">
+                    <h3>Start Your Political Journey</h3>
+                    <div class="cta-buttons">
+                        <a href="../onboarding.html" class="btn btn-transparent">Political Consultation Form</a>
+                        <a href="../onboarding.html" class="btn btn-primary">Book Strategy Session</a>
+                    </div>
+                    <div class="contact-info">
+                        <h4>Confidential Support</h4>
+                        <p><i class="fas fa-phone"></i> +91 6367556906</p>
+                        <p><i class="fas fa-shield-alt"></i> NDA Protected</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Process Section -->
-    <section class="process-section">
+    <section class="service-process" id="process">
         <div class="container">
             <div class="section-title">
-                <h2>Our Process</h2>
-                <p>Step-by-step approach to building your political brand</p>
+                <h2>Our Political Branding Process</h2>
             </div>
-            
-            <div class="process-timeline">
-                <div class="process-step" id="process-step-1">
+            <div class="process-steps">
+                <div class="process-step">
                     <div class="step-number">1</div>
                     <div class="step-content">
-                        <h3>Consultation</h3>
-                        <p>Understand goals, constituency & voter base through in-depth discussions and research.</p>
+                        <h3>Strategic Assessment</h3>
+                        <p>In-depth analysis of political landscape, competitor research, voter sentiment analysis, and positioning strategy development.</p>
                     </div>
                 </div>
-                <div class="process-step" id="process-step-2">
+                <div class="process-step">
                     <div class="step-number">2</div>
                     <div class="step-content">
-                        <h3>Strategy Formulation</h3>
-                        <p>Build a customized political branding blueprint tailored to your specific needs and objectives.</p>
+                        <h3>Brand Identity Creation</h3>
+                        <p>Develop comprehensive brand identity including messaging framework, visual identity, tone of voice, and core values.</p>
                     </div>
                 </div>
-                <div class="process-step" id="process-step-3">
+                <div class="process-step">
                     <div class="step-number">3</div>
                     <div class="step-content">
-                        <h3>Content Creation</h3>
-                        <p>Develop compelling posters, videos, speeches, and daily updates that resonate with voters.</p>
+                        <h3>Digital Presence Setup</h3>
+                        <p>Complete digital ecosystem including website, social media profiles, email systems, and communication channels.</p>
                     </div>
                 </div>
-                <div class="process-step" id="process-step-4">
+                <div class="process-step">
                     <div class="step-number">4</div>
                     <div class="step-content">
-                        <h3>Dissemination</h3>
-                        <p>Publishing content across all platforms including social media, traditional media, and direct outreach.</p>
+                        <h3>Content Strategy & Creation</h3>
+                        <p>Develop content calendar, speeches, social media content, press releases, and campaign materials.</p>
                     </div>
                 </div>
-                <div class="process-step" id="process-step-5">
+                <div class="process-step">
                     <div class="step-number">5</div>
                     <div class="step-content">
-                        <h3>Analytics</h3>
-                        <p>Weekly performance tracking and feedback analysis to optimize campaign effectiveness.</p>
+                        <h3>Community Engagement</h3>
+                        <p>Implement voter outreach programs, community interaction strategies, and public relations campaigns.</p>
+                    </div>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">6</div>
+                    <div class="step-content">
+                        <h3>Performance Monitoring</h3>
+                        <p>Continuous tracking of brand perception, voter sentiment, and campaign effectiveness with real-time adjustments.</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Add-ons Section -->
-    <section class="addons-section">
+    <!-- Target Audience Section -->
+    <section>
         <div class="container">
             <div class="section-title">
-                <h2>Optional Add-ons</h2>
-                <p>Enhance your political campaign with these specialized services</p>
+                <h2>Who We Serve</h2>
             </div>
-            
-            <div class="addons-container">
-                <div class="addon-card" id="addon-card-1">
-                    <div class="addon-icon">
-                        <i class="fas fa-chess"></i>
-                    </div>
-                    <h3>Election War Room Setup</h3>
-                    <p>Complete digital command center for real-time campaign monitoring and response.</p>
+            <div class="service-carousel-container">
+                <button class="carousel-arrow prev">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="carousel-arrow next">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+                <div class="service-carousel" id="audience-carousel">
+                    <!-- Audience cards will be added dynamically -->
                 </div>
-                <div class="addon-card" id="addon-card-2">
-                    <div class="addon-icon">
-                        <i class="fas fa-virus"></i>
-                    </div>
-                    <h3>Meme & Viral Content Strategy</h3>
-                    <p>Leverage trending formats to increase reach and engagement with younger voters.</p>
-                </div>
-                <div class="addon-card" id="addon-card-3">
-                    <div class="addon-icon">
-                        <i class="fas fa-vote-yea"></i>
-                    </div>
-                    <h3>Polling Booth Engagement Plan</h3>
-                    <p>Targeted strategies to maximize voter turnout on election day.</p>
-                </div>
-                <div class="addon-card" id="addon-card-4">
-                    <div class="addon-icon">
-                        <i class="fas fa-user-shield"></i>
-                    </div>
-                    <h3>Leader Reputation Protection</h3>
-                    <p>Proactive monitoring and defense against negative campaigns and misinformation.</p>
-                </div>
-                <div class="addon-card" id="addon-card-5">
-                    <div class="addon-icon">
-                        <i class="fas fa-photo-video"></i>
-                    </div>
-                    <h3>Event Photography & Videography</h3>
-                    <p>Professional coverage of rallies, meetings, and public appearances.</p>
+                <div class="carousel-nav" id="audience-nav">
+                    <!-- Navigation dots will be added dynamically -->
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- CTA Section -->
-    <section class="cta">
+    <!-- Add-On Services Section -->
+    <section class="addon-services">
         <div class="container">
-            <div class="cta-content">
-                <h2>Let's Build Your Political Influence</h2>
-                <p>Join successful political leaders who trust InfoGrip with their digital presence and campaign management</p>
-                <div class="cta-btns">
-                    <a href="../onboarding.html" class="btn btn-primary">Get Started</a>
-                    <a href="#contact" class="btn btn-secondary">Contact Team</a>
+            <div class="section-title">
+                <h2>Specialized Political Services</h2>
+                <p>Advanced solutions for comprehensive political campaigns</p>
+            </div>
+            <div class="addon-tags">
+                <div class="addon-tag">Speech Writing & Coaching</div>
+                <div class="addon-tag">Crisis Management</div>
+                <div class="addon-tag">Media Training</div>
+                <div class="addon-tag">Debate Preparation</div>
+                <div class="addon-tag">Campaign Website Development</div>
+                <div class="addon-tag">Voter Database Management</div>
+                <div class="addon-tag">Political SEO Strategy</div>
+                <div class="addon-tag">Election Day Management</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA Section -->
+    <section class="service-final-cta">
+        <div class="container">
+            <div class="service-final-cta-content">
+                <h2>Build Your Political Legacy Today</h2>
+                <p>Join successful politicians and public figures who trust InfoGrip with their personal and political branding</p>
+                <div class="service-final-cta-btns">
+                    <a href="../onboarding.html" class="btn btn-primary">Launch Your Political Brand</a>
+                    <a href="tel:+916367556906" class="btn btn-secondary">Speak to Political Strategist</a>
                 </div>
             </div>
         </div>
+        <div class="service-shape shape-4"></div>
+        <div class="service-shape shape-5"></div>
+        <div class="service-shape shape-6"></div>
     </section>
 
     <!-- Footer -->
@@ -241,9 +241,9 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-col">
-                    <img src="../images/logo.png" alt="InfoGrip Media Solution">
-                    <p>Need Expert Help? We're Just a Message Away!</p>
-                    <a href="../onboarding.html" class="btn btn-outline">Let's Connect</a>
+                    <img src="https://i.postimg.cc/Nj3bmPwC/Infogrip-Medi-Soluiton-(Social-Media)-(1).png" alt="InfoGrip Media Solution" style="height: 60px; margin-bottom: 20px;">
+                    <p>Confidential Political Branding Solutions</p>
+                    <a href="../onboarding.html" class="btn btn-outline">Secure Consultation</a>
                     <div class="social-links">
                         <a href="https://www.facebook.com/profile.php?id=61582320555612" class="social-link" target="_blank"><i class="fab fa-facebook-f"></i></a>
                         <a href="https://www.instagram.com/infogrip.in/" class="social-link" target="_blank"><i class="fab fa-instagram"></i></a>
@@ -261,7 +261,7 @@
                         <li><a href="../index.html#testimonials">Testimonials</a></li>
                         <li><a href="../index.html#faq">FAQ</a></li>
                         <li><a href="../index.html#contact">Contact</a></li>
-                        <li><a href="../portfolio.html">Portfolio</a></li>
+                        <li><a href="../portfolio.html">Political Portfolio</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
@@ -270,18 +270,14 @@
                         <li><a href="../privacy-policy.html">Privacy Policy</a></li>
                         <li><a href="../terms-conditions.html">Terms & Conditions</a></li>
                         <li><a href="../refund-policy.html">Refund Policy</a></li>
-                        <li><a href="../onboarding.html">Onboarding Process</a></li>
+                        <li><a href="../onboarding.html">Political Onboarding</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
-                    <h3>Contact Info</h3>
+                    <h3>Secure Contact</h3>
                     <p><i class="fas fa-map-marker-alt"></i> Jaipur, Rajasthan, India</p>
                     <p><i class="fas fa-phone"></i> +91 6367556906</p>
-                    <p><i class="fas fa-envelope"></i> info@infogrip.com</p>
-                    <div class="newsletter-form">
-                        <input type="email" placeholder="Your email address">
-                        <button type="submit"><i class="fas fa-paper-plane"></i></button>
-                    </div>
+                    <p><i class="fas fa-envelope"></i> political@infogrip.com</p>
                 </div>
             </div>
             <div class="footer-bottom">
@@ -295,145 +291,52 @@
         </div>
     </footer>
 
-    <!-- Floating Buttons -->
-    <div class="floating-buttons">
-        <a href="https://wa.me/916367556906?text=Hi%2C%20I%20want%20to%20grow%20my%20political%20brand%20with%20InfoGrip%20Media%20Solution." class="floating-btn whatsapp-btn" target="_blank">
-            <i class="fab fa-whatsapp"></i>
-        </a>
-        <a href="../index.html#chatbot" class="floating-btn chatbot-btn">
-            <i class="fas fa-robot"></i>
-        </a>
-    </div>
-
-    <!-- External JavaScript Files -->
+    <!-- Scripts -->
     <script src="../js/main.js"></script>
     <script src="../js/navigation.js"></script>
     <script src="../js/services.js"></script>
+    <script src="../js/service-carousels.js"></script>
+    <script src="../js/animations.js"></script>
     
-    <!-- Service-specific JavaScript -->
     <script>
+        // Political Branding Specific JavaScript
         document.addEventListener('DOMContentLoaded', function() {
-            // Services Carousel for Political Branding
-            const services = [
-                {
-                    icon: 'fas fa-users',
-                    title: 'Social Media Reputation Management',
-                    description: 'Build and maintain a positive online presence across all platforms.'
-                },
-                {
-                    icon: 'fas fa-newspaper',
-                    title: 'Daily Campaign Updates & Graphics',
-                    description: 'Consistent, engaging content to keep your campaign top of mind.'
-                },
-                {
-                    icon: 'fas fa-bullhorn',
-                    title: 'Voter Outreach Strategy',
-                    description: 'Targeted messaging to connect with different voter demographics.'
-                },
-                {
-                    icon: 'fas fa-camera',
-                    title: 'Press & Event Coverage',
-                    description: 'Professional coverage of rallies, speeches, and public appearances.'
-                },
-                {
-                    icon: 'fab fa-whatsapp',
-                    title: 'WhatsApp Broadcasting Setup',
-                    description: 'Automated messaging to reach voters directly on their phones.'
-                },
-                {
-                    icon: 'fas fa-shield-alt',
-                    title: 'Crisis Management',
-                    description: 'Rapid response strategies to protect your reputation during controversies.'
-                },
-                {
-                    icon: 'fas fa-video',
-                    title: 'Video Editing & Reels Creation',
-                    description: 'Compelling video content optimized for social media engagement.'
-                },
-                {
-                    icon: 'fas fa-handshake',
-                    title: 'Influencer & Public Support Handling',
-                    description: 'Leverage endorsements from key community figures and influencers.'
-                }
-            ];
+            // Typing Effect
+            const typingText = document.getElementById('typing-text');
+            const texts = ['Branding', 'Strategy', 'Influence', 'Campaigns', 'Leadership', 'Legacy', 'Connection'];
+            let textIndex = 0;
+            let charIndex = 0;
+            let isDeleting = false;
 
-            const servicesTrack = document.getElementById('services-track');
-            const carouselNav = document.getElementById('carousel-nav');
-            let currentSlide = 0;
-
-            // Create service slides
-            services.forEach((service, index) => {
-                const slide = document.createElement('div');
-                slide.className = 'service-slide';
-                slide.innerHTML = `
-                    <div class="service-card">
-                        <div class="service-icon">
-                            <i class="${service.icon}"></i>
-                        </div>
-                        <h3>${service.title}</h3>
-                        <p>${service.description}</p>
-                    </div>
-                `;
-                servicesTrack.appendChild(slide);
-
-                // Create navigation dots
-                const dot = document.createElement('div');
-                dot.className = 'carousel-dot';
-                if (index === 0) dot.classList.add('active');
-                dot.addEventListener('click', () => {
-                    goToSlide(index);
-                });
-                carouselNav.appendChild(dot);
-            });
-
-            // Carousel navigation functions
-            function goToSlide(index) {
-                currentSlide = index;
-                const slideWidth = servicesTrack.children[0].offsetWidth;
-                servicesTrack.style.transform = `translateX(-${currentSlide * slideWidth}px)`;
+            function typeText() {
+                const currentText = texts[textIndex];
                 
-                // Update active dot
-                document.querySelectorAll('.carousel-dot').forEach((dot, i) => {
-                    dot.classList.toggle('active', i === currentSlide);
-                });
+                if (isDeleting) {
+                    typingText.textContent = currentText.substring(0, charIndex - 1);
+                    charIndex--;
+                } else {
+                    typingText.textContent = currentText.substring(0, charIndex + 1);
+                    charIndex++;
+                }
+                
+                if (!isDeleting && charIndex === currentText.length) {
+                    isDeleting = true;
+                    setTimeout(typeText, 2000);
+                } else if (isDeleting && charIndex === 0) {
+                    isDeleting = false;
+                    textIndex = (textIndex + 1) % texts.length;
+                    setTimeout(typeText, 500);
+                } else {
+                    setTimeout(typeText, isDeleting ? 100 : 200);
+                }
             }
 
-            function nextSlide() {
-                currentSlide = (currentSlide + 1) % services.length;
-                goToSlide(currentSlide);
+            typeText();
+
+            // Initialize Political Branding Carousels
+            if (typeof initializePoliticalCarousels === 'function') {
+                initializePoliticalCarousels();
             }
-
-            function prevSlide() {
-                currentSlide = (currentSlide - 1 + services.length) % services.length;
-                goToSlide(currentSlide);
-            }
-
-            // Auto-advance carousel
-            setInterval(nextSlide, 5000);
-
-            // Add event listeners for arrow buttons
-            document.querySelector('.carousel-arrow.prev').addEventListener('click', prevSlide);
-            document.querySelector('.carousel-arrow.next').addEventListener('click', nextSlide);
-
-            // Scroll Animation
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            };
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('in-view');
-                    }
-                });
-            }, observerOptions);
-
-            // Observe elements for animation
-            const animatedElements = document.querySelectorAll('.process-step, .addon-card');
-            animatedElements.forEach(el => {
-                observer.observe(el);
-            });
         });
     </script>
 </body>
