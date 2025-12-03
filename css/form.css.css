@@ -1,5 +1,3 @@
-/* css/onboarding.css */
-
 /* Form Section */
 .form-section {
     padding: 160px 0 80px;
@@ -331,7 +329,7 @@ select:hover, input:hover {
     min-width: 180px;
 }
 
-/* Responsive Styles */
+/* Responsive Form Styles */
 @media (max-width: 768px) {
     .form-section {
         padding: 140px 0 60px;
