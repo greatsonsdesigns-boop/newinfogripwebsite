@@ -37,7 +37,7 @@ header.scrolled .navbar {
 }
 
 .logo img {
-    height: 70px;
+    height: 60px;
 }
 
 .nav-menu {
@@ -233,6 +233,6 @@ footer {
     }
     
     .logo img {
-        height: 100px;
+        height: 70px;
     }
 }
