@@ -1,5 +1,6 @@
 // checkout.js
-const GAS_URL = "https://script.google.com/macros/s/AKfycybyik9o27gC80ASXTs-MXrZQ34XbQ9IX61oEVAgxep1L-_7_hJJoKXUZ-tQ7pKdb8kyBAg/exec";
+const GAS_URL = "https://script.google.com/macros/s/AKfycbw9sX1kOBiQF3FNFowYT6cMEwggowIkrxXUxBAtdD-O09C2OF4igBVeeoPge5ZlnRi3rg/exec";
+
  // Apps Script URL
 document.getElementById('dt').innerText = new Date().toLocaleString();
 
