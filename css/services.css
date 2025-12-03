@@ -1,7 +1,35 @@
-/* services.css - Styles specific to service pages */
+/* Services Common Styles */
+:root {
+    --dark-blue: #001c4f;
+    --blue: #07217c;
+    --white: #ffffff;
+    --orange: #fdcb54;
+    --light-blue: rgba(7, 33, 124, 0.1);
+    --transition: all 0.3s ease;
+    --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    --glass: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --bg-color: #ffffff;
+    --text-color: #001c4f;
+    --card-bg: #ffffff;
+    --section-bg: #f8f9fa;
+}
 
-/* Service Hero Variations */
+/* Dark Theme Variables */
+.dark-theme {
+    --dark-blue: #c9d1ff;
+    --blue: #a4b3ff;
+    --white: #121212;
+    --light-blue: rgba(164, 179, 255, 0.1);
+    --bg-color: #121212;
+    --text-color: #e0e0e0;
+    --card-bg: #1e1e1e;
+    --section-bg: #1a1a1a;
+}
+
+/* Service Hero Section */
 .service-hero {
+    background: linear-gradient(rgba(0, 28, 79, 0.85), rgba(7, 33, 124, 0.85));
     background-size: cover;
     background-position: center;
     color: var(--white);
@@ -11,25 +39,40 @@
     text-align: center;
 }
 
-.social-media-hero {
-    background: linear-gradient(rgba(0, 28, 79, 0.85), rgba(7, 33, 124, 0.85)), url('../images/hero-banner.jpg');
+.service-hero-content {
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
 }
 
-.political-branding-hero {
-    background: linear-gradient(135deg, var(--dark-blue) 0%, var(--blue) 100%);
+.service-hero h1 {
+    font-size: 3.5rem;
+    margin-bottom: 20px;
+    line-height: 1.1;
+    animation: fadeInUp 1s ease;
 }
 
-.ads-management-hero {
-    background: linear-gradient(rgba(0, 28, 79, 0.85), rgba(7, 33, 124, 0.85)), url('../images/ads-hero.jpg');
+.service-hero p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    opacity: 0.9;
+    animation: fadeInUp 1s ease 0.2s forwards;
+    opacity: 0;
 }
 
-.website-development-hero {
-    background: linear-gradient(rgba(0, 28, 79, 0.85), rgba(7, 33, 124, 0.85)), url('../images/web-dev-hero.jpg');
+.service-hero-btns {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    animation: fadeInUp 1s ease 0.4s forwards;
+    opacity: 0;
 }
 
-/* Service Overview */
+/* Service Overview Section */
 .service-overview {
     background-color: var(--section-bg);
+    padding: 80px 0;
 }
 
 .overview-content {
@@ -41,17 +84,139 @@
 .overview-content p {
     font-size: 1.2rem;
     color: var(--text-color);
+    line-height: 1.8;
 }
 
-/* Carousel Styles */
-.carousel-container {
+/* Service Process Section */
+.service-process {
+    background-color: var(--section-bg);
+    padding: 80px 0;
+}
+
+.process-steps {
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.process-step {
+    display: flex;
+    margin-bottom: 40px;
+    position: relative;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.process-step.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.step-number {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--dark-blue) 0%, var(--blue) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    font-weight: 700;
+    font-size: 1.2rem;
+    margin-right: 25px;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 2;
+}
+
+.step-content {
+    background: var(--card-bg);
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: var(--shadow);
+    flex: 1;
+    transition: var(--transition);
+}
+
+.step-content:hover {
+    transform: translateX(10px);
+}
+
+.step-content h3 {
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+    color: var(--blue);
+}
+
+/* Service CTA Section */
+.service-cta {
+    background-color: var(--section-bg);
+    padding: 80px 0;
+}
+
+.cta-container {
+    display: flex;
+    gap: 50px;
+    align-items: flex-start;
+}
+
+.cta-content {
+    flex: 1;
+}
+
+.cta-sidebar {
+    background: var(--card-bg);
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: var(--shadow);
+    text-align: center;
+    width: 350px;
+    flex-shrink: 0;
+}
+
+.cta-sidebar h3 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: var(--blue);
+}
+
+.cta-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.contact-info {
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+.contact-info h4 {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    color: var(--blue);
+}
+
+.contact-info p {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: 1.1rem;
+    margin-bottom: 0;
+}
+
+/* Service Features Carousel */
+.service-carousel-container {
     position: relative;
     max-width: 1000px;
     margin: 50px auto 0;
     overflow: hidden;
 }
 
-.carousel {
+.service-carousel {
     display: flex;
     transition: transform 0.5s ease;
 }
@@ -97,6 +262,11 @@
 .carousel-card:hover .carousel-icon {
     background-color: var(--orange);
     color: var(--dark-blue);
+}
+
+.carousel-card h3 {
+    font-size: 1.3rem;
+    margin-bottom: 15px;
 }
 
 .carousel-nav {
@@ -153,152 +323,10 @@
     right: 10px;
 }
 
-/* Features Carousel */
-.features-carousel-container {
-    position: relative;
-    max-width: 1000px;
-    margin: 50px auto 0;
-    overflow: hidden;
-}
-
-.features-carousel {
-    display: flex;
-    transition: transform 0.5s ease;
-}
-
-.feature-card {
-    background: var(--card-bg);
-    border-radius: 15px;
-    padding: 30px;
-    box-shadow: var(--shadow);
-    transition: var(--transition);
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    min-width: 100%;
-}
-
-.feature-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-}
-
-.feature-icon {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    background-color: var(--light-blue);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-    color: var(--blue);
-    transition: var(--transition);
-    flex-shrink: 0;
-}
-
-.feature-card:hover .feature-icon {
-    background-color: var(--orange);
-    color: var(--dark-blue);
-}
-
-/* Process Steps */
-.process-steps {
-    max-width: 800px;
-    margin: 0 auto;
-    position: relative;
-}
-
-.process-step {
-    display: flex;
-    margin-bottom: 40px;
-    position: relative;
-    opacity: 0;
-    transform: translateX(-20px);
-    transition: opacity 0.5s ease, transform 0.5s ease;
-}
-
-.process-step.visible {
-    opacity: 1;
-    transform: translateX(0);
-}
-
-.step-number {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--dark-blue) 0%, var(--blue) 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--white);
-    font-weight: 700;
-    font-size: 1.2rem;
-    margin-right: 25px;
-    flex-shrink: 0;
-    position: relative;
-    z-index: 2;
-}
-
-.step-content {
-    background: var(--card-bg);
-    border-radius: 15px;
-    padding: 25px;
-    box-shadow: var(--shadow);
-    flex: 1;
-    transition: var(--transition);
-}
-
-.step-content:hover {
-    transform: translateX(10px);
-}
-
-/* CTA Sidebar */
-.cta-sidebar {
-    background: var(--card-bg);
-    border-radius: 15px;
-    padding: 30px;
-    box-shadow: var(--shadow);
-    text-align: center;
-    margin-top: 50px;
-}
-
-.cta-sidebar h3 {
-    font-size: 1.5rem;
-    margin-bottom: 20px;
-    color: var(--blue);
-}
-
-.cta-buttons {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    margin-bottom: 25px;
-}
-
-.contact-info {
-    padding-top: 20px;
-    border-top: 1px solid #eee;
-}
-
-.contact-info h4 {
-    font-size: 1.1rem;
-    margin-bottom: 10px;
-    color: var(--blue);
-}
-
-.contact-info p {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    font-size: 1.1rem;
-    margin-bottom: 0;
-}
-
-/* Add-on Services */
+/* Add-On Services */
 .addon-services {
     background-color: var(--section-bg);
+    padding: 80px 0;
 }
 
 .addon-tags {
@@ -326,169 +354,214 @@
     transform: translateY(-3px);
 }
 
-/* Political Branding Specific */
-.political-hero-content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 60px;
-    align-items: center;
+/* Final CTA Section */
+.service-final-cta {
+    background: linear-gradient(135deg, var(--dark-blue) 0%, var(--blue) 100%);
+    color: var(--white);
+    text-align: center;
+    padding: 100px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.service-final-cta::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" opacity="0.05"><path d="M0,0V800H1200V0ZM200,400C200,533,333,600,400,600S600,533,600,400,467,200,400,200,200,267,200,400Z" fill="white"/></svg>');
+    background-size: cover;
+}
+
+.service-final-cta-content {
+    max-width: 700px;
+    margin: 0 auto;
     position: relative;
     z-index: 1;
 }
 
-@media (max-width: 768px) {
-    .political-hero-content {
-        grid-template-columns: 1fr;
-        gap: 40px;
-        text-align: center;
+.service-final-cta h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.service-final-cta p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    opacity: 0.9;
+}
+
+.service-final-cta-btns {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+/* Floating Shapes */
+.service-shape {
+    position: absolute;
+    border-radius: 50%;
+    background: var(--orange);
+    animation: float 6s ease-in-out infinite;
+    opacity: 0.1;
+}
+
+.shape-1 {
+    width: 200px;
+    height: 200px;
+    top: 10%;
+    right: 10%;
+    animation-delay: 0s;
+}
+
+.shape-2 {
+    width: 150px;
+    height: 150px;
+    top: 60%;
+    right: 20%;
+    animation-delay: 2s;
+}
+
+.shape-3 {
+    width: 100px;
+    height: 100px;
+    top: 30%;
+    right: 30%;
+    animation-delay: 4s;
+}
+
+.shape-4 {
+    width: 200px;
+    height: 200px;
+    top: 10%;
+    left: 10%;
+    animation-delay: 0s;
+}
+
+.shape-5 {
+    width: 150px;
+    height: 150px;
+    top: 60%;
+    left: 80%;
+    animation-delay: 2s;
+}
+
+.shape-6 {
+    width: 100px;
+    height: 100px;
+    top: 30%;
+    left: 70%;
+    animation-delay: 4s;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-20px);
     }
 }
 
-/* Advanced Features Slider */
-.advanced-features-container {
-    position: relative;
-    max-width: 1000px;
-    margin: 0 auto;
-    overflow: hidden;
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-.advanced-features-slider {
-    display: flex;
-    transition: transform 0.5s ease;
+/* Typing Text Effect */
+.typing-text {
+    color: var(--orange);
+    font-weight: 800;
+    border-right: 3px solid var(--orange);
+    animation: blink 1s infinite;
+    display: inline-block;
 }
 
-.advanced-feature-card {
-    background: var(--card-bg);
-    border-radius: 15px;
-    padding: 25px;
-    text-align: center;
-    box-shadow: var(--shadow);
-    transition: var(--transition);
-    min-width: 33.333%;
-    margin: 0 10px;
-    opacity: 0.7;
-    transform: scale(0.9);
+@keyframes blink {
+    0%, 100% { border-color: var(--orange); }
+    50% { border-color: transparent; }
 }
 
-.advanced-feature-card.active {
-    opacity: 1;
-    transform: scale(1);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-}
-
-.advanced-feature-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
-}
-
-.advanced-feature-icon {
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--dark-blue) 0%, var(--blue) 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 20px;
-    font-size: 1.8rem;
-    color: var(--white);
-}
-
-.advanced-nav {
-    display: flex;
-    justify-content: center;
-    margin-top: 30px;
-    gap: 15px;
-}
-
-.advanced-dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: var(--light-blue);
-    cursor: pointer;
-    transition: var(--transition);
-}
-
-.advanced-dot.active {
-    background: var(--orange);
-    transform: scale(1.2);
-}
-
-.advanced-arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: var(--card-bg);
-    border: none;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    color: var(--blue);
-    font-size: 1.2rem;
-    cursor: pointer;
-    transition: var(--transition);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: var(--shadow);
-    z-index: 10;
-}
-
-.advanced-arrow:hover {
-    background: var(--blue);
-    color: var(--white);
-}
-
-.advanced-arrow.prev {
-    left: 10px;
-}
-
-.advanced-arrow.next {
-    right: 10px;
-}
-
-/* Responsive adjustments for service pages */
+/* Responsive Styles for Service Pages */
 @media (max-width: 992px) {
-    .carousel-card,
-    .advanced-feature-card {
+    .service-hero h1 {
+        font-size: 2.8rem;
+    }
+    
+    .carousel-card {
         min-width: 50%;
     }
+
+    .cta-container {
+        flex-direction: column;
+    }
+
+    .cta-sidebar {
+        width: 100%;
+        max-width: 400px;
+        margin: 0 auto;
+    }
 }
 
 @media (max-width: 768px) {
-    .carousel-card,
-    .advanced-feature-card {
+    .service-hero {
+        padding: 150px 0 100px;
+    }
+
+    .service-hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .carousel-card {
         min-width: 100%;
     }
-    
-    .feature-card {
-        flex-direction: column;
-        text-align: center;
+
+    .carousel-arrow {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
     }
-    
-    .feature-icon {
-        margin-right: 0;
-        margin-bottom: 15px;
-    }
-    
+
     .process-step {
         flex-direction: column;
     }
-    
+
     .step-number {
         margin-right: 0;
         margin-bottom: 15px;
     }
-}
 
-@media (max-width: 576px) {
-    .addon-tags {
+    .cta-buttons {
+        flex-direction: column;
+    }
+
+    .service-final-cta-btns {
         flex-direction: column;
         align-items: center;
     }
-    
-    .cta-buttons {
-        flex-direction: column;
+}
+
+@media (max-width: 576px) {
+    .service-hero h1 {
+        font-size: 2rem;
+    }
+
+    .service-hero p {
+        font-size: 1rem;
+    }
+
+    .service-overview,
+    .service-process,
+    .service-cta,
+    .addon-services {
+        padding: 60px 0;
     }
 }
