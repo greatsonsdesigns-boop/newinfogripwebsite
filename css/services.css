@@ -743,4 +743,44 @@
         padding: 10px 20px;
         font-size: 0.9rem;
     }
+    /* ============================================
+   SERVICE PAGE SPECIFIC OVERRIDES
+============================================ */
+
+/* Hero section backgrounds for each service */
+.service-hero[style*="About-Us-(2)"] {
+    background: linear-gradient(rgba(0, 28, 79, 0.85), rgba(7, 33, 124, 0.85)), url('https://i.postimg.cc/mZKS05PD/About-Us-(2).png') !important;
+    background-size: cover !important;
+    background-position: center !important;
+}
+
+.service-hero[style*="About-Us-(4)"] {
+    background: linear-gradient(rgba(0, 28, 79, 0.85), rgba(7, 33, 124, 0.85)), url('https://i.postimg.cc/vTwcvfms/About-Us-(4).png') !important;
+    background-size: cover !important;
+    background-position: center !important;
+}
+
+/* Service-specific button styles */
+.btn-political {
+    background: linear-gradient(135deg, #001c4f 0%, #07217c 100%);
+    color: white;
+    border: none;
+}
+
+.btn-political:hover {
+    background: linear-gradient(135deg, #07217c 0%, #001c4f 100%);
+    transform: translateY(-3px);
+}
+
+.btn-ads {
+    background: linear-gradient(135deg, #fdcb54 0%, #ff9d00 100%);
+    color: #001c4f;
+    border: none;
+    font-weight: 600;
+}
+
+.btn-ads:hover {
+    background: linear-gradient(135deg, #ff9d00 0%, #fdcb54 100%);
+    transform: translateY(-3px);
+}
 }
