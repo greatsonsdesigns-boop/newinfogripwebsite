@@ -11,6 +11,301 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/layout.css">
+    <style>
+        /* Additional styles specific to refund policy page */
+        .content-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+            transition: var(--transition);
+        }
+
+        .content-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .content-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .content-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: var(--light-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            font-size: 1.5rem;
+            color: var(--blue);
+            transition: var(--transition);
+            flex-shrink: 0;
+        }
+
+        .content-card:hover .content-icon {
+            background-color: var(--orange);
+            color: var(--dark-blue);
+        }
+
+        .content-header h2 {
+            font-size: 1.8rem;
+            margin-bottom: 0;
+            color: var(--blue);
+        }
+
+        .info-list {
+            margin: 20px 0;
+        }
+
+        .info-list li {
+            margin-bottom: 15px;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .info-list li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--orange);
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        .policy-list {
+            margin: 20px 0;
+        }
+
+        .policy-list li {
+            margin-bottom: 20px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .policy-list li strong {
+            color: var(--blue);
+        }
+
+        .info-box {
+            background: var(--light-blue);
+            border-left: 4px solid var(--orange);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+        }
+
+        .cancellation-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 25px;
+            padding: 20px;
+            background: var(--section-bg);
+            border-radius: 10px;
+            transition: var(--transition);
+        }
+
+        .cancellation-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .cancellation-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--orange);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            font-size: 1.2rem;
+            color: var(--dark-blue);
+            flex-shrink: 0;
+        }
+
+        .cancellation-content h4 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: var(--blue);
+        }
+
+        .contact-box {
+            background: var(--light-blue);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .contact-box h3 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--blue);
+        }
+
+        .contact-details {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.1rem;
+        }
+
+        .contact-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--orange);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--dark-blue);
+            font-size: 1.1rem;
+        }
+
+        /* Hero section specific for policy pages */
+        .policy-hero {
+            background: linear-gradient(135deg, var(--dark-blue) 0%, var(--blue) 100%);
+            color: var(--white);
+            padding: 180px 0 120px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .policy-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" opacity="0.05"><path d="M0,0V800H1200V0ZM200,400C200,533,333,600,400,600S600,533,600,400,467,200,400,200,200,267,200,400Z" fill="white"/></svg>');
+            background-size: cover;
+        }
+
+        .policy-hero-content {
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .policy-hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            line-height: 1.1;
+            animation: fadeInUp 1s ease;
+        }
+
+        .policy-hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease 0.2s forwards;
+            opacity: 0;
+        }
+
+        .policy-hero-btns {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            animation: fadeInUp 1s ease 0.4s forwards;
+            opacity: 0;
+        }
+
+        .policy-hero-icon {
+            font-size: 5rem;
+            margin-bottom: 30px;
+            color: var(--orange);
+            animation: fadeInUp 1s ease 0.1s forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Content Sections */
+        .content-section {
+            padding: 80px 0;
+        }
+
+        @media (max-width: 992px) {
+            .policy-hero h1 {
+                font-size: 2.8rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .policy-hero {
+                padding: 150px 0 100px;
+            }
+
+            .policy-hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .content-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .content-icon {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+
+            .cancellation-item {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .cancellation-icon {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+
+            .contact-details {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .policy-hero h1 {
+                font-size: 2rem;
+            }
+
+            .policy-hero p {
+                font-size: 1rem;
+            }
+
+            .content-card {
+                padding: 25px;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Header -->
@@ -60,11 +355,11 @@
     </section>
 
     <!-- Introduction Section -->
-    <section class="policy-content-section">
+    <section class="content-section">
         <div class="container">
-            <div class="policy-content-card">
-                <div class="policy-content-header">
-                    <div class="policy-content-icon">
+            <div class="content-card">
+                <div class="content-header">
+                    <div class="content-icon">
                         <i class="fas fa-info-circle"></i>
                     </div>
                     <h2>Introduction</h2>
@@ -75,16 +370,16 @@
     </section>
 
     <!-- General Policy Section -->
-    <section class="policy-content-section">
+    <section class="content-section">
         <div class="container">
-            <div class="policy-content-card">
-                <div class="policy-content-header">
-                    <div class="policy-content-icon">
+            <div class="content-card">
+                <div class="content-header">
+                    <div class="content-icon">
                         <i class="fas fa-file-contract"></i>
                     </div>
                     <h2>General Policy</h2>
                 </div>
-                <div class="policy-info-box">
+                <div class="info-box">
                     <p>All refunds and cancellations are subject to the terms mentioned below. By purchasing our services, you acknowledge and agree to these policies.</p>
                 </div>
             </div>
@@ -92,20 +387,20 @@
     </section>
 
     <!-- Service-Based Refund Guidelines Section -->
-    <section class="policy-content-section">
+    <section class="content-section">
         <div class="container">
-            <div class="policy-content-card">
-                <div class="policy-content-header">
-                    <div class="policy-content-icon">
+            <div class="content-card">
+                <div class="content-header">
+                    <div class="content-icon">
                         <i class="fas fa-clipboard-list"></i>
                     </div>
                     <h2>Service-Based Refund Guidelines</h2>
                 </div>
-                <ul class="policy-definition-list">
+                <ul class="policy-list">
                     <li>
                         <strong>Digital Marketing, Website Development, Political Branding, SMM, and Creative Services</strong>
                         <p>Refunds are not provided once work has started, including:</p>
-                        <ul class="policy-info-list">
+                        <ul class="info-list">
                             <li>Strategy planning</li>
                             <li>Designing</li>
                             <li>Content creation</li>
@@ -128,42 +423,57 @@
     </section>
 
     <!-- Cancellation Policy Section -->
-    <section class="policy-content-section">
+    <section class="content-section">
         <div class="container">
-            <div class="policy-content-card">
-                <div class="policy-content-header">
-                    <div class="policy-content-icon">
+            <div class="content-card">
+                <div class="content-header">
+                    <div class="content-icon">
                         <i class="fas fa-ban"></i>
                     </div>
                     <h2>Cancellation Policy</h2>
                 </div>
-                <div class="policy-info-box">
-                    <h4>Client-Initiated Cancellation</h4>
-                    <p>Clients can request cancellation before work begins. If the project has not started, a partial refund may be considered (after deducting administrative charges).</p>
+                <div class="cancellation-item">
+                    <div class="cancellation-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="cancellation-content">
+                        <h4>Client-Initiated Cancellation</h4>
+                        <p>Clients can request cancellation before work begins. If the project has not started, a partial refund may be considered (after deducting administrative charges).</p>
+                    </div>
                 </div>
-                <div class="policy-info-box">
-                    <h4>Cancellation After Work Begins</h4>
-                    <p>Once work has started on any service — no cancellation or refund will be provided.</p>
+                <div class="cancellation-item">
+                    <div class="cancellation-icon">
+                        <i class="fas fa-hourglass-start"></i>
+                    </div>
+                    <div class="cancellation-content">
+                        <h4>Cancellation After Work Begins</h4>
+                        <p>Once work has started on any service — no cancellation or refund will be provided.</p>
+                    </div>
                 </div>
-                <div class="policy-info-box">
-                    <h4>Company-Initiated Cancellation</h4>
-                    <p>If InfoGrip Media Solution cancels a project due to unforeseen reasons, clients will receive a proportional refund for the remaining work.</p>
+                <div class="cancellation-item">
+                    <div class="cancellation-icon">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <div class="cancellation-content">
+                        <h4>Company-Initiated Cancellation</h4>
+                        <p>If InfoGrip Media Solution cancels a project due to unforeseen reasons, clients will receive a proportional refund for the remaining work.</p>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Non-Refundable Items Section -->
-    <section class="policy-content-section">
+    <section class="content-section">
         <div class="container">
-            <div class="policy-content-card">
-                <div class="policy-content-header">
-                    <div class="policy-content-icon">
+            <div class="content-card">
+                <div class="content-header">
+                    <div class="content-icon">
                         <i class="fas fa-times-circle"></i>
                     </div>
                     <h2>Non-Refundable Items</h2>
                 </div>
-                <ul class="policy-info-list">
+                <ul class="info-list">
                     <li>Completed work or deliverables</li>
                     <li>Services already performed</li>
                     <li>Design drafts, copywriting, graphics, or edited videos</li>
@@ -176,11 +486,11 @@
     </section>
 
     <!-- Turnaround Time & Delays Section -->
-    <section class="policy-content-section">
+    <section class="content-section">
         <div class="container">
-            <div class="policy-content-card">
-                <div class="policy-content-header">
-                    <div class="policy-content-icon">
+            <div class="content-card">
+                <div class="content-header">
+                    <div class="content-icon">
                         <i class="fas fa-clock"></i>
                     </div>
                     <h2>Turnaround Time & Delays</h2>
@@ -191,11 +501,11 @@
     </section>
 
     <!-- Payment Disputes Section -->
-    <section class="policy-content-section">
+    <section class="content-section">
         <div class="container">
-            <div class="policy-content-card">
-                <div class="policy-content-header">
-                    <div class="policy-content-icon">
+            <div class="content-card">
+                <div class="content-header">
+                    <div class="content-icon">
                         <i class="fas fa-exclamation-triangle"></i>
                     </div>
                     <h2>Payment Disputes</h2>
@@ -206,11 +516,11 @@
     </section>
 
     <!-- Changes to This Policy Section -->
-    <section class="policy-content-section">
+    <section class="content-section">
         <div class="container">
-            <div class="policy-content-card">
-                <div class="policy-content-header">
-                    <div class="policy-content-icon">
+            <div class="content-card">
+                <div class="content-header">
+                    <div class="content-icon">
                         <i class="fas fa-sync-alt"></i>
                     </div>
                     <h2>Changes to This Policy</h2>
@@ -221,33 +531,33 @@
     </section>
 
     <!-- Contact Information Section -->
-    <section class="policy-content-section">
+    <section class="content-section">
         <div class="container">
-            <div class="policy-content-card">
-                <div class="policy-content-header">
-                    <div class="policy-content-icon">
+            <div class="content-card">
+                <div class="content-header">
+                    <div class="content-icon">
                         <i class="fas fa-envelope"></i>
                     </div>
                     <h2>Contact Information</h2>
                 </div>
                 <p>For refund or cancellation queries, contact us:</p>
-                <div class="policy-contact-box">
+                <div class="contact-box">
                     <h3>Get In Touch</h3>
-                    <div class="policy-contact-details">
-                        <div class="policy-contact-item">
-                            <div class="policy-contact-icon">
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <div class="contact-icon">
                                 <i class="fas fa-envelope"></i>
                             </div>
                             <span>infogripmarketing@gmail.com</span>
                         </div>
-                        <div class="policy-contact-item">
-                            <div class="policy-contact-icon">
+                        <div class="contact-item">
+                            <div class="contact-icon">
                                 <i class="fas fa-phone"></i>
                             </div>
                             <span>+91 63675-56906</span>
                         </div>
-                        <div class="policy-contact-item">
-                            <div class="policy-contact-icon">
+                        <div class="contact-item">
+                            <div class="contact-icon">
                                 <i class="fas fa-globe"></i>
                             </div>
                             <span>www.InfoGrip.in</span>
@@ -314,6 +624,26 @@
     </footer>
 
     <script src="js/main.js"></script>
-    <script src="js/navigation.js"></script>
+    <script>
+        // Policy page specific JavaScript
+        document.addEventListener('DOMContentLoaded', function() {
+            // Section fade-in on scroll
+            const sections = document.querySelectorAll('.content-section');
+
+            const sectionObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('fade-in');
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+
+            sections.forEach(section => {
+                sectionObserver.observe(section);
+            });
+        });
+    </script>
 </body>
 </html>
