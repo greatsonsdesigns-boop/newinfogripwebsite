@@ -3,7 +3,7 @@
 // Initialize only on form page
 if (document.getElementById('onboardingForm')) {
     // Updated Web App URL for Google Sheets integration
-    const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbw3_8c61X3IQ8oVyFQW-lChRZqcKT8xEMQQ633C0GU9tRsLZnIC-X1zhJpRlvgyQolM/exec';
+    const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzsP9QnMjhAuKTTEeNnEC3v8KH-3k2YGV0zbmWQIWHmU9qBR3VCkrCP4EY_lBZkf2t6/exec';
 
     // DOM Elements
     const elements = {
