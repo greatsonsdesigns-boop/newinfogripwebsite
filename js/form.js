@@ -335,7 +335,14 @@ if (document.getElementById('onboardingForm')) {
         document.querySelectorAll('.form-group').forEach(group => {
             if (group.id.includes('Group') && group.id !== 'budgetGroup') {
                 group.classList.add('hidden');
+      // ADD AT THE TOP OF onboarding.js
+console.log('=== DEBUG INFO ===');
+console.log('Script loaded: onboarding.js');
+console.log('Loaded at:', new Date().toLocaleTimeString());
+console.log('WEB_APP_URL:', WEB_APP_URL);
+console.log('=================');
             }
         });
     }
 }
+
