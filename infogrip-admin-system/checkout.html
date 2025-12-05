@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Payment | InfoGrip Media Solution</title>
+    <!-- Use your website's exact styles -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Copy your website's exact CSS variables and styles here */
+        :root {
+            --dark-blue: #001c4f;
+            --blue: #07217c;
+            --white: #ffffff;
+            --orange: #fdcb54;
+            --light-blue: rgba(7, 33, 124, 0.1);
+            --transition: all 0.3s ease;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            --glass: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --bg-color: #ffffff;
+            --text-color: #001c4f;
+            --card-bg: #ffffff;
+            --section-bg: #f8f9fa;
+        }
+
+        /* Dark Theme Variables */
+        .dark-theme {
+            --dark-blue: #c9d1ff;
+            --blue: #a4b3ff;
+            --white: #121212;
+            --light-blue: rgba(164, 179, 255, 0.1);
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --card-bg: #1e1e1e;
+            --section-bg: #1a1a1a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header - Exact match to your website */
+        header {
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .dark-theme header {
+            background-color: rgba(30, 30, 30, 0.95);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 70px;
+        }
+
+        /* Main Content */
+        .checkout-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, var(--section-bg) 0%, #f1f3f9 100%);
+        }
+
+        .checkout-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            width: 100%;
+            max-width: 800px;
+            overflow: hidden;
+            border: 1px solid var(--glass-border);
+        }
+
+        .checkout-header {
+            background: linear-gradient(135deg, var(--dark-blue) 0%, var(--blue) 100%);
+            color: var(--white);
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .checkout-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" opacity="0.05"><path d="M0,0V800H1200V0ZM200,400C200,533,333,600,400,600S600,533,600,400,467,200,400,200,200,267,200,400Z" fill="white"/></svg>');
+            background-size: cover;
+        }
+
+        .checkout-header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .checkout-header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: var(--white);
+        }
+
+        .checkout-header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .timestamp {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 10px 20px;
+            border-radius: 50px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 15px;
+            font-weight: 500;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .checkout-body {
+            padding: 40px;
+        }
+
+        /* Client Details */
+        .client-section {
+            background: var(--section-bg);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border-left: 4px solid var(--orange);
+        }
+
+        .client-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .info-label {
+            font-size: 0.9rem;
+            color: var(--blue);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        /* Payment Details */
+        .payment-details {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+            border: 1px solid var(--border-color);
+        }
+
+        .amount-breakdown {
+            margin: 25px 0;
+        }
+
+        .breakdown-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .breakdown-row:last-child {
+            border-bottom: none;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--dark-blue);
+            padding-top: 20px;
+        }
+
+        .breakdown-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+        }
+
+        .breakdown-value {
+            font-weight: 600;
+        }
+
+        /* Security Badges */
+        .security-section {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .security-badge {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            text-align: center;
+        }
+
+        .security-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--light-blue);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--blue);
+        }
+
+        .security-text {
+            font-size: 0.9rem;
+            color: var(--text-color);
+            font-weight: 500;
+            max-width: 120px;
+        }
+
+        /* Payment Button */
+        .payment-button-section {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .pay-button {
+            background: linear-gradient(135deg, var(--orange) 0%, #ff9d00 100%);
+            color: var(--dark-blue);
+            border: none;
+            padding: 18px 40px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 8px 25px rgba(253, 203, 84, 0.3);
+        }
+
+        .pay-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(253, 203, 84, 0.4);
+        }
+
+        .pay-button:active {
+            transform: translateY(-1px);
+        }
+
+        .pay-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .pay-button i {
+            font-size: 1.4rem;
+        }
+
+        /* Razorpay Modal */
+        .razorpay-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .razorpay-modal.active {
+            display: flex;
+        }
+
+        .razorpay-container {
+            background: white;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow: hidden;
+        }
+
+        .razorpay-header {
+            background: linear-gradient(135deg, #2d8de4 0%, #0d6efd 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .razorpay-header h3 {
+            color: white;
+            margin: 0;
+        }
+
+        .razorpay-body {
+            padding: 30px;
+            text-align: center;
+        }
+
+        .razorpay-logo {
+            width: 150px;
+            margin: 0 auto 20px;
+        }
+
+        .razorpay-logo img {
+            width: 100%;
+        }
+
+        /* Footer - Match your website */
+        footer {
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            padding: 40px 0 20px;
+            box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.05);
+            margin-top: auto;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            text-align: center;
+        }
+
+        .footer-logo {
+            margin-bottom: 20px;
+        }
+
+        .footer-logo img {
+            height: 60px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+            font-size: 0.9rem;
+            color: var(--blue);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .checkout-header {
+                padding: 20px;
+            }
+            
+            .checkout-body {
+                padding: 25px;
+            }
+            
+            .checkout-header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .client-info-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .security-section {
+                gap: 20px;
+            }
+            
+            .security-badge {
+                flex: 1;
+                min-width: 120px;
+            }
+            
+            .pay-button {
+                padding: 15px 30px;
+                font-size: 1.1rem;
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .checkout-header {
+                padding: 15px;
+            }
+            
+            .checkout-body {
+                padding: 20px;
+            }
+            
+            .payment-details {
+                padding: 20px;
+            }
+            
+            .breakdown-row:last-child {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="navbar">
+            <a href="index.html" class="logo">
+                <img src="https://i.postimg.cc/Nj3bmPwC/Infogrip-Medi-Soluiton-(Social-Media)-(1).png" alt="InfoGrip Media Solution">
+            </a>
+            <div class="header-actions">
+                <a href="index.html" class="btn btn-outline" style="padding: 10px 20px;">
+                    <i class="fas fa-home"></i> Back to Home
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="checkout-container">
+        <div class="checkout-card">
+            <!-- Header -->
+            <div class="checkout-header">
+                <div class="checkout-header-content">
+                    <h1>Complete Your Payment</h1>
+                    <p>Secure payment powered by Razorpay</p>
+                    <div class="timestamp">
+                        <i class="far fa-clock"></i>
+                        <span id="currentTimestamp">Loading...</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Body -->
+            <div class="checkout-body">
+                <!-- Client Details -->
+                <section class="client-section">
+                    <h2><i class="fas fa-user-circle"></i> Client Details</h2>
+                    <div class="client-info-grid">
+                        <div class="info-item">
+                            <div class="info-label">
+                                <i class="fas fa-user"></i> Client Name
+                            </div>
+                            <div class="info-value" id="clientName">-</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">
+                                <i class="fas fa-phone"></i> Mobile Number
+                            </div>
+                            <div class="info-value" id="clientMobile">-</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">
+                                <i class="fas fa-tag"></i> Category
+                            </div>
+                            <div class="info-value" id="clientCategory">-</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Category Specific Details -->
+                    <div id="categoryDetails"></div>
+                </section>
+
+                <!-- Service Details -->
+                <section class="payment-details">
+                    <h2><i class="fas fa-concierge-bell"></i> Service Details</h2>
+                    <div class="info-item" style="margin: 20px 0;">
+                        <div class="info-label">
+                            <i class="fas fa-cube"></i> Service
+                        </div>
+                        <div class="info-value" id="serviceName">-</div>
+                    </div>
+
+                    <!-- Amount Breakdown -->
+                    <div class="amount-breakdown">
+                        <h3><i class="fas fa-calculator"></i> Amount Breakdown</h3>
+                        <div class="breakdown-row">
+                            <div class="breakdown-label">
+                                Base Amount
+                            </div>
+                            <div class="breakdown-value" id="baseAmount">₹0</div>
+                        </div>
+                        <div class="breakdown-row" id="gstRow" style="display: none;">
+                            <div class="breakdown-label">
+                                <i class="fas fa-percentage"></i> GST (18%)
+                            </div>
+                            <div class="breakdown-value" id="gstAmount">₹0</div>
+                        </div>
+                        <div class="breakdown-row" id="discountRow" style="display: none;">
+                            <div class="breakdown-label">
+                                <i class="fas fa-tag"></i> Discount
+                            </div>
+                            <div class="breakdown-value" id="discountAmount">₹0</div>
+                        </div>
+                        <div class="breakdown-row">
+                            <div class="breakdown-label">
+                                <i class="fas fa-rupee-sign"></i> Final Payable Amount
+                            </div>
+                            <div class="breakdown-value" id="finalAmount">₹0</div>
+                        </div>
+                    </div>
+
+                    <!-- Security Badges -->
+                    <div class="security-section">
+                        <div class="security-badge">
+                            <div class="security-icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <div class="security-text">Bank-Level Security</div>
+                        </div>
+                        <div class="security-badge">
+                            <div class="security-icon">
+                                <i class="fas fa-lock"></i>
+                            </div>
+                            <div class="security-text">256-bit SSL Encryption</div>
+                        </div>
+                        <div class="security-badge">
+                            <div class="security-icon">
+                                <i class="fas fa-credit-card"></i>
+                            </div>
+                            <div class="security-text">PCI DSS Compliant</div>
+                        </div>
+                    </div>
+
+                    <!-- Payment Button -->
+                    <div class="payment-button-section">
+                        <button class="pay-button" id="payButton">
+                            <i class="fas fa-lock"></i>
+                            <span>PROCEED TO PAY</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                        <p style="margin-top: 15px; color: var(--text-light); font-size: 0.9rem;">
+                            <i class="fas fa-info-circle"></i> You'll be redirected to Razorpay's secure payment gateway
+                        </p>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- Razorpay Payment Modal -->
+    <div class="razorpay-modal" id="razorpayModal">
+        <div class="razorpay-container">
+            <div class="razorpay-header">
+                <h3>Processing Payment</h3>
+            </div>
+            <div class="razorpay-body">
+                <div class="razorpay-logo">
+                    <!-- Razorpay logo would go here -->
+                    <div style="background: linear-gradient(135deg, #2d8de4 0%, #0d6efd 100%); color: white; padding: 20px; border-radius: 10px; font-weight: bold; font-size: 1.5rem;">
+                        Razorpay
+                    </div>
+                </div>
+                <p>Please wait while we redirect you to the secure payment gateway...</p>
+                <div class="spinner" style="margin: 20px auto;"></div>
+                <p style="font-size: 0.9rem; color: #666; margin-top: 20px;">
+                    Do not refresh or close this window
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <img src="https://i.postimg.cc/Nj3bmPwC/Infogrip-Medi-Soluiton-(Social-Media)-(1).png" alt="InfoGrip">
+            </div>
+            <p>Need help? Contact us at +91 6367556906 or info@infogrip.com</p>
+            <div class="footer-bottom">
+                <p>&copy; InfoGrip Media Solution Ltd. All Rights Reserved 2025</p>
+                <p style="margin-top: 5px;">
+                    <a href="privacy-policy.html" style="color: var(--blue); margin: 0 10px;">Privacy Policy</a>
+                    <a href="terms-conditions.html" style="color: var(--blue); margin: 0 10px;">Terms & Conditions</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Razorpay Script -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    
+    <script>
+        // Get payment ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const paymentId = urlParams.get('id');
+        const previewMode = urlParams.get('preview') === 'true';
+
+        // Update timestamp
+        function updateTimestamp() {
+            const now = new Date();
+            const options = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            };
+            document.getElementById('currentTimestamp').textContent = 
+                now.toLocaleDateString('en-IN', options);
+        }
+
+        // Update every second
+        updateTimestamp();
+        setInterval(updateTimestamp, 1000);
+
+        // Sample payment data (replace with API call to get actual data)
+        const samplePaymentData = {
+            id: paymentId || 'PAY-123456789',
+            client: {
+                name: 'Rohit Sharma',
+                mobile: '9876543210',
+                email: 'rohit@example.com',
+                category: 'Politician',
+                party: 'BJP',
+                role: 'MLA (विधायक)'
+            },
+            service: 'Social Media Management',
+            amounts: {
+                baseAmount: 8000,
+                gstAmount: 1440,
+                discountAmount: 0,
+                finalAmount: 9440
+            },
+            gstApplied: true,
+            discountApplied: false
+        };
+
+        // Load payment data
+        function loadPaymentData() {
+            // In production, make API call to get payment data
+            const paymentData = samplePaymentData; // Replace with actual API call
+            
+            // Update client details
+            document.getElementById('clientName').textContent = paymentData.client.name;
+            document.getElementById('clientMobile').textContent = paymentData.client.mobile;
+            document.getElementById('clientCategory').textContent = paymentData.client.category;
+            document.getElementById('serviceName').textContent = paymentData.service;
+            
+            // Update amount breakdown
+            document.getElementById('baseAmount').textContent = `₹${paymentData.amounts.baseAmount.toLocaleString()}`;
+            document.getElementById('gstAmount').textContent = `₹${paymentData.amounts.gstAmount.toLocaleString()}`;
+            document.getElementById('discountAmount').textContent = `₹${paymentData.amounts.discountAmount.toLocaleString()}`;
+            document.getElementById('finalAmount').textContent = `₹${paymentData.amounts.finalAmount.toLocaleString()}`;
+            
+            // Show/hide GST row
+            if (paymentData.gstApplied) {
+                document.getElementById('gstRow').style.display = 'flex';
+            }
+            
+            // Show/hide discount row
+            if (paymentData.discountApplied && paymentData.amounts.discountAmount > 0) {
+                document.getElementById('discountRow').style.display = 'flex';
+            }
+            
+            // Show category-specific details
+            let categoryHTML = '';
+            if (paymentData.client.category === 'Politician') {
+                categoryHTML = `
+                    <div class="info-item">
+                        <div class="info-label">
+                            <i class="fas fa-landmark"></i> Party
+                        </div>
+                        <div class="info-value">${paymentData.client.party}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">
+                            <i class="fas fa-user-tie"></i> Role
+                        </div>
+                        <div class="info-value">${paymentData.client.role}</div>
+                    </div>
+                `;
+            } else if (paymentData.client.category === 'Business Owner') {
+                categoryHTML = `
+                    <div class="info-item">
+                        <div class="info-label">
+                            <i class="fas fa-briefcase"></i> Business
+                        </div>
+                        <div class="info-value">${paymentData.client.businessName || '-'}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">
+                            <i class="fas fa-store"></i> Type
+                        </div>
+                        <div class="info-value">${paymentData.client.businessType || '-'}</div>
+                    </div>
+                `;
+            } else if (paymentData.client.category === 'NGO') {
+                categoryHTML = `
+                    <div class="info-item">
+                        <div class="info-label">
+                            <i class="fas fa-hands-helping"></i> NGO
+                        </div>
+                        <div class="info-value">${paymentData.client.ngoName || '-'}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">
+                            <i class="fas fa-heart"></i> Type
+                        </div>
+                        <div class="info-value">${paymentData.client.ngoType || '-'}</div>
+                    </div>
+                `;
+            }
+            
+            if (categoryHTML) {
+                document.getElementById('categoryDetails').innerHTML = `
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 20px;">
+                        ${categoryHTML}
+                    </div>
+                `;
+            }
+            
+            // Store payment data
+            window.paymentData = paymentData;
+            
+            // Disable button in preview mode
+            if (previewMode) {
+                document.getElementById('payButton').disabled = true;
+                document.getElementById('payButton').innerHTML = '<i class="fas fa-eye"></i> PREVIEW MODE';
+                document.querySelector('.payment-button-section p').textContent = 'This is a preview. Real payment button will be enabled in live mode.';
+            }
+        }
+
+        // Initialize Razorpay
+        function initializeRazorpay() {
+            // Your Razorpay API Key (replace with your actual key)
+            const razorpayKey = 'rzp_test_YOUR_KEY_HERE'; // Replace with your test/live key
+            
+            const options = {
+                key: razorpayKey,
+                amount: window.paymentData.amounts.finalAmount * 100, // Amount in paise
+                currency: "INR",
+                name: "InfoGrip Media Solution",
+                description: window.paymentData.service,
+                image: "https://i.postimg.cc/Nj3bmPwC/Infogrip-Medi-Soluiton-(Social-Media)-(1).png",
+                order_id: window.paymentData.id, // Generate order_id via your backend
+                handler: function(response) {
+                    // Payment success handler
+                    console.log(response);
+                    
+                    // Redirect to thank you page with payment details
+                    const params = new URLSearchParams({
+                        payment_id: response.razorpay_payment_id,
+                        order_id: response.razorpay_order_id,
+                        signature: response.razorpay_signature,
+                        amount: window.paymentData.amounts.finalAmount,
+                        client: window.paymentData.client.name
+                    });
+                    
+                    window.location.href = `thank-you.html?${params.toString()}`;
+                },
+                prefill: {
+                    name: window.paymentData.client.name,
+                    email: window.paymentData.client.email || '',
+                    contact: window.paymentData.client.mobile
+                },
+                notes: {
+                    payment_id: window.paymentData.id,
+                    category: window.paymentData.client.category
+                },
+                theme: {
+                    color: "#001c4f"
+                },
+                modal: {
+                    ondismiss: function() {
+                        console.log("Payment modal closed");
+                        document.getElementById('razorpayModal').classList.remove('active');
+                    }
+                }
+            };
+            
+            return new Razorpay(options);
+        }
+
+        // Payment button click handler
+        document.getElementById('payButton').addEventListener('click', function() {
+            // Show loading modal
+            document.getElementById('razorpayModal').classList.add('active');
+            
+            // Initialize Razorpay
+            const rzp = initializeRazorpay();
+            
+            // Open Razorpay checkout
+            rzp.open();
+            
+            // Hide loading after 2 seconds (in case modal doesn't show)
+            setTimeout(() => {
+                document.getElementById('razorpayModal').classList.remove('active');
+            }, 2000);
+        });
+
+        // Load payment data on page load
+        document.addEventListener('DOMContentLoaded', loadPaymentData);
+
+        // Add CSS for spinner
+        const style = document.createElement('style');
+        style.textContent = `
+            .spinner {
+                width: 40px;
+                height: 40px;
+                border: 4px solid #f3f3f3;
+                border-top: 4px solid #0d6efd;
+                border-radius: 50%;
+                animation: spin 1s linear infinite;
+            }
+            
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
