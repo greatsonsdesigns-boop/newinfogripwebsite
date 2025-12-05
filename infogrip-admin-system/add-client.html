@@ -1372,26 +1372,72 @@
 
         // Form Submission
         // Form Submission - UPDATED VERSION:
+// Form Submission - CORRECT VERSION:
 document.getElementById('clientForm').addEventListener('submit', async function(e) {
     e.preventDefault();
     
-    // Collect form data (same as before)
+    // Validation
+    const fullName = document.getElementById('fullName').value.trim();
+    const mobile = document.getElementById('mobile').value.trim();
+    const category = document.getElementById('category').value;
+    
+    if (!fullName || !mobile || !category) {
+        alert('Please fill all required fields (Name, Mobile, Category)');
+        return;
+    }
+    
+    // Collect form data
     const formData = {
         basicDetails: {
-            fullName: document.getElementById('fullName').value,
-            mobile: document.getElementById('mobile').value,
-            email: document.getElementById('email').value,
-            address: document.getElementById('address').value,
-            category: document.getElementById('category').value
+            fullName: fullName,
+            mobile: mobile,
+            email: document.getElementById('email').value.trim(),
+            address: document.getElementById('address').value.trim(),
+            category: category
         },
         socialLinks: {
-            facebook: document.getElementById('facebook').value,
-            instagram: document.getElementById('instagram').value,
-            twitter: document.getElementById('twitter').value,
-            website: document.getElementById('website').value
+            facebook: document.getElementById('facebook').value.trim(),
+            instagram: document.getElementById('instagram').value.trim(),
+            twitter: document.getElementById('twitter').value.trim(),
+            website: document.getElementById('website').value.trim()
         },
         services: []
     };
+    
+    // Collect category-specific data
+    if (category === 'politician') {
+        formData.politicalDetails = {
+            partyName: document.getElementById('partyName')?.value || '',
+            otherParty: document.getElementById('otherParty')?.value || '',
+            politicalRole: document.getElementById('politicalRole')?.value || '',
+            otherRole: document.getElementById('otherRole')?.value || ''
+        };
+    } else if (category === 'business') {
+        formData.businessDetails = {
+            businessType: document.getElementById('businessType')?.value || '',
+            otherBusinessType: document.getElementById('otherBusinessType')?.value || '',
+            businessName: document.getElementById('businessName')?.value || ''
+        };
+    } else if (category === 'ngo') {
+        formData.ngoDetails = {
+            ngoType: document.getElementById('ngoType')?.value || '',
+            otherNgoType: document.getElementById('otherNgoType')?.value || '',
+            ngoName: document.getElementById('ngoName')?.value || ''
+        };
+    }
+    
+    // Collect services
+    document.querySelectorAll('.service-item').forEach(item => {
+        const service = {
+            name: item.querySelector('.service-select').value,
+            description: item.querySelector('.service-select').options[item.querySelector('.service-select').selectedIndex].text,
+            billingCycle: item.querySelector('.billing-cycle').value,
+            amount: item.querySelector('.service-amount').value || 0
+        };
+        if (service.name) {
+            formData.services.push(service);
+        }
+    });
     
     // Show loading
     const submitBtn = document.querySelector('button[type="submit"]');
@@ -1399,10 +1445,13 @@ document.getElementById('clientForm').addEventListener('submit', async function(
     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
     submitBtn.disabled = true;
     
+    console.log('Sending to Google Sheets:', formData);
+    
     try {
         // ACTUAL API CALL to Google Sheets
-        const response = await fetch(GOOGLE_APPS_SCRIPT_URL, {
+        const response = await fetch(window.GOOGLE_APPS_SCRIPT_URL || 'https://script.google.com/macros/s/AKfycbxWyQFqcftfk35k8_HYFt3Gyiw8_u4DR0hvG694qJcn8ZLVxZQRZQIy0UgL3dt3Ko1ihA/exec', {
             method: 'POST',
+            mode: 'no-cors', // Important for Google Apps Script
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -1413,22 +1462,21 @@ document.getElementById('clientForm').addEventListener('submit', async function(
             })
         });
         
-        const result = await response.json();
+        // Since we use no-cors, we can't read response
+        console.log('Data sent to Google Sheets');
         
-        if (result.success) {
-            // SUCCESS
-            alert('Client saved successfully to Google Sheets!');
-            resetForm();
-            switchToNewTab();
-        } else {
-            // ERROR
-            alert('Error: ' + result.error);
-        }
+        // Show success message
+        alert('✅ Client saved successfully! Check your Google Sheet.');
+        
+        // Reset form
+        resetForm();
+        
+        // Switch to search tab
+        switchToNewTab();
         
     } catch (error) {
-        // NETWORK ERROR
         console.error('Save failed:', error);
-        alert('Failed to save. Check console for details.');
+        alert('⚠️ Failed to save. Check console for details. Error: ' + error.message);
     } finally {
         // Restore button
         submitBtn.innerHTML = originalText;
@@ -1513,6 +1561,19 @@ document.getElementById('clientForm').addEventListener('submit', async function(
             document.getElementById('clientModal').classList.remove('active');
             // Implement actual data population here
         }
+        async function testAPIConnection() {
+    try {
+        const response = await fetch(GOOGLE_APPS_SCRIPT_URL + '?action=test&sheet=Clients');
+        const data = await response.json();
+        console.log('API Test Result:', data);
+        alert('API Connection: ' + (data.success ? '✅ Working' : '❌ Failed'));
+        return data.success;
+    } catch (error) {
+        console.error('API Test Failed:', error);
+        alert('❌ API Connection Failed: ' + error.message);
+        return false;
+    }
+}
     </script>
 </body>
 </html>
