@@ -1371,7 +1371,17 @@
 
         // Form Submission
         document.getElementById('clientForm').addEventListener('submit', function(e) {
-            e.preventDefault();
+    e.preventDefault();
+    
+    // Simulate API call
+    setTimeout(() => {
+        console.log('Form Data:', formData);
+        alert('Client saved successfully!');
+        resetForm();
+        switchToNewTab();
+    }, 2000);
+});
+
             
             // Collect form data
             const formData = {
