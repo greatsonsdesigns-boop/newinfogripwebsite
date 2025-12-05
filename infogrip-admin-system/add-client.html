@@ -1,0 +1,1473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Clients | InfoGrip Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-blue: #001c4f;
+            --secondary-blue: #07217c;
+            --accent-orange: #fdcb54;
+            --light-bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-dark: #001c4f;
+            --text-light: #6c757d;
+            --border-color: #e0e6f1;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        .admin-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar (Same as dashboard) */
+        .admin-sidebar {
+            width: 250px;
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+            color: white;
+            padding: 25px 0;
+            position: fixed;
+            height: 100vh;
+            transition: var(--transition);
+            z-index: 100;
+            box-shadow: 2px 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar-header {
+            padding: 0 25px 30px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 25px;
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .sidebar-logo img {
+            height: 45px;
+            border-radius: 8px;
+        }
+
+        .sidebar-logo span {
+            font-weight: 700;
+            font-size: 1.2rem;
+            background: linear-gradient(135deg, var(--accent-orange) 0%, #ff9d00 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .sidebar-menu {
+            padding: 0 15px;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 20px;
+            border-radius: 10px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .menu-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .menu-item.active {
+            background: rgba(253, 203, 84, 0.2);
+            color: var(--accent-orange);
+            border-left: 3px solid var(--accent-orange);
+        }
+
+        .menu-item i {
+            width: 20px;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        .menu-text {
+            font-weight: 500;
+        }
+
+        /* Main Content */
+        .admin-main {
+            flex: 1;
+            margin-left: 250px;
+            padding: 25px;
+            transition: var(--transition);
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .header-title h1 {
+            font-size: 1.8rem;
+            color: var(--primary-blue);
+            font-weight: 700;
+        }
+
+        .header-title p {
+            color: var(--text-light);
+            margin-top: 5px;
+        }
+
+        /* Form Container */
+        .form-container {
+            background: var(--card-bg);
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .form-tabs {
+            display: flex;
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+            padding: 0;
+        }
+
+        .form-tab {
+            padding: 15px 30px;
+            color: rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+            border-bottom: 3px solid transparent;
+        }
+
+        .form-tab:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .form-tab.active {
+            color: var(--accent-orange);
+            border-bottom: 3px solid var(--accent-orange);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Form Content */
+        .form-content {
+            padding: 40px;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Form Groups */
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: var(--primary-blue);
+        }
+
+        .form-label i {
+            color: var(--accent-orange);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            background: white;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent-orange);
+            box-shadow: 0 0 0 3px rgba(253, 203, 84, 0.1);
+        }
+
+        .form-control::placeholder {
+            color: #adb5bd;
+        }
+
+        textarea.form-control {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        /* Search Client Section */
+        .search-section {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border: 1px solid var(--border-color);
+        }
+
+        .search-container {
+            display: flex;
+            gap: 15px;
+            align-items: flex-end;
+        }
+
+        .search-input {
+            flex: 1;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-orange) 0%, #ff9d00 100%);
+            color: var(--primary-blue);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(253, 203, 84, 0.3);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 28, 79, 0.2);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--border-color);
+            color: var(--text-dark);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--accent-orange);
+            color: var(--accent-orange);
+        }
+
+        /* Conditional Fields */
+        .conditional-fields {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid var(--accent-orange);
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Social Links */
+        .social-links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .social-input {
+            position: relative;
+        }
+
+        .social-input i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+        }
+
+        .social-input input {
+            padding-left: 45px;
+        }
+
+        /* Services Section */
+        .services-section {
+            margin-top: 30px;
+        }
+
+        .service-item {
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            transition: var(--transition);
+        }
+
+        .service-item:hover {
+            border-color: var(--accent-orange);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .service-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .service-title {
+            font-weight: 600;
+            color: var(--primary-blue);
+        }
+
+        .service-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-icon {
+            width: 35px;
+            height: 35px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--light-bg);
+            color: var(--text-dark);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-icon:hover {
+            background: var(--accent-orange);
+            color: var(--primary-blue);
+        }
+
+        .amount-input {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .amount-input span {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .amount-input input {
+            width: 150px;
+            padding: 8px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+        }
+
+        /* Form Actions */
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* Modal for Existing Clients */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            padding: 20px 25px;
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            font-size: 1.3rem;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .modal-body {
+            padding: 25px;
+            max-height: calc(80vh - 130px);
+            overflow-y: auto;
+        }
+
+        .client-list {
+            display: grid;
+            gap: 10px;
+        }
+
+        .client-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .client-item:hover {
+            background: var(--light-bg);
+            border-color: var(--accent-orange);
+        }
+
+        .client-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .client-info h4 {
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+
+        .client-info p {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        /* Mobile Responsive */
+        .mobile-toggle {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: var(--primary-blue);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 28, 79, 0.3);
+        }
+
+        @media (max-width: 1200px) {
+            .admin-sidebar {
+                width: 70px;
+                padding: 25px 0;
+            }
+            
+            .admin-main {
+                margin-left: 70px;
+            }
+            
+            .sidebar-logo span,
+            .menu-text {
+                display: none;
+            }
+            
+            .sidebar-header {
+                padding: 0 15px 30px;
+            }
+            
+            .menu-item {
+                justify-content: center;
+                padding: 15px;
+            }
+            
+            .menu-item i {
+                font-size: 1.3rem;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .form-content {
+                padding: 25px;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .search-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-toggle {
+                display: flex;
+            }
+            
+            .admin-sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .admin-sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .admin-main {
+                margin-left: 0;
+                padding: 20px;
+            }
+            
+            .admin-header {
+                flex-direction: column;
+                gap: 20px;
+                align-items: flex-start;
+            }
+            
+            .form-tabs {
+                flex-wrap: wrap;
+            }
+            
+            .form-tab {
+                flex: 1;
+                text-align: center;
+                padding: 12px 15px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .admin-main {
+                padding: 15px;
+            }
+            
+            .form-content {
+                padding: 20px;
+            }
+            
+            .form-actions {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .modal {
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Mobile Toggle -->
+    <div class="mobile-toggle" id="mobileToggle">
+        <i class="fas fa-bars"></i>
+    </div>
+
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <img src="https://i.postimg.cc/Nj3bmPwC/Infogrip-Medi-Soluiton-(Social-Media)-(1).png" alt="InfoGrip">
+                    <span>Admin</span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-menu">
+                <div class="menu-item" onclick="window.location.href='admin-dashboard.html'">
+                    <i class="fas fa-home"></i>
+                    <span class="menu-text">Dashboard</span>
+                </div>
+                
+                <div class="menu-item active" onclick="window.location.href='add-client.html'">
+                    <i class="fas fa-user-plus"></i>
+                    <span class="menu-text">Manage Clients</span>
+                </div>
+                
+                <div class="menu-item" onclick="window.location.href='generate-payment.html'">
+                    <i class="fas fa-link"></i>
+                    <span class="menu-text">Payment Links</span>
+                </div>
+                
+                <div class="menu-item" onclick="window.location.href='settings.html'">
+                    <i class="fas fa-cog"></i>
+                    <span class="menu-text">Settings</span>
+                </div>
+                
+                <div class="menu-item" onclick="window.location.href='index.html'">
+                    <i class="fas fa-external-link-alt"></i>
+                    <span class="menu-text">Main Website</span>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <!-- Header -->
+            <header class="admin-header">
+                <div class="header-title">
+                    <h1>Manage Clients</h1>
+                    <p>Add new clients or search existing clients to manage their details</p>
+                </div>
+            </header>
+
+            <!-- Form Container -->
+            <div class="form-container">
+                <!-- Tabs -->
+                <div class="form-tabs">
+                    <div class="form-tab active" data-tab="search">Search Existing Client</div>
+                    <div class="form-tab" data-tab="new">Add New Client</div>
+                </div>
+
+                <!-- Tab Contents -->
+                <div class="form-content">
+                    <!-- Search Tab -->
+                    <div class="tab-content active" id="searchTab">
+                        <div class="search-section">
+                            <h3 style="margin-bottom: 15px; color: var(--primary-blue);">
+                                <i class="fas fa-search"></i> Search Existing Client
+                            </h3>
+                            <div class="search-container">
+                                <div class="search-input">
+                                    <label class="form-label">
+                                        <i class="fas fa-user"></i> Client Name or Mobile Number
+                                    </label>
+                                    <input type="text" class="form-control" id="searchClient" 
+                                           placeholder="Enter client name or mobile number">
+                                </div>
+                                <button class="btn btn-primary" id="searchBtn">
+                                    <i class="fas fa-search"></i> Search
+                                </button>
+                                <button class="btn btn-outline" id="clearSearch">
+                                    <i class="fas fa-times"></i> Clear
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="searchResults">
+                            <!-- Search results will appear here -->
+                            <p class="text-center" style="color: var(--text-light); padding: 40px;">
+                                <i class="fas fa-search fa-2x" style="margin-bottom: 15px; opacity: 0.5;"></i><br>
+                                Search for a client to view and edit their details
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- New Client Tab -->
+                    <div class="tab-content" id="newTab">
+                        <form id="clientForm">
+                            <!-- Basic Details -->
+                            <h3 style="margin-bottom: 20px; color: var(--primary-blue); border-bottom: 2px solid var(--accent-orange); padding-bottom: 10px;">
+                                <i class="fas fa-user-circle"></i> Basic Client Details
+                            </h3>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <i class="fas fa-user"></i> Full Name *
+                                    </label>
+                                    <input type="text" class="form-control" id="fullName" required 
+                                           placeholder="Enter client's full name">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <i class="fas fa-phone"></i> Mobile Number *
+                                    </label>
+                                    <input type="tel" class="form-control" id="mobile" required 
+                                           placeholder="Enter 10-digit mobile number" pattern="[0-9]{10}">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <i class="fas fa-envelope"></i> Email Address
+                                    </label>
+                                    <input type="email" class="form-control" id="email" 
+                                           placeholder="Enter email address">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">
+                                    <i class="fas fa-map-marker-alt"></i> Address
+                                </label>
+                                <textarea class="form-control" id="address" rows="3" 
+                                          placeholder="Enter complete address"></textarea>
+                            </div>
+
+                            <!-- Category Selection -->
+                            <div class="form-group">
+                                <label class="form-label">
+                                    <i class="fas fa-tag"></i> Category *
+                                </label>
+                                <select class="form-control" id="category" required>
+                                    <option value="">Select Category</option>
+                                    <option value="politician">Politician</option>
+                                    <option value="business">Business Owner</option>
+                                    <option value="ngo">NGO</option>
+                                    <option value="personal">Personal Branding</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+
+                            <!-- Conditional Fields -->
+                            <div id="conditionalFields"></div>
+
+                            <!-- Social Links -->
+                            <h3 style="margin-top: 30px; margin-bottom: 20px; color: var(--primary-blue);">
+                                <i class="fas fa-share-alt"></i> Social Media Links (Optional)
+                            </h3>
+                            
+                            <div class="social-links-grid">
+                                <div class="social-input">
+                                    <i class="fab fa-facebook"></i>
+                                    <input type="url" class="form-control" id="facebook" 
+                                           placeholder="Facebook profile link">
+                                </div>
+                                
+                                <div class="social-input">
+                                    <i class="fab fa-instagram"></i>
+                                    <input type="url" class="form-control" id="instagram" 
+                                           placeholder="Instagram profile link">
+                                </div>
+                                
+                                <div class="social-input">
+                                    <i class="fab fa-twitter"></i>
+                                    <input type="url" class="form-control" id="twitter" 
+                                           placeholder="Twitter profile link">
+                                </div>
+                                
+                                <div class="social-input">
+                                    <i class="fas fa-globe"></i>
+                                    <input type="url" class="form-control" id="website" 
+                                           placeholder="Website URL">
+                                </div>
+                            </div>
+
+                            <!-- Services Section -->
+                            <div class="services-section">
+                                <h3 style="margin-bottom: 20px; color: var(--primary-blue);">
+                                    <i class="fas fa-concierge-bell"></i> Services
+                                </h3>
+                                
+                                <div id="servicesContainer">
+                                    <!-- Services will be added dynamically -->
+                                    <div class="service-item">
+                                        <div class="service-header">
+                                            <div class="service-title">Select Service</div>
+                                            <div class="service-actions">
+                                                <span class="btn-icon" onclick="addService()">
+                                                    <i class="fas fa-plus"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group">
+                                                <label class="form-label">Service</label>
+                                                <select class="form-control service-select" onchange="updateAmount(this)">
+                                                    <option value="">Select a service</option>
+                                                    <option value="social-media" data-amount="8000">Social Media Management</option>
+                                                    <option value="video-editing" data-amount="5000">Video Editing</option>
+                                                    <option value="graphic-design" data-amount="4000">Graphic Designing</option>
+                                                    <option value="ads-management" data-amount="10000">Ads Management</option>
+                                                    <option value="website-dev" data-amount="15000">Website Development</option>
+                                                    <option value="political-campaign" data-amount="25000">Political Campaign Management</option>
+                                                    <option value="content-creation" data-amount="6000">Content Creation</option>
+                                                    <option value="personal-branding" data-amount="12000">Personal Branding</option>
+                                                    <option value="reputation-management" data-amount="8000">Reputation Management</option>
+                                                    <option value="monthly-consulting" data-amount="5000">Monthly Consulting</option>
+                                                </select>
+                                            </div>
+                                            
+                                            <div class="form-group">
+                                                <label class="form-label">Billing Cycle</label>
+                                                <select class="form-control billing-cycle">
+                                                    <option value="one-time">One-time service</option>
+                                                    <option value="1-month">1 Month</option>
+                                                    <option value="3-months">3 Months</option>
+                                                    <option value="6-months">6 Months</option>
+                                                    <option value="12-months">12 Months</option>
+                                                </select>
+                                            </div>
+                                            
+                                            <div class="form-group">
+                                                <label class="form-label">Amount (₹)</label>
+                                                <div class="amount-input">
+                                                    <span>₹</span>
+                                                    <input type="number" class="form-control service-amount" value="0" min="0">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Form Actions -->
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-outline" onclick="resetForm()">
+                                    <i class="fas fa-redo"></i> Reset Form
+                                </button>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save"></i> Save Client
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Existing Clients Modal -->
+    <div class="modal-overlay" id="clientModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Select Existing Client</h3>
+                <button class="modal-close" id="modalClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="client-list" id="clientList">
+                    <!-- Client list will be populated here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mobile Toggle
+        document.getElementById('mobileToggle').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('active');
+            this.innerHTML = document.getElementById('sidebar').classList.contains('active') 
+                ? '<i class="fas fa-times"></i>' 
+                : '<i class="fas fa-bars"></i>';
+        });
+
+        // Tab Switching
+        const tabs = document.querySelectorAll('.form-tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabId = tab.getAttribute('data-tab');
+                
+                // Update active tab
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                // Show corresponding content
+                tabContents.forEach(content => content.classList.remove('active'));
+                document.getElementById(tabId + 'Tab').classList.add('active');
+            });
+        });
+
+        // Category Change Handler
+        document.getElementById('category').addEventListener('change', function() {
+            const category = this.value;
+            const conditionalFields = document.getElementById('conditionalFields');
+            
+            // Clear existing conditional fields
+            conditionalFields.innerHTML = '';
+            
+            if (category === 'politician') {
+                conditionalFields.innerHTML = `
+                    <div class="conditional-fields">
+                        <h4 style="margin-bottom: 15px; color: var(--primary-blue);">
+                            <i class="fas fa-landmark"></i> Political Details
+                        </h4>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Party Name</label>
+                                <select class="form-control" id="partyName">
+                                    <option value="">Select Party</option>
+                                    <option value="bjp">BJP</option>
+                                    <option value="inc">INC</option>
+                                    <option value="aap">AAP</option>
+                                    <option value="bsp">BSP</option>
+                                    <option value="sp">SP</option>
+                                    <option value="rjd">RJD</option>
+                                    <option value="jdu">JDU</option>
+                                    <option value="ncp">NCP</option>
+                                    <option value="tmc">TMC</option>
+                                    <option value="cpi-m">CPI(M)</option>
+                                    <option value="other">Other</option>
+                                </select>
+                                <input type="text" class="form-control" id="otherParty" 
+                                       placeholder="Specify party name" style="margin-top: 10px; display: none;">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Political Role</label>
+                                <select class="form-control" id="politicalRole">
+                                    <option value="">Select Role</option>
+                                    <option value="mla">MLA (विधायक)</option>
+                                    <option value="mp">MP (सांसद)</option>
+                                    <option value="ward-councillor">Ward Councillor (पार्षद)</option>
+                                    <option value="sarpanch">Sarpanch (सरपंच)</option>
+                                    <option value="panchayat-member">Panchayat Member (पंचायत सदस्य)</option>
+                                    <option value="booth-incharge">Booth Incharge (बूथ प्रभारी)</option>
+                                    <option value="district-president">District President (जिला अध्यक्ष)</option>
+                                    <option value="mandal-president">Mandal President (मंडल अध्यक्ष)</option>
+                                    <option value="youth-leader">Youth Leader (युवा नेता)</option>
+                                    <option value="state-leader">State Leader (राज्य नेता)</option>
+                                    <option value="general-secretary">General Secretary (महामंत्री)</option>
+                                    <option value="mayor">Mayor (महापौर)</option>
+                                    <option value="deputy-mayor">Deputy Mayor (उपमहापौर)</option>
+                                    <option value="corporator">Corporator (कॉरपोरेटर)</option>
+                                    <option value="party-worker">Party Worker (कार्यकर्ता)</option>
+                                    <option value="other">Other</option>
+                                </select>
+                                <input type="text" class="form-control" id="otherRole" 
+                                       placeholder="Specify role" style="margin-top: 10px; display: none;">
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                // Show/hide other party input
+                document.getElementById('partyName')?.addEventListener('change', function() {
+                    const otherPartyInput = document.getElementById('otherParty');
+                    otherPartyInput.style.display = this.value === 'other' ? 'block' : 'none';
+                });
+                
+                // Show/hide other role input
+                document.getElementById('politicalRole')?.addEventListener('change', function() {
+                    const otherRoleInput = document.getElementById('otherRole');
+                    otherRoleInput.style.display = this.value === 'other' ? 'block' : 'none';
+                });
+                
+            } else if (category === 'business') {
+                conditionalFields.innerHTML = `
+                    <div class="conditional-fields">
+                        <h4 style="margin-bottom: 15px; color: var(--primary-blue);">
+                            <i class="fas fa-briefcase"></i> Business Details
+                        </h4>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Business Type</label>
+                                <select class="form-control" id="businessType">
+                                    <option value="">Select Business Type</option>
+                                    <option value="restaurant">Restaurant</option>
+                                    <option value="cafe">Cafe</option>
+                                    <option value="real-estate">Real Estate</option>
+                                    <option value="gym">Gym</option>
+                                    <option value="boutique">Boutique</option>
+                                    <option value="jewellery">Jewellery Shop</option>
+                                    <option value="medical">Medical Store</option>
+                                    <option value="hospital">Hospital</option>
+                                    <option value="coaching">Coaching Center</option>
+                                    <option value="grocery">Grocery</option>
+                                    <option value="electronics">Electronics</option>
+                                    <option value="salon">Salon</option>
+                                    <option value="car-showroom">Car Showroom</option>
+                                    <option value="travel">Travel Agency</option>
+                                    <option value="agency">Agency</option>
+                                    <option value="freelancer">Freelancer</option>
+                                    <option value="cloth-store">Cloth Store</option>
+                                    <option value="bakery">Bakery</option>
+                                    <option value="sweet-shop">Sweet Shop</option>
+                                    <option value="taxi">Taxi Service</option>
+                                    <option value="event-planner">Event Planner</option>
+                                    <option value="startup">Startup</option>
+                                    <option value="construction">Construction</option>
+                                    <option value="education">Education Institute</option>
+                                    <option value="other">Other</option>
+                                </select>
+                                <input type="text" class="form-control" id="otherBusinessType" 
+                                       placeholder="Specify business type" style="margin-top: 10px; display: none;">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Business Name</label>
+                                <input type="text" class="form-control" id="businessName" 
+                                       placeholder="Enter business name">
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                // Show/hide other business type input
+                document.getElementById('businessType')?.addEventListener('change', function() {
+                    const otherInput = document.getElementById('otherBusinessType');
+                    otherInput.style.display = this.value === 'other' ? 'block' : 'none';
+                });
+                
+            } else if (category === 'ngo') {
+                conditionalFields.innerHTML = `
+                    <div class="conditional-fields">
+                        <h4 style="margin-bottom: 15px; color: var(--primary-blue);">
+                            <i class="fas fa-hands-helping"></i> NGO Details
+                        </h4>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">NGO Type</label>
+                                <select class="form-control" id="ngoType">
+                                    <option value="">Select NGO Type</option>
+                                    <option value="education">Education</option>
+                                    <option value="environment">Environment</option>
+                                    <option value="health">Health</option>
+                                    <option value="women">Women Empowerment</option>
+                                    <option value="child-care">Child Care</option>
+                                    <option value="old-age">Old Age</option>
+                                    <option value="social-work">Social Work</option>
+                                    <option value="animal-welfare">Animal Welfare</option>
+                                    <option value="rural">Rural Development</option>
+                                    <option value="poverty">Poverty Relief</option>
+                                    <option value="disaster">Disaster Support</option>
+                                    <option value="human-rights">Human Rights</option>
+                                    <option value="other">Other</option>
+                                </select>
+                                <input type="text" class="form-control" id="otherNgoType" 
+                                       placeholder="Specify NGO type" style="margin-top: 10px; display: none;">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">NGO Name</label>
+                                <input type="text" class="form-control" id="ngoName" 
+                                       placeholder="Enter NGO name">
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                // Show/hide other NGO type input
+                document.getElementById('ngoType')?.addEventListener('change', function() {
+                    const otherInput = document.getElementById('otherNgoType');
+                    otherInput.style.display = this.value === 'other' ? 'block' : 'none';
+                });
+            }
+        });
+
+        // Add Service Function
+        function addService() {
+            const servicesContainer = document.getElementById('servicesContainer');
+            const newService = document.createElement('div');
+            newService.className = 'service-item';
+            newService.innerHTML = `
+                <div class="service-header">
+                    <div class="service-title">Additional Service</div>
+                    <div class="service-actions">
+                        <span class="btn-icon" onclick="removeService(this)">
+                            <i class="fas fa-trash"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Service</label>
+                        <select class="form-control service-select" onchange="updateAmount(this)">
+                            <option value="">Select a service</option>
+                            <option value="social-media" data-amount="8000">Social Media Management</option>
+                            <option value="video-editing" data-amount="5000">Video Editing</option>
+                            <option value="graphic-design" data-amount="4000">Graphic Designing</option>
+                            <option value="ads-management" data-amount="10000">Ads Management</option>
+                            <option value="website-dev" data-amount="15000">Website Development</option>
+                            <option value="political-campaign" data-amount="25000">Political Campaign Management</option>
+                            <option value="content-creation" data-amount="6000">Content Creation</option>
+                            <option value="personal-branding" data-amount="12000">Personal Branding</option>
+                            <option value="reputation-management" data-amount="8000">Reputation Management</option>
+                            <option value="monthly-consulting" data-amount="5000">Monthly Consulting</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Billing Cycle</label>
+                        <select class="form-control billing-cycle">
+                            <option value="one-time">One-time service</option>
+                            <option value="1-month">1 Month</option>
+                            <option value="3-months">3 Months</option>
+                            <option value="6-months">6 Months</option>
+                            <option value="12-months">12 Months</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Amount (₹)</label>
+                        <div class="amount-input">
+                            <span>₹</span>
+                            <input type="number" class="form-control service-amount" value="0" min="0">
+                        </div>
+                    </div>
+                </div>
+            `;
+            servicesContainer.appendChild(newService);
+        }
+
+        // Remove Service Function
+        function removeService(button) {
+            const serviceItem = button.closest('.service-item');
+            serviceItem.remove();
+        }
+
+        // Update Amount based on Service Selection
+        function updateAmount(select) {
+            const amountInput = select.closest('.form-row').querySelector('.service-amount');
+            const selectedOption = select.options[select.selectedIndex];
+            const defaultAmount = selectedOption.getAttribute('data-amount') || 0;
+            amountInput.value = defaultAmount;
+        }
+
+        // Reset Form
+        function resetForm() {
+            if (confirm('Are you sure you want to reset the form? All entered data will be lost.')) {
+                document.getElementById('clientForm').reset();
+                document.getElementById('conditionalFields').innerHTML = '';
+                const servicesContainer = document.getElementById('servicesContainer');
+                servicesContainer.innerHTML = `
+                    <div class="service-item">
+                        <div class="service-header">
+                            <div class="service-title">Select Service</div>
+                            <div class="service-actions">
+                                <span class="btn-icon" onclick="addService()">
+                                    <i class="fas fa-plus"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Service</label>
+                                <select class="form-control service-select" onchange="updateAmount(this)">
+                                    <option value="">Select a service</option>
+                                    <option value="social-media" data-amount="8000">Social Media Management</option>
+                                    <option value="video-editing" data-amount="5000">Video Editing</option>
+                                    <option value="graphic-design" data-amount="4000">Graphic Designing</option>
+                                    <option value="ads-management" data-amount="10000">Ads Management</option>
+                                    <option value="website-dev" data-amount="15000">Website Development</option>
+                                    <option value="political-campaign" data-amount="25000">Political Campaign Management</option>
+                                    <option value="content-creation" data-amount="6000">Content Creation</option>
+                                    <option value="personal-branding" data-amount="12000">Personal Branding</option>
+                                    <option value="reputation-management" data-amount="8000">Reputation Management</option>
+                                    <option value="monthly-consulting" data-amount="5000">Monthly Consulting</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Billing Cycle</label>
+                                <select class="form-control billing-cycle">
+                                    <option value="one-time">One-time service</option>
+                                    <option value="1-month">1 Month</option>
+                                    <option value="3-months">3 Months</option>
+                                    <option value="6-months">6 Months</option>
+                                    <option value="12-months">12 Months</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Amount (₹)</label>
+                                <div class="amount-input">
+                                    <span>₹</span>
+                                    <input type="number" class="form-control service-amount" value="0" min="0">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        // Search Clients
+        document.getElementById('searchBtn').addEventListener('click', function() {
+            const searchTerm = document.getElementById('searchClient').value.trim();
+            
+            if (!searchTerm) {
+                alert('Please enter a search term');
+                return;
+            }
+            
+            // Show loading
+            document.getElementById('searchResults').innerHTML = `
+                <div style="text-align: center; padding: 40px;">
+                    <i class="fas fa-spinner fa-spin fa-2x" style="color: var(--accent-orange); margin-bottom: 15px;"></i>
+                    <p>Searching for clients...</p>
+                </div>
+            `;
+            
+            // Simulate API call (replace with actual Google Sheets API)
+            setTimeout(() => {
+                // Sample data - replace with actual API response
+                const sampleClients = [
+                    { id: 1, name: 'Rohit Sharma', mobile: '9876543210', email: 'rohit@example.com', category: 'Politician' },
+                    { id: 2, name: 'Simran Kaur', mobile: '8765432109', email: 'simran@example.com', category: 'Business Owner' },
+                    { id: 3, name: 'Arjun Mehta', mobile: '7654321098', email: 'arjun@example.com', category: 'Business Owner' },
+                    { id: 4, name: 'Priya Patel', mobile: '6543210987', email: 'priya@example.com', category: 'Personal Branding' }
+                ];
+                
+                const filteredClients = sampleClients.filter(client => 
+                    client.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    client.mobile.includes(searchTerm)
+                );
+                
+                if (filteredClients.length === 0) {
+                    document.getElementById('searchResults').innerHTML = `
+                        <div style="text-align: center; padding: 40px;">
+                            <i class="fas fa-search fa-2x" style="color: var(--text-light); margin-bottom: 15px;"></i>
+                            <p>No clients found. Try a different search term or add as new client.</p>
+                            <button class="btn btn-primary" style="margin-top: 15px;" onclick="switchToNewTab()">
+                                <i class="fas fa-user-plus"></i> Add as New Client
+                            </button>
+                        </div>
+                    `;
+                } else {
+                    let resultsHTML = `
+                        <h4 style="margin-bottom: 20px; color: var(--primary-blue);">
+                            <i class="fas fa-users"></i> Found ${filteredClients.length} Clients
+                        </h4>
+                        <div style="display: grid; gap: 15px;">
+                    `;
+                    
+                    filteredClients.forEach(client => {
+                        resultsHTML += `
+                            <div class="client-item" onclick="selectClient(${client.id})">
+                                <div class="client-avatar">${client.name.charAt(0)}</div>
+                                <div class="client-info">
+                                    <h4>${client.name}</h4>
+                                    <p>${client.mobile} • ${client.email}</p>
+                                    <p style="font-size: 0.8rem;">
+                                        <span class="badge" style="background: var(--light-bg); padding: 3px 8px; border-radius: 12px;">
+                                            ${client.category}
+                                        </span>
+                                    </p>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    
+                    resultsHTML += `</div>`;
+                    document.getElementById('searchResults').innerHTML = resultsHTML;
+                }
+            }, 1000);
+        });
+
+        // Clear Search
+        document.getElementById('clearSearch').addEventListener('click', function() {
+            document.getElementById('searchClient').value = '';
+            document.getElementById('searchResults').innerHTML = `
+                <p class="text-center" style="color: var(--text-light); padding: 40px;">
+                    <i class="fas fa-search fa-2x" style="margin-bottom: 15px; opacity: 0.5;"></i><br>
+                    Search for a client to view and edit their details
+                </p>
+            `;
+        });
+
+        // Switch to New Tab
+        function switchToNewTab() {
+            tabs.forEach(t => t.classList.remove('active'));
+            tabContents.forEach(content => content.classList.remove('active'));
+            
+            document.querySelector('[data-tab="new"]').classList.add('active');
+            document.getElementById('newTab').classList.add('active');
+        }
+
+        // Form Submission
+        document.getElementById('clientForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Collect form data
+            const formData = {
+                basicDetails: {
+                    fullName: document.getElementById('fullName').value,
+                    mobile: document.getElementById('mobile').value,
+                    email: document.getElementById('email').value,
+                    address: document.getElementById('address').value,
+                    category: document.getElementById('category').value
+                },
+                socialLinks: {
+                    facebook: document.getElementById('facebook').value,
+                    instagram: document.getElementById('instagram').value,
+                    twitter: document.getElementById('twitter').value,
+                    website: document.getElementById('website').value
+                },
+                services: []
+            };
+            
+            // Collect category-specific data
+            const category = formData.basicDetails.category;
+            if (category === 'politician') {
+                formData.politicalDetails = {
+                    partyName: document.getElementById('partyName')?.value,
+                    otherParty: document.getElementById('otherParty')?.value,
+                    politicalRole: document.getElementById('politicalRole')?.value,
+                    otherRole: document.getElementById('otherRole')?.value
+                };
+            } else if (category === 'business') {
+                formData.businessDetails = {
+                    businessType: document.getElementById('businessType')?.value,
+                    otherBusinessType: document.getElementById('otherBusinessType')?.value,
+                    businessName: document.getElementById('businessName')?.value
+                };
+            } else if (category === 'ngo') {
+                formData.ngoDetails = {
+                    ngoType: document.getElementById('ngoType')?.value,
+                    otherNgoType: document.getElementById('otherNgoType')?.value,
+                    ngoName: document.getElementById('ngoName')?.value
+                };
+            }
+            
+            // Collect services
+            document.querySelectorAll('.service-item').forEach(item => {
+                const service = {
+                    name: item.querySelector('.service-select').value,
+                    billingCycle: item.querySelector('.billing-cycle').value,
+                    amount: item.querySelector('.service-amount').value
+                };
+                formData.services.push(service);
+            });
+            
+            // Show loading
+            const submitBtn = document.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+            submitBtn.disabled = true;
+            
+            // Simulate API call (replace with actual Google Sheets API)
+            setTimeout(() => {
+                // Save to Google Sheets (implement actual API call here)
+                console.log('Form Data:', formData);
+                
+                // Show success message
+                alert('Client saved successfully!');
+                
+                // Reset form
+                resetForm();
+                
+                // Switch to search tab
+                switchToNewTab();
+                
+                // Restore button
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }, 2000);
+        });
+
+        // Modal Controls
+        document.getElementById('modalClose').addEventListener('click', function() {
+            document.getElementById('clientModal').classList.remove('active');
+        });
+
+        document.getElementById('clientModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+            }
+        });
+
+        // Select Client Function
+        function selectClient(clientId) {
+            // Fetch client data and populate form
+            alert(`Client ${clientId} selected. Form will be auto-filled.`);
+            document.getElementById('clientModal').classList.remove('active');
+            // Implement actual data population here
+        }
+    </script>
+</body>
+</html>
