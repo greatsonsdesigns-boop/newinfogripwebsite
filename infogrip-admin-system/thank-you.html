@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Successful | InfoGrip Media Solution</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --dark-blue: #001c4f;
+            --blue: #07217c;
+            --white: #ffffff;
+            --orange: #fdcb54;
+            --light-blue: rgba(7, 33, 124, 0.1);
+            --transition: all 0.3s ease;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            --success: #28a745;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--dark-blue) 0%, var(--blue) 100%);
+            color: var(--white);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* Success Container */
+        .success-container {
+            background: var(--white);
+            border-radius: 25px;
+            padding: 50px;
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .success-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: linear-gradient(135deg, var(--orange) 0%, #ff9d00 100%);
+        }
+
+        /* Success Animation */
+        .success-animation {
+            margin-bottom: 30px;
+        }
+
+        .checkmark {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: var(--success);
+            margin: 0 auto;
+            position: relative;
+            animation: scaleIn 0.5s ease;
+        }
+
+        .checkmark::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 30%;
+            width: 25px;
+            height: 50px;
+            border: solid white;
+            border-width: 0 5px 5px 0;
+            transform: translateY(-60%) rotate(45deg);
+        }
+
+        /* Content */
+        .success-content h1 {
+            color: var(--dark-blue);
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            animation: slideIn 0.6s ease 0.3s both;
+        }
+
+        .success-content p {
+            color: var(--blue);
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+            animation: slideIn 0.6s ease 0.4s both;
+        }
+
+        /* Payment Details */
+        .payment-details {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+            text-align: left;
+            animation: slideIn 0.6s ease 0.5s both;
+        }
+
+        .payment-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .payment-row:last-child {
+            border-bottom: none;
+            font-weight: 700;
+            color: var(--dark-blue);
+        }
+
+        .payment-label {
+            color: var(--blue);
+            font-weight: 500;
+        }
+
+        .payment-value {
+            color: var(--dark-blue);
+            font-weight: 600;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 40px;
+            animation: slideIn 0.6s ease 0.6s both;
+        }
+
+        .btn {
+            padding: 15px 25px;
+            border-radius: 10px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 1rem;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--orange) 0%, #ff9d00 100%);
+            color: var(--dark-blue);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(253, 203, 84, 0.3);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--dark-blue) 0%, var(--blue) 100%);
+            color: var(--white);
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 28, 79, 0.2);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--dark-blue);
+            color: var(--dark-blue);
+        }
+
+        .btn-outline:hover {
+            background: var(--dark-blue);
+            color: var(--white);
+        }
+
+        /* Confetti Animation */
+        .confetti {
+            position: fixed;
+            width: 15px;
+            height: 15px;
+            background: var(--orange);
+            top: -10px;
+            opacity: 0;
+        }
+
+        .confetti:nth-child(odd) {
+            background: var(--blue);
+        }
+
+        .confetti:nth-child(even) {
+            background: var(--white);
+        }
+
+        /* Logo */
+        .logo {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+        }
+
+        .logo img {
+            height: 50px;
+        }
+
+        /* Customer Support */
+        .support-section {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            animation: slideIn 0.6s ease 0.7s both;
+        }
+
+        .support-section h3 {
+            color: var(--white);
+            margin-bottom: 15px;
+        }
+
+        .support-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .support-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--white);
+            text-decoration: none;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            transition: var(--transition);
+        }
+
+        .support-link:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes scaleIn {
+            0% { transform: scale(0); }
+            70% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes confettiRain {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .success-container {
+                padding: 30px;
+            }
+            
+            .success-content h1 {
+                font-size: 2rem;
+            }
+            
+            .action-buttons {
+                grid-template-columns: 1fr;
+            }
+            
+            .logo {
+                position: relative;
+                top: 0;
+                left: 0;
+                margin-bottom: 20px;
+            }
+            
+            .support-links {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .success-container {
+                padding: 20px;
+            }
+            
+            .checkmark {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .success-content h1 {
+                font-size: 1.8rem;
+            }
+            
+            .payment-details {
+                padding: 15px;
+            }
+            
+            .btn {
+                padding: 12px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Logo -->
+    <div class="logo">
+        <img src="https://i.postimg.cc/Nj3bmPwC/Infogrip-Medi-Soluiton-(Social-Media)-(1).png" alt="InfoGrip">
+    </div>
+
+    <!-- Success Container -->
+    <div class="success-container">
+        <!-- Success Animation -->
+        <div class="success-animation">
+            <div class="checkmark"></div>
+        </div>
+
+        <!-- Content -->
+        <div class="success-content">
+            <h1>Payment Successful! 🎉</h1>
+            <p>Thank you for your payment. Your transaction has been completed successfully.</p>
+            
+            <!-- Payment Details -->
+            <div class="payment-details">
+                <div class="payment-row">
+                    <span class="payment-label">Payment ID:</span>
+                    <span class="payment-value" id="paymentId">-</span>
+                </div>
+                <div class="payment-row">
+                    <span class="payment-label">Amount Paid:</span>
+                    <span class="payment-value" id="amountPaid">-</span>
+                </div>
+                <div class="payment-row">
+                    <span class="payment-label">Date & Time:</span>
+                    <span class="payment-value" id="paymentDate">-</span>
+                </div>
+                <div class="payment-row">
+                    <span class="payment-label">Client Name:</span>
+                    <span class="payment-value" id="clientName">-</span>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <button class="btn btn-primary" id="downloadInvoiceBtn">
+                    <i class="fas fa-download"></i> Download Invoice
+                </button>
+                <a href="index.html" class="btn btn-secondary">
+                    <i class="fas fa-home"></i> Return to Home
+                </a>
+                <button class="btn btn-outline" id="supportBtn">
+                    <i class="fas fa-headset"></i> Customer Support
+                </button>
+            </div>
+
+            <!-- Additional Info -->
+            <div style="margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 10px; animation: slideIn 0.6s ease 0.8s both;">
+                <h4 style="color: var(--dark-blue); margin-bottom: 10px;">
+                    <i class="fas fa-info-circle"></i> What's Next?
+                </h4>
+                <p style="color: var(--blue); font-size: 0.9rem; margin: 0;">
+                    Our team will contact you within 24 hours to start working on your project. 
+                    You'll receive a welcome email with all the details.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Customer Support Section -->
+    <div class="support-section">
+        <h3>Need Help?</h3>
+        <div class="support-links">
+            <a href="tel:+916367556906" class="support-link">
+                <i class="fas fa-phone"></i> Call: +91 6367556906
+            </a>
+            <a href="mailto:info@infogrip.com" class="support-link">
+                <i class="fas fa-envelope"></i> Email: info@infogrip.com
+            </a>
+            <a href="https://wa.me/916367556906" class="support-link" target="_blank">
+                <i class="fab fa-whatsapp"></i> WhatsApp
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Get payment details from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const paymentId = urlParams.get('payment_id') || 'PAY_' + Date.now();
+        const orderId = urlParams.get('order_id') || 'ORD_' + Date.now();
+        const amount = urlParams.get('amount') || '0';
+        const clientName = urlParams.get('client') || 'Client';
+        
+        // Update payment details
+        document.getElementById('paymentId').textContent = paymentId;
+        document.getElementById('amountPaid').textContent = `₹${parseInt(amount).toLocaleString()}`;
+        document.getElementById('paymentDate').textContent = new Date().toLocaleString('en-IN', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+        document.getElementById('clientName').textContent = clientName;
+        
+        // Create confetti
+        function createConfetti() {
+            const colors = ['#fdcb54', '#001c4f', '#07217c', '#ffffff'];
+            const container = document.body;
+            
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                
+                // Random properties
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.width = Math.random() * 10 + 5 + 'px';
+                confetti.style.height = confetti.style.width;
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+                
+                // Animation
+                confetti.style.animation = `confettiRain ${Math.random() * 3 + 2}s linear forwards`;
+                confetti.style.animationDelay = Math.random() * 2 + 's';
+                
+                container.appendChild(confetti);
+                
+                // Remove after animation
+                setTimeout(() => {
+                    confetti.remove();
+                }, 5000);
+            }
+        }
+        
+        // Download Invoice
+        document.getElementById('downloadInvoiceBtn').addEventListener('click', function() {
+            const btn = this;
+            const originalText = btn.innerHTML;
+            
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
+            btn.disabled = true;
+            
+            // Simulate invoice generation
+            setTimeout(() => {
+                // In production, this would generate and download a PDF
+                alert('Invoice generated successfully! In production, this would download a PDF.');
+                
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+                
+                // Create download link for demo
+                const invoiceData = {
+                    paymentId: paymentId,
+                    orderId: orderId,
+                    amount: amount,
+                    clientName: clientName,
+                    date: new Date().toLocaleString()
+                };
+                
+                const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(invoiceData, null, 2));
+                const downloadAnchorNode = document.createElement('a');
+                downloadAnchorNode.setAttribute("href", dataStr);
+                downloadAnchorNode.setAttribute("download", `Invoice_${paymentId}.json`);
+                document.body.appendChild(downloadAnchorNode);
+                downloadAnchorNode.click();
+                downloadAnchorNode.remove();
+            }, 2000);
+        });
+        
+        // Customer Support
+        document.getElementById('supportBtn').addEventListener('click', function() {
+            // Open support options
+            const message = encodeURIComponent(`Hello InfoGrip Team,\n\nI need help with payment ID: ${paymentId}\nClient: ${clientName}\nAmount: ₹${amount}\n\nPlease assist me.`);
+            const whatsappUrl = `https://wa.me/916367556906?text=${message}`;
+            window.open(whatsappUrl, '_blank');
+        });
+        
+        // Trigger confetti on page load
+        window.addEventListener('load', function() {
+            createConfetti();
+            
+            // Trigger automation processes (in production)
+            triggerAutomations();
+        });
+        
+        // Trigger automations after payment
+        function triggerAutomations() {
+            console.log('Starting post-payment automations...');
+            
+            // 1. Save payment to Google Sheets
+            savePaymentToSheets();
+            
+            // 2. Generate and save invoice PDF
+            generateInvoice();
+            
+            // 3. Send email notification
+            sendEmailNotification();
+            
+            // 4. Send WhatsApp notification
+            sendWhatsAppNotification();
+            
+            // 5. Update client status
+            updateClientStatus();
+        }
+        
+        // Mock functions for automations
+        function savePaymentToSheets() {
+            console.log('Saving payment to Google Sheets...');
+            // Implement Google Sheets API call
+        }
+        
+        function generateInvoice() {
+            console.log('Generating invoice PDF...');
+            // Implement PDF generation
+        }
+        
+        function sendEmailNotification() {
+            console.log('Sending email notification...');
+            // Implement email sending
+        }
+        
+        function sendWhatsAppNotification() {
+            console.log('Sending WhatsApp notification...');
+            // Implement WhatsApp sending
+        }
+        
+        function updateClientStatus() {
+            console.log('Updating client status to Active...');
+            // Update client in database
+        }
+        
+        // Add confetti animation CSS
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes confettiRain {
+                0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+                100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
