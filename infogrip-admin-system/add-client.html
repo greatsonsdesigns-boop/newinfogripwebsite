@@ -915,14 +915,15 @@
                             </div>
 
                             <!-- Form Actions -->
-                            <div class="form-actions">
-                                <button type="button" class="btn btn-outline" onclick="resetForm()">
-                                    <i class="fas fa-redo"></i> Reset Form
-                                </button>
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fas fa-save"></i> Save Client
-                                </button>
-                            </div>
+                             <!-- Form Actions Section - UPDATED: -->
+                                           <div class="form-actions">
+                                           <button type="button" class="btn btn-outline" onclick="confirmReset()">
+                                           <i class="fas fa-redo"></i> Clear Form
+                                        </button>
+                                           <button type="submit" class="btn btn-primary">
+                                           <i class="fas fa-save"></i> Save Client
+                                       </button>
+                                 </div>
                         </form>
                     </div>
                 </div>
@@ -1219,9 +1220,9 @@
         }
 
         // Reset Form
-        function resetForm() {
-            if (confirm('Are you sure you want to reset the form? All entered data will be lost.')) {
+                function resetForm() {
                 document.getElementById('clientForm').reset();
+                document.getElementById('conditionalFields').innerHTML = '';
                 document.getElementById('conditionalFields').innerHTML = '';
                 const servicesContainer = document.getElementById('servicesContainer');
                 servicesContainer.innerHTML = `
@@ -1370,26 +1371,70 @@
         }
 
         // Form Submission
-        document.getElementById('clientForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Collect form data
-            const formData = {
-                basicDetails: {
-                    fullName: document.getElementById('fullName').value,
-                    mobile: document.getElementById('mobile').value,
-                    email: document.getElementById('email').value,
-                    address: document.getElementById('address').value,
-                    category: document.getElementById('category').value
-                },
-                socialLinks: {
-                    facebook: document.getElementById('facebook').value,
-                    instagram: document.getElementById('instagram').value,
-                    twitter: document.getElementById('twitter').value,
-                    website: document.getElementById('website').value
-                },
-                services: []
-            };
+        // Form Submission - UPDATED VERSION:
+document.getElementById('clientForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    // Collect form data (same as before)
+    const formData = {
+        basicDetails: {
+            fullName: document.getElementById('fullName').value,
+            mobile: document.getElementById('mobile').value,
+            email: document.getElementById('email').value,
+            address: document.getElementById('address').value,
+            category: document.getElementById('category').value
+        },
+        socialLinks: {
+            facebook: document.getElementById('facebook').value,
+            instagram: document.getElementById('instagram').value,
+            twitter: document.getElementById('twitter').value,
+            website: document.getElementById('website').value
+        },
+        services: []
+    };
+    
+    // Show loading
+    const submitBtn = document.querySelector('button[type="submit"]');
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+    submitBtn.disabled = true;
+    
+    try {
+        // ACTUAL API CALL to Google Sheets
+        const response = await fetch(GOOGLE_APPS_SCRIPT_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                action: 'append',
+                sheet: 'Clients',
+                data: formData
+            })
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            // SUCCESS
+            alert('Client saved successfully to Google Sheets!');
+            resetForm();
+            switchToNewTab();
+        } else {
+            // ERROR
+            alert('Error: ' + result.error);
+        }
+        
+    } catch (error) {
+        // NETWORK ERROR
+        console.error('Save failed:', error);
+        alert('Failed to save. Check console for details.');
+    } finally {
+        // Restore button
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+    }
+});
             
             // Collect category-specific data
             const category = formData.basicDetails.category;
