@@ -514,6 +514,19 @@
             font-size: 1.3rem;
             margin-bottom: 10px;
         }
+        .features-carousel {
+           width: 100%;
+           min-height: 220px;  /* Fix invisible carousel */
+        }
+
+        .feature-card {
+           flex: 0 0 100%;      /* Fix slide width */
+        min-height: 220px;   /* Fix collapsing height */
+        }
+
+        .feature-icon i {
+         font-size: 1.5rem !important; /* Fix icon load collapse */
+       }
 
         .carousel-nav {
             display: flex;
@@ -567,16 +580,8 @@
 
         .carousel-arrow.next {
             right: 10px;
-        }
-        .features-carousel {
-         width: 100%;
-         }
-
-         .feature-card {
-         flex: 0 0 100%;
-         }
         
-        /* Process Section */
+         /* Process Section */
         .process {
             background-color: var(--section-bg);
         }
