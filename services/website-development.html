@@ -461,7 +461,7 @@
             color: var(--text-color);
         }
 
-        /* Features Carousel */
+       /* Features Carousel */
         .features-carousel-container {
             position: relative;
             max-width: 1000px;
@@ -568,7 +568,14 @@
         .carousel-arrow.next {
             right: 10px;
         }
+        .features-carousel {
+         width: 100%;
+         }
 
+         .feature-card {
+         flex: 0 0 100%;
+         }
+        
         /* Process Section */
         .process {
             background-color: var(--section-bg);
@@ -1937,7 +1944,7 @@
         });
 
         // Features Carousel
-        const features = [
+          const features = [
             {
                 icon: 'fas fa-palette',
                 title: 'Custom UI/UX Design',
