@@ -1,7 +1,7 @@
 // script.js - Shared JavaScript Functions for InfoGrip Admin System
 
 // Google Apps Script API Configuration
-const GOOGLE_APPS_SCRIPT_URL = 'https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec'; // Replace with your script URL
+const GOOGLE_APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxWyQFqcftfk35k8_HYFt3Gyiw8_u4DR0hvG694qJcn8ZLVxZQRZQIy0UgL3dt3Ko1ihA/exec'; // Replace with your script URL
 
 // Show/Hide Loading
 function showLoading(button) {
