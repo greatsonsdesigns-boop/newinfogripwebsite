@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Portfolio | InfoGrip Media Solution - Digital Marketing Agency</title>
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Your CSS Files -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    
+    <!-- Portfolio CSS -->
+    <link rel="stylesheet" href="css/portfolio.css">
+</head>
+<body class="portfolio-page">
+    <!-- Custom Cursor (if used in main site) -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <!-- Header (Same as main site) -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="index.html" class="logo">
+                    <img src="https://i.postimg.cc/Nj3bmPwC/Infogrip-Medi-Soluiton-(Social-Media)-(1).png" alt="InfoGrip Media Solution">
+                </a>
+                <ul class="nav-menu">
+                    <li><a href="index.html#home">Home</a></li>
+                    <li><a href="index.html#services">Services</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="portfolio.html" class="active">Portfolio</a></li>
+                    <li><a href="index.html#testimonials">Testimonials</a></li>
+                    <li><a href="index.html#faq">FAQ</a></li>
+                    <li><a href="index.html#contact">Contact</a></li>
+                    <li><a href="onboarding.html" class="btn btn-primary" style="border-radius: 25px; padding: 10px 24px;">Start Free Trial</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <button class="theme-toggle" id="theme-toggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <div class="hamburger">
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="portfolio-hero">
+        <div class="container">
+            <div class="portfolio-hero-content">
+                <h1 class="fade-in-up">Our <span class="text-gradient">Portfolio</span></h1>
+                <p class="fade-in-up" style="animation-delay: 0.2s;">Showcasing our best work across digital marketing, web development, branding, and social media campaigns</p>
+                <div class="portfolio-stats fade-in-up" style="animation-delay: 0.4s;">
+                    <div class="stat-item">
+                        <h3>300+</h3>
+                        <p>Projects Completed</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>15+</h3>
+                        <p>Industries Served</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>95%</h3>
+                        <p>Client Satisfaction</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="hero-shape">
+            <svg viewBox="0 0 1440 320" fill="none">
+                <path d="M0,160L48,176C96,192,192,224,288,213.3C384,203,480,149,576,133.3C672,117,768,139,864,160C960,181,1056,203,1152,192C1248,181,1344,139,1392,117.3L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z" fill="currentColor"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Filter Section -->
+    <section class="portfolio-filter">
+        <div class="container">
+            <div class="filter-container">
+                <h2 class="section-title">Featured Work</h2>
+                <p class="section-subtitle">Browse our successful projects across different categories</p>
+                
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-filter="all">All Projects</button>
+                    <button class="filter-btn" data-filter="web">Web Development</button>
+                    <button class="filter-btn" data-filter="social">Social Media</button>
+                    <button class="filter-btn" data-filter="branding">Branding</button>
+                    <button class="filter-btn" data-filter="political">Political Campaigns</button>
+                    <button class="filter-btn" data-filter="ecommerce">E-commerce</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Grid -->
+    <section class="portfolio-grid-section">
+        <div class="container">
+            <div class="portfolio-grid" id="portfolioGrid">
+                <!-- Web Development Projects -->
+                <div class="portfolio-item web" data-category="web">
+                    <div class="portfolio-image">
+                        <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Corporate Website">
+                        <div class="portfolio-overlay">
+                            <div class="overlay-content">
+                                <h3>Corporate Website</h3>
+                                <p>Modern responsive website for a corporate client</p>
+                                <a href="#" class="btn btn-view">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="portfolio-info">
+                        <h3>Corporate Website Redesign</h3>
+                        <p>Complete website redesign with improved UX and increased conversions</p>
+                        <div class="portfolio-tags">
+                            <span class="tag">WordPress</span>
+                            <span class="tag">Responsive</span>
+                            <span class="tag">SEO</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item web ecommerce" data-category="web ecommerce">
+                    <div class="portfolio-image">
+                        <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="E-commerce Store">
+                        <div class="portfolio-overlay">
+                            <div class="overlay-content">
+                                <h3>E-commerce Store</h3>
+                                <p>Full-featured online store with payment integration</p>
+                                <a href="#" class="btn btn-view">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="portfolio-info">
+                        <h3>Fashion E-commerce Platform</h3>
+                        <p>Built with WooCommerce, featuring advanced filtering and mobile optimization</p>
+                        <div class="portfolio-tags">
+                            <span class="tag">WooCommerce</span>
+                            <span class="tag">Payment Gateway</span>
+                            <span class="tag">Mobile First</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Social Media Projects -->
+                <div class="portfolio-item social" data-category="social">
+                    <div class="portfolio-image">
+                        <img src="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Social Media Campaign">
+                        <div class="portfolio-overlay">
+                            <div class="overlay-content">
+                                <h3>Instagram Campaign</h3>
+                                <p>Viral campaign with 500% engagement increase</p>
+                                <a href="#" class="btn btn-view">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="portfolio-info">
+                        <h3>Restaurant Social Media Growth</h3>
+                        <p>Increased followers by 300% in 3 months with targeted content strategy</p>
+                        <div class="portfolio-tags">
+                            <span class="tag">Instagram</span>
+                            <span class="tag">Content Strategy</span>
+                            <span class="tag">Engagement</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item social ecommerce" data-category="social ecommerce">
+                    <div class="portfolio-image">
+                        <img src="https://images.unsplash.com/photo-1611267254323-d1a7d9b6c2e1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Facebook Ads">
+                        <div class="portfolio-overlay">
+                            <div class="overlay-content">
+                                <h3>Facebook Ads Strategy</h3>
+                                <p>ROI-focused ad campaigns for e-commerce</p>
+                                <a href="#" class="btn btn-view">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="portfolio-info">
+                        <h3>E-commerce Facebook Ads</h3>
+                        <p>Generated 5x ROI with targeted Facebook ad campaigns</p>
+                        <div class="portfolio-tags">
+                            <span class="tag">Facebook Ads</span>
+                            <span class="tag">ROI Focused</span>
+                            <span class="tag">A/B Testing</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Branding Projects -->
+                <div class="portfolio-item branding" data-category="branding">
+                    <div class="portfolio-image">
+                        <img src="https://images.unsplash.com/photo-1626785774573-4b799315345d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Brand Identity">
+                        <div class="portfolio-overlay">
+                            <div class="overlay-content">
+                                <h3>Brand Identity</h3>
+                                <p>Complete rebranding for tech startup</p>
+                                <a href="#" class="btn btn-view">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="portfolio-info">
+                        <h3>Tech Startup Rebranding</h3>
+                        <p>Complete brand identity including logo, colors, and brand guidelines</p>
+                        <div class="portfolio-tags">
+                            <span class="tag">Logo Design</span>
+                            <span class="tag">Brand Guidelines</span>
+                            <span class="tag">Visual Identity</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Political Campaigns -->
+                <div class="portfolio-item political" data-category="political">
+                    <div class="portfolio-image">
+                        <img src="https://images.unsplash.com/photo-1593115057322-e94b77572f20?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Political Campaign">
+                        <div class="portfolio-overlay">
+                            <div class="overlay-content">
+                                <h3>Political Campaign</h3>
+                                <p>Digital strategy for local election campaign</p>
+                                <a href="#" class="btn btn-view">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="portfolio-info">
+                        <h3>Local Election Digital Campaign</h3>
+                        <p>Comprehensive digital strategy including social media, website, and outreach</p>
+                        <div class="portfolio-tags">
+                            <span class="tag">Campaign Strategy</span>
+                            <span class="tag">Social Media</span>
+                            <span class="tag">Outreach</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item branding political" data-category="branding political">
+                    <div class="portfolio-image">
+                        <img src="https://images.unsplash.com/photo-1588681664899-f142ff2dc9b1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Personal Branding">
+                        <div class="portfolio-overlay">
+                            <div class="overlay-content">
+                                <h3>Personal Branding</h3>
+                                <p>Building thought leadership online presence</p>
+                                <a href="#" class="btn btn-view">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="portfolio-info">
+                        <h3>Thought Leader Personal Brand</h3>
+                        <p>Developed online presence and content strategy for industry expert</p>
+                        <div class="portfolio-tags">
+                            <span class="tag">Personal Branding</span>
+                            <span class="tag">Content Strategy</span>
+                            <span class="tag">LinkedIn</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item social web" data-category="social web">
+                    <div class="portfolio-image">
+                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Complete Digital Solution">
+                        <div class="portfolio-overlay">
+                            <div class="overlay-content">
+                                <h3>Complete Digital Solution</h3>
+                                <p>Website + Social Media + Marketing</p>
+                                <a href="#" class="btn btn-view">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="portfolio-info">
+                        <h3>Healthcare Provider Digital Transformation</h3>
+                        <p>Complete digital presence including website, social media, and online booking</p>
+                        <div class="portfolio-tags">
+                            <span class="tag">Website</span>
+                            <span class="tag">Social Media</span>
+                            <span class="tag">Marketing</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="portfolio-load-more">
+                <button class="btn btn-outline" id="loadMore">Load More Projects</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Case Studies -->
+    <section class="case-studies">
+        <div class="container">
+            <div class="section-title">
+                <h2>Detailed Case Studies</h2>
+                <p>Deep dive into our most successful projects</p>
+            </div>
+
+            <div class="case-study-grid">
+                <div class="case-study-card">
+                    <div class="case-study-image">
+                        <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Fitness Studio Case Study">
+                    </div>
+                    <div class="case-study-content">
+                        <span class="case-study-category">Social Media Management</span>
+                        <h3>R-Fit Gym: From 5 to 40+ Weekly Leads</h3>
+                        <p class="case-study-excerpt">How we transformed a local gym's digital presence and increased enquiries by 800% in 3 months.</p>
+                        <div class="case-study-stats">
+                            <div class="stat">
+                                <h4>800%</h4>
+                                <p>Increase in leads</p>
+                            </div>
+                            <div class="stat">
+                                <h4>3 Months</h4>
+                                <p>Time to results</p>
+                            </div>
+                            <div class="stat">
+                                <h4>5x ROI</h4>
+                                <p>Return on investment</p>
+                            </div>
+                        </div>
+                        <a href="case-study-gym.html" class="case-study-link">Read Full Case Study <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <div class="case-study-card">
+                    <div class="case-study-image">
+                        <img src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="E-commerce Case Study">
+                    </div>
+                    <div class="case-study-content">
+                        <span class="case-study-category">E-commerce & Social Media</span>
+                        <h3>Fashion Brand: 300% Sales Growth in 6 Months</h3>
+                        <p class="case-study-excerpt">Strategic social media campaigns combined with targeted ads that skyrocketed online sales.</p>
+                        <div class="case-study-stats">
+                            <div class="stat">
+                                <h4>300%</h4>
+                                <p>Sales growth</p>
+                            </div>
+                            <div class="stat">
+                                <h4>6 Months</h4>
+                                <p>Campaign duration</p>
+                            </div>
+                            <div class="stat">
+                                <h4>4.5x ROI</h4>
+                                <p>Return on ad spend</p>
+                            </div>
+                        </div>
+                        <a href="case-study-fashion.html" class="case-study-link">Read Full Case Study <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <div class="case-study-card">
+                    <div class="case-study-image">
+                        <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Political Campaign Case Study">
+                    </div>
+                    <div class="case-study-content">
+                        <span class="case-study-category">Political Branding</span>
+                        <h3>Local Election: Winning Digital Strategy</h3>
+                        <p class="case-study-excerpt">How we helped a political candidate build digital presence and connect with voters effectively.</p>
+                        <div class="case-study-stats">
+                            <div class="stat">
+                                <h4>50K+</h4>
+                                <p>Reach achieved</p>
+                            </div>
+                            <div class="stat">
+                                <h4>15K</h4>
+                                <p>Engaged voters</p>
+                            </div>
+                            <div class="stat">
+                                <h4>Election Won</h4>
+                                <p>Campaign result</p>
+                            </div>
+                        </div>
+                        <a href="case-study-political.html" class="case-study-link">Read Full Case Study <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="portfolio-testimonials">
+        <div class="container">
+            <div class="section-title">
+                <h2>Client Success Stories</h2>
+                <p>What our clients say about working with us</p>
+            </div>
+
+            <div class="testimonial-cards">
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>"InfoGrip transformed our business completely. The team understood our vision and delivered beyond expectations."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Client">
+                        <div class="author-info">
+                            <h4>Rajesh Kumar</h4>
+                            <p>CEO, TechStart Solutions</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>"Their social media strategy increased our engagement by 500%. Best marketing decision we ever made."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Client">
+                        <div class="author-info">
+                            <h4>Priya Sharma</h4>
+                            <p>Owner, Urban Cafe</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>"Professional, creative, and results-driven. InfoGrip delivered exactly what they promised, on time and on budget."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="Client">
+                        <div class="author-info">
+                            <h4>Amit Patel</h4>
+                            <p>Director, RealEstate Pro</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="portfolio-cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Ready to Start Your Project?</h2>
+                <p>Let's create something amazing together. Share your vision with us and we'll make it a reality.</p>
+                <div class="cta-buttons">
+                    <a href="onboarding.html" class="btn btn-primary btn-glow-pulse">Start Free Trial</a>
+                    <a href="contact.html" class="btn btn-secondary">Schedule a Call</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer (Same as main site) -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-col">
+                    <img src="https://i.postimg.cc/Nj3bmPwC/Infogrip-Medi-Soluiton-(Social-Media)-(1).png" alt="InfoGrip Media Solution" style="height: 70px; margin-bottom: 20px;">
+                    <p>Need Expert Help? We're Just a Message Away!</p>
+                    <a href="onboarding.html" class="btn btn-outline">Let's Connect</a>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/profile.php?id=61582320555612" class="social-link" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/infogrip.in/" class="social-link" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.linkedin.com/company/infogripsolution/?viewAsMember=true" class="social-link" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://x.com/InfoGrip" class="social-link" target="_blank"><i class="fab fa-twitter"></i></a>
+                        <a href="https://in.pinterest.com/infogrip_solution/_profile/" class="social-link" target="_blank"><i class="fab fa-pinterest-p"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h3>Company</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html#home">Home</a></li>
+                        <li><a href="index.html#services">Services</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="portfolio.html">Portfolio</a></li>
+                        <li><a href="index.html#testimonials">Testimonials</a></li>
+                        <li><a href="index.html#faq">FAQ</a></li>
+                        <li><a href="index.html#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Documentation</h3>
+                    <ul class="footer-links">
+                        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                        <li><a href="terms-conditions.html">Terms & Conditions</a></li>
+                        <li><a href="refund-policy.html">Refund Policy</a></li>
+                        <li><a href="onboarding.html">Onboarding Process</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Contact Info</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Jaipur, Rajasthan, India</p>
+                    <p><i class="fas fa-phone"></i> +91 6367556906</p>
+                    <p><i class="fas fa-envelope"></i> info@infogrip.com</p>
+                    <div class="newsletter-form">
+                        <input type="email" placeholder="Your email address">
+                        <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; InfoGrip Media Solution Ltd. All Rights Reserved 2025</p>
+                <div class="footer-bottom-links">
+                    <a href="privacy-policy.html">Privacy Policy</a>
+                    <a href="terms-conditions.html">Terms & Conditions</a>
+                    <a href="refund-policy.html">Refund Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Buttons -->
+    <div class="floating-buttons">
+        <a href="https://wa.me/916367556906?text=Hi%2C%20I%20want%20to%20grow%20my%20business%20with%20InfoGrip%20Media%20Solution." class="floating-btn whatsapp-btn" target="_blank">
+            <i class="fab fa-whatsapp"></i>
+        </a>
+        <a href="#" class="floating-btn chatbot-btn" id="chatbot-btn">
+            <i class="fas fa-robot"></i>
+        </a>
+    </div>
+
+    <!-- Chatbot (From main site) -->
+    <div class="chatbot-overlay" id="chatbot-overlay">
+        <!-- Same chatbot HTML from main site -->
+    </div>
+
+    <!-- JavaScript Files -->
+    <script src="js/theme-toggle.js"></script>
+    <script src="js/mobile-menu.js"></script>
+    <script src="js/portfolio.js"></script>
+    
+    <!-- Chatbot script if needed -->
+    <script>
+        // Chatbot toggle
+        document.getElementById('chatbot-btn')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('chatbot-overlay')?.classList.add('active');
+        });
+    </script>
+</body>
+</html>
