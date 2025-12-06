@@ -1,0 +1,2848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InfoGrip Admin Dashboard - Client & Payment System</title>
+    <!-- Same theme as main website -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    
+    <style>
+        /* ===== ADMIN DASHBOARD THEME ===== */
+        :root {
+            --primary-blue: #07217c;
+            --dark-blue: #001c4f;
+            --accent-orange: #fdcb54;
+            --light-blue: rgba(7, 33, 124, 0.1);
+            --white: #ffffff;
+            --light-gray: #f8f9fa;
+            --medium-gray: #e9ecef;
+            --dark-gray: #495057;
+            --text-dark: #001c4f;
+            --text-light: #6c757d;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --info: #17a2b8;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
+            --transition: all 0.3s ease;
+            --border-radius: 12px;
+            --border-radius-lg: 20px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light-gray);
+            color: var(--text-dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding-top: 70px;
+        }
+
+        /* ===== HEADER (Same as main website) ===== */
+        .admin-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: var(--white);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            padding: 15px 0;
+        }
+
+        .admin-navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 30px;
+        }
+
+        .admin-logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .admin-logo img {
+            height: 70px;
+        }
+
+        .admin-user {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+
+        .notification-bell {
+            position: relative;
+            font-size: 1.2rem;
+            color: var(--text-dark);
+            cursor: pointer;
+            padding: 10px;
+        }
+
+        .notification-count {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: var(--danger);
+            color: white;
+            font-size: 0.7rem;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ===== SIDEBAR ===== */
+        .admin-container {
+            display: flex;
+            min-height: calc(100vh - 70px);
+        }
+
+        .sidebar {
+            width: 250px;
+            background: var(--white);
+            box-shadow: var(--shadow);
+            padding: 25px 0;
+            position: sticky;
+            top: 70px;
+            height: calc(100vh - 70px);
+            overflow-y: auto;
+            transition: var(--transition);
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .menu-item {
+            padding: 15px 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: var(--text-dark);
+            text-decoration: none;
+            transition: var(--transition);
+            border-left: 4px solid transparent;
+            font-weight: 500;
+        }
+
+        .menu-item:hover {
+            background: var(--light-blue);
+            color: var(--primary-blue);
+            border-left-color: var(--accent-orange);
+        }
+
+        .menu-item.active {
+            background: var(--light-blue);
+            color: var(--primary-blue);
+            border-left-color: var(--primary-blue);
+        }
+
+        .menu-icon {
+            width: 24px;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .main-content {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        .page-header {
+            margin-bottom: 30px;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .page-subtitle {
+            color: var(--text-light);
+            font-size: 1rem;
+        }
+
+        /* ===== CARDS ===== */
+        .dashboard-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .clients-card .stat-icon { background: rgba(40, 167, 69, 0.1); color: var(--success); }
+        .revenue-card .stat-icon { background: rgba(253, 203, 84, 0.1); color: var(--accent-orange); }
+        .pending-card .stat-icon { background: rgba(255, 193, 7, 0.1); color: var(--warning); }
+        .active-card .stat-icon { background: rgba(7, 33, 124, 0.1); color: var(--primary-blue); }
+
+        .stat-content h3 {
+            font-size: 2rem;
+            margin-bottom: 5px;
+        }
+
+        .stat-content p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        /* ===== FORMS ===== */
+        .form-container {
+            background: var(--white);
+            border-radius: var(--border-radius-lg);
+            padding: 30px;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid var(--medium-gray);
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            transition: var(--transition);
+            background: var(--white);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(7, 33, 124, 0.1);
+        }
+
+        .form-control::placeholder {
+            color: #adb5bd;
+        }
+
+        .form-icon {
+            color: var(--primary-blue);
+        }
+
+        .conditional-section {
+            background: var(--light-gray);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            border-left: 4px solid var(--primary-blue);
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn {
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--primary-blue);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--dark-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(7, 33, 124, 0.2);
+        }
+
+        .btn-secondary {
+            background: var(--accent-orange);
+            color: var(--text-dark);
+        }
+
+        .btn-secondary:hover {
+            background: #ffc221;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary-blue);
+            color: var(--primary-blue);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary-blue);
+            color: white;
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 0.9rem;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        /* ===== TABLES ===== */
+        .data-table {
+            width: 100%;
+            background: var(--white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+        }
+
+        .table-header {
+            background: var(--primary-blue);
+            color: white;
+            padding: 20px;
+            font-weight: 600;
+        }
+
+        .table-content {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: var(--light-gray);
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--text-dark);
+            border-bottom: 2px solid var(--medium-gray);
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid var(--medium-gray);
+            vertical-align: middle;
+        }
+
+        tr:hover {
+            background: var(--light-blue);
+        }
+
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .status-active { background: rgba(40, 167, 69, 0.1); color: var(--success); }
+        .status-pending { background: rgba(255, 193, 7, 0.1); color: var(--warning); }
+        .status-inactive { background: rgba(108, 117, 125, 0.1); color: var(--dark-gray); }
+
+        /* ===== PAYMENT CARD ===== */
+        .payment-card {
+            background: linear-gradient(135deg, var(--dark-blue) 0%, var(--primary-blue) 100%);
+            color: white;
+            border-radius: var(--border-radius-lg);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .payment-details {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+            font-weight: 600;
+            font-size: 1.2rem;
+            color: var(--accent-orange);
+        }
+
+        /* ===== CHECKOUT PAGE ===== */
+        .checkout-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--white);
+            border-radius: var(--border-radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .checkout-header {
+            background: var(--primary-blue);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .checkout-body {
+            padding: 40px;
+        }
+
+        .secure-badges {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .secure-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--success);
+            font-weight: 500;
+        }
+
+        /* ===== THANK YOU PAGE ===== */
+        .thankyou-container {
+            max-width: 600px;
+            margin: 50px auto;
+            text-align: center;
+            background: var(--white);
+            border-radius: var(--border-radius-lg);
+            padding: 50px;
+            box-shadow: var(--shadow);
+        }
+
+        .success-animation {
+            width: 100px;
+            height: 100px;
+            background: var(--success);
+            border-radius: 50%;
+            margin: 0 auto 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+            animation: successPulse 2s infinite;
+        }
+
+        @keyframes successPulse {
+            0% { box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7); }
+            70% { box-shadow: 0 0 0 20px rgba(40, 167, 69, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(40, 167, 69, 0); }
+        }
+
+        /* ===== MODALS & NOTIFICATIONS ===== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background: var(--white);
+            border-radius: var(--border-radius-lg);
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            transform: translateY(20px);
+            transition: var(--transition);
+        }
+
+        .modal-overlay.active .modal {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--light-gray);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-light);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--white);
+            border-radius: 8px;
+            padding: 15px 20px;
+            box-shadow: var(--shadow-hover);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            z-index: 1001;
+            transform: translateX(100%);
+            opacity: 0;
+            transition: var(--transition);
+            border-left: 4px solid var(--success);
+        }
+
+        .toast.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .toast-danger { border-left-color: var(--danger); }
+        .toast-warning { border-left-color: var(--warning); }
+        .toast-info { border-left-color: var(--info); }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 70px;
+            }
+            
+            .menu-text {
+                display: none;
+            }
+            
+            .admin-navbar {
+                padding: 0 15px;
+            }
+            
+            .main-content {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                left: -250px;
+                top: 70px;
+                height: calc(100vh - 70px);
+                z-index: 999;
+            }
+            
+            .sidebar.active {
+                left: 0;
+            }
+            
+            .mobile-menu-toggle {
+                display: block;
+                font-size: 1.5rem;
+                cursor: pointer;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .dashboard-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .btn-group {
+                flex-direction: column;
+            }
+            
+            .btn-group .btn {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .admin-navbar {
+                flex-direction: column;
+                gap: 15px;
+                padding: 15px;
+            }
+            
+            .admin-user {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            body {
+                padding-top: 120px;
+            }
+            
+            .admin-header {
+                padding: 15px 0;
+            }
+            
+            .main-content {
+                padding: 15px;
+            }
+            
+            .form-container {
+                padding: 20px;
+            }
+            
+            .payment-card {
+                padding: 20px;
+            }
+        }
+
+        /* ===== LOADING ===== */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(7, 33, 124, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary-blue);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 3000;
+            display: none;
+        }
+
+        .loading-overlay.active {
+            display: flex;
+        }
+
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 5px solid rgba(7, 33, 124, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary-blue);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        /* ===== UTILITY CLASSES ===== */
+        .text-center { text-align: center; }
+        .text-right { text-align: right; }
+        .mt-20 { margin-top: 20px; }
+        .mb-20 { margin-bottom: 20px; }
+        .mt-30 { margin-top: 30px; }
+        .mb-30 { margin-bottom: 30px; }
+        .hidden { display: none; }
+        .w-100 { width: 100%; }
+    </style>
+</head>
+<body>
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="admin-header">
+        <nav class="admin-navbar">
+            <div class="admin-logo">
+                <img src="https://i.postimg.cc/Nj3bmPwC/Infogrip-Medi-Soluiton-(Social-Media)-(1).png" alt="InfoGrip Admin">
+                <span class="mobile-menu-toggle" id="mobileMenuToggle">
+                    <i class="fas fa-bars"></i>
+                </span>
+            </div>
+            <div class="admin-user">
+                <div class="user-avatar" id="userInitials">AD</div>
+                <div class="user-info">
+                    <div class="user-name">Admin User</div>
+                    <div class="user-role">System Administrator</div>
+                </div>
+                <div class="notification-bell" id="notificationBell">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-count" id="notificationCount">3</span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Container -->
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <ul class="sidebar-menu">
+                <li><a href="#dashboard" class="menu-item active" data-page="dashboard">
+                    <span class="menu-icon"><i class="fas fa-home"></i></span>
+                    <span class="menu-text">Dashboard</span>
+                </a></li>
+                <li><a href="#clients" class="menu-item" data-page="clients">
+                    <span class="menu-icon"><i class="fas fa-users"></i></span>
+                    <span class="menu-text">Clients</span>
+                </a></li>
+                <li><a href="#payments" class="menu-item" data-page="payments">
+                    <span class="menu-icon"><i class="fas fa-link"></i></span>
+                    <span class="menu-text">Payment Links</span>
+                </a></li>
+                <li><a href="#checkout" class="menu-item" data-page="checkout">
+                    <span class="menu-icon"><i class="fas fa-shopping-cart"></i></span>
+                    <span class="menu-text">Checkout Page</span>
+                </a></li>
+                <li><a href="#thankyou" class="menu-item" data-page="thankyou">
+                    <span class="menu-icon"><i class="fas fa-check-circle"></i></span>
+                    <span class="menu-text">Thank You Page</span>
+                </a></li>
+                <li><a href="#settings" class="menu-item" data-page="settings">
+                    <span class="menu-icon"><i class="fas fa-cog"></i></span>
+                    <span class="menu-text">Settings</span>
+                </a></li>
+                <li><a href="#invoices" class="menu-item" data-page="invoices">
+                    <span class="menu-icon"><i class="fas fa-file-invoice"></i></span>
+                    <span class="menu-text">Invoices</span>
+                </a></li>
+                <li><a href="index.html" class="menu-item" target="_blank">
+                    <span class="menu-icon"><i class="fas fa-external-link-alt"></i></span>
+                    <span class="menu-text">Main Website</span>
+                </a></li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content" id="mainContent">
+            <!-- Dashboard Page -->
+            <div class="page-content" id="dashboardPage">
+                <div class="page-header">
+                    <h1 class="page-title"><i class="fas fa-home"></i> Admin Dashboard</h1>
+                    <p class="page-subtitle">Welcome back! Here's what's happening with your business.</p>
+                </div>
+
+                <div class="dashboard-cards">
+                    <div class="stat-card clients-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="totalClients">0</h3>
+                            <p>Total Clients</p>
+                        </div>
+                    </div>
+                    <div class="stat-card revenue-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-rupee-sign"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="totalRevenue">₹0</h3>
+                            <p>Total Revenue</p>
+                        </div>
+                    </div>
+                    <div class="stat-card pending-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="pendingPayments">0</h3>
+                            <p>Pending Payments</p>
+                        </div>
+                    </div>
+                    <div class="stat-card active-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="activeSubscriptions">0</h3>
+                            <p>Active Subscriptions</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-container">
+                    <h2 class="mb-20"><i class="fas fa-bolt"></i> Quick Actions</h2>
+                    <div class="btn-group">
+                        <button class="btn btn-primary" onclick="showPage('clients')">
+                            <i class="fas fa-plus"></i> Add New Client
+                        </button>
+                        <button class="btn btn-secondary" onclick="showPage('payments')">
+                            <i class="fas fa-link"></i> Create Payment Link
+                        </button>
+                        <button class="btn btn-outline" onclick="generateInvoice()">
+                            <i class="fas fa-file-pdf"></i> Generate Invoice
+                        </button>
+                    </div>
+                </div>
+
+                <div class="data-table">
+                    <div class="table-header">Recent Clients</div>
+                    <div class="table-content">
+                        <table id="recentClientsTable">
+                            <thead>
+                                <tr>
+                                    <th>Client Name</th>
+                                    <th>Category</th>
+                                    <th>Service</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Clients Management Page -->
+            <div class="page-content hidden" id="clientsPage">
+                <div class="page-header">
+                    <h1 class="page-title"><i class="fas fa-users"></i> Client Management</h1>
+                    <p class="page-subtitle">Add new clients or manage existing ones</p>
+                </div>
+
+                <div class="form-container">
+                    <h2 class="mb-20"><i class="fas fa-search"></i> Find Existing Client</h2>
+                    <div class="form-group">
+                        <label class="form-label" for="clientSearch">
+                            <i class="fas fa-user form-icon"></i> Search Client
+                        </label>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="clientSearch" 
+                                       placeholder="Enter client name, email or phone..." 
+                                       oninput="searchClient()">
+                            </div>
+                            <div class="form-group">
+                                <select class="form-control" id="clientCategoryFilter" onchange="searchClient()">
+                                    <option value="">All Categories</option>
+                                    <option value="Politician">Politician</option>
+                                    <option value="Business Owner">Business Owner</option>
+                                    <option value="NGO">NGO</option>
+                                    <option value="Personal Branding">Personal Branding</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="searchResults" class="conditional-section hidden">
+                        <!-- Search results will appear here -->
+                    </div>
+                </div>
+
+                <div class="form-container">
+                    <h2 class="mb-20"><i class="fas fa-user-plus"></i> Add New Client</h2>
+                    
+                    <!-- Client Basic Details -->
+                    <div class="form-group">
+                        <h3 class="mb-20"><i class="fas fa-user-circle"></i> Basic Information</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="fullName">
+                                    <i class="fas fa-user form-icon"></i> Full Name *
+                                </label>
+                                <input type="text" class="form-control" id="fullName" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="mobileNumber">
+                                    <i class="fas fa-phone form-icon"></i> Mobile Number *
+                                </label>
+                                <input type="tel" class="form-control" id="mobileNumber" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="emailAddress">
+                                    <i class="fas fa-envelope form-icon"></i> Email Address *
+                                </label>
+                                <input type="email" class="form-control" id="emailAddress" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="address">
+                                <i class="fas fa-map-marker-alt form-icon"></i> Address
+                            </label>
+                            <textarea class="form-control" id="address" rows="3"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Category Selection -->
+                    <div class="form-group">
+                        <h3 class="mb-20"><i class="fas fa-tag"></i> Category Details</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="category">
+                                    <i class="fas fa-filter form-icon"></i> Category *
+                                </label>
+                                <select class="form-control" id="category" onchange="showCategoryFields()" required>
+                                    <option value="">Select Category</option>
+                                    <option value="Politician">Politician</option>
+                                    <option value="Business Owner">Business Owner</option>
+                                    <option value="NGO">NGO</option>
+                                    <option value="Personal Branding">Personal Branding</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Politician Fields -->
+                        <div id="politicianFields" class="conditional-section hidden">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label" for="partyName">
+                                        <i class="fas fa-landmark form-icon"></i> Party Name
+                                    </label>
+                                    <select class="form-control" id="partyName">
+                                        <option value="">Select Party</option>
+                                        <option value="BJP">BJP</option>
+                                        <option value="INC">INC</option>
+                                        <option value="AAP">AAP</option>
+                                        <option value="BSP">BSP</option>
+                                        <option value="SP">SP</option>
+                                        <option value="RJD">RJD</option>
+                                        <option value="JDU">JDU</option>
+                                        <option value="NCP">NCP</option>
+                                        <option value="TMC">TMC</option>
+                                        <option value="CPI(M)">CPI(M)</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                    <input type="text" class="form-control mt-10 hidden" id="otherPartyName" 
+                                           placeholder="Enter party name">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="politicalRole">
+                                        <i class="fas fa-user-tie form-icon"></i> Political Role
+                                    </label>
+                                    <select class="form-control" id="politicalRole">
+                                        <option value="">Select Role</option>
+                                        <option value="MLA (विधायक)">MLA (विधायक)</option>
+                                        <option value="MP (सांसद)">MP (सांसद)</option>
+                                        <option value="Ward Councillor (पार्षद)">Ward Councillor (पार्षद)</option>
+                                        <option value="Sarpanch (सरपंच)">Sarpanch (सरपंच)</option>
+                                        <option value="Panchayat Member (पंचायत सदस्य)">Panchayat Member (पंचायत सदस्य)</option>
+                                        <option value="Booth Incharge (बूथ प्रभारी)">Booth Incharge (बूथ प्रभारी)</option>
+                                        <option value="District President (जिला अध्यक्ष)">District President (जिला अध्यक्ष)</option>
+                                        <option value="Mandal President (मंडल अध्यक्ष)">Mandal President (मंडल अध्यक्ष)</option>
+                                        <option value="Youth Leader (युवा नेता)">Youth Leader (युवा नेता)</option>
+                                        <option value="State Leader (राज्य नेता)">State Leader (राज्य नेता)</option>
+                                        <option value="General Secretary (महामंत्री)">General Secretary (महामंत्री)</option>
+                                        <option value="Mayor (महापौर)">Mayor (महापौर)</option>
+                                        <option value="Deputy Mayor (उपमहापौर)">Deputy Mayor (उपमहापौर)</option>
+                                        <option value="Corporator (कॉरपोरेटर)">Corporator (कॉरपोरेटर)</option>
+                                        <option value="Party Worker (कार्यकर्ता)">Party Worker (कार्यकर्ता)</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                    <input type="text" class="form-control mt-10 hidden" id="otherPoliticalRole" 
+                                           placeholder="Enter role">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Business Owner Fields -->
+                        <div id="businessOwnerFields" class="conditional-section hidden">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label" for="businessType">
+                                        <i class="fas fa-briefcase form-icon"></i> Business Type
+                                    </label>
+                                    <select class="form-control" id="businessType">
+                                        <option value="">Select Business Type</option>
+                                        <option value="Restaurant">Restaurant</option>
+                                        <option value="Cafe">Cafe</option>
+                                        <option value="Real Estate">Real Estate</option>
+                                        <option value="Gym">Gym</option>
+                                        <option value="Boutique">Boutique</option>
+                                        <option value="Jewellery Shop">Jewellery Shop</option>
+                                        <option value="Medical Store">Medical Store</option>
+                                        <option value="Hospital">Hospital</option>
+                                        <option value="Coaching Center">Coaching Center</option>
+                                        <option value="Grocery">Grocery</option>
+                                        <option value="Electronics">Electronics</option>
+                                        <option value="Salon">Salon</option>
+                                        <option value="Car Showroom">Car Showroom</option>
+                                        <option value="Travel Agency">Travel Agency</option>
+                                        <option value="Agency">Agency</option>
+                                        <option value="Freelancer">Freelancer</option>
+                                        <option value="Cloth Store">Cloth Store</option>
+                                        <option value="Bakery">Bakery</option>
+                                        <option value="Sweet Shop">Sweet Shop</option>
+                                        <option value="Taxi Service">Taxi Service</option>
+                                        <option value="Event Planner">Event Planner</option>
+                                        <option value="Startup">Startup</option>
+                                        <option value="Construction">Construction</option>
+                                        <option value="Education Institute">Education Institute</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                    <input type="text" class="form-control mt-10 hidden" id="otherBusinessType" 
+                                           placeholder="Enter business type">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="businessName">
+                                        <i class="fas fa-building form-icon"></i> Business Name
+                                    </label>
+                                    <input type="text" class="form-control" id="businessName">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- NGO Fields -->
+                        <div id="ngoFields" class="conditional-section hidden">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label" for="ngoType">
+                                        <i class="fas fa-hands-helping form-icon"></i> NGO Type
+                                    </label>
+                                    <select class="form-control" id="ngoType">
+                                        <option value="">Select NGO Type</option>
+                                        <option value="Education">Education</option>
+                                        <option value="Environment">Environment</option>
+                                        <option value="Health">Health</option>
+                                        <option value="Women Empowerment">Women Empowerment</option>
+                                        <option value="Child Care">Child Care</option>
+                                        <option value="Old Age">Old Age</option>
+                                        <option value="Social Work">Social Work</option>
+                                        <option value="Animal Welfare">Animal Welfare</option>
+                                        <option value="Rural Development">Rural Development</option>
+                                        <option value="Poverty Relief">Poverty Relief</option>
+                                        <option value="Disaster Support">Disaster Support</option>
+                                        <option value="Human Rights">Human Rights</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                    <input type="text" class="form-control mt-10 hidden" id="otherNgoType" 
+                                           placeholder="Enter NGO type">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="ngoName">
+                                        <i class="fas fa-university form-icon"></i> NGO Name
+                                    </label>
+                                    <input type="text" class="form-control" id="ngoName">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Social Links -->
+                    <div class="form-group">
+                        <h3 class="mb-20"><i class="fas fa-share-alt"></i> Social Links (Optional)</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="facebookLink">
+                                    <i class="fab fa-facebook form-icon" style="color: #1877F2;"></i> Facebook
+                                </label>
+                                <input type="url" class="form-control" id="facebookLink" placeholder="https://facebook.com/...">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="instagramLink">
+                                    <i class="fab fa-instagram form-icon" style="color: #E4405F;"></i> Instagram
+                                </label>
+                                <input type="url" class="form-control" id="instagramLink" placeholder="https://instagram.com/...">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="twitterLink">
+                                    <i class="fab fa-twitter form-icon" style="color: #1DA1F2;"></i> Twitter
+                                </label>
+                                <input type="url" class="form-control" id="twitterLink" placeholder="https://twitter.com/...">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="websiteLink">
+                                    <i class="fas fa-globe form-icon" style="color: var(--primary-blue);"></i> Website
+                                </label>
+                                <input type="url" class="form-control" id="websiteLink" placeholder="https://...">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Services Section -->
+                    <div class="form-group">
+                        <h3 class="mb-20"><i class="fas fa-concierge-bell"></i> Services</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="service">
+                                    <i class="fas fa-cogs form-icon"></i> Service *
+                                </label>
+                                <select class="form-control" id="service" required onchange="updateServicePrice()">
+                                    <option value="">Select Service</option>
+                                    <option value="Social Media Management">Social Media Management</option>
+                                    <option value="Video Editing">Video Editing</option>
+                                    <option value="Graphic Designing">Graphic Designing</option>
+                                    <option value="Ads Management">Ads Management</option>
+                                    <option value="Website Development">Website Development</option>
+                                    <option value="Political Campaign Management">Political Campaign Management</option>
+                                    <option value="Content Creation">Content Creation</option>
+                                    <option value="Personal Branding">Personal Branding</option>
+                                    <option value="Reputation Management">Reputation Management</option>
+                                    <option value="Monthly Consulting">Monthly Consulting</option>
+                                    <option value="PR Service">PR Service</option>
+                                    <option value="Verification Service">Verification Service</option>
+                                    <option value="Posters & Reels Package">Posters & Reels Package</option>
+                                    <option value="Photo Editing">Photo Editing</option>
+                                    <option value="Monthly Growth Service">Monthly Growth Service</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="serviceAmount">
+                                    <i class="fas fa-rupee-sign form-icon"></i> Amount (₹)
+                                </label>
+                                <input type="number" class="form-control" id="serviceAmount" min="0" step="0.01" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="billingCycle">
+                                    <i class="fas fa-calendar-alt form-icon"></i> Billing Cycle
+                                </label>
+                                <select class="form-control" id="billingCycle" onchange="updateSubscriptionStatus()">
+                                    <option value="One-time service">One-time service</option>
+                                    <option value="1 Month">1 Month</option>
+                                    <option value="3 Months">3 Months</option>
+                                    <option value="6 Months">6 Months</option>
+                                    <option value="12 Months">12 Months</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="subscriptionStatus">
+                                    <i class="fas fa-toggle-on form-icon"></i> Subscription Status
+                                </label>
+                                <select class="form-control" id="subscriptionStatus" disabled>
+                                    <option value="Active">Active</option>
+                                    <option value="Pending">Pending</option>
+                                    <option value="Inactive">Inactive</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="notes">
+                                    <i class="fas fa-sticky-note form-icon"></i> Additional Notes
+                                </label>
+                                <textarea class="form-control" id="notes" rows="2" placeholder="Any special instructions or notes..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Form Actions -->
+                    <div class="form-group text-center mt-30">
+                        <button class="btn btn-primary btn-lg" onclick="saveClient()">
+                            <i class="fas fa-save"></i> Save Client Data
+                        </button>
+                        <button class="btn btn-outline btn-lg" onclick="clearForm()">
+                            <i class="fas fa-redo"></i> Clear Form
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payment Link Generator Page -->
+            <div class="page-content hidden" id="paymentsPage">
+                <div class="page-header">
+                    <h1 class="page-title"><i class="fas fa-link"></i> Payment Link Generator</h1>
+                    <p class="page-subtitle">Create payment links for clients and send them via WhatsApp/Email</p>
+                </div>
+
+                <div class="form-container">
+                    <div class="form-group">
+                        <label class="form-label" for="paymentClientSearch">
+                            <i class="fas fa-search form-icon"></i> Select Client *
+                        </label>
+                        <select class="form-control" id="paymentClientSearch" onchange="loadClientForPayment()" required>
+                            <option value="">Search or select client...</option>
+                            <!-- Clients will be populated by JavaScript -->
+                        </select>
+                    </div>
+
+                    <div id="clientPaymentDetails" class="payment-card hidden">
+                        <h3><i class="fas fa-user-circle"></i> Client Details</h3>
+                        <div class="payment-details">
+                            <div class="detail-row">
+                                <span>Client Name:</span>
+                                <span id="paymentClientName">-</span>
+                            </div>
+                            <div class="detail-row">
+                                <span>Mobile:</span>
+                                <span id="paymentClientMobile">-</span>
+                            </div>
+                            <div class="detail-row">
+                                <span>Email:</span>
+                                <span id="paymentClientEmail">-</span>
+                            </div>
+                            <div class="detail-row">
+                                <span>Category:</span>
+                                <span id="paymentClientCategory">-</span>
+                            </div>
+                            <div id="paymentCategoryDetails">
+                                <!-- Category-specific details will appear here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-container mt-30">
+                        <h2 class="mb-20"><i class="fas fa-cogs"></i> Payment Configuration</h2>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="paymentService">
+                                    <i class="fas fa-concierge-bell form-icon"></i> Service *
+                                </label>
+                                <select class="form-control" id="paymentService" onchange="updatePaymentAmount()" required>
+                                    <option value="">Select Service</option>
+                                    <!-- Services will be populated from settings -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="paymentAmount">
+                                    <i class="fas fa-rupee-sign form-icon"></i> Amount (₹) *
+                                </label>
+                                <input type="number" class="form-control" id="paymentAmount" min="0" step="0.01" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="applyGST">
+                                    <i class="fas fa-percentage form-icon"></i> Apply GST (18%)
+                                </label>
+                                <div style="margin-top: 10px;">
+                                    <label class="switch">
+                                        <input type="checkbox" id="applyGST" onchange="calculateFinalAmount()">
+                                        <span class="slider"></span>
+                                    </label>
+                                    <span id="gstAmountText">GST: ₹0</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="discountType">
+                                    <i class="fas fa-tag form-icon"></i> Discount
+                                </label>
+                                <select class="form-control" id="discountType" onchange="calculateFinalAmount()">
+                                    <option value="none">No Discount</option>
+                                    <option value="percentage">Percentage (%)</option>
+                                    <option value="fixed">Fixed Amount (₹)</option>
+                                </select>
+                                <input type="number" class="form-control mt-10" id="discountValue" 
+                                       placeholder="Enter discount" min="0" step="0.01" 
+                                       style="display: none;" oninput="calculateFinalAmount()">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">
+                                    <i class="fas fa-calculator form-icon"></i> Final Amount
+                                </label>
+                                <div class="final-amount" style="font-size: 2rem; font-weight: 700; color: var(--primary-blue);">
+                                    ₹<span id="finalAmount">0.00</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-container mt-30">
+                        <h2 class="mb-20"><i class="fas fa-paper-plane"></i> Generate & Send</h2>
+                        <div class="text-center">
+                            <button class="btn btn-primary btn-lg" onclick="generatePaymentLink()">
+                                <i class="fas fa-link"></i> Generate Payment Link
+                            </button>
+                        </div>
+
+                        <div id="generatedLinkContainer" class="conditional-section mt-30 hidden">
+                            <h3><i class="fas fa-check-circle text-success"></i> Payment Link Generated!</h3>
+                            <div class="form-group">
+                                <label class="form-label">Payment Link:</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="paymentLink" readonly>
+                                    <button class="btn btn-outline" onclick="copyPaymentLink()">
+                                        <i class="fas fa-copy"></i> Copy
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="btn-group mt-20">
+                                <button class="btn btn-success" onclick="sendWhatsApp()">
+                                    <i class="fab fa-whatsapp"></i> Send WhatsApp
+                                </button>
+                                <button class="btn btn-primary" onclick="sendEmail()">
+                                    <i class="fas fa-envelope"></i> Send Email
+                                </button>
+                                <button class="btn btn-secondary" onclick="previewCheckout()">
+                                    <i class="fas fa-eye"></i> Preview Checkout
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Checkout Page -->
+            <div class="page-content hidden" id="checkoutPage">
+                <div class="checkout-container">
+                    <div class="checkout-header">
+                        <h1><i class="fas fa-lock"></i> Secure Checkout</h1>
+                        <p>Complete your payment securely</p>
+                    </div>
+                    <div class="checkout-body">
+                        <div class="text-center mb-30">
+                            <div class="timestamp" id="checkoutTimestamp"></div>
+                        </div>
+                        
+                        <div class="payment-details">
+                            <h3 class="mb-20">Order Summary</h3>
+                            <div class="detail-row">
+                                <span>Client Name:</span>
+                                <span id="checkoutClientName">-</span>
+                            </div>
+                            <div class="detail-row">
+                                <span>Service:</span>
+                                <span id="checkoutService">-</span>
+                            </div>
+                            <div class="detail-row">
+                                <span>Amount:</span>
+                                <span id="checkoutAmount">₹0.00</span>
+                            </div>
+                            <div class="detail-row">
+                                <span>GST (18%):</span>
+                                <span id="checkoutGST">₹0.00</span>
+                            </div>
+                            <div class="detail-row">
+                                <span>Discount:</span>
+                                <span id="checkoutDiscount">-₹0.00</span>
+                            </div>
+                            <div class="detail-row">
+                                <span>Total Payable:</span>
+                                <span id="checkoutTotal">₹0.00</span>
+                            </div>
+                        </div>
+
+                        <div id="checkoutCategoryDetails" class="conditional-section mt-20">
+                            <!-- Category details will appear here -->
+                        </div>
+
+                        <div class="secure-badges mt-30">
+                            <div class="secure-badge">
+                                <i class="fas fa-shield-alt"></i> 100% Secure
+                            </div>
+                            <div class="secure-badge">
+                                <i class="fas fa-lock"></i> Encrypted
+                            </div>
+                            <div class="secure-badge">
+                                <i class="fas fa-check-circle"></i> Verified
+                            </div>
+                        </div>
+
+                        <div class="text-center mt-30">
+                            <button class="btn btn-primary btn-lg" onclick="processPayment()">
+                                <i class="fas fa-credit-card"></i> Proceed to Pay ₹<span id="payableAmount">0.00</span>
+                            </button>
+                            <p class="mt-10 text-light">Powered by Razorpay</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Thank You Page -->
+            <div class="page-content hidden" id="thankyouPage">
+                <div class="thankyou-container">
+                    <div class="success-animation">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <h1>Payment Successful!</h1>
+                    <p class="mt-20 mb-30">Thank you for your payment. Your transaction has been completed successfully.</p>
+                    
+                    <div class="payment-details">
+                        <div class="detail-row">
+                            <span>Amount Paid:</span>
+                            <span id="thankyouAmount">₹0.00</span>
+                        </div>
+                        <div class="detail-row">
+                            <span>Payment ID:</span>
+                            <span id="thankyouPaymentId">-</span>
+                        </div>
+                        <div class="detail-row">
+                            <span>Date & Time:</span>
+                            <span id="thankyouTimestamp">-</span>
+                        </div>
+                        <div class="detail-row">
+                            <span>Status:</span>
+                            <span class="status-badge status-active">Completed</span>
+                        </div>
+                    </div>
+
+                    <div class="btn-group mt-30">
+                        <button class="btn btn-primary" onclick="downloadInvoice()">
+                            <i class="fas fa-download"></i> Download Invoice
+                        </button>
+                        <button class="btn btn-outline" onclick="showPage('dashboard')">
+                            <i class="fas fa-home"></i> Return to Dashboard
+                        </button>
+                        <button class="btn btn-secondary" onclick="contactSupport()">
+                            <i class="fas fa-headset"></i> Customer Support
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Page -->
+            <div class="page-content hidden" id="settingsPage">
+                <div class="page-header">
+                    <h1 class="page-title"><i class="fas fa-cog"></i> System Settings</h1>
+                    <p class="page-subtitle">Configure your system preferences and templates</p>
+                </div>
+
+                <div class="form-container">
+                    <h2 class="mb-20"><i class="fas fa-concierge-bell"></i> Services Management</h2>
+                    <div id="servicesList">
+                        <!-- Services will be populated here -->
+                    </div>
+                    <div class="form-group mt-20">
+                        <button class="btn btn-primary" onclick="addNewService()">
+                            <i class="fas fa-plus"></i> Add New Service
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-container mt-30">
+                    <h2 class="mb-20"><i class="fas fa-toggle-on"></i> GST Settings</h2>
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-percentage"></i> Enable GST for all payments
+                        </label>
+                        <div style="margin-top: 10px;">
+                            <label class="switch">
+                                <input type="checkbox" id="globalGST">
+                                <span class="slider"></span>
+                            </label>
+                            <span>GST Rate: <span id="gstRate">18</span>%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-container mt-30">
+                    <h2 class="mb-20"><i class="fas fa-comment-dots"></i> WhatsApp Template</h2>
+                    <div class="form-group">
+                        <label class="form-label" for="whatsappTemplate">
+                            <i class="fab fa-whatsapp"></i> Message Template
+                        </label>
+                        <textarea class="form-control" id="whatsappTemplate" rows="5">
+Hello {client_name},
+
+Thank you for choosing InfoGrip Media Solution!
+Your payment link is ready: {payment_link}
+
+Service: {service}
+Amount: ₹{amount}
+
+Click the link above to complete your payment.
+We're excited to work with you!
+
+Best regards,
+InfoGrip Team
++91 6367556906
+                        </textarea>
+                        <p class="mt-10 text-light">Available variables: {client_name}, {service}, {amount}, {payment_link}</p>
+                    </div>
+                </div>
+
+                <div class="form-container mt-30">
+                    <h2 class="mb-20"><i class="fas fa-envelope"></i> Email Template</h2>
+                    <div class="form-group">
+                        <label class="form-label" for="emailTemplate">
+                            <i class="fas fa-envelope"></i> Email Template (HTML)
+                        </label>
+                        <textarea class="form-control" id="emailTemplate" rows="8">
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { background: #07217c; color: white; padding: 20px; text-align: center; }
+        .content { padding: 30px; background: #f8f9fa; }
+        .button { background: #fdcb54; color: #001c4f; padding: 12px 30px; text-decoration: none; border-radius: 50px; display: inline-block; }
+        .footer { text-align: center; padding: 20px; color: #6c757d; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>InfoGrip Media Solution</h2>
+            <p>Your Payment Link is Ready</p>
+        </div>
+        <div class="content">
+            <p>Hello {client_name},</p>
+            <p>Thank you for choosing InfoGrip Media Solution!</p>
+            <p><strong>Service:</strong> {service}<br>
+               <strong>Amount:</strong> ₹{amount}</p>
+            <div style="text-align: center; margin: 30px 0;">
+                <a href="{payment_link}" class="button">Complete Payment</a>
+            </div>
+            <p>If you have any questions, contact us at +91 6367556906 or info@infogrip.com</p>
+        </div>
+        <div class="footer">
+            <p>© 2025 InfoGrip Media Solution. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>
+                        </textarea>
+                    </div>
+                </div>
+
+                <div class="form-container mt-30">
+                    <h2 class="mb-20"><i class="fas fa-palette"></i> Branding Settings</h2>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="brandPrimaryColor">
+                                <i class="fas fa-palette"></i> Primary Color
+                            </label>
+                            <input type="color" class="form-control" id="brandPrimaryColor" value="#07217c">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="brandAccentColor">
+                                <i class="fas fa-palette"></i> Accent Color
+                            </label>
+                            <input type="color" class="form-control" id="brandAccentColor" value="#fdcb54">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group text-center mt-30">
+                    <button class="btn btn-primary btn-lg" onclick="saveSettings()">
+                        <i class="fas fa-save"></i> Save All Settings
+                    </button>
+                </div>
+            </div>
+
+            <!-- Invoices Page -->
+            <div class="page-content hidden" id="invoicesPage">
+                <div class="page-header">
+                    <h1 class="page-title"><i class="fas fa-file-invoice"></i> Invoices</h1>
+                    <p class="page-subtitle">Manage and download client invoices</p>
+                </div>
+
+                <div class="form-container">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="invoiceSearch">
+                                <i class="fas fa-search"></i> Search Invoices
+                            </label>
+                            <input type="text" class="form-control" id="invoiceSearch" 
+                                   placeholder="Search by client name, invoice number...">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="invoiceDateFilter">
+                                <i class="fas fa-calendar"></i> Date Range
+                            </label>
+                            <select class="form-control" id="invoiceDateFilter">
+                                <option value="all">All Time</option>
+                                <option value="today">Today</option>
+                                <option value="week">This Week</option>
+                                <option value="month">This Month</option>
+                                <option value="quarter">This Quarter</option>
+                                <option value="year">This Year</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="data-table">
+                    <div class="table-header">Recent Invoices</div>
+                    <div class="table-content">
+                        <table id="invoicesTable">
+                            <thead>
+                                <tr>
+                                    <th>Invoice No.</th>
+                                    <th>Client</th>
+                                    <th>Date</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Invoices will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <div class="toast-icon">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <div class="toast-content">
+            <div class="toast-title" id="toastTitle">Success</div>
+            <div class="toast-message" id="toastMessage">Operation completed successfully</div>
+        </div>
+    </div>
+
+    <!-- Notification Modal -->
+    <div class="modal-overlay" id="notificationModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3><i class="fas fa-bell"></i> Notifications</h3>
+                <button class="modal-close" onclick="closeModal('notificationModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="notificationList">
+                    <!-- Notifications will be populated here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Invoice Preview Modal -->
+    <div class="modal-overlay" id="invoiceModal">
+        <div class="modal" style="max-width: 800px;">
+            <div class="modal-header">
+                <h3><i class="fas fa-file-invoice"></i> Invoice Preview</h3>
+                <button class="modal-close" onclick="closeModal('invoiceModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="invoicePreview">
+                    <!-- Invoice will be generated here -->
+                </div>
+            </div>
+            <div class="modal-footer text-center">
+                <button class="btn btn-primary" onclick="printInvoice()">
+                    <i class="fas fa-print"></i> Print Invoice
+                </button>
+                <button class="btn btn-success" onclick="downloadPDF()">
+                    <i class="fas fa-download"></i> Download PDF
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============= GLOBAL VARIABLES =============
+        let clients = [];
+        let services = [];
+        let invoices = [];
+        let notifications = [
+            { id: 1, type: 'payment', message: 'New payment received from Rohit Sharma', time: '10 min ago', read: false },
+            { id: 2, type: 'client', message: 'New client registered: Simran Kaur', time: '1 hour ago', read: false },
+            { id: 3, type: 'system', message: 'System backup completed successfully', time: '2 hours ago', read: true }
+        ];
+
+        // ============= UTILITY FUNCTIONS =============
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const title = document.getElementById('toastTitle');
+            const msg = document.getElementById('toastMessage');
+            const icon = toast.querySelector('.toast-icon i');
+            
+            // Set toast type
+            toast.className = `toast toast-${type}`;
+            
+            // Set icon based on type
+            switch(type) {
+                case 'success': icon.className = 'fas fa-check-circle'; break;
+                case 'error': icon.className = 'fas fa-exclamation-circle'; break;
+                case 'warning': icon.className = 'fas fa-exclamation-triangle'; break;
+                case 'info': icon.className = 'fas fa-info-circle'; break;
+            }
+            
+            // Set message
+            title.textContent = type.charAt(0).toUpperCase() + type.slice(1);
+            msg.textContent = message;
+            
+            // Show toast
+            toast.classList.add('show');
+            
+            // Hide after 3 seconds
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        function showLoading(show = true) {
+            const overlay = document.getElementById('loadingOverlay');
+            overlay.classList.toggle('active', show);
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        function showModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+        }
+
+        // ============= PAGE NAVIGATION =============
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page-content').forEach(page => {
+                page.classList.add('hidden');
+            });
+            
+            // Show selected page
+            document.getElementById(`${pageId}Page`).classList.remove('hidden');
+            
+            // Update active menu item
+            document.querySelectorAll('.menu-item').forEach(item => {
+                item.classList.remove('active');
+                if (item.dataset.page === pageId) {
+                    item.classList.add('active');
+                }
+            });
+            
+            // Initialize page data
+            switch(pageId) {
+                case 'dashboard':
+                    loadDashboardData();
+                    break;
+                case 'clients':
+                    loadClients();
+                    break;
+                case 'payments':
+                    loadClientsForPayment();
+                    loadServicesForPayment();
+                    break;
+                case 'invoices':
+                    loadInvoices();
+                    break;
+                case 'settings':
+                    loadSettings();
+                    break;
+            }
+        }
+
+        // ============= DASHBOARD FUNCTIONS =============
+        async function loadDashboardData() {
+            try {
+                // In a real app, fetch from Google Sheets API
+                const mockData = {
+                    totalClients: 156,
+                    totalRevenue: 2456000,
+                    pendingPayments: 8,
+                    activeSubscriptions: 42,
+                    recentClients: [
+                        { name: 'Rohit Sharma', category: 'Business Owner', service: 'Social Media Management', amount: '₹25,000', status: 'Active' },
+                        { name: 'Simran Kaur', category: 'Personal Branding', service: 'Content Creation', amount: '₹15,000', status: 'Active' },
+                        { name: 'Rajeev Mehra', category: 'Politician', service: 'Political Campaign', amount: '₹50,000', status: 'Pending' },
+                        { name: 'Ananya Gupta', category: 'Business Owner', service: 'Website Development', amount: '₹35,000', status: 'Active' },
+                        { name: 'Karan Patel', category: 'Restaurant Owner', service: 'Ads Management', amount: '₹18,000', status: 'Active' }
+                    ]
+                };
+
+                // Update stats
+                document.getElementById('totalClients').textContent = mockData.totalClients;
+                document.getElementById('totalRevenue').textContent = `₹${mockData.totalRevenue.toLocaleString()}`;
+                document.getElementById('pendingPayments').textContent = mockData.pendingPayments;
+                document.getElementById('activeSubscriptions').textContent = mockData.activeSubscriptions;
+
+                // Update recent clients table
+                const tbody = document.querySelector('#recentClientsTable tbody');
+                tbody.innerHTML = mockData.recentClients.map(client => `
+                    <tr>
+                        <td>${client.name}</td>
+                        <td>${client.category}</td>
+                        <td>${client.service}</td>
+                        <td>${client.amount}</td>
+                        <td><span class="status-badge ${client.status === 'Active' ? 'status-active' : 'status-pending'}">${client.status}</span></td>
+                        <td>
+                            <button class="btn btn-sm btn-outline" onclick="viewClient('${client.name}')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `).join('');
+
+                // Update notification count
+                const unreadCount = notifications.filter(n => !n.read).length;
+                document.getElementById('notificationCount').textContent = unreadCount;
+
+            } catch (error) {
+                showToast('Error loading dashboard data', 'error');
+            }
+        }
+
+        // ============= CLIENT MANAGEMENT FUNCTIONS =============
+        async function loadClients() {
+            try {
+                // In a real app, fetch from Google Sheets
+                showLoading(true);
+                
+                // Mock data for demonstration
+                clients = [
+                    { id: 1, name: 'Rohit Sharma', mobile: '9876543210', email: 'rohit@example.com', category: 'Business Owner', businessType: 'Gym' },
+                    { id: 2, name: 'Simran Kaur', mobile: '9876543211', email: 'simran@example.com', category: 'Personal Branding', businessType: 'Salon' },
+                    { id: 3, name: 'Rajeev Mehra', mobile: '9876543212', email: 'rajeev@example.com', category: 'Politician', partyName: 'BJP', politicalRole: 'MLA (विधायक)' },
+                    { id: 4, name: 'Ananya Gupta', mobile: '9876543213', email: 'ananya@example.com', category: 'Business Owner', businessType: 'Online Coach' },
+                    { id: 5, name: 'Karan Patel', mobile: '9876543214', email: 'karan@example.com', category: 'Business Owner', businessType: 'Restaurant' }
+                ];
+                
+                showLoading(false);
+                
+            } catch (error) {
+                showLoading(false);
+                showToast('Error loading clients', 'error');
+            }
+        }
+
+        function searchClient() {
+            const searchTerm = document.getElementById('clientSearch').value.toLowerCase();
+            const categoryFilter = document.getElementById('clientCategoryFilter').value;
+            
+            if (!searchTerm) {
+                document.getElementById('searchResults').classList.add('hidden');
+                return;
+            }
+            
+            // Filter clients
+            const filteredClients = clients.filter(client => {
+                const matchesSearch = client.name.toLowerCase().includes(searchTerm) ||
+                                    client.mobile.includes(searchTerm) ||
+                                    client.email.toLowerCase().includes(searchTerm);
+                const matchesCategory = !categoryFilter || client.category === categoryFilter;
+                return matchesSearch && matchesCategory;
+            });
+            
+            const resultsDiv = document.getElementById('searchResults');
+            if (filteredClients.length > 0) {
+                resultsDiv.innerHTML = `
+                    <h4><i class="fas fa-users"></i> Found ${filteredClients.length} client(s)</h4>
+                    ${filteredClients.map(client => `
+                        <div class="client-result" onclick="fillClientForm(${client.id})" 
+                             style="padding: 15px; margin: 10px 0; background: white; border-radius: 8px; cursor: pointer; border-left: 4px solid var(--primary-blue);">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div>
+                                    <h5 style="margin: 0;">${client.name}</h5>
+                                    <p style="margin: 5px 0 0 0; color: var(--text-light);">
+                                        ${client.mobile} • ${client.email}<br>
+                                        Category: ${client.category}
+                                    </p>
+                                </div>
+                                <i class="fas fa-chevron-right"></i>
+                            </div>
+                        </div>
+                    `).join('')}
+                `;
+                resultsDiv.classList.remove('hidden');
+            } else {
+                resultsDiv.innerHTML = `
+                    <div style="text-align: center; padding: 20px; color: var(--text-light);">
+                        <i class="fas fa-search" style="font-size: 2rem; margin-bottom: 10px;"></i>
+                        <p>No clients found matching your search criteria</p>
+                    </div>
+                `;
+                resultsDiv.classList.remove('hidden');
+            }
+        }
+
+        function fillClientForm(clientId) {
+            const client = clients.find(c => c.id === clientId);
+            if (!client) return;
+            
+            // Fill basic details
+            document.getElementById('fullName').value = client.name;
+            document.getElementById('mobileNumber').value = client.mobile;
+            document.getElementById('emailAddress').value = client.email;
+            document.getElementById('category').value = client.category;
+            
+            // Trigger category fields
+            showCategoryFields();
+            
+            // Fill category-specific fields
+            if (client.category === 'Politician') {
+                document.getElementById('partyName').value = client.partyName || '';
+                document.getElementById('politicalRole').value = client.politicalRole || '';
+            } else if (client.category === 'Business Owner') {
+                document.getElementById('businessType').value = client.businessType || '';
+                document.getElementById('businessName').value = client.businessName || '';
+            } else if (client.category === 'NGO') {
+                document.getElementById('ngoType').value = client.ngoType || '';
+                document.getElementById('ngoName').value = client.ngoName || '';
+            }
+            
+            // Clear search results
+            document.getElementById('searchResults').classList.add('hidden');
+            document.getElementById('clientSearch').value = '';
+            
+            showToast(`Loaded client: ${client.name}`, 'success');
+        }
+
+        function showCategoryFields() {
+            const category = document.getElementById('category').value;
+            
+            // Hide all conditional sections
+            document.getElementById('politicianFields').classList.add('hidden');
+            document.getElementById('businessOwnerFields').classList.add('hidden');
+            document.getElementById('ngoFields').classList.add('hidden');
+            
+            // Show relevant section
+            if (category === 'Politician') {
+                document.getElementById('politicianFields').classList.remove('hidden');
+            } else if (category === 'Business Owner') {
+                document.getElementById('businessOwnerFields').classList.remove('hidden');
+            } else if (category === 'NGO') {
+                document.getElementById('ngoFields').classList.remove('hidden');
+            }
+            
+            // Handle "Other" inputs
+            document.querySelectorAll('select').forEach(select => {
+                select.addEventListener('change', function() {
+                    if (this.value === 'Other') {
+                        const otherInput = this.nextElementSibling;
+                        if (otherInput && otherInput.type === 'text') {
+                            otherInput.classList.remove('hidden');
+                        }
+                    } else {
+                        const otherInput = this.nextElementSibling;
+                        if (otherInput && otherInput.type === 'text') {
+                            otherInput.classList.add('hidden');
+                            otherInput.value = '';
+                        }
+                    }
+                });
+            });
+        }
+
+        function updateServicePrice() {
+            const service = document.getElementById('service').value;
+            const servicePrices = {
+                'Social Media Management': 25000,
+                'Video Editing': 15000,
+                'Graphic Designing': 12000,
+                'Ads Management': 20000,
+                'Website Development': 35000,
+                'Political Campaign Management': 50000,
+                'Content Creation': 18000,
+                'Personal Branding': 22000,
+                'Reputation Management': 30000,
+                'Monthly Consulting': 15000,
+                'PR Service': 25000,
+                'Verification Service': 10000,
+                'Posters & Reels Package': 12000,
+                'Photo Editing': 8000,
+                'Monthly Growth Service': 20000
+            };
+            
+            if (servicePrices[service]) {
+                document.getElementById('serviceAmount').value = servicePrices[service];
+            }
+        }
+
+        function updateSubscriptionStatus() {
+            const billingCycle = document.getElementById('billingCycle').value;
+            const statusSelect = document.getElementById('subscriptionStatus');
+            
+            if (billingCycle === 'One-time service') {
+                statusSelect.value = 'Pending';
+            } else {
+                statusSelect.value = 'Active';
+            }
+        }
+
+        async function saveClient() {
+            try {
+                // Validate form
+                const requiredFields = ['fullName', 'mobileNumber', 'emailAddress', 'category', 'service', 'serviceAmount'];
+                let isValid = true;
+                
+                requiredFields.forEach(fieldId => {
+                    const field = document.getElementById(fieldId);
+                    if (!field.value.trim()) {
+                        field.style.borderColor = 'var(--danger)';
+                        isValid = false;
+                    } else {
+                        field.style.borderColor = '';
+                    }
+                });
+                
+                if (!isValid) {
+                    showToast('Please fill all required fields', 'warning');
+                    return;
+                }
+                
+                showLoading(true);
+                
+                // Prepare client data
+                const clientData = {
+                    fullName: document.getElementById('fullName').value,
+                    mobileNumber: document.getElementById('mobileNumber').value,
+                    emailAddress: document.getElementById('emailAddress').value,
+                    address: document.getElementById('address').value,
+                    category: document.getElementById('category').value,
+                    service: document.getElementById('service').value,
+                    serviceAmount: document.getElementById('serviceAmount').value,
+                    billingCycle: document.getElementById('billingCycle').value,
+                    subscriptionStatus: document.getElementById('subscriptionStatus').value,
+                    notes: document.getElementById('notes').value,
+                    facebookLink: document.getElementById('facebookLink').value,
+                    instagramLink: document.getElementById('instagramLink').value,
+                    twitterLink: document.getElementById('twitterLink').value,
+                    websiteLink: document.getElementById('websiteLink').value,
+                    timestamp: new Date().toISOString()
+                };
+                
+                // Add category-specific data
+                if (clientData.category === 'Politician') {
+                    clientData.partyName = document.getElementById('partyName').value === 'Other' 
+                        ? document.getElementById('otherPartyName').value 
+                        : document.getElementById('partyName').value;
+                    clientData.politicalRole = document.getElementById('politicalRole').value === 'Other'
+                        ? document.getElementById('otherPoliticalRole').value
+                        : document.getElementById('politicalRole').value;
+                } else if (clientData.category === 'Business Owner') {
+                    clientData.businessType = document.getElementById('businessType').value === 'Other'
+                        ? document.getElementById('otherBusinessType').value
+                        : document.getElementById('businessType').value;
+                    clientData.businessName = document.getElementById('businessName').value;
+                } else if (clientData.category === 'NGO') {
+                    clientData.ngoType = document.getElementById('ngoType').value === 'Other'
+                        ? document.getElementById('otherNgoType').value
+                        : document.getElementById('ngoType').value;
+                    clientData.ngoName = document.getElementById('ngoName').value;
+                }
+                
+                // In a real app, save to Google Sheets via API
+                console.log('Saving client data:', clientData);
+                
+                // Simulate API call
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                showLoading(false);
+                showToast('Client saved successfully!', 'success');
+                clearForm();
+                
+                // Add notification
+                addNotification('client', `New client added: ${clientData.fullName}`);
+                
+            } catch (error) {
+                showLoading(false);
+                showToast('Error saving client: ' + error.message, 'error');
+            }
+        }
+
+        function clearForm() {
+            document.querySelectorAll('.form-control').forEach(input => {
+                input.value = '';
+                input.style.borderColor = '';
+            });
+            
+            document.querySelectorAll('.conditional-section').forEach(section => {
+                section.classList.add('hidden');
+            });
+            
+            document.getElementById('subscriptionStatus').value = 'Pending';
+        }
+
+        // ============= PAYMENT LINK FUNCTIONS =============
+        async function loadClientsForPayment() {
+            try {
+                const select = document.getElementById('paymentClientSearch');
+                select.innerHTML = '<option value="">Search or select client...</option>';
+                
+                // Add clients to dropdown
+                clients.forEach(client => {
+                    const option = document.createElement('option');
+                    option.value = client.id;
+                    option.textContent = `${client.name} (${client.mobile}) - ${client.category}`;
+                    select.appendChild(option);
+                });
+                
+            } catch (error) {
+                showToast('Error loading clients', 'error');
+            }
+        }
+
+        function loadClientForPayment() {
+            const clientId = parseInt(document.getElementById('paymentClientSearch').value);
+            if (!clientId) {
+                document.getElementById('clientPaymentDetails').classList.add('hidden');
+                return;
+            }
+            
+            const client = clients.find(c => c.id === clientId);
+            if (!client) return;
+            
+            // Update client details
+            document.getElementById('paymentClientName').textContent = client.name;
+            document.getElementById('paymentClientMobile').textContent = client.mobile;
+            document.getElementById('paymentClientEmail').textContent = client.email;
+            document.getElementById('paymentClientCategory').textContent = client.category;
+            
+            // Update category-specific details
+            const categoryDetails = document.getElementById('paymentCategoryDetails');
+            if (client.category === 'Politician') {
+                categoryDetails.innerHTML = `
+                    <div class="detail-row">
+                        <span>Party:</span>
+                        <span>${client.partyName || '-'}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>Role:</span>
+                        <span>${client.politicalRole || '-'}</span>
+                    </div>
+                `;
+            } else if (client.category === 'Business Owner') {
+                categoryDetails.innerHTML = `
+                    <div class="detail-row">
+                        <span>Business:</span>
+                        <span>${client.businessName || client.businessType || '-'}</span>
+                    </div>
+                `;
+            } else if (client.category === 'NGO') {
+                categoryDetails.innerHTML = `
+                    <div class="detail-row">
+                        <span>NGO:</span>
+                        <span>${client.ngoName || '-'}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>Type:</span>
+                        <span>${client.ngoType || '-'}</span>
+                    </div>
+                `;
+            } else {
+                categoryDetails.innerHTML = '';
+            }
+            
+            // Show client details
+            document.getElementById('clientPaymentDetails').classList.remove('hidden');
+            
+            // Auto-select service if client has one
+            if (client.service) {
+                document.getElementById('paymentService').value = client.service;
+                updatePaymentAmount();
+            }
+        }
+
+        function loadServicesForPayment() {
+            const select = document.getElementById('paymentService');
+            select.innerHTML = '<option value="">Select Service</option>';
+            
+            // Get services from settings or use defaults
+            const defaultServices = [
+                'Social Media Management', 'Video Editing', 'Graphic Designing',
+                'Ads Management', 'Website Development', 'Political Campaign Management',
+                'Content Creation', 'Personal Branding', 'Reputation Management'
+            ];
+            
+            defaultServices.forEach(service => {
+                const option = document.createElement('option');
+                option.value = service;
+                option.textContent = service;
+                select.appendChild(option);
+            });
+        }
+
+        function updatePaymentAmount() {
+            const service = document.getElementById('paymentService').value;
+            const servicePrices = {
+                'Social Media Management': 25000,
+                'Video Editing': 15000,
+                'Graphic Designing': 12000,
+                'Ads Management': 20000,
+                'Website Development': 35000,
+                'Political Campaign Management': 50000,
+                'Content Creation': 18000,
+                'Personal Branding': 22000,
+                'Reputation Management': 30000
+            };
+            
+            if (servicePrices[service]) {
+                document.getElementById('paymentAmount').value = servicePrices[service];
+                calculateFinalAmount();
+            }
+        }
+
+        function calculateFinalAmount() {
+            let amount = parseFloat(document.getElementById('paymentAmount').value) || 0;
+            const applyGST = document.getElementById('applyGST').checked;
+            const discountType = document.getElementById('discountType').value;
+            const discountValue = parseFloat(document.getElementById('discountValue').value) || 0;
+            
+            // Calculate GST
+            let gstAmount = 0;
+            if (applyGST) {
+                gstAmount = amount * 0.18;
+                document.getElementById('gstAmountText').textContent = `GST: ₹${gstAmount.toFixed(2)}`;
+            } else {
+                document.getElementById('gstAmountText').textContent = `GST: ₹0`;
+            }
+            
+            // Calculate discount
+            let discountAmount = 0;
+            if (discountType === 'percentage' && discountValue > 0) {
+                discountAmount = amount * (discountValue / 100);
+            } else if (discountType === 'fixed' && discountValue > 0) {
+                discountAmount = Math.min(discountValue, amount);
+            }
+            
+            // Calculate final amount
+            let finalAmount = amount + gstAmount - discountAmount;
+            if (finalAmount < 0) finalAmount = 0;
+            
+            document.getElementById('finalAmount').textContent = finalAmount.toFixed(2);
+        }
+
+        function generatePaymentLink() {
+            const clientId = document.getElementById('paymentClientSearch').value;
+            if (!clientId) {
+                showToast('Please select a client first', 'warning');
+                return;
+            }
+            
+            const service = document.getElementById('paymentService').value;
+            const amount = document.getElementById('finalAmount').textContent;
+            
+            if (!service || !amount || amount === '0.00') {
+                showToast('Please configure payment details', 'warning');
+                return;
+            }
+            
+            // Generate unique payment ID
+            const paymentId = 'PAY-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+            
+            // Create payment link
+            const paymentLink = `https://infogrip.in/checkout.html?id=${paymentId}`;
+            
+            // Display payment link
+            document.getElementById('paymentLink').value = paymentLink;
+            document.getElementById('generatedLinkContainer').classList.remove('hidden');
+            
+            // Save payment data to localStorage for checkout page
+            const paymentData = {
+                id: paymentId,
+                clientId: clientId,
+                service: service,
+                amount: parseFloat(amount),
+                timestamp: new Date().toISOString()
+            };
+            
+            localStorage.setItem('payment_' + paymentId, JSON.stringify(paymentData));
+            
+            showToast('Payment link generated successfully!', 'success');
+        }
+
+        function copyPaymentLink() {
+            const linkInput = document.getElementById('paymentLink');
+            linkInput.select();
+            linkInput.setSelectionRange(0, 99999);
+            navigator.clipboard.writeText(linkInput.value);
+            showToast('Link copied to clipboard!', 'success');
+        }
+
+        function sendWhatsApp() {
+            const clientName = document.getElementById('paymentClientName').textContent;
+            const paymentLink = document.getElementById('paymentLink').value;
+            const service = document.getElementById('paymentService').value;
+            const amount = document.getElementById('finalAmount').textContent;
+            
+            const message = `Hello ${clientName},%0A%0AYour payment link for ${service} (₹${amount}) is ready:%0A${paymentLink}%0A%0AThanks,%0AInfoGrip Team`;
+            const whatsappUrl = `https://wa.me/91${document.getElementById('paymentClientMobile').textContent}?text=${message}`;
+            
+            window.open(whatsappUrl, '_blank');
+            showToast('WhatsApp message prepared!', 'success');
+        }
+
+        function sendEmail() {
+            showToast('Email functionality would be integrated with your email service', 'info');
+        }
+
+        function previewCheckout() {
+            const paymentLink = document.getElementById('paymentLink').value;
+            const paymentId = paymentLink.split('id=')[1];
+            
+            // Load checkout page with this payment ID
+            showPage('checkout');
+            
+            // Simulate loading payment data
+            setTimeout(() => {
+                loadCheckoutData(paymentId);
+            }, 100);
+        }
+
+        // ============= CHECKOUT PAGE FUNCTIONS =============
+        function loadCheckoutData(paymentId) {
+            // Get payment data from localStorage
+            const paymentData = JSON.parse(localStorage.getItem('payment_' + paymentId));
+            if (!paymentData) {
+                showToast('Payment data not found', 'error');
+                return;
+            }
+            
+            // Get client data
+            const client = clients.find(c => c.id === parseInt(paymentData.clientId));
+            if (!client) {
+                showToast('Client data not found', 'error');
+                return;
+            }
+            
+            // Update timestamp
+            const now = new Date();
+            document.getElementById('checkoutTimestamp').textContent = 
+                `${now.toLocaleDateString()} ${now.toLocaleTimeString()}`;
+            
+            // Update client details
+            document.getElementById('checkoutClientName').textContent = client.name;
+            document.getElementById('checkoutService').textContent = paymentData.service;
+            document.getElementById('checkoutAmount').textContent = `₹${paymentData.amount.toFixed(2)}`;
+            
+            // For demo, using fixed values
+            document.getElementById('checkoutGST').textContent = '₹450.00';
+            document.getElementById('checkoutDiscount').textContent = '-₹0.00';
+            document.getElementById('checkoutTotal').textContent = '₹25,450.00';
+            document.getElementById('payableAmount').textContent = '25,450.00';
+            
+            // Update category details
+            const categoryDetails = document.getElementById('checkoutCategoryDetails');
+            if (client.category === 'Politician') {
+                categoryDetails.innerHTML = `
+                    <h4><i class="fas fa-user-tie"></i> Political Details</h4>
+                    <p><strong>Party:</strong> ${client.partyName || '-'}</p>
+                    <p><strong>Role:</strong> ${client.politicalRole || '-'}</p>
+                `;
+                categoryDetails.classList.remove('hidden');
+            } else if (client.category === 'Business Owner') {
+                categoryDetails.innerHTML = `
+                    <h4><i class="fas fa-briefcase"></i> Business Details</h4>
+                    <p><strong>Business:</strong> ${client.businessName || client.businessType || '-'}</p>
+                `;
+                categoryDetails.classList.remove('hidden');
+            } else {
+                categoryDetails.classList.add('hidden');
+            }
+            
+            // Save checkout data for payment processing
+            window.currentCheckoutData = {
+                paymentId: paymentId,
+                client: client,
+                amount: 25450, // In paise for Razorpay
+                service: paymentData.service
+            };
+        }
+
+        function processPayment() {
+            if (!window.currentCheckoutData) {
+                showToast('Payment data not loaded', 'error');
+                return;
+            }
+            
+            // Razorpay Integration
+            const options = {
+                key: 'rzp_test_YOUR_KEY_HERE', // Replace with your Razorpay key
+                amount: window.currentCheckoutData.amount * 100, // Amount in paise
+                currency: 'INR',
+                name: 'InfoGrip Media Solution',
+                description: window.currentCheckoutData.service,
+                image: 'https://i.postimg.cc/Nj3bmPwC/Infogrip-Medi-Soluiton-(Social-Media)-(1).png',
+                handler: function(response) {
+                    // Payment success callback
+                    handlePaymentSuccess(response);
+                },
+                prefill: {
+                    name: window.currentCheckoutData.client.name,
+                    email: window.currentCheckoutData.client.email,
+                    contact: window.currentCheckoutData.client.mobile
+                },
+                notes: {
+                    service: window.currentCheckoutData.service,
+                    client_id: window.currentCheckoutData.client.id
+                },
+                theme: {
+                    color: '#07217c'
+                }
+            };
+            
+            const rzp = new Razorpay(options);
+            rzp.open();
+        }
+
+        async function handlePaymentSuccess(response) {
+            try {
+                showLoading(true);
+                
+                // Save payment to Google Sheets
+                const paymentData = {
+                    payment_id: response.razorpay_payment_id,
+                    order_id: response.razorpay_order_id,
+                    signature: response.razorpay_signature,
+                    client_id: window.currentCheckoutData.client.id,
+                    client_name: window.currentCheckoutData.client.name,
+                    amount: window.currentCheckoutData.amount,
+                    service: window.currentCheckoutData.service,
+                    timestamp: new Date().toISOString(),
+                    status: 'completed'
+                };
+                
+                // In real app, send to Google Sheets API
+                console.log('Payment successful:', paymentData);
+                
+                // Generate invoice
+                const invoiceNumber = 'INV-' + Date.now();
+                
+                // Save invoice data
+                const invoiceData = {
+                    invoice_number: invoiceNumber,
+                    payment_data: paymentData,
+                    client_data: window.currentCheckoutData.client,
+                    timestamp: new Date().toISOString()
+                };
+                
+                // Save to localStorage for demo
+                localStorage.setItem('invoice_' + invoiceNumber, JSON.stringify(invoiceData));
+                
+                // Show thank you page
+                showPage('thankyou');
+                
+                // Update thank you page data
+                document.getElementById('thankyouAmount').textContent = `₹${window.currentCheckoutData.amount.toFixed(2)}`;
+                document.getElementById('thankyouPaymentId').textContent = response.razorpay_payment_id;
+                document.getElementById('thankyouTimestamp').textContent = new Date().toLocaleString();
+                
+                // Send automatic notifications
+                sendPaymentNotifications(paymentData);
+                
+                // Add notification
+                addNotification('payment', `Payment received from ${window.currentCheckoutData.client.name}`);
+                
+                showLoading(false);
+                
+            } catch (error) {
+                showLoading(false);
+                showToast('Error processing payment: ' + error.message, 'error');
+            }
+        }
+
+        // ============= THANK YOU PAGE FUNCTIONS =============
+        function downloadInvoice() {
+            showToast('Invoice download functionality would be implemented', 'info');
+            // In real app, generate and download PDF invoice
+        }
+
+        function contactSupport() {
+            window.open('https://wa.me/916367556906', '_blank');
+        }
+
+        // ============= SETTINGS FUNCTIONS =============
+        function loadSettings() {
+            // Load services
+            const servicesList = document.getElementById('servicesList');
+            servicesList.innerHTML = `
+                <div class="form-row">
+                    ${services.map((service, index) => `
+                        <div class="form-group">
+                            <label class="form-label">${service.name}</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" value="₹${service.price}" 
+                                       onchange="updateServicePrice(${index}, this.value)">
+                                <button class="btn btn-sm btn-danger" onclick="removeService(${index})">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            
+            // If no services, show default
+            if (services.length === 0) {
+                services = [
+                    { name: 'Social Media Management', price: 25000 },
+                    { name: 'Website Development', price: 35000 },
+                    { name: 'Ads Management', price: 20000 },
+                    { name: 'Content Creation', price: 18000 }
+                ];
+                loadSettings(); // Reload
+            }
+        }
+
+        function addNewService() {
+            const serviceName = prompt('Enter new service name:');
+            if (!serviceName) return;
+            
+            const servicePrice = prompt('Enter default price (₹):');
+            if (!servicePrice || isNaN(servicePrice)) {
+                showToast('Invalid price entered', 'warning');
+                return;
+            }
+            
+            services.push({
+                name: serviceName,
+                price: parseFloat(servicePrice)
+            });
+            
+            loadSettings();
+            showToast('Service added successfully', 'success');
+        }
+
+        function updateServicePrice(index, price) {
+            const numericPrice = parseFloat(price.replace('₹', '').replace(',', ''));
+            if (!isNaN(numericPrice)) {
+                services[index].price = numericPrice;
+                showToast('Service price updated', 'success');
+            }
+        }
+
+        function removeService(index) {
+            if (confirm('Are you sure you want to remove this service?')) {
+                services.splice(index, 1);
+                loadSettings();
+                showToast('Service removed', 'success');
+            }
+        }
+
+        function saveSettings() {
+            // Save all settings to localStorage
+            const settings = {
+                services: services,
+                gstEnabled: document.getElementById('globalGST').checked,
+                whatsappTemplate: document.getElementById('whatsappTemplate').value,
+                emailTemplate: document.getElementById('emailTemplate').value,
+                primaryColor: document.getElementById('brandPrimaryColor').value,
+                accentColor: document.getElementById('brandAccentColor').value
+            };
+            
+            localStorage.setItem('infogrip_settings', JSON.stringify(settings));
+            showToast('Settings saved successfully!', 'success');
+        }
+
+        // ============= INVOICE FUNCTIONS =============
+        async function loadInvoices() {
+            try {
+                // In real app, fetch from Google Sheets
+                const mockInvoices = [
+                    { number: 'INV-2025-001', client: 'Rohit Sharma', date: '2025-01-15', amount: 25000, status: 'Paid' },
+                    { number: 'INV-2025-002', client: 'Simran Kaur', date: '2025-01-18', amount: 15000, status: 'Paid' },
+                    { number: 'INV-2025-003', client: 'Rajeev Mehra', date: '2025-01-20', amount: 50000, status: 'Pending' },
+                    { number: 'INV-2025-004', client: 'Ananya Gupta', date: '2025-01-22', amount: 35000, status: 'Paid' },
+                    { number: 'INV-2025-005', client: 'Karan Patel', date: '2025-01-25', amount: 18000, status: 'Paid' }
+                ];
+                
+                const tbody = document.querySelector('#invoicesTable tbody');
+                tbody.innerHTML = mockInvoices.map(inv => `
+                    <tr>
+                        <td>${inv.number}</td>
+                        <td>${inv.client}</td>
+                        <td>${inv.date}</td>
+                        <td>₹${inv.amount.toLocaleString()}</td>
+                        <td><span class="status-badge ${inv.status === 'Paid' ? 'status-active' : 'status-pending'}">${inv.status}</span></td>
+                        <td>
+                            <button class="btn btn-sm btn-outline" onclick="viewInvoice('${inv.number}')">
+                                <i class="fas fa-eye"></i> View
+                            </button>
+                            <button class="btn btn-sm btn-primary" onclick="downloadInvoicePDF('${inv.number}')">
+                                <i class="fas fa-download"></i> PDF
+                            </button>
+                        </td>
+                    </tr>
+                `).join('');
+                
+            } catch (error) {
+                showToast('Error loading invoices', 'error');
+            }
+        }
+
+        function viewInvoice(invoiceNumber) {
+            // In real app, fetch invoice data
+            showToast(`Viewing invoice ${invoiceNumber}`, 'info');
+            // Show invoice preview modal
+        }
+
+        function downloadInvoicePDF(invoiceNumber) {
+            // In real app, generate and download PDF
+            showToast(`Downloading invoice ${invoiceNumber}`, 'info');
+        }
+
+        function generateInvoice() {
+            showToast('Invoice generation would create PDF and save to Google Drive', 'info');
+        }
+
+        // ============= NOTIFICATION FUNCTIONS =============
+        function addNotification(type, message) {
+            const notification = {
+                id: notifications.length + 1,
+                type: type,
+                message: message,
+                time: 'Just now',
+                read: false
+            };
+            
+            notifications.unshift(notification);
+            
+            // Update notification count
+            const unreadCount = notifications.filter(n => !n.read).length;
+            document.getElementById('notificationCount').textContent = unreadCount;
+        }
+
+        function showNotifications() {
+            const list = document.getElementById('notificationList');
+            list.innerHTML = notifications.map(notif => `
+                <div class="notification-item ${notif.read ? '' : 'unread'}" 
+                     onclick="markAsRead(${notif.id})" 
+                     style="padding: 15px; margin: 10px 0; border-left: 4px solid ${notif.type === 'payment' ? 'var(--success)' : notif.type === 'client' ? 'var(--primary-blue)' : 'var(--warning)'};">
+                    <p style="margin: 0;">${notif.message}</p>
+                    <small style="color: var(--text-light);">${notif.time}</small>
+                </div>
+            `).join('');
+            
+            showModal('notificationModal');
+        }
+
+        function markAsRead(notificationId) {
+            const notification = notifications.find(n => n.id === notificationId);
+            if (notification) {
+                notification.read = true;
+                
+                // Update notification count
+                const unreadCount = notifications.filter(n => !n.read).length;
+                document.getElementById('notificationCount').textContent = unreadCount;
+                
+                // Refresh notification list
+                showNotifications();
+            }
+        }
+
+        // ============= AUTO-SAVE FUNCTIONS =============
+        function autoSaveToGoogleSheets(data, sheetName) {
+            // This function would integrate with Google Apps Script
+            console.log(`Auto-saving to ${sheetName}:`, data);
+            
+            // Example Google Apps Script URL (replace with your own)
+            const scriptUrl = 'https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec';
+            
+            // In real implementation:
+            // axios.post(scriptUrl, {
+            //     action: 'append',
+            //     sheet: sheetName,
+            //     data: data
+            // });
+        }
+
+        function sendPaymentNotifications(paymentData) {
+            // Send WhatsApp notification
+            const whatsappMessage = `Payment of ₹${paymentData.amount} received from ${paymentData.client_name} for ${paymentData.service}. Payment ID: ${paymentData.payment_id}`;
+            
+            // Send Email notification
+            const emailSubject = `Payment Received - ${paymentData.client_name}`;
+            const emailBody = `
+                New payment received:<br><br>
+                Client: ${paymentData.client_name}<br>
+                Amount: ₹${paymentData.amount}<br>
+                Service: ${paymentData.service}<br>
+                Payment ID: ${paymentData.payment_id}<br>
+                Time: ${new Date().toLocaleString()}
+            `;
+            
+            console.log('WhatsApp:', whatsappMessage);
+            console.log('Email:', emailSubject, emailBody);
+            
+            // In real app, integrate with WhatsApp Business API and Email service
+        }
+
+        // ============= INITIALIZATION =============
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile menu toggle
+            document.getElementById('mobileMenuToggle').addEventListener('click', function() {
+                document.getElementById('sidebar').classList.toggle('active');
+            });
+            
+            // Notification bell click
+            document.getElementById('notificationBell').addEventListener('click', showNotifications);
+            
+            // Menu item clicks
+            document.querySelectorAll('.menu-item').forEach(item => {
+                item.addEventListener('click', function(e) {
+                    if (this.getAttribute('href').startsWith('#')) {
+                        e.preventDefault();
+                        const pageId = this.dataset.page;
+                        showPage(pageId);
+                    }
+                });
+            });
+            
+            // Initialize dashboard
+            showPage('dashboard');
+            
+            // Load initial data
+            loadClients();
+            
+            // Setup discount field toggling
+            document.getElementById('discountType').addEventListener('change', function() {
+                const discountValue = document.getElementById('discountValue');
+                discountValue.style.display = this.value === 'none' ? 'none' : 'block';
+                calculateFinalAmount();
+            });
+            
+            // Setup GST toggle
+            document.getElementById('applyGST').addEventListener('change', calculateFinalAmount);
+            
+            // Auto-update final amount when amount changes
+            document.getElementById('paymentAmount').addEventListener('input', calculateFinalAmount);
+            document.getElementById('discountValue').addEventListener('input', calculateFinalAmount);
+            
+            // Load saved settings
+            const savedSettings = localStorage.getItem('infogrip_settings');
+            if (savedSettings) {
+                const settings = JSON.parse(savedSettings);
+                services = settings.services || [];
+                if (settings.primaryColor) {
+                    document.documentElement.style.setProperty('--primary-blue', settings.primaryColor);
+                    document.getElementById('brandPrimaryColor').value = settings.primaryColor;
+                }
+                if (settings.accentColor) {
+                    document.documentElement.style.setProperty('--accent-orange', settings.accentColor);
+                    document.getElementById('brandAccentColor').value = settings.accentColor;
+                }
+            }
+        });
+
+        // ============= GOOGLE SHEETS INTEGRATION TEMPLATE =============
+        /*
+        // Google Apps Script Code Template (to be deployed separately):
+        
+        function doPost(e) {
+            try {
+                const data = JSON.parse(e.postData.contents);
+                const sheet = SpreadsheetApp.openById('YOUR_SPREADSHEET_ID').getSheetByName(data.sheet);
+                
+                if (data.action === 'append') {
+                    const row = Object.values(data.data);
+                    sheet.appendRow(row);
+                    return ContentService.createTextOutput(JSON.stringify({ success: true }))
+                        .setMimeType(ContentService.MimeType.JSON);
+                } else if (data.action === 'read') {
+                    const rows = sheet.getDataRange().getValues();
+                    return ContentService.createTextOutput(JSON.stringify({ data: rows }))
+                        .setMimeType(ContentService.MimeType.JSON);
+                }
+            } catch (error) {
+                return ContentService.createTextOutput(JSON.stringify({ error: error.toString() }))
+                    .setMimeType(ContentService.MimeType.JSON);
+            }
+        }
+        
+        function doGet(e) {
+            try {
+                const sheetName = e.parameter.sheet;
+                const sheet = SpreadsheetApp.openById('YOUR_SPREADSHEET_ID').getSheetByName(sheetName);
+                const data = sheet.getDataRange().getValues();
+                return ContentService.createTextOutput(JSON.stringify({ data: data }))
+                    .setMimeType(ContentService.MimeType.JSON);
+            } catch (error) {
+                return ContentService.createTextOutput(JSON.stringify({ error: error.toString() }))
+                    .setMimeType(ContentService.MimeType.JSON);
+            }
+        }
+        */
+    </script>
+</body>
+</html>
