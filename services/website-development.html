@@ -151,54 +151,8 @@
             transform: translateY(-3px);
         }
 
-        /* Glow Pulse Button Animation */
-        .btn-glow-pulse {
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
-        }
-
-        .btn-glow-pulse::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, var(--orange), #ff9d00, var(--orange));
-            z-index: -1;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            border-radius: 50px;
-        }
-
-        .btn-glow-pulse:hover::before {
-            opacity: 1;
-            animation: glow-pulse 2s infinite;
-        }
-
-        @keyframes glow-pulse {
-            0% {
-                box-shadow: 0 0 5px rgba(253, 203, 84, 0.7);
-            }
-            50% {
-                box-shadow: 0 0 20px rgba(253, 203, 84, 0.9), 0 0 30px rgba(253, 203, 84, 0.6);
-            }
-            100% {
-                box-shadow: 0 0 5px rgba(253, 203, 84, 0.7);
-            }
-        }
-
         section {
             padding: 80px 0;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
-        }
-
-        section.fade-in {
-            opacity: 1;
-            transform: translateY(0);
         }
 
         .section-title {
@@ -230,55 +184,6 @@
             color: var(--blue);
             max-width: 700px;
             margin: 0 auto;
-        }
-
-        /* Social Proof Popups */
-        .social-proof-popup {
-            position: fixed;
-            bottom: 120px;
-            left: 30px;
-            background: var(--card-bg);
-            border-radius: 10px;
-            padding: 15px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
-            z-index: 999;
-            max-width: 300px;
-            transform: translateX(-100%);
-            opacity: 0;
-            transition: transform 0.5s ease, opacity 0.5s ease;
-            border-left: 4px solid var(--orange);
-            display: flex;
-            align-items: center;
-        }
-
-        .social-proof-popup.active {
-            transform: translateX(0);
-            opacity: 1;
-        }
-
-        .social-proof-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: var(--orange);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 15px;
-            color: var(--dark-blue);
-            font-weight: bold;
-        }
-
-        .social-proof-content h4 {
-            font-size: 0.9rem;
-            margin-bottom: 5px;
-            color: var(--text-color);
-        }
-
-        .social-proof-content p {
-            font-size: 0.8rem;
-            margin: 0;
-            color: var(--blue);
         }
 
         /* Header Styles */
@@ -350,6 +255,10 @@
             width: 100%;
         }
 
+        .nav-menu .btn {
+            margin-left: 20px;
+        }
+
         .theme-toggle {
             background: none;
             border: none;
@@ -394,8 +303,8 @@
         .hero-content {
             max-width: 700px;
             position: relative;
-            margin: 0 auto;
             z-index: 1;
+            margin: 0 auto;
         }
 
         .hero h1 {
@@ -461,7 +370,7 @@
             color: var(--text-color);
         }
 
-       /* Features Carousel */
+        /* Features Carousel */
         .features-carousel-container {
             position: relative;
             max-width: 1000px;
@@ -514,19 +423,6 @@
             font-size: 1.3rem;
             margin-bottom: 10px;
         }
-        .features-carousel {
-           width: 100%;
-           min-height: 220px;  /* Fix invisible carousel */
-        }
-
-        .feature-card {
-           flex: 0 0 100%;      /* Fix slide width */
-        min-height: 220px;   /* Fix collapsing height */
-        }
-
-        .feature-icon i {
-         font-size: 1.5rem !important; /* Fix icon load collapse */
-       }
 
         .carousel-nav {
             display: flex;
@@ -580,8 +476,9 @@
 
         .carousel-arrow.next {
             right: 10px;
-        
-         /* Process Section */
+        }
+
+        /* Process Section */
         .process {
             background-color: var(--section-bg);
         }
@@ -880,357 +777,6 @@
             }
         }
 
-        /* Floating Buttons */
-        .floating-buttons {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 1000;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .floating-btn {
-            width: 65px;
-            height: 65px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--white);
-            font-size: 1.6rem;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            transition: var(--transition);
-            position: relative;
-            animation: pulse 2s infinite;
-        }
-
-        .whatsapp-btn {
-            background-color: #25D366;
-        }
-
-        .chatbot-btn {
-            background: linear-gradient(135deg, var(--dark-blue) 0%, var(--blue) 100%);
-        }
-
-        .floating-btn:hover {
-            transform: scale(1.1);
-        }
-
-        @keyframes pulse {
-            0% {
-                box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
-            }
-            70% {
-                box-shadow: 0 0 0 10px rgba(37, 211, 102, 0);
-            }
-            100% {
-                box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
-            }
-        }
-
-        /* Chatbot Styles */
-        .chatbot-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-            opacity: 0;
-            visibility: hidden;
-            transition: var(--transition);
-        }
-
-        .chatbot-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .chatbot-container {
-            width: 100%;
-            max-width: 450px;
-            height: 700px;
-            background-color: var(--card-bg);
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            transform: translateY(20px);
-            transition: var(--transition);
-        }
-
-        .chatbot-overlay.active .chatbot-container {
-            transform: translateY(0);
-        }
-
-        .chat-header {
-            background: linear-gradient(135deg, var(--dark-blue) 0%, var(--blue) 100%);
-            color: white;
-            padding: 15px 20px;
-            display: flex;
-            align-items: center;
-            position: relative;
-        }
-
-        .chat-header::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: var(--orange);
-        }
-
-        .logo-container {
-            display: flex;
-            align-items: center;
-            width: 100%;
-        }
-
-        .chat-logo {
-            width: 65px;
-            height: 65px;
-            border-radius: 12px;
-            margin-right: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: white;
-            padding: 6px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-            overflow: hidden;
-            border: 2px solid var(--orange);
-        }
-
-        .chat-logo-img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            border-radius: 8px;
-        }
-
-        .chat-header-info {
-            flex: 1;
-        }
-
-        .chat-header-info h3 {
-            font-size: 18px;
-            margin-bottom: 5px;
-            font-weight: 600;
-        }
-
-        .chat-header-info p {
-            font-size: 13px;
-            opacity: 0.9;
-            display: flex;
-            align-items: center;
-        }
-
-        .status-indicator {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background-color: #2ecc71;
-            margin-right: 8px;
-            display: inline-block;
-        }
-
-        .chat-messages {
-            flex: 1;
-            padding: 20px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            background-color: var(--section-bg);
-        }
-
-        .message {
-            max-width: 85%;
-            padding: 12px 16px;
-            border-radius: 18px;
-            font-size: 14px;
-            line-height: 1.4;
-            position: relative;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-        }
-
-        .bot-message {
-            background-color: var(--card-bg);
-            align-self: flex-start;
-            border-bottom-left-radius: 5px;
-            border: 1px solid #eaeaea;
-        }
-
-        .user-message {
-            background: linear-gradient(135deg, var(--dark-blue) 0%, var(--blue) 100%);
-            color: white;
-            align-self: flex-end;
-            border-bottom-right-radius: 5px;
-        }
-
-        .language-option {
-            display: flex;
-            align-items: center;
-            padding: 12px 15px;
-            background-color: var(--card-bg);
-            border-radius: 10px;
-            margin-bottom: 10px;
-            cursor: pointer;
-            transition: all 0.3s;
-            border: 1px solid #eaeaea;
-        }
-
-        .language-option:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-color: var(--dark-blue);
-        }
-
-        .language-flag {
-            font-size: 24px;
-            margin-right: 12px;
-        }
-
-        .language-text {
-            font-weight: 500;
-        }
-
-        .typing-indicator {
-            display: flex;
-            align-items: center;
-            padding: 10px 15px;
-            background-color: var(--card-bg);
-            border-radius: 18px;
-            align-self: flex-start;
-            border-bottom-left-radius: 5px;
-            max-width: 70px;
-            border: 1px solid #eaeaea;
-        }
-
-        .typing-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background-color: #999;
-            margin: 0 2px;
-            animation: typing 1.4s infinite ease-in-out;
-        }
-
-        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
-        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
-
-        @keyframes typing {
-            0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
-            40% { transform: scale(1); opacity: 1; }
-        }
-
-        .quick-options {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            padding: 15px;
-            background-color: var(--card-bg);
-            border-top: 1px solid #eee;
-        }
-
-        .quick-option {
-            background-color: var(--section-bg);
-            border: none;
-            padding: 8px 12px;
-            border-radius: 15px;
-            font-size: 12px;
-            cursor: pointer;
-            transition: all 0.3s;
-            color: var(--text-color);
-            font-weight: 500;
-        }
-
-        .quick-option:hover {
-            background-color: var(--dark-blue);
-            color: white;
-        }
-
-        .chat-input-container {
-            display: flex;
-            padding: 15px;
-            border-top: 1px solid #eee;
-            background-color: var(--card-bg);
-        }
-
-        .chat-input {
-            flex: 1;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 30px;
-            outline: none;
-            font-size: 14px;
-            transition: all 0.3s;
-            background: var(--card-bg);
-            color: var(--text-color);
-        }
-
-        .chat-input:focus {
-            border-color: var(--dark-blue);
-        }
-
-        .send-button {
-            background: linear-gradient(135deg, var(--dark-blue) 0%, var(--blue) 100%);
-            color: white;
-            border: none;
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            margin-left: 10px;
-            cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: all 0.3s;
-        }
-
-        .send-button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 8px rgba(7, 33, 124, 0.3);
-        }
-
-        /* Action Buttons in Chat */
-        .action-buttons {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-            flex-wrap: wrap;
-        }
-
-        .action-btn {
-            background: var(--orange);
-            color: var(--dark-blue);
-            border: none;
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .action-btn:hover {
-            background: var(--dark-blue);
-            color: white;
-            transform: translateY(-2px);
-        }
-
         /* Footer */
         footer {
             background-color: var(--card-bg);
@@ -1303,35 +849,6 @@
             background-color: var(--blue);
             color: var(--white);
             transform: translateY(-3px);
-        }
-
-        .newsletter-form {
-            display: flex;
-            margin-top: 20px;
-        }
-
-        .newsletter-form input {
-            flex: 1;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 50px 0 0 50px;
-            outline: none;
-            background: var(--card-bg);
-            color: var(--text-color);
-        }
-
-        .newsletter-form button {
-            background: var(--blue);
-            color: var(--white);
-            border: none;
-            padding: 0 20px;
-            border-radius: 0 50px 50px 0;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .newsletter-form button:hover {
-            background: var(--dark-blue);
         }
 
         .footer-bottom {
@@ -1453,28 +970,6 @@
                 height: 40px;
                 font-size: 1rem;
             }
-
-            .floating-buttons {
-                bottom: 20px;
-                right: 20px;
-            }
-
-            .floating-btn {
-                width: 55px;
-                height: 55px;
-                font-size: 1.4rem;
-            }
-
-            .chatbot-container {
-                width: 95%;
-                height: 85vh;
-            }
-
-            .social-proof-popup {
-                left: 20px;
-                bottom: 100px;
-                max-width: 250px;
-            }
         }
 
         @media (max-width: 576px) {
@@ -1519,25 +1014,11 @@
             .cta-buttons {
                 flex-direction: column;
             }
-
-            .newsletter-form {
-                flex-direction: column;
-            }
-
-            .newsletter-form input {
-                border-radius: 50px;
-                margin-bottom: 10px;
-            }
-
-            .newsletter-form button {
-                border-radius: 50px;
-                padding: 12px;
-            }
         }
     </style>
 </head>
 <body>
-   <!-- Header -->
+    <!-- Header -->
     <header>
         <div class="container">
             <nav class="navbar">
@@ -1551,7 +1032,7 @@
                     <li><a href="../index.html#testimonials">Testimonials</a></li>
                     <li><a href="../index.html#faq">FAQ</a></li>
                     <li><a href="../index.html#contact">Contact</a></li>
-                    <li><a href="../onboarding.html" class="btn btn-primary">Get Started</a></li>
+                    <li><a href="#process" class="btn btn-primary">Our Process</a></li>
                     <li>
                         <button class="theme-toggle" id="theme-toggle">
                             <i class="fas fa-moon"></i>
@@ -1574,7 +1055,7 @@
                 <h1>Website <span class="typing-text" id="typing-text"></span></h1>
                 <p>High-performance, SEO-optimized websites for businesses and professionals.</p>
                 <div class="hero-btns">
-                    <a href="../onboarding.html" class="btn btn-primary btn-glow-pulse" id="chatbot-open">Get Started</a>
+                    <a href="../onboarding.html" class="btn btn-primary">Get Started</a>
                     <a href="#process" class="btn btn-secondary">Our Process</a>
                 </div>
             </div>
@@ -1664,7 +1145,7 @@
             <div class="cta-sidebar" id="cta-sidebar">
                 <h3>Ready to Start?</h3>
                 <div class="cta-buttons">
-                    <a href="onboarding.html" class="btn btn-transparent">Fill Onboarding Form</a>
+                    <a href="../onboarding.html" class="btn btn-transparent">Fill Onboarding Form</a>
                     <a href="tel:+916367556906" class="btn btn-primary">Book Free Consultation</a>
                 </div>
                 <div class="contact-info">
@@ -1706,7 +1187,7 @@
                 <h2>Let's Build Your Website Today.</h2>
                 <p>Join hundreds of successful businesses who trust InfoGrip with their digital presence</p>
                 <div class="final-cta-btns">
-                    <a href="../onboarding.html" class="btn btn-primary btn-glow-pulse">Get Started</a>
+                    <a href="../onboarding.html" class="btn btn-primary">Get Started</a>
                     <a href="tel:+916367556906" class="btn btn-secondary">Speak to Expert</a>
                 </div>
             </div>
@@ -1716,8 +1197,7 @@
         <div class="shape shape-3"></div>
     </section>
 
-   
-    <!-- Footer -->
+   <!-- Footer -->
     <footer id="contact">
         <div class="container">
             <div class="footer-content">
@@ -1772,70 +1252,6 @@
         </div>
     </footer>
 
-
-    <!-- Floating Buttons -->
-    <div class="floating-buttons">
-        <a href="https://wa.me/916367556906?text=Hi%2C%20I%20want%20to%20grow%20my%20business%20with%20InfoGrip%20Media%20Solution." class="floating-btn whatsapp-btn" target="_blank">
-            <i class="fab fa-whatsapp"></i>
-        </a>
-        <a href="#" class="floating-btn chatbot-btn" id="chatbot-btn">
-            <i class="fas fa-robot"></i>
-        </a>
-    </div>
-
-    <!-- Social Proof Popups Container -->
-    <div id="social-proof-container"></div>
-
-    <!-- Chatbot -->
-    <div class="chatbot-overlay" id="chatbot-overlay">
-        <div class="chatbot-container">
-            <div class="chat-header">
-                <div class="logo-container">
-                    <div class="chat-logo">
-                        <img src="https://i.postimg.cc/Dw18wXWB/Infogrip-Medi-Soluiton-(Social-Media)-(1).png" alt="InfoGrip Logo" class="chat-logo-img">
-                    </div>
-                    
-                    <div class="chat-header-info">
-                        <h3>InfoBot - Website Development Assistant</h3>
-                        <p><span class="status-indicator"></span> Online • Ready to help</p>
-                    </div>
-                </div>
-                <button class="chatbot-close" id="chatbot-close">&times;</button>
-            </div>
-            
-            <div class="chat-messages" id="chatMessages">
-                <div class="message bot-message">
-                    <p>Hello! 👋 I'm InfoBot, your assistant for website development services.</p>
-                    <p>I can help you understand our website development process, pricing, and features. What would you like to know?</p>
-                    
-                    <div class="language-option" data-lang="english">
-                        <div class="language-flag">🇬🇧</div>
-                        <div class="language-text">Continue in English</div>
-                    </div>
-                    
-                    <div class="language-option" data-lang="hindi">
-                        <div class="language-flag">🇮🇳</div>
-                        <div class="language-text">हिंदी में बातचीत जारी रखें</div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="quick-options">
-                <button class="quick-option" data-action="website-pricing">Website Pricing</button>
-                <button class="quick-option" data-action="timeline">Development Timeline</button>
-                <button class="quick-option" data-action="features">Website Features</button>
-                <button class="quick-option" data-action="contact">Get Free Quote</button>
-            </div>
-            
-            <div class="chat-input-container">
-                <input type="text" class="chat-input" id="messageInput" placeholder="Ask about website development...">
-                <button class="send-button" id="sendButton">
-                    <i class="fas fa-paper-plane"></i>
-                </button>
-            </div>
-        </div>
-    </div>
-
     <script>
         // Theme Toggle
         const themeToggle = document.getElementById('theme-toggle');
@@ -1881,23 +1297,6 @@
         window.addEventListener('scroll', () => {
             const header = document.querySelector('header');
             header.classList.toggle('scrolled', window.scrollY > 50);
-        });
-
-        // Section fade-in on scroll
-        const sections = document.querySelectorAll('section');
-
-        const sectionObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('fade-in');
-                }
-            });
-        }, {
-            threshold: 0.1
-        });
-
-        sections.forEach(section => {
-            sectionObserver.observe(section);
         });
 
         // Auto-typing text effect
@@ -1949,7 +1348,7 @@
         });
 
         // Features Carousel
-          const features = [
+        const features = [
             {
                 icon: 'fas fa-palette',
                 title: 'Custom UI/UX Design',
@@ -2166,317 +1565,7 @@
             element.style.transition = "opacity 0.5s ease, transform 0.5s ease";
         });
 
-        // Social Proof Popups
-        const socialProofMessages = [
-            { name: "Rohit", action: "just booked a website development project" },
-            { name: "Simran", action: "submitted a website design inquiry" },
-            { name: "Arjun", action: "requested a quote for e-commerce website" },
-            { name: "Priya", action: "started a corporate website redesign" },
-            { name: "Amit", action: "booked free website consultation" },
-            { name: "Neha", action: "downloaded website development guide" }
-        ];
-
-        function showSocialProof() {
-            const randomIndex = Math.floor(Math.random() * socialProofMessages.length);
-            const message = socialProofMessages[randomIndex];
-            
-            const popup = document.createElement('div');
-            popup.className = 'social-proof-popup';
-            popup.innerHTML = `
-                <div class="social-proof-avatar">${message.name.charAt(0)}</div>
-                <div class="social-proof-content">
-                    <h4>${message.name}</h4>
-                    <p>${message.action}</p>
-                </div>
-            `;
-            
-            document.getElementById('social-proof-container').appendChild(popup);
-            
-            // Show popup
-            setTimeout(() => {
-                popup.classList.add('active');
-            }, 100);
-            
-            // Hide and remove popup after delay
-            setTimeout(() => {
-                popup.classList.remove('active');
-                setTimeout(() => {
-                    popup.remove();
-                }, 500);
-            }, 5000);
-        }
-
-        // Show first social proof after 3 seconds
-        setTimeout(showSocialProof, 3000);
-        
-        // Show subsequent social proofs randomly
-        setInterval(showSocialProof, 10000 + Math.random() * 15000);
-
-        // Chatbot Functionality
-        const chatbotBtn = document.getElementById('chatbot-btn');
-        const chatbotOpen = document.getElementById('chatbot-open');
-        const chatbotOverlay = document.getElementById('chatbot-overlay');
-        const chatbotClose = document.getElementById('chatbot-close');
-
-        // Open chatbot
-        chatbotBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            chatbotOverlay.classList.add('active');
-        });
-
-        chatbotOpen.addEventListener('click', (e) => {
-            e.preventDefault();
-            chatbotOverlay.classList.add('active');
-        });
-
-        // Close chatbot
-        chatbotClose.addEventListener('click', () => {
-            chatbotOverlay.classList.remove('active');
-        });
-
-        // Close chatbot with ESC key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                chatbotOverlay.classList.remove('active');
-            }
-        });
-
-        // Enhanced Chatbot Functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            const chatMessages = document.getElementById('chatMessages');
-            const messageInput = document.getElementById('messageInput');
-            const sendButton = document.getElementById('sendButton');
-            const quickOptions = document.querySelectorAll('.quick-option');
-            const languageOptions = document.querySelectorAll('.language-option');
-            
-            let selectedLanguage = 'english';
-            let conversationContext = {
-                currentTopic: null,
-                conversationDepth: 0
-            };
-
-            // Website development specific knowledge base
-            const knowledgeBase = {
-                websitePricing: {
-                    english: "Our website development pricing starts at ₹15,000 for basic sites, goes up to ₹50,000+ for e-commerce, and custom web apps start from ₹75,000. Would you like a detailed quote?",
-                    hindi: "हमारी वेबसाइट विकास मूल्य निर्धारण बुनियादी साइटों के लिए ₹15,000 से शुरू होती है, ई-कॉमर्स के लिए ₹50,000+ तक जाती है, और कस्टम वेब ऐप्स ₹75,000 से शुरू होते हैं। क्या आप विस्तृत उद्धरण चाहेंगे?"
-                },
-                timeline: {
-                    english: "Basic websites take 2-3 weeks, e-commerce sites 3-4 weeks, and custom web applications 4-6 weeks. We provide regular updates throughout the process.",
-                    hindi: "बुनियादी वेबसाइटों में 2-3 सप्ताह लगते हैं, ई-कॉमर्स साइटों में 3-4 सप्ताह, और कस्टम वेब अनुप्रयोगों में 4-6 सप्ताह लगते हैं। हम पूरी प्रक्रिया के दौरान नियमित अपडेट प्रदान करते हैं।"
-                },
-                features: {
-                    english: "We offer: Mobile responsive design, SEO optimization, fast loading, secure hosting, CMS integration, maintenance plans, e-commerce functionality, and custom features.",
-                    hindi: "हम पेशकश करते हैं: मोबाइल उत्तरदायी डिजाइन, एसईओ अनुकूलन, तेज लोडिंग, सुरक्षित होस्टिंग, सीएमएस एकीकरण, रखरखाव योजनाएं, ई-कॉमर्स कार्यक्षमता, और कस्टम सुविधाएं।"
-                },
-                contact: {
-                    english: "You can reach us at +91 6367556906, email info@infogrip.com, or fill out our onboarding form for a free website consultation.",
-                    hindi: "आप हमें +91 6367556906 पर, ईमेल info@infogrip.com पर, या मुफ्त वेबसाइट परामर्श के लिए हमारा ऑनबोर्डिंग फॉर्म भरकर संपर्क कर सकते हैं।"
-                }
-            };
-
-            // Function to add a message to the chat
-            function addMessage(text, isUser = false, isHTML = false) {
-                const messageDiv = document.createElement('div');
-                messageDiv.className = isUser ? 'message user-message' : 'message bot-message';
-                
-                const timestamp = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-                
-                if (isHTML) {
-                    messageDiv.innerHTML = text;
-                } else {
-                    messageDiv.innerHTML = `
-                        ${text}
-                        <div class="timestamp">${timestamp}</div>
-                    `;
-                }
-                
-                chatMessages.appendChild(messageDiv);
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            }
-
-            // Function to simulate typing
-            function showTypingIndicator() {
-                const typingDiv = document.createElement('div');
-                typingDiv.className = 'typing-indicator';
-                typingDiv.id = 'typingIndicator';
-                typingDiv.innerHTML = `
-                    <div class="typing-dot"></div>
-                    <div class="typing-dot"></div>
-                    <div class="typing-dot"></div>
-                `;
-                chatMessages.appendChild(typingDiv);
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-                
-                return new Promise(resolve => {
-                    setTimeout(resolve, 1500 + Math.random() * 1000);
-                });
-            }
-
-            // Function to hide typing indicator
-            function hideTypingIndicator() {
-                const typingIndicator = document.getElementById('typingIndicator');
-                if (typingIndicator) {
-                    typingIndicator.remove();
-                }
-            }
-
-            // Process user message
-            async function processUserMessage(message) {
-                // Add user message
-                addMessage(message, true);
-                messageInput.value = '';
-                
-                // Show typing
-                await showTypingIndicator();
-                hideTypingIndicator();
-                
-                let response = '';
-                const lowerMessage = message.toLowerCase();
-                
-                // Check for specific website development queries
-                if (lowerMessage.includes('price') || lowerMessage.includes('cost') || lowerMessage.includes('how much')) {
-                    response = knowledgeBase.websitePricing[selectedLanguage];
-                } else if (lowerMessage.includes('time') || lowerMessage.includes('how long') || lowerMessage.includes('duration')) {
-                    response = knowledgeBase.timeline[selectedLanguage];
-                } else if (lowerMessage.includes('feature') || lowerMessage.includes('include') || lowerMessage.includes('what do you offer')) {
-                    response = knowledgeBase.features[selectedLanguage];
-                } else if (lowerMessage.includes('contact') || lowerMessage.includes('call') || lowerMessage.includes('email')) {
-                    response = knowledgeBase.contact[selectedLanguage];
-                } else if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes('hey')) {
-                    response = selectedLanguage === 'english' 
-                        ? "Hello! 👋 I'm here to help with your website development questions. What would you like to know about our services?" 
-                        : "नमस्ते! 👋 मैं आपकी वेबसाइट विकास संबंधी प्रश्नों में मदद के लिए यहां हूं। आप हमारी सेवाओं के बारे में क्या जानना चाहेंगे?";
-                } else {
-                    response = selectedLanguage === 'english'
-                        ? "I'm specialized in website development services. You can ask me about pricing, timelines, features, or how to get started with your project. What specifically would you like to know?"
-                        : "मैं वेबसाइट विकास सेवाओं में विशेषज्ञ हूं। आप मुझसे मूल्य निर्धारण, समयसीमा, सुविधाओं, या अपनी परियोजना शुरू करने के बारे में पूछ सकते हैं। आप विशेष रूप से क्या जानना चाहेंगे?";
-                }
-                
-                // Add action buttons for specific responses
-                if (lowerMessage.includes('price') || lowerMessage.includes('quote') || conversationContext.conversationDepth > 2) {
-                    const actionButtons = `
-                        <div class="action-buttons">
-                            <button class="action-btn" onclick="window.open('onboarding.html', '_blank')">
-                                <i class="fas fa-file-alt"></i> Get Detailed Quote
-                            </button>
-                            <button class="action-btn" onclick="window.open('tel:+916367556906')">
-                                <i class="fas fa-phone"></i> Call for Consultation
-                            </button>
-                            <button class="action-btn" onclick="window.open('https://wa.me/916367556906', '_blank')">
-                                <i class="fab fa-whatsapp"></i> WhatsApp Quote
-                            </button>
-                        </div>
-                    `;
-                    response += actionButtons;
-                    addMessage(response, false, true);
-                } else {
-                    addMessage(response);
-                }
-                
-                conversationContext.conversationDepth++;
-            }
-
-            // Event listeners for language selection
-            languageOptions.forEach(option => {
-                option.addEventListener('click', function() {
-                    selectedLanguage = this.getAttribute('data-lang');
-                    
-                    // Remove language options
-                    document.querySelectorAll('.language-option').forEach(opt => {
-                        opt.remove();
-                    });
-                    
-                    // Update message
-                    const messageDiv = document.querySelector('.bot-message');
-                    const greeting = selectedLanguage === 'english' 
-                        ? "Great! Let's continue in English." 
-                        : "बढ़िया! हिंदी में बातचीत जारी रखते हैं।";
-                    const followUp = selectedLanguage === 'english'
-                        ? "I'm here to answer all your website development questions. What would you like to know?"
-                        : "मैं आपके सभी वेबसाइट विकास संबंधी प्रश्नों के उत्तर देने के लिए यहां हूं। आप क्या जानना चाहेंगे?";
-                    
-                    messageDiv.innerHTML = `
-                        <p>${greeting}</p>
-                        <p>${followUp}</p>
-                        <div class="timestamp">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
-                    `;
-                });
-            });
-
-            // Event listeners for quick options
-            quickOptions.forEach(button => {
-                button.addEventListener('click', function() {
-                    const action = this.getAttribute('data-action');
-                    let message = '';
-                    
-                    switch(action) {
-                        case 'website-pricing':
-                            message = selectedLanguage === 'english' 
-                                ? "What are your website development prices?" 
-                                : "आपकी वेबसाइट विकास की कीमतें क्या हैं?";
-                            break;
-                        case 'timeline':
-                            message = selectedLanguage === 'english' 
-                                ? "How long does website development take?" 
-                                : "वेबसाइट विकास में कितना समय लगता है?";
-                            break;
-                        case 'features':
-                            message = selectedLanguage === 'english' 
-                                ? "What features do you include in websites?" 
-                                : "आप वेबसाइटों में कौन सी सुविधाएं शामिल करते हैं?";
-                            break;
-                        case 'contact':
-                            message = selectedLanguage === 'english' 
-                                ? "How can I get a free quote?" 
-                                : "मैं मुफ्त उद्धरण कैसे प्राप्त कर सकता हूं?";
-                            break;
-                    }
-                    
-                    processUserMessage(message);
-                });
-            });
-
-            // Event listeners for input
-            sendButton.addEventListener('click', () => {
-                const message = messageInput.value.trim();
-                if (message) {
-                    processUserMessage(message);
-                }
-            });
-
-            messageInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    const message = messageInput.value.trim();
-                    if (message) {
-                        processUserMessage(message);
-                    }
-                }
-            });
-        });
-
-        // Newsletter form submission
-        document.querySelector('.newsletter-form button').addEventListener('click', function() {
-            const emailInput = document.querySelector('.newsletter-form input');
-            const email = emailInput.value.trim();
-            
-            if (email && validateEmail(email)) {
-                alert('Thank you for subscribing to our newsletter!');
-                emailInput.value = '';
-            } else {
-                alert('Please enter a valid email address.');
-            }
-        });
-
-        function validateEmail(email) {
-            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return re.test(email);
-        }
-
         window.addEventListener('scroll', fadeInOnScroll);
-        window.addEventListener('scroll', () => {
-            fadeInOnScroll();
-        });
         window.addEventListener('load', fadeInOnScroll);
     </script>
 </body>
