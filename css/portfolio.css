@@ -1,18 +1,13 @@
-/* Portfolio Page Specific Styles */
-
-.portfolio-page {
-    background-color: var(--bg-color);
-    color: var(--text-color);
-}
+/* Portfolio Page Styles */
 
 /* Hero Section */
 .portfolio-hero {
     background: linear-gradient(135deg, var(--dark-blue) 0%, var(--blue) 100%);
     color: var(--white);
-    padding: 160px 0 100px;
+    padding: 180px 0 100px;
+    text-align: center;
     position: relative;
     overflow: hidden;
-    text-align: center;
 }
 
 .portfolio-hero::before {
@@ -27,7 +22,7 @@
 }
 
 .portfolio-hero-content {
-    max-width: 800px;
+    max-width: 900px;
     margin: 0 auto;
     position: relative;
     z-index: 1;
@@ -37,6 +32,7 @@
     font-size: 3.5rem;
     margin-bottom: 20px;
     line-height: 1.2;
+    color: var(--white);
 }
 
 .text-gradient {
@@ -48,16 +44,20 @@
 
 .portfolio-hero p {
     font-size: 1.2rem;
-    margin-bottom: 40px;
+    margin-bottom: 50px;
     opacity: 0.9;
     line-height: 1.6;
+    color: var(--white);
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .portfolio-stats {
     display: flex;
     justify-content: center;
-    gap: 50px;
-    margin-top: 50px;
+    gap: 60px;
+    margin-top: 60px;
     flex-wrap: wrap;
 }
 
@@ -66,37 +66,24 @@
 }
 
 .stat-item h3 {
-    font-size: 2.5rem;
+    font-size: 3rem;
     color: var(--orange);
-    margin-bottom: 5px;
+    margin-bottom: 10px;
     font-weight: 700;
 }
 
 .stat-item p {
-    font-size: 1rem;
-    opacity: 0.8;
+    font-size: 1.1rem;
+    opacity: 0.9;
     margin: 0;
-}
-
-.hero-shape {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    color: var(--bg-color);
-    transform: rotate(180deg);
-}
-
-.hero-shape svg {
-    width: 100%;
-    height: auto;
-    display: block;
+    color: var(--white);
+    font-weight: 500;
 }
 
 /* Filter Section */
 .portfolio-filter {
-    padding: 60px 0 30px;
-    background-color: var(--section-bg);
+    padding: 80px 0 40px;
+    background: var(--section-bg);
 }
 
 .filter-container {
@@ -105,7 +92,7 @@
 
 .section-title {
     text-align: center;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
 .section-title h2 {
@@ -113,6 +100,7 @@
     color: var(--text-color);
     position: relative;
     display: inline-block;
+    margin-bottom: 15px;
 }
 
 .section-title h2::after {
@@ -143,23 +131,26 @@
 }
 
 .filter-btn {
-    padding: 10px 24px;
-    background-color: var(--card-bg);
+    padding: 12px 28px;
+    background: var(--card-bg);
     color: var(--text-color);
     border: 2px solid transparent;
     border-radius: 50px;
     font-weight: 600;
     cursor: pointer;
     transition: var(--transition);
+    font-size: 1rem;
 }
 
-.filter-btn:hover,
+.filter-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow);
+}
+
 .filter-btn.active {
-    background-color: var(--blue);
+    background: var(--blue);
     color: var(--white);
     border-color: var(--blue);
-    transform: translateY(-3px);
-    box-shadow: 0 4px 15px rgba(7, 33, 124, 0.2);
 }
 
 /* Portfolio Grid */
@@ -254,19 +245,18 @@
 }
 
 .btn-view {
-    background-color: var(--orange);
+    background: var(--orange);
     color: var(--dark-blue);
     padding: 8px 20px;
     border-radius: 50px;
     font-weight: 600;
     font-size: 0.9rem;
-    border: none;
-    cursor: pointer;
+    display: inline-block;
     transition: var(--transition);
 }
 
 .btn-view:hover {
-    background-color: var(--white);
+    background: var(--white);
     transform: translateY(-3px);
 }
 
@@ -275,7 +265,7 @@
 }
 
 .portfolio-info h3 {
-    font-size: 1.3rem;
+    font-size: 1.4rem;
     margin-bottom: 10px;
     color: var(--text-color);
 }
@@ -294,7 +284,7 @@
 }
 
 .tag {
-    background-color: var(--light-blue);
+    background: var(--light-blue);
     color: var(--blue);
     padding: 5px 12px;
     border-radius: 20px;
@@ -310,7 +300,7 @@
 /* Case Studies */
 .case-studies {
     padding: 80px 0;
-    background-color: var(--section-bg);
+    background: var(--section-bg);
 }
 
 .case-study-grid {
@@ -355,7 +345,7 @@
 
 .case-study-category {
     display: inline-block;
-    background-color: var(--orange);
+    background: var(--orange);
     color: var(--dark-blue);
     padding: 5px 15px;
     border-radius: 20px;
@@ -424,12 +414,12 @@
     transform: translateX(5px);
 }
 
-/* Testimonials */
-.portfolio-testimonials {
+/* Client Testimonials */
+.client-testimonials {
     padding: 80px 0;
 }
 
-.testimonial-cards {
+.testimonial-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 30px;
@@ -476,13 +466,18 @@
     align-items: center;
 }
 
-.testimonial-author img {
+.author-avatar {
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    object-fit: cover;
+    background: var(--orange);
+    color: var(--dark-blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.2rem;
     margin-right: 15px;
-    border: 3px solid var(--light-blue);
 }
 
 .author-info h4 {
@@ -504,7 +499,6 @@
     color: var(--white);
     text-align: center;
     position: relative;
-    overflow: hidden;
 }
 
 .portfolio-cta::before {
@@ -543,31 +537,116 @@
     flex-wrap: wrap;
 }
 
-/* Animation Classes */
-.fade-in-up {
-    opacity: 0;
-    transform: translateY(30px);
-    animation: fadeInUp 0.6s ease forwards;
+/* Chatbot Styles */
+.chatbot-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
 }
 
-/* Responsive Design */
+.chatbot-overlay.active {
+    display: flex;
+}
+
+.chatbot-container {
+    width: 90%;
+    max-width: 400px;
+    background: var(--card-bg);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.chat-header {
+    background: linear-gradient(135deg, var(--dark-blue) 0%, var(--blue) 100%);
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chat-header h3 {
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.chatbot-close {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.chat-messages {
+    height: 300px;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.message {
+    margin-bottom: 15px;
+    padding: 10px 15px;
+    border-radius: 10px;
+    max-width: 80%;
+}
+
+.bot-message {
+    background: var(--light-blue);
+    color: var(--text-color);
+}
+
+.chat-input-container {
+    display: flex;
+    padding: 15px;
+    border-top: 1px solid var(--light-blue);
+}
+
+.chat-input {
+    flex: 1;
+    padding: 10px 15px;
+    border: 1px solid var(--light-blue);
+    border-radius: 25px 0 0 25px;
+    outline: none;
+    background: var(--card-bg);
+    color: var(--text-color);
+}
+
+.send-button {
+    background: linear-gradient(135deg, var(--dark-blue) 0%, var(--blue) 100%);
+    color: white;
+    border: none;
+    padding: 0 20px;
+    border-radius: 0 25px 25px 0;
+    cursor: pointer;
+}
+
+/* Responsive Styles */
 @media (max-width: 992px) {
     .portfolio-hero h1 {
         font-size: 2.8rem;
     }
     
-    .section-title h2 {
-        font-size: 2.2rem;
+    .portfolio-stats {
+        gap: 40px;
     }
     
-    .portfolio-grid {
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    .section-title h2 {
+        font-size: 2.2rem;
     }
 }
 
 @media (max-width: 768px) {
     .portfolio-hero {
-        padding: 140px 0 80px;
+        padding: 150px 0 80px;
     }
     
     .portfolio-hero h1 {
@@ -583,7 +662,11 @@
     }
     
     .stat-item h3 {
-        font-size: 2rem;
+        font-size: 2.5rem;
+    }
+    
+    .portfolio-grid {
+        grid-template-columns: 1fr;
     }
     
     .filter-buttons {
@@ -591,46 +674,23 @@
     }
     
     .filter-btn {
-        padding: 8px 16px;
+        padding: 10px 20px;
         font-size: 0.9rem;
     }
     
-    .portfolio-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
-    }
-    
     .case-study-grid,
-    .testimonial-cards {
+    .testimonial-grid {
         grid-template-columns: 1fr;
-    }
-    
-    .case-study-stats {
-        grid-template-columns: repeat(3, 1fr);
-    }
-    
-    .cta-buttons {
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    .cta-buttons .btn {
-        width: 100%;
-        max-width: 280px;
     }
 }
 
 @media (max-width: 576px) {
-    .portfolio-hero {
-        padding: 120px 0 60px;
-    }
-    
     .portfolio-hero h1 {
         font-size: 1.8rem;
     }
     
-    .section-title h2 {
-        font-size: 1.8rem;
+    .stat-item h3 {
+        font-size: 2rem;
     }
     
     .portfolio-stats {
@@ -642,52 +702,9 @@
         justify-content: flex-start;
         overflow-x: auto;
         padding-bottom: 10px;
-        white-space: nowrap;
-        justify-content: flex-start;
-    }
-    
-    .filter-btn {
-        padding: 6px 12px;
-        font-size: 0.85rem;
     }
     
     .case-study-stats {
         grid-template-columns: 1fr;
-        gap: 10px;
     }
-}
-
-/* Dark Theme Adjustments */
-.dark-theme .portfolio-hero::before,
-.dark-theme .portfolio-cta::before {
-    opacity: 0.1;
-}
-
-.dark-theme .portfolio-overlay {
-    background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.9) 100%);
-}
-
-.dark-theme .portfolio-item {
-    background: var(--card-bg);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.dark-theme .filter-btn {
-    background-color: var(--card-bg);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.dark-theme .filter-btn.active {
-    background-color: var(--blue);
-    border-color: var(--blue);
-}
-
-.dark-theme .testimonial-card {
-    background: var(--card-bg);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.dark-theme .case-study-card {
-    background: var(--card-bg);
-    border: 1px solid rgba(255, 255, 255, 0.1);
 }
