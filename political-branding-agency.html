@@ -1,0 +1,2353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Political Branding Agency | InfoGrip Media Solution | Election Campaign Experts</title>
+    <meta name="description" content="India's top political branding agency for leaders, MLA, MP candidates. We create powerful election campaigns with posters, reels, slogans, message positioning & political identity design.">
+    <meta name="keywords" content="political branding agency, election campaign management, political marketing, MLA branding, MP branding, election poster design, political reels, slogan creation, voter targeting, constituency management">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+    <link rel="stylesheet" href="css/layout.css">
+    
+    <style>
+        /* ===== EXACT SAME VARIABLES AS YOUR WEBSITE ===== */
+        :root {
+            --dark-blue: #001c4f;
+            --blue: #07217c;
+            --white: #ffffff;
+            --orange: #fdcb54; /* YOUR BRAND ORANGE */
+            --light-blue: rgba(7, 33, 124, 0.1);
+            --transition: all 0.3s ease;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            --glass: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --bg-color: #ffffff;
+            --text-color: #001c4f;
+            --card-bg: #ffffff;
+            --section-bg: #f8f9fa;
+        }
+
+        /* Dark Theme Variables - EXACTLY LIKE YOURS */
+        .dark-theme {
+            --dark-blue: #c9d1ff;
+            --blue: #a4b3ff;
+            --white: #121212;
+            --orange: #fdcb54; /* Orange stays same */
+            --light-blue: rgba(164, 179, 255, 0.1);
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --card-bg: #1e1e1e;
+            --section-bg: #1a1a1a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: var(--transition);
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background-color: var(--orange);
+            color: var(--dark-blue);
+            box-shadow: 0 4px 15px rgba(253, 203, 84, 0.3);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--dark-blue);
+            color: var(--white);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(253, 203, 84, 0.4);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--white);
+            border: 2px solid var(--white);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--white);
+            color: var(--dark-blue);
+            transform: translateY(-3px);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--blue);
+            border: 2px solid var(--blue);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--blue);
+            color: var(--white);
+            transform: translateY(-3px);
+        }
+
+        /* Glow Pulse Button Animation - FROM YOUR WEBSITE */
+        .btn-glow-pulse {
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn-glow-pulse::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--orange), #ff9d00, var(--orange));
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            border-radius: 50px;
+        }
+
+        .btn-glow-pulse:hover::before {
+            opacity: 1;
+            animation: glow-pulse 2s infinite;
+        }
+
+        @keyframes glow-pulse {
+            0% {
+                box-shadow: 0 0 5px rgba(253, 203, 84, 0.7);
+            }
+            50% {
+                box-shadow: 0 0 20px rgba(253, 203, 84, 0.9), 0 0 30px rgba(253, 203, 84, 0.6);
+            }
+            100% {
+                box-shadow: 0 0 5px rgba(253, 203, 84, 0.7);
+            }
+        }
+
+        section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--text-color);
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: var(--orange);
+            border-radius: 2px;
+        }
+
+        .section-title p {
+            font-size: 1.1rem;
+            color: var(--blue);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* ===== HEADER - EXACTLY LIKE YOUR WEBSITE ===== */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+        }
+
+        .dark-theme header {
+            background-color: rgba(30, 30, 30, 0.95);
+        }
+
+        header.scrolled {
+            padding: 5px 0;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            transition: var(--transition);
+        }
+
+        header.scrolled .navbar {
+            padding: 8px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 70px;
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-menu li {
+            margin: 0 15px;
+            position: relative;
+        }
+
+        .nav-menu a {
+            font-weight: 500;
+            color: var(--text-color);
+            padding: 5px 0;
+            position: relative;
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--orange);
+            transition: var(--transition);
+        }
+
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: var(--text-color);
+            transition: var(--transition);
+        }
+
+        .theme-toggle:hover {
+            color: var(--orange);
+            transform: rotate(30deg);
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+        }
+
+        .bar {
+            display: block;
+            width: 25px;
+            height: 3px;
+            margin: 5px auto;
+            background-color: var(--text-color);
+            transition: var(--transition);
+        }
+
+        /* ===== HERO SECTION WITH ORANGE BLUR BACKGROUND ===== */
+        .hero {
+            background: linear-gradient(135deg, var(--dark-blue) 0%, var(--blue) 100%);
+            color: var(--white);
+            padding: 180px 0 100px;
+            position: relative;
+            overflow: hidden;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+
+        /* ORANGE BLUR BACKGROUND ELEMENTS - Matching your theme */
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                /* Orange blur effects using YOUR orange color */
+                radial-gradient(circle at 20% 30%, rgba(253, 203, 84, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(253, 203, 84, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(253, 203, 84, 0.1) 0%, transparent 50%);
+            z-index: 0;
+            filter: blur(60px);
+        }
+
+        /* Ashoka Chakra with YOUR orange color */
+        .ashoka-chakra {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120"><circle cx="60" cy="60" r="58" fill="none" stroke="%23fdcb54" stroke-width="2"/><circle cx="60" cy="60" r="50" fill="none" stroke="%23ffffff" stroke-width="1.5"/><path d="M60,10 L60,110 M10,60 L110,60" stroke="%23fdcb54" stroke-width="1.5"/><path d="M25,25 L95,95 M25,95 L95,25" stroke="%23ffffff" stroke-width="1.5"/></svg>');
+            background-size: contain;
+            background-repeat: no-repeat;
+            z-index: 0;
+            opacity: 0.3;
+            animation: spin 30s linear infinite;
+        }
+
+        .chakra-1 { top: 10%; left: 10%; }
+        .chakra-2 { top: 20%; right: 15%; animation-delay: -10s; }
+        .chakra-3 { bottom: 15%; left: 20%; animation-delay: -20s; }
+        .chakra-4 { bottom: 25%; right: 10%; animation-delay: -5s; }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero h1 .hindi {
+            display: block;
+            font-size: 2.8rem;
+            margin-top: 10px;
+            color: var(--orange);
+        }
+
+        .typing-container {
+            font-size: 1.8rem;
+            margin: 30px 0;
+            min-height: 60px;
+        }
+
+        .typing-text {
+            color: var(--orange);
+            border-right: 3px solid var(--orange);
+            padding-right: 5px;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { border-color: var(--orange); }
+            50% { border-color: transparent; }
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 60px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--orange);
+            margin-bottom: 5px;
+        }
+
+        .stat-text {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        /* ===== SERVICES SECTION - Matching your website cards ===== */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .service-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            z-index: 1;
+            border: 1px solid var(--glass-border);
+            cursor: pointer;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--dark-blue) 0%, var(--blue) 100%);
+            opacity: 0;
+            transition: var(--transition);
+            z-index: -1;
+        }
+
+        .service-card:hover::before {
+            opacity: 1;
+        }
+
+        .service-card:hover .service-content {
+            color: var(--white);
+        }
+
+        .service-card:hover .service-icon {
+            background-color: var(--orange);
+            color: var(--dark-blue);
+            transform: rotateY(180deg);
+        }
+
+        .service-img {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .service-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .service-card:hover .service-img img {
+            transform: scale(1.1);
+        }
+
+        .service-content {
+            padding: 25px;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .service-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: var(--light-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            color: var(--blue);
+            transition: var(--transition);
+        }
+
+        .service-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        /* ===== LEVELS SECTION ===== */
+        .levels-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .level-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 2px solid transparent;
+        }
+
+        .level-card:hover {
+            border-color: var(--orange);
+            transform: translateY(-5px);
+        }
+
+        .level-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background-color: var(--light-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 1.8rem;
+            color: var(--blue);
+            transition: var(--transition);
+        }
+
+        .level-card:hover .level-icon {
+            background-color: var(--orange);
+            color: var(--dark-blue);
+        }
+
+        /* ===== WHY SECTION ===== */
+        .why-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .why-points {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .why-point {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            border-left: 4px solid var(--orange);
+        }
+
+        .why-point h4 {
+            color: var(--orange);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* ===== PORTFOLIO SECTION ===== */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .portfolio-item {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            background: var(--card-bg);
+        }
+
+        .portfolio-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .portfolio-img {
+            height: 250px;
+            overflow: hidden;
+        }
+
+        .portfolio-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .portfolio-item:hover .portfolio-img img {
+            transform: scale(1.05);
+        }
+
+        .portfolio-info {
+            padding: 20px;
+        }
+
+        /* ===== FAQ SECTION - Exactly like your website ===== */
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            margin-bottom: 15px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            background: var(--card-bg);
+        }
+
+        .faq-question {
+            padding: 20px;
+            background: var(--card-bg);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .faq-question:hover {
+            background-color: var(--light-blue);
+        }
+
+        .faq-question i {
+            transition: var(--transition);
+        }
+
+        .faq-answer {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: var(--transition);
+            background-color: var(--card-bg);
+        }
+
+        .faq-item.active .faq-question {
+            background-color: var(--light-blue);
+        }
+
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 20px;
+            max-height: 500px;
+        }
+
+        /* ===== CTA SECTION ===== */
+        .cta {
+            background: linear-gradient(135deg, var(--dark-blue) 0%, var(--blue) 100%);
+            color: var(--white);
+            text-align: center;
+            padding: 100px 0;
+            position: relative;
+        }
+
+        .cta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(253, 203, 84, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(253, 203, 84, 0.1) 0%, transparent 50%);
+            z-index: 0;
+            filter: blur(40px);
+        }
+
+        .cta-content {
+            max-width: 700px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta h2 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+        }
+
+        .cta p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .cta-btns {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* ===== FLOATING BUTTONS - Exactly like your website ===== */
+        .floating-buttons {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .floating-btn {
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 1.6rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: var(--transition);
+            position: relative;
+            animation: pulse 2s infinite;
+        }
+
+        .whatsapp-btn {
+            background-color: #25D366;
+        }
+
+        .chatbot-btn {
+            background: linear-gradient(135deg, var(--dark-blue) 0%, var(--blue) 100%);
+        }
+
+        .floating-btn:hover {
+            transform: scale(1.1);
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(37, 211, 102, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+            }
+        }
+
+        /* ===== FOOTER - Exactly like your website ===== */
+        footer {
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            padding: 70px 0 20px;
+            box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+
+        .footer-col h3 {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-col h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: var(--orange);
+        }
+
+        .footer-col p {
+            margin-bottom: 20px;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: var(--blue);
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--orange);
+            padding-left: 5px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--light-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--blue);
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            background-color: var(--blue);
+            color: var(--white);
+            transform: translateY(-3px);
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .contact-item i {
+            color: var(--orange);
+            font-size: 1.2rem;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            font-size: 0.9rem;
+            color: var(--blue);
+        }
+
+        /* ===== CHATBOT STYLES - Exactly like your website ===== */
+        .chatbot-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+
+        .chatbot-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .chatbot-container {
+            width: 100%;
+            max-width: 450px;
+            height: 700px;
+            background-color: var(--card-bg);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transform: translateY(20px);
+            transition: var(--transition);
+        }
+
+        .chatbot-overlay.active .chatbot-container {
+            transform: translateY(0);
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, var(--dark-blue) 0%, var(--blue) 100%);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .chat-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--orange);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+
+        .chat-logo {
+            width: 65px;
+            height: 65px;
+            border-radius: 12px;
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            padding: 6px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            border: 2px solid var(--orange);
+        }
+
+        .chat-logo-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        .chat-header-info {
+            flex: 1;
+        }
+
+        .chat-header-info h3 {
+            font-size: 18px;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .chat-header-info p {
+            font-size: 13px;
+            opacity: 0.9;
+            display: flex;
+            align-items: center;
+        }
+
+        .status-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #2ecc71;
+            margin-right: 8px;
+            display: inline-block;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            background-color: var(--section-bg);
+        }
+
+        .message {
+            max-width: 85%;
+            padding: 12px 16px;
+            border-radius: 18px;
+            font-size: 14px;
+            line-height: 1.4;
+            position: relative;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .bot-message {
+            background-color: var(--card-bg);
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+            border: 1px solid #eaeaea;
+        }
+
+        .user-message {
+            background: linear-gradient(135deg, var(--dark-blue) 0%, var(--blue) 100%);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 5px;
+        }
+
+        .language-option {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid #eaeaea;
+        }
+
+        .language-option:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-color: var(--dark-blue);
+        }
+
+        .language-flag {
+            font-size: 24px;
+            margin-right: 12px;
+        }
+
+        .language-text {
+            font-weight: 500;
+        }
+
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            background-color: var(--card-bg);
+            border-radius: 18px;
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+            max-width: 70px;
+            border: 1px solid #eaeaea;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #999;
+            margin: 0 2px;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes typing {
+            0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
+            40% { transform: scale(1); opacity: 1; }
+        }
+
+        .quick-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 15px;
+            background-color: var(--card-bg);
+            border-top: 1px solid #eee;
+        }
+
+        .quick-option {
+            background-color: var(--section-bg);
+            border: none;
+            padding: 8px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: var(--text-color);
+            font-weight: 500;
+        }
+
+        .quick-option:hover {
+            background-color: var(--dark-blue);
+            color: white;
+        }
+
+        .chat-input-container {
+            display: flex;
+            padding: 15px;
+            border-top: 1px solid #eee;
+            background-color: var(--card-bg);
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 30px;
+            outline: none;
+            font-size: 14px;
+            transition: all 0.3s;
+            background: var(--card-bg);
+            color: var(--text-color);
+        }
+
+        .chat-input:focus {
+            border-color: var(--dark-blue);
+        }
+
+        .send-button {
+            background: linear-gradient(135deg, var(--dark-blue) 0%, var(--blue) 100%);
+            color: white;
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            margin-left: 10px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s;
+        }
+
+        .send-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(7, 33, 124, 0.3);
+        }
+
+        /* Action Buttons in Chat */
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            background: var(--orange);
+            color: var(--dark-blue);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .action-btn:hover {
+            background: var(--dark-blue);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* ===== HINDI POPUP MESSAGE ===== */
+        .hindi-popup {
+            position: fixed;
+            bottom: 120px;
+            left: 30px;
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+            z-index: 999;
+            max-width: 300px;
+            transform: translateX(-100%);
+            opacity: 0;
+            transition: transform 0.5s ease, opacity 0.5s ease;
+            border-left: 4px solid var(--orange);
+            display: flex;
+            align-items: center;
+        }
+
+        .hindi-popup.active {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .hindi-popup-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--orange);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: var(--dark-blue);
+            font-weight: bold;
+        }
+
+        .hindi-popup-content h4 {
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            color: var(--text-color);
+        }
+
+        .hindi-popup-content p {
+            font-size: 0.8rem;
+            margin: 0;
+            color: var(--blue);
+        }
+
+        .hindi-popup-btn {
+            background: var(--orange);
+            color: var(--dark-blue);
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 5px;
+            transition: var(--transition);
+        }
+
+        .hindi-popup-btn:hover {
+            background: var(--dark-blue);
+            color: white;
+        }
+
+        /* ===== RESPONSIVE STYLES - Matching your website ===== */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            
+            .hero h1 .hindi {
+                font-size: 2.2rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2.2rem;
+            }
+            
+            .cta h2 {
+                font-size: 2.2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+
+            .hamburger.active .bar:nth-child(2) {
+                opacity: 0;
+            }
+
+            .hamburger.active .bar:nth-child(1) {
+                transform: translateY(8px) rotate(45deg);
+            }
+
+            .hamburger.active .bar:nth-child(3) {
+                transform: translateY(-8px) rotate(-45deg);
+            }
+
+            .nav-menu {
+                position: fixed;
+                left: -100%;
+                top: 70px;
+                gap: 0;
+                flex-direction: column;
+                background-color: var(--card-bg);
+                width: 100%;
+                text-align: center;
+                transition: var(--transition);
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+                padding: 20px 0;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .nav-menu li {
+                margin: 15px 0;
+            }
+
+            /* Hero Mobile Styles */
+            .hero {
+                padding: 140px 0 60px;
+                min-height: auto;
+            }
+
+            .hero h1 {
+                font-size: 2.2rem;
+                line-height: 1.3;
+            }
+
+            .hero h1 .hindi {
+                font-size: 1.8rem;
+            }
+
+            .typing-container {
+                font-size: 1.4rem;
+                min-height: 50px;
+            }
+
+            .hero-btns {
+                flex-direction: column;
+                align-items: center;
+                gap: 12px;
+            }
+
+            .hero-btns .btn {
+                width: 100%;
+                max-width: 280px;
+                padding: 14px 24px;
+            }
+
+            .section-title h2 {
+                font-size: 2rem;
+            }
+
+            .floating-buttons {
+                bottom: 20px;
+                right: 20px;
+            }
+
+            .floating-btn {
+                width: 55px;
+                height: 55px;
+                font-size: 1.4rem;
+            }
+
+            .cta-btns {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+            }
+
+            .cta-btns .btn {
+                width: 100%;
+                max-width: 280px;
+            }
+
+            .hero-stats {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .chatbot-container {
+                width: 95%;
+                height: 85vh;
+            }
+
+            .hindi-popup {
+                left: 20px;
+                bottom: 100px;
+                max-width: 250px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero {
+                padding: 120px 0 50px;
+            }
+
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .hero h1 .hindi {
+                font-size: 1.5rem;
+            }
+
+            .typing-container {
+                font-size: 1.2rem;
+                min-height: 40px;
+            }
+
+            .btn {
+                padding: 12px 20px;
+                font-size: 0.9rem;
+            }
+
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+
+            .cta h2 {
+                font-size: 1.8rem;
+            }
+
+            .logo img {
+                height: 60px;
+            }
+
+            .hindi-popup {
+                max-width: 220px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Ashoka Chakra Animations -->
+    <div class="ashoka-chakra chakra-1"></div>
+    <div class="ashoka-chakra chakra-2"></div>
+    <div class="ashoka-chakra chakra-3"></div>
+    <div class="ashoka-chakra chakra-4"></div>
+
+    <!-- Header - EXACTLY like your website -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="index.html" class="logo">
+                    <img src="https://i.postimg.cc/Nj3bmPwC/Infogrip-Medi-Soluiton-(Social-Media)-(1).png" alt="InfoGrip Media Solution">
+                </a>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="index.html#services">Services</a></li>
+                    <li><a href="#levels">Levels</a></li>
+                    <li><a href="#portfolio">Work</a></li>
+                    <li><a href="#why">Why Us</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="onboarding.html" class="btn btn-primary" style="border-radius: 25px; padding: 10px 24px;">Start Free Trial</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <button class="theme-toggle" id="theme-toggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <div class="hamburger">
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Political Branding Agency <span class="hindi">राजनीतिक ब्रांडिंग एजेंसी</span></h1>
+                <h2>InfoGrip Media Solution</h2>
+                
+                <div class="typing-container">
+                    <span id="typing-text"></span>
+                </div>
+                
+                <p>We create winning political identities for Ward, Panchayat, MLA & MP candidates. 150+ successful campaigns, 95% election success rate.</p>
+                
+                <div class="hero-btns">
+                    <a href="tel:+916367556906" class="btn btn-primary btn-glow-pulse">
+                        <i class="fas fa-phone"></i> कॉल करें अभी (Call Now)
+                    </a>
+                    <a href="#contact" class="btn btn-secondary">
+                        <i class="fas fa-file-alt"></i> Free Proposal
+                    </a>
+                </div>
+                
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-number" id="campaigns-count">150+</div>
+                        <div class="stat-text">Political Campaigns</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="success-rate">95%</div>
+                        <div class="stat-text">Election Success Rate</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="leaders-count">200+</div>
+                        <div class="stat-text">Political Leaders</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="states-count">15+</div>
+                        <div class="stat-text">Indian States</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Political Branding Services</h2>
+                <p>Complete election campaign solutions for political leaders at all levels</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-img">
+                        <img src="https://images.unsplash.com/photo-1551135049-8a33b2f5c0a2?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Message Positioning">
+                    </div>
+                    <div class="service-content">
+                        <div class="service-icon">
+                            <i class="fas fa-megaphone"></i>
+                        </div>
+                        <h3>Message Positioning</h3>
+                        <p>Create powerful political messaging that connects with voters emotionally and logically.</p>
+                        <ul>
+                            <li>• Slogan Creation</li>
+                            <li>• Speech Writing</li>
+                            <li>• Manifesto Design</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-img">
+                        <img src="https://images.unsplash.com/photo-1555888997-03c9868bc8a0?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Political Reels">
+                    </div>
+                    <div class="service-content">
+                        <div class="service-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <h3>Political Reels & Videos</h3>
+                        <p>Engaging short videos for social media that showcase your work and connect with younger voters.</p>
+                        <ul>
+                            <li>• Campaign Reels</li>
+                            <li>• Speech Highlights</li>
+                            <li>• Work Showcase Videos</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-img">
+                        <img src="https://images.unsplash.com/photo-1588681664899-f142ff2dc9b1?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Poster Design">
+                    </div>
+                    <div class="service-content">
+                        <div class="service-icon">
+                            <i class="fas fa-print"></i>
+                        </div>
+                        <h3>Poster & Banner Design</h3>
+                        <p>Eye-catching political posters, banners, hoardings that get noticed in your constituency.</p>
+                        <ul>
+                            <li>• Election Posters</li>
+                            <li>• Roadside Banners</li>
+                            <li>• Digital Banners</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-img">
+                        <img src="https://images.unsplash.com/photo-1555888997-03c9868bc8a0?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Identity Design">
+                    </div>
+                    <div class="service-content">
+                        <div class="service-icon">
+                            <i class="fas fa-id-card"></i>
+                        </div>
+                        <h3>Political Identity Design</h3>
+                        <p>Complete personal branding including logo, color scheme, typography, and visual identity.</p>
+                        <ul>
+                            <li>• Leader Logo Design</li>
+                            <li>• Color Psychology</li>
+                            <li>• Complete Brand Kit</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Levels Section -->
+    <section id="levels" style="background-color: var(--section-bg);">
+        <div class="container">
+            <div class="section-title">
+                <h2>Branding for All Political Levels</h2>
+                <p>From local ward members to national leaders - we serve all</p>
+            </div>
+            <div class="levels-container">
+                <div class="level-card">
+                    <div class="level-icon">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <h3>Ward Member</h3>
+                    <p>Local level branding for municipal elections. Focus on hyper-local issues and community connection.</p>
+                    <p style="color: var(--orange); margin-top: 10px;">वार्ड सदस्य</p>
+                </div>
+                <div class="level-card">
+                    <div class="level-icon">
+                        <i class="fas fa-village"></i>
+                    </div>
+                    <h3>Panchayat Leader</h3>
+                    <p>Rural leadership branding with focus on agricultural issues, rural development, and village connectivity.</p>
+                    <p style="color: var(--orange); margin-top: 10px;">पंचायत नेता</p>
+                </div>
+                <div class="level-card">
+                    <div class="level-icon">
+                        <i class="fas fa-landmark"></i>
+                    </div>
+                    <h3>MLA Candidate</h3>
+                    <p>Constituency-level branding with focus on regional issues, development projects, and voter concerns.</p>
+                    <p style="color: var(--orange); margin-top: 10px;">विधायक उम्मीदवार</p>
+                </div>
+                <div class="level-card">
+                    <div class="level-icon">
+                        <i class="fas fa-flag"></i>
+                    </div>
+                    <h3>MP Candidate</h3>
+                    <p>National-level branding with focus on policy issues, national development, and parliamentary work.</p>
+                    <p style="color: var(--orange); margin-top: 10px;">सांसद उम्मीदवार</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Political Branding Section -->
+    <section id="why">
+        <div class="container">
+            <div class="section-title">
+                <h2>Why Political Branding Matters</h2>
+                <p>In today's digital age, your political identity is your biggest asset</p>
+            </div>
+            <div class="why-content">
+                <p>Gone are the days when just rallies and speeches could win elections. Today's voters are digitally connected and expect professional communication from their leaders.</p>
+                
+                <div class="why-points">
+                    <div class="why-point">
+                        <h4><i class="fas fa-bullseye"></i> Voter Trust Building</h4>
+                        <p>A strong brand creates trust before you even meet voters. Professional design signals credibility and seriousness.</p>
+                    </div>
+                    <div class="why-point">
+                        <h4><i class="fas fa-mobile-alt"></i> Digital Reach</h4>
+                        <p>60% of Indian voters are now on social media. Without digital presence, you're missing majority of young voters.</p>
+                    </div>
+                    <div class="why-point">
+                        <h4><i class="fas fa-chart-line"></i> Message Consistency</h4>
+                        <p>Uniform messaging across posters, social media, speeches creates stronger recall and recognition.</p>
+                    </div>
+                    <div class="why-point">
+                        <h4><i class="fas fa-users"></i> Volunteer Mobilization</h4>
+                        <p>A clear brand identity helps volunteers understand and communicate your vision effectively on ground.</p>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 40px;">
+                    <a href="#contact" class="btn btn-primary btn-glow-pulse">
+                        <i class="fas fa-id-card"></i> Build My Political Identity
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" style="background-color: var(--section-bg);">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Political Work Showcase</h2>
+                <p>Real campaigns we've managed for political leaders across India</p>
+            </div>
+            <div class="portfolio-grid">
+                <div class="portfolio-item">
+                    <div class="portfolio-img">
+                        <img src="https://images.unsplash.com/photo-1551135049-8a33b2f5c0a2?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="MLA Campaign">
+                    </div>
+                    <div class="portfolio-info">
+                        <h4>MLA Election Campaign - Rajasthan</h4>
+                        <p>Complete digital + traditional campaign resulting in 42% vote increase</p>
+                    </div>
+                </div>
+                <div class="portfolio-item">
+                    <div class="portfolio-img">
+                        <img src="https://images.unsplash.com/photo-1588681664899-f142ff2dc9b1?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Panchayat Campaign">
+                    </div>
+                    <div class="portfolio-info">
+                        <h4>Panchayat Election - Uttar Pradesh</h4>
+                        <p>Local issue-focused campaign with 78% voter recognition</p>
+                    </div>
+                </div>
+                <div class="portfolio-item">
+                    <div class="portfolio-img">
+                        <img src="https://images.unsplash.com/photo-1555888997-03c9868bc8a0?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Social Media Campaign">
+                    </div>
+                    <div class="portfolio-info">
+                        <h4>Social Media Campaign - Delhi</h4>
+                        <p>Instagram & Facebook strategy reaching 500,000+ voters</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq">
+        <div class="container">
+            <div class="section-title">
+                <h2>Frequently Asked Questions</h2>
+                <p>Common questions about political branding and campaigns</p>
+            </div>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>कितने समय में राजनीतिक ब्रांडिंग तैयार होती है? (How long does political branding take?)</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Usually 7-10 days for complete branding package including logo, posters, and initial social media setup. For urgent election campaigns, we can deliver in 3-5 days with priority service.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>क्या आप वार्ड से लेकर MP तक सभी लेवल पर काम करते हैं? (Do you work at all levels from Ward to MP?)</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, we work for ward members, panchayat leaders, MLAs and MPs. Different strategy for each level.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>क्या आप सोशल मीडिया मैनेजमेंट भी करते हैं? (Do you also manage social media?)</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, complete social media management including daily posts, reel creation, community engagement, and paid advertising. We manage Facebook, Instagram, Twitter, and WhatsApp campaigns.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>कीमत कितनी होती है? (What is the cost?)</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Price depends on level (Ward/MLA/MP) and services needed. Basic branding starts at ₹25,000. Complete campaign management starts at ₹50,000/month. Contact for exact quote based on your needs.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>क्या आप election day के लिए volunteers को manage करते हैं? (Do you manage volunteers for election day?)</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, we provide complete volunteer management including training, coordination, and ground mobilization strategies for election day activities.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta" id="contact">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Ready to Build Your Political Identity?</h2>
+                <p>Join 200+ successful political leaders who trust InfoGrip with their election campaigns. 24/7 support, experienced team, proven results.</p>
+                
+                <div class="cta-btns">
+                    <a href="tel:+916367556906" class="btn btn-primary btn-glow-pulse">
+                        <i class="fas fa-phone"></i> Call Now: +91 6367556906
+                    </a>
+                    <a href="https://wa.me/916367556906?text=Hi%2C%20I%20want%20political%20branding%20for%20my%20election%20campaign." class="btn btn-secondary" target="_blank">
+                        <i class="fab fa-whatsapp"></i> WhatsApp Now
+                    </a>
+                    <a href="onboarding.html" class="btn btn-primary">
+                        <i class="fas fa-download"></i> Download Proposal
+                    </a>
+                </div>
+                
+                <div style="margin-top: 30px; font-size: 0.9rem; opacity: 0.8;">
+                    <p><i class="fas fa-clock"></i> 24/7 Support Available | <i class="fas fa-shield-alt"></i> 100% Confidential | <i class="fas fa-check-circle"></i> 95% Success Rate</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer - EXACTLY like your website -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-col">
+                    <img src="https://i.postimg.cc/Nj3bmPwC/Infogrip-Medi-Soluiton-(Social-Media)-(1).png" alt="InfoGrip Media Solution" style="height: 70px; margin-bottom: 20px;">
+                    <p>Need Expert Help? We're Just a Message Away!</p>
+                    <a href="onboarding.html" class="btn btn-outline">Let's Connect</a>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/profile.php?id=61582320555612" class="social-link" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/infogrip.in/" class="social-link" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.linkedin.com/company/infogripsolution/?viewAsMember=true" class="social-link" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://x.com/InfoGrip" class="social-link" target="_blank"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h3>Political Services</h3>
+                    <ul class="footer-links">
+                        <li><a href="#services">Election Poster Design</a></li>
+                        <li><a href="#services">Political Reels Making</a></li>
+                        <li><a href="#services">Slogan Creation</a></li>
+                        <li><a href="#services">Social Media Management</a></li>
+                        <li><a href="#services">Volunteer Training</a></li>
+                        <li><a href="#services">Campaign Strategy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="portfolio.html">Portfolio</a></li>
+                        <li><a href="#faq">FAQ</a></li>
+                        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                        <li><a href="terms-conditions.html">Terms & Conditions</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Contact Info</h3>
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Jaipur, Rajasthan, India</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <span>+91 6367556906</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>political@infogrip.com</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-clock"></i>
+                            <span>Mon-Sun: 9AM to 9PM</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; InfoGrip Media Solution Ltd. All Rights Reserved 2025</p>
+                <div style="margin-top: 10px;">
+                    <a href="privacy-policy.html" style="color: var(--blue); margin: 0 10px;">Privacy Policy</a>
+                    <a href="terms-conditions.html" style="color: var(--blue); margin: 0 10px;">Terms & Conditions</a>
+                    <a href="refund-policy.html" style="color: var(--blue); margin: 0 10px;">Refund Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Buttons - EXACTLY like your website -->
+    <div class="floating-buttons">
+        <a href="https://wa.me/916367556906?text=Hi%2C%20I%20want%20political%20branding%20for%20my%20election%20campaign." class="floating-btn whatsapp-btn" target="_blank">
+            <i class="fab fa-whatsapp"></i>
+        </a>
+        <a href="#" class="floating-btn chatbot-btn" id="chatbot-btn">
+            <i class="fas fa-robot"></i>
+        </a>
+    </div>
+
+    <!-- Hindi Popup Message -->
+    <div class="hindi-popup" id="hindi-popup">
+        <div class="hindi-popup-avatar">A</div>
+        <div class="hindi-popup-content">
+            <h4>अमित ने फॉर्म सबमिट किया</h4>
+            <p>पॉलिटिकल ब्रांडिंग के लिए फ्री प्रोपोजल मांगा</p>
+            <button class="hindi-popup-btn" onclick="window.open('onboarding.html', '_blank')">फॉर्म भरें</button>
+        </div>
+    </div>
+
+    <!-- Chatbot - Exactly like your website -->
+    <div class="chatbot-overlay" id="chatbot-overlay">
+        <div class="chatbot-container">
+            <div class="chat-header">
+                <div class="logo-container">
+                    <div class="chat-logo">
+                        <img src="https://i.postimg.cc/Nj3bmPwC/Infogrip-Medi-Soluiton-(Social-Media)-(1).png" alt="InfoGrip Logo" class="chat-logo-img">
+                    </div>
+                    
+                    <div class="chat-header-info">
+                        <h3>Political Campaign Assistant</h3>
+                        <p><span class="status-indicator"></span> Online • Ready to help</p>
+                    </div>
+                </div>
+                <button class="chatbot-close" id="chatbot-close">&times;</button>
+            </div>
+            
+            <div class="chat-messages" id="chatMessages">
+                <div class="message bot-message">
+                    <p>Hey there! 👋 I'm your political campaign assistant from InfoGrip.</p>
+                    <p>I'm here to help with your election branding needs. Choose your language:</p>
+                    
+                    <div class="language-option" data-lang="english">
+                        <div class="language-flag">🇬🇧</div>
+                        <div class="language-text">Continue in English</div>
+                    </div>
+                    
+                    <div class="language-option" data-lang="hindi">
+                        <div class="language-flag">🇮🇳</div>
+                        <div class="language-text">हिंदी में बातचीत जारी रखें</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="quick-options">
+                <button class="quick-option" data-action="services">Our Services</button>
+                <button class="quick-option" data-action="pricing">Pricing Info</button>
+                <button class="quick-option" data-action="portfolio">See Portfolio</button>
+                <button class="quick-option" data-action="contact">Contact Us</button>
+            </div>
+            
+            <div class="chat-input-container">
+                <input type="text" class="chat-input" id="messageInput" placeholder="Ask me about political branding...">
+                <button class="send-button" id="sendButton">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ===== EXACTLY LIKE YOUR WEBSITE'S JAVASCRIPT =====
+        
+        // Theme Toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = themeToggle.querySelector('i');
+
+        // Check for saved theme preference
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        if (currentTheme === 'dark') {
+            document.body.classList.add('dark-theme');
+            themeIcon.classList.remove('fa-moon');
+            themeIcon.classList.add('fa-sun');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-theme');
+            
+            if (document.body.classList.contains('dark-theme')) {
+                localStorage.setItem('theme', 'dark');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            } else {
+                localStorage.setItem('theme', 'light');
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            }
+        });
+
+        // Mobile Menu Toggle
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        document.querySelectorAll('.nav-menu a').forEach(n => n.addEventListener('click', () => {
+            hamburger.classList.remove('active');
+            navMenu.classList.remove('active');
+        }));
+
+        // Sticky Header
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            header.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // FAQ Accordion
+        const faqItems = document.querySelectorAll('.faq-item');
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            question.addEventListener('click', () => {
+                // Close all other items
+                faqItems.forEach(otherItem => {
+                    if (otherItem !== item) {
+                        otherItem.classList.remove('active');
+                    }
+                });
+                
+                // Toggle current item
+                item.classList.toggle('active');
+            });
+        });
+
+        // ===== TYPING EFFECT =====
+        const politicalTerms = [
+            "Election Poster Design",
+            "राजनीतिक नारे बनाना",
+            "Campaign Video Making",
+            "वोटर टारगेटिंग",
+            "Social Media Management",
+            "चुनावी रणनीति",
+            "Political Branding",
+            "राजनीतिक पहचान"
+        ];
+        
+        let termIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        let typingSpeed = 100;
+        const typingText = document.getElementById('typing-text');
+
+        function typePoliticalTerm() {
+            const currentTerm = politicalTerms[termIndex];
+            
+            if (isDeleting) {
+                typingText.textContent = currentTerm.substring(0, charIndex - 1);
+                charIndex--;
+                typingSpeed = 50;
+            } else {
+                typingText.textContent = currentTerm.substring(0, charIndex + 1);
+                charIndex++;
+                typingSpeed = 100;
+            }
+            
+            if (!isDeleting && charIndex === currentTerm.length) {
+                isDeleting = true;
+                typingSpeed = 1000;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                termIndex = (termIndex + 1) % politicalTerms.length;
+                typingSpeed = 500;
+            }
+            
+            setTimeout(typePoliticalTerm, typingSpeed);
+        }
+
+        // Start typing effect
+        setTimeout(typePoliticalTerm, 1000);
+
+        // ===== ANIMATE STATS =====
+        function animateStats() {
+            const statsSection = document.querySelector('.hero-stats');
+            const statsPosition = statsSection.getBoundingClientRect().top;
+            const screenPosition = window.innerHeight / 1.3;
+            
+            if (statsPosition < screenPosition) {
+                document.querySelectorAll('.stat-number').forEach(stat => {
+                    if (!stat.classList.contains('animated')) {
+                        stat.classList.add('animated');
+                        const finalValue = stat.textContent;
+                        stat.textContent = '0';
+                        
+                        let startValue = 0;
+                        const duration = 2000;
+                        const increment = parseInt(finalValue) / (duration / 16);
+                        
+                        const timer = setInterval(() => {
+                            startValue += increment;
+                            if (startValue >= parseInt(finalValue)) {
+                                stat.textContent = finalValue;
+                                clearInterval(timer);
+                            } else {
+                                stat.textContent = Math.floor(startValue) + (finalValue.includes('+') ? '+' : '');
+                            }
+                        }, 16);
+                    }
+                });
+            }
+        }
+
+        window.addEventListener('scroll', animateStats);
+        window.addEventListener('load', animateStats);
+
+        // ===== SMOOTH SCROLL =====
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // ===== HINDI POPUP MESSAGE =====
+        const hindiPopup = document.getElementById('hindi-popup');
+        
+        // Show Hindi popup after 3 seconds
+        setTimeout(() => {
+            hindiPopup.classList.add('active');
+        }, 3000);
+        
+        // Hide Hindi popup after 8 seconds
+        setTimeout(() => {
+            hindiPopup.classList.remove('active');
+        }, 8000);
+        
+        // Show again after 30 seconds
+        setInterval(() => {
+            hindiPopup.classList.add('active');
+            setTimeout(() => {
+                hindiPopup.classList.remove('active');
+            }, 8000);
+        }, 30000);
+
+        // ===== WORKING CHATBOT =====
+        const chatbotBtn = document.getElementById('chatbot-btn');
+        const chatbotOverlay = document.getElementById('chatbot-overlay');
+        const chatbotClose = document.getElementById('chatbot-close');
+        const chatMessages = document.getElementById('chatMessages');
+        const messageInput = document.getElementById('messageInput');
+        const sendButton = document.getElementById('sendButton');
+
+        // Open chatbot
+        chatbotBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            chatbotOverlay.classList.add('active');
+            hindiPopup.classList.remove('active'); // Hide Hindi popup when chatbot opens
+        });
+
+        // Close chatbot
+        chatbotClose.addEventListener('click', () => {
+            chatbotOverlay.classList.remove('active');
+        });
+
+        // Close chatbot with ESC key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                chatbotOverlay.classList.remove('active');
+            }
+        });
+
+        // Chatbot responses in both languages
+        const politicalResponses = {
+            english: {
+                greeting: "Hello! I'm your political campaign assistant. How can I help with your election branding today?",
+                services: "We offer: 1) Political Poster Design, 2) Campaign Videos & Reels, 3) Slogan Creation, 4) Social Media Management, 5) Volunteer Training, 6) Complete Campaign Strategy.",
+                pricing: "Basic political branding starts at ₹25,000. Complete campaign management starts at ₹50,000/month. Would you like a detailed quote?",
+                portfolio: "We've managed 150+ political campaigns. Check our portfolio section or I can email you case studies of MLA, Panchayat, and MP campaigns.",
+                contact: "Call our political expert at +91 6367556906 (24/7). Email: political@infogrip.com. Or fill our onboarding form for free proposal.",
+                default: "I can help with election branding, campaign strategy, voter targeting, and political marketing. What specifically do you need?"
+            },
+            hindi: {
+                greeting: "नमस्ते! मैं आपका राजनीतिक कैंपेन असिस्टेंट हूं। आज मैं आपकी चुनावी ब्रांडिंग में कैसे मदद कर सकता हूं?",
+                services: "हमारी सेवाएं: 1) राजनीतिक पोस्टर डिजाइन, 2) कैंपेन वीडियो और रील्स, 3) नारे बनाना, 4) सोशल मीडिया प्रबंधन, 5) स्वयंसेवक प्रशिक्षण, 6) पूरी कैंपेन रणनीति।",
+                pricing: "बेसिक पॉलिटिकल ब्रांडिंग ₹25,000 से शुरू। कंप्लीट कैंपेन मैनेजमेंट ₹50,000/माह से शुरू। क्या आप विस्तृत कोटेशन चाहेंगे?",
+                portfolio: "हमने 150+ राजनीतिक अभियान संचालित किए हैं। हमारा पोर्टफोलियो सेक्शन देखें या मैं आपको विधायक, पंचायत और सांसद अभियानों के केस स्टडी ईमेल कर सकता हूं।",
+                contact: "हमारे पॉलिटिकल एक्सपर्ट को कॉल करें +91 6367556906 (24/7)। ईमेल: political@infogrip.com। या फ्री प्रोपोजल के लिए हमारा ऑनबोर्डिंग फॉर्म भरें।",
+                default: "मैं चुनावी ब्रांडिंग, कैंपेन रणनीति, मतदाता लक्ष्यीकरण और राजनीतिक विपणन में मदद कर सकता हूं। आपको विशेष रूप से क्या चाहिए?"
+            }
+        };
+
+        let currentLanguage = 'english';
+
+        // Function to add message to chat
+        function addMessage(text, isUser = false, isHTML = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = isUser ? 'message user-message' : 'message bot-message';
+            
+            if (isHTML) {
+                messageDiv.innerHTML = text;
+            } else {
+                messageDiv.textContent = text;
+            }
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Function to simulate typing
+        function showTypingIndicator() {
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'typing-indicator';
+            typingDiv.id = 'typingIndicator';
+            typingDiv.innerHTML = `
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+            `;
+            chatMessages.appendChild(typingDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            return new Promise(resolve => {
+                setTimeout(resolve, 1500);
+            });
+        }
+
+        // Function to remove typing indicator
+        function hideTypingIndicator() {
+            const typingIndicator = document.getElementById('typingIndicator');
+            if (typingIndicator) {
+                typingIndicator.remove();
+            }
+        }
+
+        // Process user message
+        async function processUserMessage(message) {
+            // Add user message
+            addMessage(message, true);
+            messageInput.value = '';
+            
+            // Show typing indicator
+            await showTypingIndicator();
+            hideTypingIndicator();
+            
+            // Determine response
+            let response = politicalResponses[currentLanguage].default;
+            const lowerMessage = message.toLowerCase();
+            
+            if (lowerMessage.includes('service') || lowerMessage.includes('सेवा') || lowerMessage.includes('क्या करते')) {
+                response = politicalResponses[currentLanguage].services;
+            } else if (lowerMessage.includes('price') || lowerMessage.includes('cost') || lowerMessage.includes('कीमत') || lowerMessage.includes('पैसा')) {
+                response = politicalResponses[currentLanguage].pricing;
+            } else if (lowerMessage.includes('portfolio') || lowerMessage.includes('work') || lowerMessage.includes('काम') || lowerMessage.includes('उदाहरण')) {
+                response = politicalResponses[currentLanguage].portfolio;
+            } else if (lowerMessage.includes('contact') || lowerMessage.includes('call') || lowerMessage.includes('संपर्क') || lowerMessage.includes('फोन')) {
+                response = politicalResponses[currentLanguage].contact;
+            } else if (lowerMessage.includes('hi') || lowerMessage.includes('hello') || lowerMessage.includes('नमस्ते') || lowerMessage.includes('हैलो')) {
+                response = politicalResponses[currentLanguage].greeting;
+            }
+            
+            // Add action buttons for pricing/contact responses
+            if (lowerMessage.includes('price') || lowerMessage.includes('cost') || lowerMessage.includes('contact') || 
+                lowerMessage.includes('कीमत') || lowerMessage.includes('संपर्क')) {
+                const actionButtons = `
+                    <div class="action-buttons">
+                        <button class="action-btn" onclick="window.open('onboarding.html', '_blank')">
+                            <i class="fas fa-file-alt"></i> Fill Onboarding Form
+                        </button>
+                        <button class="action-btn" onclick="window.open('tel:+916367556906')">
+                            <i class="fas fa-phone"></i> Call Now
+                        </button>
+                        <button class="action-btn" onclick="window.open('https://wa.me/916367556906', '_blank')">
+                            <i class="fab fa-whatsapp"></i> WhatsApp
+                        </button>
+                    </div>
+                `;
+                addMessage(response + actionButtons, false, true);
+            } else {
+                addMessage(response);
+            }
+        }
+
+        // Language selection
+        document.querySelectorAll('.language-option').forEach(option => {
+            option.addEventListener('click', function() {
+                currentLanguage = this.getAttribute('data-lang');
+                
+                // Remove language options
+                document.querySelectorAll('.language-option').forEach(opt => {
+                    opt.remove();
+                });
+                
+                // Update message
+                const messageDiv = document.querySelector('.bot-message');
+                const greeting = currentLanguage === 'english' 
+                    ? "Great! Let's continue in English. How can I help with your political branding?" 
+                    : "बढ़िया! हिंदी में बातचीत जारी रखते हैं। मैं आपकी राजनीतिक ब्रांडिंग में कैसे मदद कर सकता हूं?";
+                
+                messageDiv.innerHTML = `
+                    <p>${greeting}</p>
+                `;
+            });
+        });
+
+        // Quick options
+        document.querySelectorAll('.quick-option').forEach(button => {
+            button.addEventListener('click', function() {
+                const action = this.getAttribute('data-action');
+                let message = '';
+                
+                switch(action) {
+                    case 'services':
+                        message = currentLanguage === 'english' 
+                            ? "What services do you offer for political branding?" 
+                            : "आप राजनीतिक ब्रांडिंग के लिए क्या सेवाएं प्रदान करते हैं?";
+                        break;
+                    case 'pricing':
+                        message = currentLanguage === 'english' 
+                            ? "What are your prices for political branding?" 
+                            : "राजनीतिक ब्रांडिंग के लिए आपकी कीमतें क्या हैं?";
+                        break;
+                    case 'portfolio':
+                        message = currentLanguage === 'english' 
+                            ? "Can I see examples of your political work?" 
+                            : "क्या मैं आपके राजनीतिक काम के उदाहरण देख सकता हूं?";
+                        break;
+                    case 'contact':
+                        message = currentLanguage === 'english' 
+                            ? "How can I contact you for political branding?" 
+                            : "राजनीतिक ब्रांडिंग के लिए मैं आपसे कैसे संपर्क कर सकता हूं?";
+                        break;
+                }
+                
+                processUserMessage(message);
+            });
+        });
+
+        // Send button click
+        sendButton.addEventListener('click', () => {
+            const message = messageInput.value.trim();
+            if (message) {
+                processUserMessage(message);
+            }
+        });
+
+        // Enter key in input
+        messageInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const message = messageInput.value.trim();
+                if (message) {
+                    processUserMessage(message);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
