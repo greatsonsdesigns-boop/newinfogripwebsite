@@ -787,6 +787,144 @@ if (document.querySelector('.hero')) {
                 </div>
             `;
             testimonialTrack.appendChild(slide);
+            // Features Carousel
+const featuresData = [
+    {
+        icon: "fas fa-chart-line",
+        title: "Result-driven Strategies",
+        description: "We focus on delivering measurable results that align with your business goals."
+    },
+    {
+        icon: "fas fa-paint-brush",
+        title: "Modern Content Creation",
+        description: "Our team creates engaging, high-quality content that resonates with your audience."
+    },
+    {
+        icon: "fas fa-chart-pie",
+        title: "Advanced Analytics",
+        description: "We use data-driven insights to optimize campaigns and maximize performance."
+    },
+    {
+        icon: "fas fa-rocket",
+        title: "Fast Project Execution",
+        description: "We deliver projects on time without compromising on quality or attention to detail."
+    },
+    {
+        icon: "fas fa-comments",
+        title: "Professional Communication",
+        description: "We maintain transparent and regular communication throughout our collaboration."
+    },
+    {
+        icon: "fas fa-building",
+        title: "Long-term Brand Building",
+        description: "We focus on sustainable growth strategies that build lasting brand value."
+    }
+];
+
+const featuresTrack = document.getElementById('features-track');
+const featuresNav = document.getElementById('features-nav');
+let currentFeatureSlide = 0;
+
+// Create feature slides
+featuresData.forEach((feature, index) => {
+    const slide = document.createElement('div');
+    slide.className = 'feature-slide';
+    slide.innerHTML = `
+        <div class="feature-card">
+            <div class="feature-icon">
+                <i class="${feature.icon}"></i>
+            </div>
+            <h3>${feature.title}</h3>
+            <p>${feature.description}</p>
+        </div>
+    `;
+    featuresTrack.appendChild(slide);
+
+    // Create navigation dots
+    const dot = document.createElement('div');
+    dot.className = 'features-dot';
+    if (index === 0) dot.classList.add('active');
+    dot.addEventListener('click', () => {
+        goToFeatureSlide(index);
+    });
+    featuresNav.appendChild(dot);
+});
+
+// Carousel navigation functions
+function goToFeatureSlide(index) {
+    currentFeatureSlide = index;
+    const slideWidth = featuresTrack.children[0].offsetWidth + 20; // 20px gap
+    featuresTrack.style.transform = `translateX(-${currentFeatureSlide * slideWidth}px)`;
+    
+    // Update active dot
+    document.querySelectorAll('.features-dot').forEach((dot, i) => {
+        dot.classList.toggle('active', i === currentFeatureSlide);
+    });
+}
+
+function nextFeatureSlide() {
+    const totalSlides = featuresData.length;
+    let slidesToShow = 3;
+    
+    // Responsive slides to show
+    if (window.innerWidth <= 992) slidesToShow = 2;
+    if (window.innerWidth <= 768) slidesToShow = 1;
+    
+    if (currentFeatureSlide >= totalSlides - slidesToShow) {
+        currentFeatureSlide = 0;
+    } else {
+        currentFeatureSlide++;
+    }
+    goToFeatureSlide(currentFeatureSlide);
+}
+
+function prevFeatureSlide() {
+    const totalSlides = featuresData.length;
+    let slidesToShow = 3;
+    
+    // Responsive slides to show
+    if (window.innerWidth <= 992) slidesToShow = 2;
+    if (window.innerWidth <= 768) slidesToShow = 1;
+    
+    if (currentFeatureSlide <= 0) {
+        currentFeatureSlide = totalSlides - slidesToShow;
+    } else {
+        currentFeatureSlide--;
+    }
+    goToFeatureSlide(currentFeatureSlide);
+}
+
+// Auto-advance features carousel
+let featuresInterval = setInterval(nextFeatureSlide, 4000);
+
+// Pause auto-slide on hover
+const featuresCarousel = document.querySelector('.features-carousel');
+featuresCarousel.addEventListener('mouseenter', () => {
+    clearInterval(featuresInterval);
+});
+
+featuresCarousel.addEventListener('mouseleave', () => {
+    clearInterval(featuresInterval);
+    featuresInterval = setInterval(nextFeatureSlide, 4000);
+});
+
+// Add event listeners for arrow buttons
+document.querySelector('.features-arrow.prev').addEventListener('click', () => {
+    clearInterval(featuresInterval);
+    prevFeatureSlide();
+    featuresInterval = setInterval(nextFeatureSlide, 4000);
+});
+
+document.querySelector('.features-arrow.next').addEventListener('click', () => {
+    clearInterval(featuresInterval);
+    nextFeatureSlide();
+    featuresInterval = setInterval(nextFeatureSlide, 4000);
+});
+
+// Recalculate slide width on window resize
+window.addEventListener('resize', () => {
+    goToFeatureSlide(currentFeatureSlide);
+});
             
             // Create navigation dots
             const dot = document.createElement('div');
