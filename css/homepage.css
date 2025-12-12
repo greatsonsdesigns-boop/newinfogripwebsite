@@ -304,73 +304,6 @@
     transform: translateX(5px);
 }
 
-/* Features Section */
-.features {
-    background-color: var(--section-bg);
-}
-
-.features-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 30px;
-}
-
-.feature-card {
-    background: var(--card-bg);
-    border-radius: 15px;
-    padding: 30px;
-    text-align: center;
-    box-shadow: var(--shadow);
-    transition: var(--transition);
-    border: 1px solid transparent;
-    animation: float-card 6s ease-in-out infinite;
-}
-
-.feature-card:nth-child(2) {
-    animation-delay: 1s;
-}
-
-.feature-card:nth-child(3) {
-    animation-delay: 2s;
-}
-
-.feature-card:nth-child(4) {
-    animation-delay: 3s;
-}
-
-.feature-card:nth-child(5) {
-    animation-delay: 4s;
-}
-
-.feature-card:nth-child(6) {
-    animation-delay: 5s;
-}
-
-.feature-card:hover {
-    transform: translateY(-5px) scale(1.03);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-    border-color: var(--orange);
-    animation: none;
-}
-
-.feature-icon {
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--dark-blue) 0%, var(--blue) 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 20px;
-    font-size: 1.8rem;
-    color: var(--white);
-}
-
-.feature-card h3 {
-    font-size: 1.3rem;
-    margin-bottom: 15px;
-}
-
 /* Testimonials Section */
 .testimonials {
     background: linear-gradient(135deg, var(--dark-blue) 0%, var(--blue) 100%);
@@ -1021,6 +954,131 @@
     background: var(--dark-blue);
     color: white;
     transform: translateY(-2px);
+}
+/* Features Carousel */
+.features-carousel {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.features-track {
+    display: flex;
+    transition: transform 0.5s ease;
+    gap: 20px;
+    padding: 10px;
+}
+
+.feature-slide {
+    min-width: calc(33.333% - 20px);
+    flex-shrink: 0;
+    padding: 0 10px;
+    box-sizing: border-box;
+}
+
+.feature-card {
+    background: var(--card-bg);
+    border-radius: 15px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    border: 1px solid transparent;
+    height: 100%;
+}
+
+/* Remove the floating animation from feature cards since we'll use carousel */
+.feature-card {
+    animation: none;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px) scale(1.03);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    border-color: var(--orange);
+}
+
+.features-nav {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+    gap: 10px;
+}
+
+.features-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--light-blue);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.features-dot.active {
+    background: var(--orange);
+    transform: scale(1.2);
+}
+
+.features-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--card-bg);
+    border: 1px solid var(--glass-border);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    color: var(--text-color);
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    box-shadow: var(--shadow);
+}
+
+.features-arrow:hover {
+    background: var(--blue);
+    color: var(--white);
+    border-color: var(--blue);
+}
+
+.features-arrow.prev {
+    left: 10px;
+}
+
+.features-arrow.next {
+    right: 10px;
+}
+
+/* Responsive adjustments for carousel */
+@media (max-width: 992px) {
+    .feature-slide {
+        min-width: calc(50% - 20px);
+    }
+}
+
+@media (max-width: 768px) {
+    .feature-slide {
+        min-width: calc(100% - 20px);
+    }
+    
+    .features-arrow {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+    
+    .features-arrow.prev {
+        left: 5px;
+    }
+    
+    .features-arrow.next {
+        right: 5px;
+    }
 }
 
 /* Responsive Homepage Styles */
