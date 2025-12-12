@@ -955,48 +955,87 @@
     color: white;
     transform: translateY(-2px);
 }
-/* Features Carousel */
-.features-carousel {
+/* Features Carousel Container */
+.features-carousel-container {
     position: relative;
     max-width: 1200px;
     margin: 0 auto;
+    padding: 0 50px;
+}
+
+.features-carousel {
+    position: relative;
     overflow: hidden;
+    border-radius: 15px;
 }
 
 .features-track {
     display: flex;
     transition: transform 0.5s ease;
     gap: 20px;
-    padding: 10px;
+    padding: 10px 0;
 }
 
 .feature-slide {
-    min-width: calc(33.333% - 20px);
+    min-width: calc(33.333% - 13.33px); /* 3 items with 20px gap */
     flex-shrink: 0;
     padding: 0 10px;
     box-sizing: border-box;
 }
 
+/* Square Feature Card */
 .feature-card {
     background: var(--card-bg);
     border-radius: 15px;
-    padding: 30px;
+    padding: 30px 25px;
     text-align: center;
     box-shadow: var(--shadow);
     transition: var(--transition);
-    border: 1px solid transparent;
-    height: 100%;
-}
-
-/* Remove the floating animation from feature cards since we'll use carousel */
-.feature-card {
-    animation: none;
+    border: 2px solid transparent;
+    height: 280px; /* Fixed square height */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
 }
 
 .feature-card:hover {
-    transform: translateY(-5px) scale(1.03);
+    transform: translateY(-5px);
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
     border-color: var(--orange);
+}
+
+.feature-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, var(--dark-blue) 0%, var(--blue) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    font-size: 2rem;
+    color: var(--white);
+    transition: var(--transition);
+}
+
+.feature-card:hover .feature-icon {
+    transform: rotateY(180deg) scale(1.1);
+    background: linear-gradient(135deg, var(--orange) 0%, #ff9d00 100%);
+}
+
+.feature-card h3 {
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+    color: var(--text-color);
+}
+
+.feature-card p {
+    color: var(--blue);
+    font-size: 0.95rem;
+    line-height: 1.5;
 }
 
 .features-nav {
@@ -1020,12 +1059,14 @@
     transform: scale(1.2);
 }
 
-.features-arrow {
+/* Carousel Arrows */
+.carousel-arrow.features-prev,
+.carousel-arrow.features-next {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
     background: var(--card-bg);
-    border: 1px solid var(--glass-border);
+    border: 2px solid var(--glass-border);
     width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -1040,47 +1081,122 @@
     box-shadow: var(--shadow);
 }
 
-.features-arrow:hover {
+.carousel-arrow.features-prev:hover,
+.carousel-arrow.features-next:hover {
     background: var(--blue);
     color: var(--white);
     border-color: var(--blue);
+    transform: translateY(-50%) scale(1.1);
 }
 
-.features-arrow.prev {
-    left: 10px;
+.carousel-arrow.features-prev {
+    left: 0;
 }
 
-.features-arrow.next {
-    right: 10px;
+.carousel-arrow.features-next {
+    right: 0;
 }
 
-/* Responsive adjustments for carousel */
-@media (max-width: 992px) {
+/* Responsive adjustments */
+@media (max-width: 1200px) {
     .feature-slide {
-        min-width: calc(50% - 20px);
+        min-width: calc(50% - 20px); /* 2 items on tablet */
+    }
+    
+    .features-carousel-container {
+        padding: 0 60px; /* More padding for arrows */
     }
 }
 
 @media (max-width: 768px) {
     .feature-slide {
-        min-width: calc(100% - 20px);
+        min-width: calc(100% - 20px); /* 1 item on mobile */
     }
     
-    .features-arrow {
-        width: 40px;
-        height: 40px;
+    .features-carousel-container {
+        padding: 0 70px; /* Even more padding for mobile */
+    }
+    
+    .feature-card {
+        height: 250px; /* Slightly smaller on mobile */
+        padding: 25px 20px;
+    }
+    
+    .feature-icon {
+        width: 70px;
+        height: 70px;
+        font-size: 1.8rem;
+        margin-bottom: 15px;
+    }
+    
+    .feature-card h3 {
+        font-size: 1.2rem;
+        margin-bottom: 12px;
+    }
+    
+    .feature-card p {
+        font-size: 0.9rem;
+    }
+    
+    .carousel-arrow.features-prev,
+    .carousel-arrow.features-next {
+        width: 45px;
+        height: 45px;
         font-size: 1rem;
     }
     
-    .features-arrow.prev {
-        left: 5px;
+    .carousel-arrow.features-prev {
+        left: -10px;
     }
     
-    .features-arrow.next {
-        right: 5px;
+    .carousel-arrow.features-next {
+        right: -10px;
     }
 }
 
+@media (max-width: 480px) {
+    .features-carousel-container {
+        padding: 0 50px;
+    }
+    
+    .feature-card {
+        height: 230px;
+        padding: 20px 15px;
+    }
+    
+    .feature-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+        margin-bottom: 12px;
+    }
+    
+    .carousel-arrow.features-prev,
+    .carousel-arrow.features-next {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .carousel-arrow.features-prev {
+        left: -15px;
+    }
+    
+    .carousel-arrow.features-next {
+        right: -15px;
+    }
+}
+
+/* Hide arrows on very small screens */
+@media (max-width: 360px) {
+    .features-carousel-container {
+        padding: 0 30px;
+    }
+    
+    .carousel-arrow.features-prev,
+    .carousel-arrow.features-next {
+        display: none;
+    }
+}
 /* Responsive Homepage Styles */
 @media (max-width: 992px) {
     .hero h1 {
