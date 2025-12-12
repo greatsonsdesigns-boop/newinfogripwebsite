@@ -787,7 +787,7 @@ if (document.querySelector('.hero')) {
                 </div>
             `;
             testimonialTrack.appendChild(slide);
-            // Features Carousel
+      // Features Carousel - Square Cards with Icons
 const featuresData = [
     {
         icon: "fas fa-chart-line",
@@ -824,6 +824,8 @@ const featuresData = [
 const featuresTrack = document.getElementById('features-track');
 const featuresNav = document.getElementById('features-nav');
 let currentFeatureSlide = 0;
+let slidesPerView = 3; // Default for desktop
+let featuresInterval;
 
 // Create feature slides
 featuresData.forEach((feature, index) => {
@@ -850,11 +852,30 @@ featuresData.forEach((feature, index) => {
     featuresNav.appendChild(dot);
 });
 
-// Carousel navigation functions
+// Function to calculate slides per view based on screen width
+function getSlidesPerView() {
+    if (window.innerWidth <= 768) return 1;
+    if (window.innerWidth <= 1200) return 2;
+    return 3;
+}
+
+// Function to update slides per view
+function updateSlidesPerView() {
+    slidesPerView = getSlidesPerView();
+    const slideWidth = 100 / slidesPerView;
+    
+    // Update slide widths
+    document.querySelectorAll('.feature-slide').forEach(slide => {
+        slide.style.minWidth = `calc(${slideWidth}% - 20px)`;
+    });
+}
+
+// Carousel navigation function
 function goToFeatureSlide(index) {
     currentFeatureSlide = index;
-    const slideWidth = featuresTrack.children[0].offsetWidth + 20; // 20px gap
-    featuresTrack.style.transform = `translateX(-${currentFeatureSlide * slideWidth}px)`;
+    const slideWidth = 100 / slidesPerView;
+    const translateX = -(currentFeatureSlide * slideWidth);
+    featuresTrack.style.transform = `translateX(${translateX}%)`;
     
     // Update active dot
     document.querySelectorAll('.features-dot').forEach((dot, i) => {
@@ -864,13 +885,8 @@ function goToFeatureSlide(index) {
 
 function nextFeatureSlide() {
     const totalSlides = featuresData.length;
-    let slidesToShow = 3;
     
-    // Responsive slides to show
-    if (window.innerWidth <= 992) slidesToShow = 2;
-    if (window.innerWidth <= 768) slidesToShow = 1;
-    
-    if (currentFeatureSlide >= totalSlides - slidesToShow) {
+    if (currentFeatureSlide >= totalSlides - slidesPerView) {
         currentFeatureSlide = 0;
     } else {
         currentFeatureSlide++;
@@ -880,51 +896,65 @@ function nextFeatureSlide() {
 
 function prevFeatureSlide() {
     const totalSlides = featuresData.length;
-    let slidesToShow = 3;
-    
-    // Responsive slides to show
-    if (window.innerWidth <= 992) slidesToShow = 2;
-    if (window.innerWidth <= 768) slidesToShow = 1;
     
     if (currentFeatureSlide <= 0) {
-        currentFeatureSlide = totalSlides - slidesToShow;
+        currentFeatureSlide = totalSlides - slidesPerView;
     } else {
         currentFeatureSlide--;
     }
     goToFeatureSlide(currentFeatureSlide);
 }
 
-// Auto-advance features carousel
-let featuresInterval = setInterval(nextFeatureSlide, 4000);
-
-// Pause auto-slide on hover
-const featuresCarousel = document.querySelector('.features-carousel');
-featuresCarousel.addEventListener('mouseenter', () => {
-    clearInterval(featuresInterval);
-});
-
-featuresCarousel.addEventListener('mouseleave', () => {
-    clearInterval(featuresInterval);
+// Initialize carousel
+function initFeaturesCarousel() {
+    updateSlidesPerView();
+    goToFeatureSlide(0);
+    
+    // Clear existing interval
+    if (featuresInterval) clearInterval(featuresInterval);
+    
+    // Set auto-slide interval
     featuresInterval = setInterval(nextFeatureSlide, 4000);
-});
+}
 
-// Add event listeners for arrow buttons
-document.querySelector('.features-arrow.prev').addEventListener('click', () => {
-    clearInterval(featuresInterval);
+// Event listeners
+document.querySelector('.features-prev').addEventListener('click', () => {
+    if (featuresInterval) clearInterval(featuresInterval);
     prevFeatureSlide();
     featuresInterval = setInterval(nextFeatureSlide, 4000);
 });
 
-document.querySelector('.features-arrow.next').addEventListener('click', () => {
-    clearInterval(featuresInterval);
+document.querySelector('.features-next').addEventListener('click', () => {
+    if (featuresInterval) clearInterval(featuresInterval);
     nextFeatureSlide();
     featuresInterval = setInterval(nextFeatureSlide, 4000);
 });
 
-// Recalculate slide width on window resize
-window.addEventListener('resize', () => {
-    goToFeatureSlide(currentFeatureSlide);
+// Pause auto-slide on hover
+const featuresCarousel = document.querySelector('.features-carousel');
+featuresCarousel.addEventListener('mouseenter', () => {
+    if (featuresInterval) clearInterval(featuresInterval);
 });
+
+featuresCarousel.addEventListener('mouseleave', () => {
+    if (featuresInterval) clearInterval(featuresInterval);
+    featuresInterval = setInterval(nextFeatureSlide, 4000);
+});
+
+// Handle window resize
+let resizeTimeout;
+window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+        updateSlidesPerView();
+        goToFeatureSlide(currentFeatureSlide);
+    }, 250);
+});
+
+// Initialize on load
+window.addEventListener('load', initFeaturesCarousel);
+// Also initialize on DOM ready
+document.addEventListener('DOMContentLoaded', initFeaturesCarousel);      
             
             // Create navigation dots
             const dot = document.createElement('div');
