@@ -41,12 +41,12 @@
 .hero {
     background: linear-gradient(135deg, var(--dark-blue) 0%, var(--blue) 100%);
     color: var(--white);
-    padding: 120px 0 90px;      /* perfect balanced spacing */
+    padding: 160px 0 100px;      /* perfect balanced spacing */
     position: relative;
     overflow: hidden;
     display: flex;
     align-items: center;
-    min-height: 85vh;           /* ideal height */
+    min-height: 75vh;           /* ideal height */
     text-align: center;
 }
 
