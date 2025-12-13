@@ -1,0 +1,293 @@
+ /* Additional styles specific to refund policy page */
+        .content-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+            transition: var(--transition);
+        }
+
+        .content-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .content-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .content-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: var(--light-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            font-size: 1.5rem;
+            color: var(--blue);
+            transition: var(--transition);
+            flex-shrink: 0;
+        }
+
+        .content-card:hover .content-icon {
+            background-color: var(--orange);
+            color: var(--dark-blue);
+        }
+
+        .content-header h2 {
+            font-size: 1.8rem;
+            margin-bottom: 0;
+            color: var(--blue);
+        }
+
+        .info-list {
+            margin: 20px 0;
+        }
+
+        .info-list li {
+            margin-bottom: 15px;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .info-list li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--orange);
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        .policy-list {
+            margin: 20px 0;
+        }
+
+        .policy-list li {
+            margin-bottom: 20px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .policy-list li strong {
+            color: var(--blue);
+        }
+
+        .info-box {
+            background: var(--light-blue);
+            border-left: 4px solid var(--orange);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+        }
+
+        .cancellation-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 25px;
+            padding: 20px;
+            background: var(--section-bg);
+            border-radius: 10px;
+            transition: var(--transition);
+        }
+
+        .cancellation-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .cancellation-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--orange);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            font-size: 1.2rem;
+            color: var(--dark-blue);
+            flex-shrink: 0;
+        }
+
+        .cancellation-content h4 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: var(--blue);
+        }
+
+        .contact-box {
+            background: var(--light-blue);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .contact-box h3 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--blue);
+        }
+
+        .contact-details {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.1rem;
+        }
+
+        .contact-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--orange);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--dark-blue);
+            font-size: 1.1rem;
+        }
+
+        /* Hero section specific for policy pages */
+        .policy-hero {
+            background: linear-gradient(135deg, var(--dark-blue) 0%, var(--blue) 100%);
+            color: var(--white);
+            padding: 180px 0 120px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .policy-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" opacity="0.05"><path d="M0,0V800H1200V0ZM200,400C200,533,333,600,400,600S600,533,600,400,467,200,400,200,200,267,200,400Z" fill="white"/></svg>');
+            background-size: cover;
+        }
+
+        .policy-hero-content {
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .policy-hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            line-height: 1.1;
+            animation: fadeInUp 1s ease;
+        }
+
+        .policy-hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease 0.2s forwards;
+            opacity: 0;
+        }
+
+        .policy-hero-btns {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            animation: fadeInUp 1s ease 0.4s forwards;
+            opacity: 0;
+        }
+
+        .policy-hero-icon {
+            font-size: 5rem;
+            margin-bottom: 30px;
+            color: var(--orange);
+            animation: fadeInUp 1s ease 0.1s forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Content Sections */
+        .content-section {
+            padding: 80px 0;
+        }
+
+        @media (max-width: 992px) {
+            .policy-hero h1 {
+                font-size: 2.8rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .policy-hero {
+                padding: 150px 0 100px;
+            }
+
+            .policy-hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .content-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .content-icon {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+
+            .cancellation-item {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .cancellation-icon {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+
+            .contact-details {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .policy-hero h1 {
+                font-size: 2rem;
+            }
+
+            .policy-hero p {
+                font-size: 1rem;
+            }
+
+            .content-card {
+                padding: 25px;
+            }
+        }
