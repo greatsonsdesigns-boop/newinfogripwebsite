@@ -68,12 +68,12 @@
             background-position: center;
             background-attachment: fixed;
             color: var(--white);
-            padding: 160px 0 100px;
+            padding: 180px 0 120px;
             position: relative;
             overflow: hidden;
             display: flex;
             align-items: center;
-            min-height: 100vh;
+            min-height: 50vh;
             text-align: center;
         }
 
