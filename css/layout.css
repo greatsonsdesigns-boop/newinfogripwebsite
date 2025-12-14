@@ -36,8 +36,9 @@ header.scrolled .navbar {
     align-items: center;
 }
 
-.logo img {
+header .logo img {
     height: 100px;
+    width: auto;
 }
 
 .nav-menu {
@@ -225,6 +226,12 @@ footer {
 .footer-bottom-links a:hover {
     color: var(--orange);
 }
+/* GLOBAL FOOTER LOGO SIZE FIX */
+footer img[src*="assets/logo.png"] {
+    height: 200px !important;
+    width: auto !important;
+    margin-bottom: 20px;
+}
 
 /* Responsive Footer */
 @media (max-width: 576px) {
@@ -234,5 +241,14 @@ footer {
     
     .logo img {
         height: 160px;
+    }
+}
+@media (max-width: 768px) {
+    header .logo img {
+        height: 80px;
+    }
+
+    footer img[src*="assets/logo.png"] {
+        height: 150px !important;
     }
 }
