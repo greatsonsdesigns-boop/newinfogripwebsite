@@ -71,47 +71,6 @@
             }
         }
 
-        .shape {
-            position: absolute;
-            border-radius: 50%;
-            background: var(--orange);
-            animation: float 6s ease-in-out infinite;
-            opacity: 0.1;
-        }
-
-        .shape-1 {
-            width: 200px;
-            height: 200px;
-            top: 10%;
-            right: 10%;
-            animation-delay: 0s;
-        }
-
-        .shape-2 {
-            width: 150px;
-            height: 150px;
-            top: 60%;
-            right: 20%;
-            animation-delay: 2s;
-        }
-
-        .shape-3 {
-            width: 100px;
-            height: 100px;
-            top: 30%;
-            right: 30%;
-            animation-delay: 4s;
-        }
-
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-20px);
-            }
-        }
-
         /* Service Overview Section */
         .service-overview {
             background-color: var(--section-bg);
