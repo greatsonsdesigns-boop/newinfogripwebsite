@@ -9,7 +9,7 @@
         .contact-hero {
             background: linear-gradient(135deg, var(--dark-blue) 0%, var(--blue) 100%);
             color: var(--white);
-            padding: 100px 0 60px;
+            padding: 180px 0 120px;
             position: relative;
             overflow: hidden;
             text-align: center;
