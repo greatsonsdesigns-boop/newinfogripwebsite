@@ -57,12 +57,12 @@
         .political-hero {
             background: linear-gradient(135deg, var(--dark-blue) 0%, var(--blue) 100%);
             color: var(--white);
-            padding: 160px 0 100px;
+            padding: 180px 0 120px;
             position: relative;
             overflow: hidden;
             display: flex;
             align-items: center;
-            min-height: 100vh;
+            min-height: 60vh;
             text-align: center;
         }
 
