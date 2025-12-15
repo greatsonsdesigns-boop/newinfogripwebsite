@@ -88,12 +88,6 @@ function startTyping() {
 }
 
 window.addEventListener("DOMContentLoaded", startTyping);
-
-
-        
-        // Start typing effect
-        typeText();
-    }
     
     // FAQ Accordion
     const faqItems = document.querySelectorAll('.faq-item');
