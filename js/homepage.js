@@ -50,9 +50,9 @@ if (document.querySelector('.hero')) {
     const words = [
   "Online",
   "Digitally",
-  "Across Platforms",
+  "Everywhere",
   "With Strategy",
-  "With Technology",
+  "With AI",
 ];
 
 let wordIndex = 0;
