@@ -1,60 +1,56 @@
 
 
-/* ===============================
-   HERO SECTION – FINAL FIX
-================================ */
-
 /* ==================================================
-   HOMEPAGE – PREMIUM RESPONSIVE LAYOUT (TAGGBOX LEVEL)
-   Safe to use with existing style.css
+   HERO SECTION
 ================================================== */
 
-/* ----------------------------------
-   HERO SECTION
----------------------------------- */
 .hero {
-  min-height: 100vh;
+  height: 70vh;              /* KEY FIX */
+  min-height: 520px;         /* safety for small phones */
+  max-height: 900px;         /* safety for large screens */
+
   display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 160px 24px 120px;
+  align-items: center;       /* vertical center */
+  justify-content: center;   /* horizontal center */
+
+  padding: 0 20px;           /* remove vertical padding */
   background: var(--bg-color);
   text-align: center;
 }
 
 .hero-container {
   width: 100%;
-  max-width: 960px;
+  max-width: 1120px;
   margin: 0 auto;
 }
 
-/* ----------------------------------
+
+/* -------------------------------
    HERO HEADING
----------------------------------- */
+-------------------------------- */
+
 .hero-heading {
-  font-size: clamp(2.4rem, 5vw, 4.6rem);
+  font-size: clamp(3.2rem, 8vw, 6.2rem);
   font-weight: 800;
-  line-height: 1.18;
-  letter-spacing: -0.02em;
-  margin-bottom: 18px;
+  line-height: 1.15;
+  letter-spacing: -0.035em;
+  margin-bottom: 28px;
   color: var(--text-color);
 }
-
-/* Static line */
 .hero-static {
   display: block;
-  margin-bottom: 6px;
+  margin-bottom: 10px;
 }
 
-/* Typing line */
+/* typing wrapper */
 .hero-dynamic {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 1.4em; /* prevents jump */
+  min-height: 1.25em;
 }
 
-/* Typing text */
+/* typing text */
 #typing-text {
   font-weight: 800;
   white-space: nowrap;
@@ -63,46 +59,61 @@
   -webkit-text-fill-color: transparent;
 }
 
-/* Cursor */
+/* cursor */
 .typing-cursor {
-  margin-left: 4px;
+  margin-left: 6px;
+  font-weight: 400;
   color: #93c5fd;
   animation: blink 1s infinite;
 }
 
-/* ----------------------------------
+
+/* -------------------------------
    HERO SUBHEADING
----------------------------------- */
+-------------------------------- */
+
 .hero-subheading {
-  max-width: 520px;
-  margin: 0 auto 28px;
-  font-size: 1rem;
-  line-height: 1.6;
+  max-width: 680px;
+  margin: 0 auto 38px;
+  font-size: clamp(1.05rem, 2.1vw, 1.3rem);
+  line-height: 1.75;
   color: var(--gray-text);
 }
 
-/* ----------------------------------
+
+/* -------------------------------
    HERO CTA
----------------------------------- */
+-------------------------------- */
+
 .hero-cta {
   display: inline-block;
-  padding: 14px 32px;
-  font-size: 0.95rem;
+  padding: 16px 42px;
+  font-size: 1rem;
+  font-weight: 600;
   border-radius: 999px;
-  box-shadow: 0 10px 30px rgba(11, 31, 68, 0.25);
+  box-shadow: 0 18px 40px rgba(11, 31, 68, 0.28);
+  transition: all 0.3s ease;
 }
 
-/* ----------------------------------
-   ANIMATION
----------------------------------- */
+.hero-cta:hover {
+  transform: translateY(-3px);
+}
+
+
+/* -------------------------------
+   HERO ANIMATION
+-------------------------------- */
+
 @keyframes blink {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
 }
 
+
 /* ==================================================
-   DARK MODE FIXES
+   DARK MODE HERO FIX
 ================================================== */
+
 .dark-theme .hero-heading,
 .dark-theme .hero-static {
   color: #f8fafc;
@@ -117,64 +128,6 @@
 .dark-theme .hero-subheading {
   color: #9ca3af;
 }
-
-/* ==================================================
-   RESPONSIVE BREAKPOINTS
-================================================== */
-
-/* Tablets */
-@media (max-width: 992px) {
-  .hero {
-    padding: 120px 20px 90px;
-  }
-
-  .hero-heading {
-    font-size: 2.4rem;
-  }
-}
-
-/* Mobile */
-@media (max-width: 768px) {
-  .hero {
-    min-height: auto;
-    padding: 96px 16px 64px;
-  }
-
-  .hero-heading {
-    font-size: 1.9rem;
-    line-height: 1.25;
-  }
-
-  .hero-subheading {
-    max-width: 320px;
-    font-size: 0.95rem;
-    margin-bottom: 22px;
-  }
-
-  .hero-cta {
-    padding: 14px 28px;
-  }
-}
-
-/* Small Mobile */
-@media (max-width: 480px) {
-  .hero-heading {
-    font-size: 1.75rem;
-  }
-}
-
-/* ==================================================
-   MOBILE POLISH (REMOVE VISUAL NOISE)
-================================================== */
-@media (max-width: 768px) {
-  .floating-circle,
-  .decorative-dot,
-  .background-ornament {
-    display: none !important;
-  }
-}
-
-
 
 /* Stats Section */
 .stats {
@@ -1118,4 +1071,67 @@
     .popup p {
         font-size: 1rem;
     }
+}
+/* ==================================================
+   MOBILE RESPONSIVE (CRITICAL)
+================================================== */
+
+@media (max-width: 992px) {
+  .hero {
+    padding: 160px 20px 120px;
+  }
+
+  .hero-heading {
+    font-size: clamp(2.8rem, 10vw, 3.6rem);
+    line-height: 1.2;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero {
+    height: 72vh;
+    min-height: 480px;
+  
+    .hero-heading {
+    font-size: clamp(3.0rem, 10vw, 4.0rem); /* MUCH BIGGER */
+    line-height: 1.1;                     /* tighter like Taggbox */
+    letter-spacing: -0.04em;
+  }
+}}
+
+  .hero-subheading {
+    max-width: 420px;
+    font-size: 1rem;
+    margin-bottom: 22px;
+  }
+
+  .hero-cta {
+   .hero-cta {
+    padding: 10px 22px;     /* smaller */
+    font-size: 0.85rem;     /* tighter text */
+    box-shadow: 0 10px 24px rgba(11, 31, 68, 0.25);
+    min-width: auto;
+  }
+}
+
+  .hero-container {
+    padding: 0 12px;
+  }
+
+  /* reduce visual noise */
+  .floating-circle,
+  .decorative-dot,
+  .background-ornament {
+    display: none !important;
+  }
+
+@media (max-width: 480px) {
+  .hero-heading {
+    font-size: clamp(2.5rem, 10vw, 3.0rem);
+  }
+}
+@media (max-width: 390px) {
+  .hero-heading {
+    font-size: clamp(2.8rem, 10vw, 3.6rem);
+  }
 }
