@@ -4,37 +4,66 @@
     --white: #ffffff;
     --orange: #fdcb54;
     --light-blue: rgba(7, 33, 124, 0.1);
+
     --transition: all 0.3s ease;
     --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+
     --glass: rgba(255, 255, 255, 0.1);
     --glass-border: rgba(255, 255, 255, 0.2);
+
+    /* Light theme base */
     --bg-color: #ffffff;
     --text-color: #001c4f;
     --card-bg: #ffffff;
     --section-bg: #f8f9fa;
+    --text-on-dark: #ffffff;
+
+    /* Branding */
+    --primary-blue: #0b1f44;
+    --gradient-blue: linear-gradient(90deg, #1e3a8a, #2563eb, #3b82f6);
+    --gray-text: #6b7280;
+
+    /* Global CTA (hero + others) */
+    --cta-bg: #0b1f44;
+    --cta-text: #ffffff;
+
+    /* ✅ HEADER CTA (LIGHT THEME – FIX) */
+    --header-cta-bg: #0b1f44;
+    --header-cta-text: #ffffff;
 }
 
-/* FIXED – Perfect Dark Theme Variables */
+/* ===============================
+   DARK THEME VARIABLES
+================================ */
 .dark-theme {
-    --dark-blue: #93b4ff;  /* Light version of your deep navy for dark mode */
-    --blue: #6d8bff;       /* Lighter accent blue for visibility */
+    --dark-blue: #93b4ff;
+    --blue: #6d8bff;
     --white: #ffffff;
-
-    --orange: #fdcb54;     /* Keep your brand yellow – looks great on dark */
+    --orange: #fdcb54;
 
     --light-blue: rgba(109, 139, 255, 0.12);
 
-    /* MAIN DARK MODE BACKGROUNDS */
-    --bg-color: #0A0F1F;        /* Premium dark navy background */
-    --text-color: #E5E7EB;      /* Soft white (not pure white) */
-    --card-bg: #111827;         /* Dark card background */
-    --section-bg: #0F172A;      /* Slight contrast section background */
+    --bg-color: #0A0F1F;
+    --text-color: #E5E7EB;
+    --card-bg: #111827;
+    --section-bg: #0F172A;
 
     --glass: rgba(255, 255, 255, 0.06);
     --glass-border: rgba(255, 255, 255, 0.12);
+
+    /* CTA colors swap correctly in dark */
+    --cta-bg: #ffffff;
+    --cta-text: #0b1f44;
+
+    /* ✅ HEADER CTA (DARK THEME – FIX) */
+    --header-cta-bg: #ffffff;
+    --header-cta-text: #0b1f44;
+    --text-on-dark: #e5e7eb;
 }
 
-
+/* ===============================
+   RESET & BASE
+================================ */
 * {
     margin: 0;
     padding: 0;
@@ -55,8 +84,11 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-weight: 700;
-    line-height: 1.2;
+    font-family: 'Inter', sans-serif;
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--text-color);
     margin-bottom: 1rem;
 }
 
@@ -80,6 +112,7 @@ img {
 }
 
 .container {
+    
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
@@ -90,6 +123,9 @@ section {
     padding: 80px 0;
 }
 
+/* ===============================
+   BUTTON SYSTEM
+================================ */
 .btn {
     display: inline-block;
     padding: 12px 28px;
@@ -102,19 +138,20 @@ section {
     font-size: 1rem;
 }
 
+/* Global primary button */
 .btn-primary {
-    background-color: var(--orange);
-    color: var(--dark-blue);
-    box-shadow: 0 4px 15px rgba(253, 203, 84, 0.3);
+    background-color: var(--cta-bg);
+    color: var(--cta-text);
+    opacity: 1;
+    mix-blend-mode: normal;
 }
 
 .btn-primary:hover {
-    background-color: var(--dark-blue);
-    color: var(--white);
-    transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(253, 203, 84, 0.4);
+    transform: translateY(-2px);
+    filter: brightness(0.95);
 }
 
+/* Secondary */
 .btn-secondary {
     background-color: transparent;
     color: var(--white);
@@ -127,6 +164,7 @@ section {
     transform: translateY(-3px);
 }
 
+/* Outline */
 .btn-outline {
     background-color: transparent;
     color: var(--blue);
@@ -139,11 +177,114 @@ section {
     transform: translateY(-3px);
 }
 
-/* Hide cursor on mobile devices */
+/* ===============================
+   ✅ FIX: HEADER CTA VISIBILITY
+   (THIS SOLVES YOUR MAIN PROBLEM)
+================================ */
+header .btn-primary {
+    background-color: var(--header-cta-bg);
+    color: var(--header-cta-text);
+    opacity: 1;
+    mix-blend-mode: normal;
+}
+
+header .btn-primary:hover {
+    filter: brightness(0.95);
+    transform: translateY(-1px);
+}
+/* ===============================
+   FIX: TEXT VISIBILITY ON DARK / BLUE SECTIONS
+================================ */
+
+/* CTA / Blue sections text */
+.cta,
+.cta h1,
+.cta h2,
+.cta h3,
+.cta p {
+    color: var(--text-on-dark);
+}
+
+/* Optional: slightly softer paragraph */
+.cta p {
+    opacity: 0.9;
+}
+
+
+/* ===============================
+   MOBILE CURSOR SAFETY
+================================ */
 @media (max-width: 768px) {
-    .cursor, .cursor-follower {
+    .cursor,
+    .cursor-follower {
         display: none;
     }
+}
+/* 🔥 FORCE HEADER CTA TEXT VISIBILITY (FINAL FIX) */
+header .nav-cta a.btn-primary,
+header .nav-menu li a.btn-primary {
+    color: var(--header-cta-text) !important;
+    background-color: var(--header-cta-bg);
+}
+/* ===============================
+   HERO HEADING DARK MODE FIX
+================================ */
+
+/* Static hero text */
+.dark-theme .hero-heading,
+.dark-theme .hero-static {
+    color: #F8FAFC; /* soft white, NOT pure white */
+}
+
+/* Cursor visibility */
+.dark-theme .cursor {
+    color: #93c5fd;
+}
+/* ==========================================
+   GLOBAL FIX: WHITE TEXT ON BLUE / DARK SECTIONS
+   (SITE-WIDE, SAFE, NO HTML CHANGE)
+========================================== */
+
+/* Sections that use blue / dark background */
+.cta,
+.testimonials,
+.bg-dark,
+.bg-blue,
+.section-dark {
+    color: var(--text-on-dark);
+}
+
+/* Force ALL headings inside dark sections to white */
+.cta h1, .cta h2, .cta h3, .cta h4, .cta h5, .cta h6,
+.testimonials h1, .testimonials h2, .testimonials h3, .testimonials h4, .testimonials h5, .testimonials h6,
+.bg-dark h1, .bg-dark h2, .bg-dark h3, .bg-dark h4, .bg-dark h5, .bg-dark h6,
+.bg-blue h1, .bg-blue h2, .bg-blue h3, .bg-blue h4, .bg-blue h5, .bg-blue h6,
+.section-dark h1, .section-dark h2, .section-dark h3, .section-dark h4, .section-dark h5, .section-dark h6 {
+    color: var(--text-on-dark) !important;
+}
+
+/* Paragraphs inside dark sections */
+.cta p,
+.testimonials p,
+.bg-dark p,
+.bg-blue p,
+.section-dark p {
+    color: var(--text-on-dark);
+    opacity: 0.9;
+}
+/* ==========================================
+   FIX: WHITE TEXT ON HOVER (DARK BACKGROUND)
+========================================== */
+
+.service-card:hover,
+.service-card:hover h1,
+.service-card:hover h2,
+.service-card:hover h3,
+.service-card:hover h4,
+.service-card:hover h5,
+.service-card:hover h6,
+.service-card:hover p {
+    color: var(--text-on-dark) !important;
 }
 
 
