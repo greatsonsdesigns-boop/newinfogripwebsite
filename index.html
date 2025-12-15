@@ -18,6 +18,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     
     <!-- CSS Files -->
     <link rel="stylesheet" href="css/style.css">
@@ -132,71 +133,72 @@
     <div class="cursor-follower"></div>
 
     <!-- Header -->
+
     <header>
-        <div class="container">
-            <nav class="navbar">
-                <a href="index.html" class="logo">
-                    <img src="/assets/logo.png" alt="InfoGrip Media Solution">
-                </a>
-                <ul class="nav-menu">
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#services">Services</a></li>
-                    <li><a href="about.html">About</a></li>
-                    <li><a href="portfolio.html" class="active">Portfolio</a></li>
-                    <li><a href="#testimonials">Testimonials</a></li>
-                    <li><a href="#faq">FAQ</a></li>
-                    <li><a href="contact.html">Contact</a></li>
-                    <li><a href="onboarding.html" class="btn btn-primary" style="border-radius: 25px; padding: 10px 24px;">Start Free Trial</a></li>
-                </ul>
-                <div class="nav-actions">
-                    <button class="theme-toggle" id="theme-toggle">
-                        <i class="fas fa-moon"></i>
-                    </button>
-                    <div class="hamburger">
-                        <span class="bar"></span>
-                        <span class="bar"></span>
-                        <span class="bar"></span>
-                    </div>
-                </div>
-            </nav>
-        </div>
-    </header>
+  <div class="container">
+    <nav class="navbar">
 
-    <!-- Hero Section -->
+      <a href="index.html" class="logo">
+        <img src="/assets/logo.png" alt="InfoGrip Media Solution">
+      </a>
+
+      <ul class="nav-menu">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="portfolio.html" class="active">Portfolio</a></li>
+        <li><a href="#testimonials">Testimonials</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="contact.html">Contact</a></li>
+
+        <!-- CTA (NO INLINE STYLE) -->
+        <li class="nav-cta">
+          <a href="onboarding.html" class="btn btn-primary" style="border-radius: 20px; padding: 10px 15px;"
+          >Start Free Trial
+          </a>
+        </li>
+      </ul>
+
+      <div class="nav-actions">
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+          <i class="fas fa-moon"></i>
+        </button>
+
+        <div class="hamburger">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </div>
+      </div>
+
+    </nav>
+  </div>
+</header>
+
+     <!--hero section-->
     <section class="hero" id="home">
-        <div id="particles-js"></div>
-        <!-- Background Video -->
-        <video class="hero-video" autoplay muted loop playsinline>
-            <source src="assets/new-hero-video.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
-        <div class="container">
-            <div class="hero-content">
-                <h1>Most Affordable Digital Marketing Agency in <span class="typing-text" id="typing-text"></span></h1>
-                <p>We specialize in social media management, website development, political & personal branding, and ads campaign management.</p>
-                <div class="hero-btns">
-                    <a href="#" class="btn btn-primary btn-glow-pulse" id="chatbot-open">Let's Talk</a>
-                    <a href="onboarding.html" class="btn btn-secondary">Start Free Trial</a>
-                </div>
-            </div>
-        </div>
-    </section>
+  <div class="container hero-container">
 
-    <!-- Scrolling Text Strip -->
-    <div class="scrolling-strip">
-        <div class="scrolling-content">
-            <div class="scrolling-item">Web Development</div>
-            <div class="scrolling-item">Social Media</div>
-            <div class="scrolling-item">Ads Management</div>
-            <div class="scrolling-item">Branding</div>
-            <div class="scrolling-item">Political Campaigns</div>
-            <div class="scrolling-item">Web Development</div>
-            <div class="scrolling-item">Social Media</div>
-            <div class="scrolling-item">Ads Management</div>
-            <div class="scrolling-item">Branding</div>
-            <div class="scrolling-item">Political Campaigns</div>
-        </div>
-    </div>
+    <h1 class="hero-heading">
+      <span class="hero-static">Grow With</span>
+
+      <span class="hero-dynamic">
+        <span id="typing-text"></span>
+        <span class="typing-cursor">|</span>
+      </span>
+    </h1>
+
+    <p class="hero-subheading">
+      Helping leaders and brands grow with data-driven digital marketing.
+    </p>
+
+    <a href="onboarding.html" class="btn btn-primary hero-cta">
+      Start Free Trial
+    </a>
+
+  </div>
+</section>
+    
 
     <!-- Stats Section -->
     <section class="stats">
