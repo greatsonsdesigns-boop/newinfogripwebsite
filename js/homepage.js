@@ -47,35 +47,49 @@ if (document.querySelector('.hero')) {
     }
       
     // Auto-typing text effect
-    const typingText = document.getElementById('typing-text');
-    if (typingText) {
-        const texts = ['Jaipur', 'India', 'Your City'];
-        let textIndex = 0;
-        let charIndex = 0;
-        let isDeleting = false;
-        
-        function typeText() {
-            const currentText = texts[textIndex];
-            
-            if (isDeleting) {
-                typingText.textContent = currentText.substring(0, charIndex - 1);
-                charIndex--;
-            } else {
-                typingText.textContent = currentText.substring(0, charIndex + 1);
-                charIndex++;
-            }
-            
-            if (!isDeleting && charIndex === currentText.length) {
-                isDeleting = true;
-                setTimeout(typeText, 2000);
-            } else if (isDeleting && charIndex === 0) {
-                isDeleting = false;
-                textIndex = (textIndex + 1) % texts.length;
-                setTimeout(typeText, 500);
-            } else {
-                setTimeout(typeText, isDeleting ? 100 : 200);
-            }
-        }
+    const words = [
+  "Online",
+  "Digitally",
+  "Across Platforms",
+  "With Strategy",
+  "With Technology",
+];
+
+let wordIndex = 0;
+let letterIndex = 0;
+let isDeleting = false;
+
+const typingText = document.getElementById("typing-text");
+
+function startTyping() {
+  const currentWord = words[wordIndex];
+
+  if (!isDeleting) {
+    // Typing
+    typingText.textContent = currentWord.substring(0, letterIndex + 1);
+    letterIndex++;
+
+    if (letterIndex === currentWord.length) {
+      setTimeout(() => (isDeleting = true), 1200);
+    }
+  } else {
+    // Deleting
+    typingText.textContent = currentWord.substring(0, letterIndex - 1);
+    letterIndex--;
+
+    if (letterIndex === 0) {
+      isDeleting = false;
+      wordIndex = (wordIndex + 1) % words.length;
+    }
+  }
+
+  const speed = isDeleting ? 40 : 60;
+  setTimeout(startTyping, speed);
+}
+
+window.addEventListener("DOMContentLoaded", startTyping);
+
+
         
         // Start typing effect
         typeText();
