@@ -12,7 +12,7 @@ header:not(.cylindrical-header) {
     transform: translateX(-50%);
     width: 94%;
     max-width: 1400px;
-    height: 80px;
+    height: 100px;
     background: rgba(255, 255, 255, 0.95);
     border-radius: 50px;
     border: 1px solid rgba(255, 255, 255, 0.6);
@@ -32,7 +32,7 @@ header:not(.cylindrical-header) {
 
 /* Scrolled State */
 .cylindrical-header.scrolled {
-    height: 70px;
+    height: 80px;
     top: 15px;
     border-radius: 40px;
 }
@@ -63,9 +63,9 @@ header:not(.cylindrical-header) {
 }
 
 .cylindrical-header .logo-img {
-    height: 60px;
+    height: 150px;
     width: auto;
-    max-width: 200px;
+    max-width: 300px;
     object-fit: contain;
     transition: all 0.3s ease;
 }
@@ -75,7 +75,7 @@ header:not(.cylindrical-header) {
 }
 
 .cylindrical-header.scrolled .logo-img {
-    height: 50px;
+    height: 120px;
 }
 
 /* Navigation Menu */
@@ -257,12 +257,12 @@ header:not(.cylindrical-header) {
     }
     
     .cylindrical-header .logo-img {
-        height: 50px;
+        height: 70px;
         max-width: 160px;
     }
     
     .cylindrical-header.scrolled .logo-img {
-        height: 45px;
+        height: 60px;
     }
     
     /* Show hamburger on mobile */
@@ -360,8 +360,11 @@ header:not(.cylindrical-header) {
     }
     
     .cylindrical-header .logo-img {
-        height: 45px;
-        max-width: 140px;
+        height: 100px;
+        max-width: 260px;
+    }
+    .cylindrical-header.scrolled .logo-img {
+        height: 80px;
     }
     
     .cylindrical-header .hamburger {
