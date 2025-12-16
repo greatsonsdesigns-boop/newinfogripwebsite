@@ -1,86 +1,79 @@
+/* ==================================================
+   GLOBAL DESIGN SYSTEM — INFOGRIP
+   FINAL, CLEAN, LIGHT/DARK SAFE
+================================================== */
+
+/* ===============================
+   ROOT VARIABLES (LIGHT)
+================================ */
 :root {
-    --dark-blue: #001c4f;
-    --blue: #07217c;
-    --white: #ffffff;
-    --orange: #fdcb54;
-    --light-blue: rgba(7, 33, 124, 0.1);
+  --dark-blue: #001c4f;
+  --blue: #07217c;
+  --orange: #fdcb54;
+  --white: #ffffff;
 
-    --transition: all 0.3s ease;
-    --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  --bg-color: #ffffff;
+  --text-color: #001c4f;
+  --text-on-dark: #ffffff;
 
-    --glass: rgba(255, 255, 255, 0.1);
-    --glass-border: rgba(255, 255, 255, 0.2);
+  --gray-text: #6b7280;
+  --section-bg: #f8f9fa;
+  --card-bg: #ffffff;
 
-    /* Light theme base */
-    --bg-color: #ffffff;
-    --text-color: #001c4f;
-    --card-bg: #ffffff;
-    --section-bg: #f8f9fa;
-    --text-on-dark: #ffffff;
+  --light-blue: rgba(7, 33, 124, 0.1);
 
-    /* Branding */
-    --primary-blue: #0b1f44;
-    --gradient-blue: linear-gradient(90deg, #1e3a8a, #2563eb, #3b82f6);
-    --gray-text: #6b7280;
+  --cta-bg: #0b1f44;
+  --cta-text: #ffffff;
 
-    /* Global CTA (hero + others) */
-    --cta-bg: #0b1f44;
-    --cta-text: #ffffff;
+  --header-cta-bg: #0b1f44;
+  --header-cta-text: #ffffff;
 
-    /* ✅ HEADER CTA (LIGHT THEME – FIX) */
-    --header-cta-bg: #0b1f44;
-    --header-cta-text: #ffffff;
+  --gradient-blue: linear-gradient(90deg, #1e3a8a, #2563eb, #3b82f6);
+
+  --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  --transition: all 0.3s ease;
 }
 
 /* ===============================
    DARK THEME VARIABLES
 ================================ */
 .dark-theme {
-    --dark-blue: #93b4ff;
-    --blue: #6d8bff;
-    --white: #ffffff;
-    --orange: #fdcb54;
+  --bg-color: #0A0F1F;
+  --text-color: #E5E7EB;
+  --text-on-dark: #E5E7EB;
 
-    --light-blue: rgba(109, 139, 255, 0.12);
+  --section-bg: #0F172A;
+  --card-bg: #111827;
 
-    --bg-color: #0A0F1F;
-    --text-color: #E5E7EB;
-    --card-bg: #111827;
-    --section-bg: #0F172A;
+  --dark-blue: #93b4ff;
+  --blue: #6d8bff;
+  --light-blue: rgba(109, 139, 255, 0.12);
 
-    --glass: rgba(255, 255, 255, 0.06);
-    --glass-border: rgba(255, 255, 255, 0.12);
+  --cta-bg: #ffffff;
+  --cta-text: #0b1f44;
 
-    /* CTA colors swap correctly in dark */
-    --cta-bg: #ffffff;
-    --cta-text: #0b1f44;
-
-    /* ✅ HEADER CTA (DARK THEME – FIX) */
-    --header-cta-bg: #ffffff;
-    --header-cta-text: #0b1f44;
-    --text-on-dark: #e5e7eb;
+  --header-cta-bg: #ffffff;
+  --header-cta-text: #0b1f44;
 }
 
 /* ===============================
    RESET & BASE
 ================================ */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-html {
-    scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 body {
-    font-family: 'Inter', sans-serif;
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    line-height: 1.6;
-    overflow-x: hidden;
-    transition: background-color 0.5s ease, color 0.5s ease;
+  font-family: 'Inter', sans-serif;
+  background: var(--bg-color);
+  color: var(--text-color);
+  line-height: 1.6;
+  transition: background-color .4s ease, color .4s ease;
+  overflow-x: hidden;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -88,203 +81,159 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: 800;
     line-height: 1.15;
     letter-spacing: -0.02em;
-    color: var(--text-color);
     margin-bottom: 1rem;
+    color: inherit; /* 🔥 KEY CHANGE */
 }
 
-p {
-    margin-bottom: 1rem;
-}
+p { color: var(--text-color); }
 
 a {
-    text-decoration: none;
-    color: inherit;
-    transition: var(--transition);
-}
-
-ul {
-    list-style: none;
+  color: inherit;
+  text-decoration: none;
+  transition: var(--transition);
 }
 
 img {
-    max-width: 100%;
-    height: auto;
+  max-width: 100%;
+  height: auto;
 }
 
 .container {
-    
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
 section {
-    padding: 80px 0;
+  padding: 80px 0;
+  scroll-margin-top: 100px;
 }
 
 /* ===============================
    BUTTON SYSTEM
 ================================ */
 .btn {
-    display: inline-block;
-    padding: 12px 28px;
-    border-radius: 50px;
-    font-weight: 600;
-    text-align: center;
-    cursor: pointer;
-    transition: var(--transition);
-    border: none;
-    font-size: 1rem;
+  display: inline-block;
+  padding: 12px 28px;
+  border-radius: 999px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  border: none;
 }
 
-/* Global primary button */
 .btn-primary {
-    background-color: var(--cta-bg);
-    color: var(--cta-text);
-    opacity: 1;
-    mix-blend-mode: normal;
+  background: var(--cta-bg);
+  color: var(--cta-text);
 }
 
 .btn-primary:hover {
-    transform: translateY(-2px);
-    filter: brightness(0.95);
+  transform: translateY(-2px);
+  filter: brightness(0.95);
 }
 
-/* Secondary */
 .btn-secondary {
-    background-color: transparent;
-    color: var(--white);
-    border: 2px solid var(--white);
+  background: transparent;
+  border: 2px solid var(--blue);
+  color: var(--blue);
 }
 
 .btn-secondary:hover {
-    background-color: var(--white);
-    color: var(--dark-blue);
-    transform: translateY(-3px);
-}
-
-/* Outline */
-.btn-outline {
-    background-color: transparent;
-    color: var(--blue);
-    border: 2px solid var(--blue);
-}
-
-.btn-outline:hover {
-    background-color: var(--blue);
-    color: var(--white);
-    transform: translateY(-3px);
+  background: var(--blue);
+  color: var(--white);
 }
 
 /* ===============================
-   ✅ FIX: HEADER CTA VISIBILITY
-   (THIS SOLVES YOUR MAIN PROBLEM)
+   HEADER CTA FIX (CRITICAL)
 ================================ */
 header .btn-primary {
-    background-color: var(--header-cta-bg);
-    color: var(--header-cta-text);
-    opacity: 1;
-    mix-blend-mode: normal;
-}
-
-header .btn-primary:hover {
-    filter: brightness(0.95);
-    transform: translateY(-1px);
+  background: var(--header-cta-bg);
+  color: var(--header-cta-text);
 }
 /* ===============================
-   FIX: TEXT VISIBILITY ON DARK / BLUE SECTIONS
+   🔥 GLOBAL DARK SECTION FIX
+   (THIS FIXES ABOUT & CONTACT)
 ================================ */
 
-/* CTA / Blue sections text */
-.cta,
-.cta h1,
-.cta h2,
-.cta h3,
-.cta p {
-    color: var(--text-on-dark);
-}
-
-/* Optional: slightly softer paragraph */
-.cta p {
-    opacity: 0.9;
-}
-
-
-/* ===============================
-   MOBILE CURSOR SAFETY
-================================ */
-@media (max-width: 768px) {
-    .cursor,
-    .cursor-follower {
-        display: none;
-    }
-}
-/* 🔥 FORCE HEADER CTA TEXT VISIBILITY (FINAL FIX) */
-header .nav-cta a.btn-primary,
-header .nav-menu li a.btn-primary {
-    color: var(--header-cta-text) !important;
-    background-color: var(--header-cta-bg);
-}
-/* ===============================
-   HERO HEADING DARK MODE FIX
-================================ */
-
-/* Static hero text */
-.dark-theme .hero-heading,
-.dark-theme .hero-static {
-    color: #F8FAFC; /* soft white, NOT pure white */
-}
-
-/* Cursor visibility */
-.dark-theme .cursor {
-    color: #93c5fd;
-}
-/* ==========================================
-   GLOBAL FIX: WHITE TEXT ON BLUE / DARK SECTIONS
-   (SITE-WIDE, SAFE, NO HTML CHANGE)
-========================================== */
-
-/* Sections that use blue / dark background */
-.cta,
-.testimonials,
+/* Any section that uses dark/blue background */
 .bg-dark,
 .bg-blue,
-.section-dark {
-    color: var(--text-on-dark);
+.section-dark,
+.about-hero,
+.contact-hero,
+.cta {
+  color: var(--text-on-dark);
 }
 
-/* Force ALL headings inside dark sections to white */
-.cta h1, .cta h2, .cta h3, .cta h4, .cta h5, .cta h6,
-.testimonials h1, .testimonials h2, .testimonials h3, .testimonials h4, .testimonials h5, .testimonials h6,
-.bg-dark h1, .bg-dark h2, .bg-dark h3, .bg-dark h4, .bg-dark h5, .bg-dark h6,
-.bg-blue h1, .bg-blue h2, .bg-blue h3, .bg-blue h4, .bg-blue h5, .bg-blue h6,
-.section-dark h1, .section-dark h2, .section-dark h3, .section-dark h4, .section-dark h5, .section-dark h6 {
-    color: var(--text-on-dark) !important;
+/* Force headings inside dark sections */
+.bg-dark h1, .bg-dark h2, .bg-dark h3,
+.bg-blue h1, .bg-blue h2, .bg-blue h3,
+.section-dark h1, .section-dark h2, .section-dark h3,
+.about-hero h1, .about-hero h2, .about-hero p,
+.contact-hero h1, .contact-hero h2, .contact-hero p,
+.cta h1, .cta h2, .cta p {
+  color: var(--text-on-dark) !important;
 }
 
-/* Paragraphs inside dark sections */
-.cta p,
-.testimonials p,
+/* Paragraph soft contrast */
 .bg-dark p,
 .bg-blue p,
-.section-dark p {
-    color: var(--text-on-dark);
-    opacity: 0.9;
+.section-dark p,
+.about-hero p,
+.contact-hero p,
+.cta p {
+  opacity: 0.9;
+}
+
+/* ===============================
+   SERVICE CARD HOVER FIX
+================================ */
+.service-card:hover * {
+  color: var(--text-on-dark) !important;
+}
+
+/* ===============================
+   MOBILE SAFETY
+================================ */
+@media (max-width: 768px) {
+  section { padding: 60px 0; }
+
+  .cursor,
+  .cursor-follower {
+    display: none;
+  }
 }
 /* ==========================================
-   FIX: WHITE TEXT ON HOVER (DARK BACKGROUND)
+   🔥 FINAL FIX: HEADER CTA BUTTON
+   (Light + Dark theme safe)
 ========================================== */
 
-.service-card:hover,
-.service-card:hover h1,
-.service-card:hover h2,
-.service-card:hover h3,
-.service-card:hover h4,
-.service-card:hover h5,
-.service-card:hover h6,
-.service-card:hover p {
-    color: var(--text-on-dark) !important;
+/* Base header CTA */
+header .btn-primary,
+header .nav-cta .btn-primary {
+  background-color: var(--header-cta-bg) !important;
+  color: var(--header-cta-text) !important;
+  opacity: 1;
+  mix-blend-mode: normal;
+}
+
+/* Hover state */
+header .btn-primary:hover,
+header .nav-cta .btn-primary:hover {
+  transform: translateY(-1px);
+  filter: brightness(0.95);
+}
+
+/* Light theme explicit safety */
+body:not(.dark-theme) header .btn-primary {
+  background-color: #0b1f44 !important;
+  color: #ffffff !important;
+}
+
+/* Dark theme explicit safety */
+.dark-theme header .btn-primary {
+  background-color: #ffffff !important;
+  color: #0b1f44 !important;
 }
 
 
