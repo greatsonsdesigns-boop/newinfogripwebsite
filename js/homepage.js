@@ -45,6 +45,33 @@ if (document.querySelector('.hero')) {
             });
         });
     }
+    // Add smooth badge transition when theme changes
+const themeToggle = document.getElementById('theme-toggle');
+
+themeToggle.addEventListener('click', () => {
+    // The badge will automatically transition due to CSS transitions
+    // This ensures smooth animation
+    const badge = document.querySelector('.hero-badge');
+    
+    // Add a temporary class to enhance the transition
+    badge.style.transition = 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+    
+    // Remove the class after transition completes
+    setTimeout(() => {
+        badge.style.transition = '';
+    }, 500);
+});
+
+// Ensure badge animates in after page load
+window.addEventListener('load', () => {
+    const badge = document.querySelector('.hero-badge');
+    
+    // Force reflow to restart animation if needed
+    void badge.offsetWidth;
+    
+    // Add a class to trigger animation
+    badge.style.animation = 'badgeFadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.3s forwards';
+});
       
     // Auto-typing text effect
     const words = [
