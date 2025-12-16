@@ -114,6 +114,56 @@ if (!document.querySelector('#notification-styles')) {
     `;
     document.head.appendChild(style);
 }
+// Custom Cursor (Desktop Only)
+const cursor = document.querySelector('.cursor');
+const cursorFollower = document.querySelector('.cursor-follower');
+
+// Initialize only on non-mobile devices
+if (window.innerWidth > 768 && cursor && cursorFollower) {
+
+    document.addEventListener('mousemove', (e) => {
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
+
+        setTimeout(() => {
+            cursorFollower.style.left = e.clientX + 'px';
+            cursorFollower.style.top = e.clientY + 'px';
+        }, 100);
+    });
+
+    // Hover effect on interactive elements
+    const interactiveElements = document.querySelectorAll(
+        'button, a, .btn, .service-card, .feature-card, .faq-question'
+    );
+
+    interactiveElements.forEach(element => {
+        element.addEventListener('mouseenter', () => {
+            cursor.classList.add('hover');
+            cursorFollower.classList.add('hover');
+        });
+
+        element.addEventListener('mouseleave', () => {
+            cursor.classList.remove('hover');
+            cursorFollower.classList.remove('hover');
+        });
+    });
+
+    // Text hover effect
+    const textElements = document.querySelectorAll(
+        'h1, h2, h3, h4, h5, h6, p, span, li'
+    );
+
+    textElements.forEach(element => {
+        element.addEventListener('mouseenter', () => {
+            cursor.classList.add('text-hover');
+        });
+
+        element.addEventListener('mouseleave', () => {
+            cursor.classList.remove('text-hover');
+        });
+    });
+}
+
 // ===== CYLINDRICAL HEADER FUNCTIONALITY =====
 document.addEventListener('DOMContentLoaded', function() {
     console.log('🚀 Initializing Premium Cylindrical Header...');
