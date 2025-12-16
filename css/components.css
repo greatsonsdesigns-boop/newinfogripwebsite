@@ -57,7 +57,7 @@
     transform: translateX(-50%);
     width: 80px;
     height: 4px;
-    background-color: linear-gradient(90deg, #1e3a8a, #2563eb, #3b82f6);
+    background: linear-gradient(90deg, #1e3a8a, #2563eb, #3b82f6);
     border-radius: 2px;
 }
 
