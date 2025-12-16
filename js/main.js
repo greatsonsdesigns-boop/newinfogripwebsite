@@ -114,3 +114,261 @@ if (!document.querySelector('#notification-styles')) {
     `;
     document.head.appendChild(style);
 }
+// ===== CYLINDRICAL HEADER FUNCTIONALITY =====
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('🚀 Initializing Premium Cylindrical Header...');
+    
+    // ===== ELEMENTS =====
+    const cylindricalHeader = document.querySelector('.cylindrical-header');
+    const headerHamburger = document.getElementById('header-hamburger');
+    const headerThemeToggle = document.getElementById('header-theme-toggle');
+    const mobileOverlay = document.getElementById('mobile-menu-overlay');
+    const mobileClose = document.getElementById('mobile-close');
+    const mainLogo = document.getElementById('main-logo');
+    const mobileLogo = document.querySelector('.mobile-logo-img');
+    const allNavLinks = document.querySelectorAll('.nav-link, .mobile-nav-link');
+    
+    // Check if elements exist
+    if (!cylindricalHeader) {
+        console.error('❌ Cylindrical header not found!');
+        return;
+    }
+    
+    console.log('✅ Header elements found:', {
+        header: !!cylindricalHeader,
+        hamburger: !!headerHamburger,
+        themeToggle: !!headerThemeToggle,
+        mobileOverlay: !!mobileOverlay,
+        mainLogo: !!mainLogo
+    });
+    
+    // ===== LOGO CONFIGURATION =====
+    const LOGO_CONFIG = {
+        light: 'https://i.postimg.cc/Nj3bmPwC/Infogrip-Medi-Soluiton-(Social-Media)-(1).png',
+        dark: 'https://i.postimg.cc/Nj3bmPwC/Infogrip-Medi-Soluiton-(Social-Media)-(1).png' // Same for now
+    };
+    
+    // Update logos for theme
+    function updateLogos() {
+        const isDark = document.body.classList.contains('dark-theme');
+        const logoUrl = isDark ? LOGO_CONFIG.dark : LOGO_CONFIG.light;
+        
+        if (mainLogo) {
+            mainLogo.src = logoUrl;
+            if (isDark) {
+                mainLogo.style.filter = 'brightness(0) invert(1)';
+            } else {
+                mainLogo.style.filter = 'none';
+            }
+        }
+        
+        if (mobileLogo) {
+            mobileLogo.src = logoUrl;
+            if (isDark) {
+                mobileLogo.style.filter = 'brightness(0) invert(1)';
+            } else {
+                mobileLogo.style.filter = 'none';
+            }
+        }
+    }
+    
+    // ===== MOBILE MENU =====
+    if (headerHamburger && mobileOverlay && mobileClose) {
+        console.log('✅ Mobile menu elements found');
+        
+        // Open mobile menu
+        headerHamburger.addEventListener('click', function(e) {
+            e.stopPropagation();
+            console.log('🍔 Hamburger clicked - Opening mobile menu');
+            this.classList.add('active');
+            mobileOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        
+        // Close mobile menu
+        function closeMobileMenu() {
+            console.log('📱 Closing mobile menu');
+            headerHamburger.classList.remove('active');
+            mobileOverlay.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Close with X button
+        mobileClose.addEventListener('click', closeMobileMenu);
+        
+        // Close when clicking overlay
+        mobileOverlay.addEventListener('click', function(e) {
+            if (e.target === mobileOverlay) {
+                closeMobileMenu();
+            }
+        });
+        
+        // Close when clicking nav links
+        document.querySelectorAll('.mobile-nav-link').forEach(link => {
+            link.addEventListener('click', closeMobileMenu);
+        });
+        
+        // Close with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && mobileOverlay.classList.contains('active')) {
+                closeMobileMenu();
+            }
+        });
+    } else {
+        console.warn('⚠️ Mobile menu elements missing');
+    }
+    
+    // ===== THEME TOGGLE =====
+    if (headerThemeToggle) {
+        const themeIcon = headerThemeToggle.querySelector('i');
+        
+        // Check for saved theme
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        if (savedTheme === 'dark') {
+            document.body.classList.add('dark-theme');
+            if (themeIcon) {
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            }
+            console.log('🌙 Dark theme loaded from localStorage');
+        } else {
+            console.log('☀️ Light theme loaded');
+        }
+        
+        // Update logos on initial load
+        updateLogos();
+        
+        // Theme toggle click
+        headerThemeToggle.addEventListener('click', function() {
+            console.log('🎨 Theme toggle clicked');
+            
+            // Toggle theme
+            document.body.classList.toggle('dark-theme');
+            
+            // Update icon
+            if (themeIcon) {
+                if (document.body.classList.contains('dark-theme')) {
+                    themeIcon.classList.remove('fa-moon');
+                    themeIcon.classList.add('fa-sun');
+                    localStorage.setItem('theme', 'dark');
+                    console.log('🌙 Switched to dark theme');
+                } else {
+                    themeIcon.classList.remove('fa-sun');
+                    themeIcon.classList.add('fa-moon');
+                    localStorage.setItem('theme', 'light');
+                    console.log('☀️ Switched to light theme');
+                }
+            }
+            
+            // Update logos
+            updateLogos();
+        });
+    } else {
+        console.error('❌ Theme toggle button not found!');
+    }
+    
+    // ===== SCROLL EFFECT =====
+    window.addEventListener('scroll', function() {
+        if (window.scrollY > 50) {
+            cylindricalHeader.classList.add('scrolled');
+        } else {
+            cylindricalHeader.classList.remove('scrolled');
+        }
+    });
+    
+    // Initialize scroll effect
+    window.dispatchEvent(new Event('scroll'));
+    
+    // ===== ACTIVE LINK =====
+    function setActiveLink() {
+        const currentHash = window.location.hash || '#home';
+        allNavLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === currentHash) {
+                link.classList.add('active');
+            }
+        });
+    }
+    
+    // Set active link on load
+    setActiveLink();
+    
+    // Update active link on hash change
+    window.addEventListener('hashchange', setActiveLink);
+    
+    // Also update when clicking links
+    allNavLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            const href = this.getAttribute('href');
+            if (href.startsWith('#')) {
+                allNavLinks.forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+            }
+        });
+    });
+    
+    // ===== INITIALIZATION COMPLETE =====
+    console.log('✅ Premium Cylindrical Header initialized successfully!');
+    
+    // Add white logo later:
+    console.log('📝 To add white logo for dark theme:');
+    console.log('   1. Upload your white logo to an image host');
+    console.log('   2. Update LOGO_CONFIG.dark with the URL');
+    console.log('   3. Remove the filter line if using actual white logo');
+});
+// ===== FIX FOR HAMBURGER CLOSE =====
+document.addEventListener('DOMContentLoaded', function() {
+    // Wait a bit for elements to load
+    setTimeout(function() {
+        const hamburger = document.querySelector('.cylindrical-header .hamburger');
+        const navMenu = document.querySelector('.cylindrical-header .nav-menu');
+        
+        if (hamburger && navMenu) {
+            console.log('✅ Found hamburger and nav-menu');
+            
+            // Close menu when clicking the X (pseudo-element)
+            // We need to add a real close button
+            const closeBtn = document.createElement('div');
+            closeBtn.className = 'mobile-close-btn';
+            closeBtn.innerHTML = '✕';
+            closeBtn.style.cssText = `
+                position: absolute;
+                top: 30px;
+                right: 30px;
+                font-size: 2rem;
+                color: var(--text-color);
+                cursor: pointer;
+                z-index: 999;
+                width: 40px;
+                height: 40px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.1);
+                transition: all 0.3s ease;
+            `;
+            
+            // Only add on mobile
+            if (window.innerWidth <= 768) {
+                navMenu.appendChild(closeBtn);
+                
+                // Close menu when clicking the X
+                closeBtn.addEventListener('click', function() {
+                    hamburger.classList.remove('active');
+                    navMenu.classList.remove('active');
+                });
+                
+                // Also close when clicking outside menu
+                document.addEventListener('click', function(event) {
+                    if (navMenu.classList.contains('active') && 
+                        !navMenu.contains(event.target) && 
+                        !hamburger.contains(event.target)) {
+                        hamburger.classList.remove('active');
+                        navMenu.classList.remove('active');
+                    }
+                });
+            }
+        }
+    }, 100);
+});
