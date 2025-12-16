@@ -1,3 +1,124 @@
+/* Premium Hero Badge Styles */
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 18px;
+    border-radius: 100px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 0.875rem;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    margin-bottom: 2rem;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    opacity: 0;
+    transform: translateY(-10px);
+    animation: badgeFadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.3s forwards;
+    border: 1px solid;
+    
+    /* Light Theme Default */
+    background: linear-gradient(135deg, 
+        rgba(37, 99, 235, 0.08) 0%, 
+        rgba(79, 70, 229, 0.05) 100%);
+    color: var(--blue);
+    border-color: rgba(37, 99, 235, 0.15);
+    box-shadow: 0 4px 20px rgba(37, 99, 235, 0.08),
+                0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+/* Dark Theme Override */
+.dark-theme .hero-badge {
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.08) 0%, 
+        rgba(164, 179, 255, 0.05) 100%);
+    color: var(--blue);
+    border-color: rgba(164, 179, 255, 0.15);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+/* Badge Icon */
+.badge-icon {
+    font-size: 1rem;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: subtleFloat 3s ease-in-out infinite;
+}
+
+/* Badge Text */
+.badge-text {
+    background: linear-gradient(90deg, var(--blue), rgba(79, 70, 229, 0.9));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+}
+
+.dark-theme .badge-text {
+    background: linear-gradient(90deg, var(--blue), rgba(164, 179, 255, 0.95));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Badge Hover Effects */
+.hero-badge:hover {
+    transform: translateY(-2px);
+    transition: all 0.3s ease;
+}
+
+.hero-badge:hover .badge-icon {
+    animation: pulseGlow 2s ease-in-out infinite;
+}
+
+/* Animations */
+@keyframes badgeFadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-10px) scale(0.95);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes subtleFloat {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-2px) rotate(5deg);
+    }
+}
+
+@keyframes pulseGlow {
+    0%, 100% {
+        filter: drop-shadow(0 0 0px rgba(37, 99, 235, 0));
+    }
+    50% {
+        filter: drop-shadow(0 0 6px rgba(37, 99, 235, 0.4));
+    }
+}
+
+.dark-theme .hero-badge:hover .badge-icon {
+    animation: pulseGlowDark 2s ease-in-out infinite;
+}
+
+@keyframes pulseGlowDark {
+    0%, 100% {
+        filter: drop-shadow(0 0 0px rgba(164, 179, 255, 0));
+    }
+    50% {
+        filter: drop-shadow(0 0 6px rgba(164, 179, 255, 0.3));
+    }
+}
 
 
 /* ==================================================
@@ -1134,4 +1255,56 @@
   .hero-heading {
     font-size: clamp(2.8rem, 10vw, 3.6rem);
   }
+}
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .hero-badge {
+        padding: 6px 16px;
+        font-size: 0.8125rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .badge-icon {
+        font-size: 0.875rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero-badge {
+        padding: 6px 14px;
+        font-size: 0.75rem;
+        margin-bottom: 1.25rem;
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+    }
+    
+    .badge-icon {
+        font-size: 0.8125rem;
+    }
+}
+
+/* Ensure badge maintains proper contrast */
+@media (prefers-reduced-motion: reduce) {
+    .hero-badge {
+        animation: none;
+        opacity: 1;
+        transform: none;
+    }
+    
+    .badge-icon,
+    .hero-badge:hover .badge-icon {
+        animation: none;
+    }
+}
+
+/* Enhanced theme transition for smooth badge changes */
+body {
+    transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+.hero-badge {
+    transition: background 0.5s ease, 
+                color 0.5s ease, 
+                border-color 0.5s ease,
+                box-shadow 0.5s ease;
 }
