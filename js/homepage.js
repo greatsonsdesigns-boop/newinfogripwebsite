@@ -1,50 +1,6 @@
 // Initialize only on homepage
 if (document.querySelector('.hero')) {
-    
-    // Custom Cursor
-    const cursor = document.querySelector('.cursor');
-    const cursorFollower = document.querySelector('.cursor-follower');
-    
-    // Only initialize cursor on non-mobile devices
-    if (window.innerWidth > 768 && cursor && cursorFollower) {
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-            
-            setTimeout(() => {
-                cursorFollower.style.left = e.clientX + 'px';
-                cursorFollower.style.top = e.clientY + 'px';
-            }, 100);
-        });
-        
-        // Add hover effects for buttons and links
-        const interactiveElements = document.querySelectorAll('button, a, .btn, .service-card, .feature-card, .faq-question');
-        
-        interactiveElements.forEach(element => {
-            element.addEventListener('mouseenter', () => {
-                cursor.classList.add('hover');
-                cursorFollower.classList.add('hover');
-            });
-            
-            element.addEventListener('mouseleave', () => {
-                cursor.classList.remove('hover');
-                cursorFollower.classList.remove('hover');
-            });
-        });
-        
-        // Add text hover effect
-        const textElements = document.querySelectorAll('h1, h2, h3, h4, h5, h6, p, span, li');
-        
-        textElements.forEach(element => {
-            element.addEventListener('mouseenter', () => {
-                cursor.classList.add('text-hover');
-            });
-            
-            element.addEventListener('mouseleave', () => {
-                cursor.classList.remove('text-hover');
-            });
-        });
-    }
+
     // Add smooth badge transition when theme changes
 const themeToggle = document.getElementById('theme-toggle');
 
