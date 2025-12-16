@@ -126,17 +126,18 @@
 ================================================== */
 
 .hero {
-  height: 70vh;              /* KEY FIX */
-  min-height: 520px;         /* safety for small phones */
-  max-height: 900px;         /* safety for large screens */
+  min-height: calc(70vh + 80px); /* grows safely */
+  padding-top: 120px;           /* space for fixed navbar */
+  padding-bottom: 60px;
 
   display: flex;
-  align-items: center;       /* vertical center */
-  justify-content: center;   /* horizontal center */
+  align-items: center;
+  justify-content: center;
 
-  padding: 0 20px;           /* remove vertical padding */
   background: var(--bg-color);
   text-align: center;
+  height: auto;      /* KEY FIX */
+  max-height: none;  /* remove cap */
 }
 
 .hero-container {
