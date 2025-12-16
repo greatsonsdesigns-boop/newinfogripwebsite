@@ -43,35 +43,47 @@
     <div class="flag-animation" id="flagAnimation"></div>
     
     <!-- Header -->
-    <header>
-        <div class="container">
-            <nav class="navbar">
-                <a href="index.html" class="logo">
-                    <img src="/assets/logo.png" alt="InfoGrip Media Solution">
-                </a>
-                <ul class="nav-menu">
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="services/political-branding.html">Political Services</a></li>
-                    <li><a href="#why-us">Why Choose Us</a></li>
-                    <li><a href="#stats">Success</a></li>
-                    <li><a href="#faq">FAQs</a></li>
-                    <li><a href="contact.html">Contact</a></li>
-                    <li><a href="onboarding.html" class="btn btn-primary" style="border-radius: 25px; padding: 10px 24px; font-size: 0.9rem;">जीतने की रणनीति</a></li>
-                </ul>
-                <div class="nav-actions">
-                    <button class="theme-toggle" id="theme-toggle">
-                        <i class="fas fa-moon"></i>
-                    </button>
-                    <div class="hamburger">
-                        <span class="bar"></span>
-                        <span class="bar"></span>
-                        <span class="bar"></span>
-                    </div>
-                </div>
-            </nav>
-        </div>
-    </header>
+     <header class="cylindrical-header">
+    <div class="container">
+        <nav class="navbar">
+            <!-- Logo (Uses same class as before) -->
+            <a href="index.html" class="logo">
+                <img src="assets/logo.png" 
+                     alt="InfoGrip Media Solution" 
+                     class="logo-img">
+            </a>
 
+            <!-- Navigation Menu (SAME CLASSES AS BEFORE) -->
+            <ul class="nav-menu">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="index.html#services">Services</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="portfolio.html">Portfolio</a></li>
+                <li><a href="index.html#testimonials">Testimonials</a></li>
+                <li><a href="index.html#faq">FAQ</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+
+            <!-- Header Actions (KEEP YOUR ORIGINAL CLASSES) -->
+            <div class="nav-actions">
+                <!-- CTA Button -->
+                <a href="onboarding.html" class="btn btn-primary header-cta">Start Free Trial</a>
+                
+                <!-- Theme Toggle (SAME ID AS BEFORE) -->
+                <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+
+                <!-- Hamburger Menu (SAME CLASSES AS BEFORE) -->
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </div>
+</header>
     <!-- Hero Section -->
     <section class="political-hero" id="home">
         <!-- Background Video -->
