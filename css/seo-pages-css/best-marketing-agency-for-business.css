@@ -8,7 +8,7 @@
             overflow: hidden;
             display: flex;
             align-items: center;
-            min-height: 60vh;
+            min-height: 70vh;
             text-align: center;
         }
 
@@ -978,4 +978,4 @@
                 width: 95%;
                 height: 85vh;
             }
-}
+        }
