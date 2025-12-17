@@ -194,8 +194,8 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // ===== LOGO CONFIGURATION =====
     const LOGO_CONFIG = {
-        light: 'https://i.postimg.cc/Nj3bmPwC/Infogrip-Medi-Soluiton-(Social-Media)-(1).png',
-        dark: 'https://i.postimg.cc/Nj3bmPwC/Infogrip-Medi-Soluiton-(Social-Media)-(1).png' // Same for now
+        light: '../assets/logo.png',
+        dark: '../assets/white-logo.png' // Same for now
     };
     
     // Update logos for theme
