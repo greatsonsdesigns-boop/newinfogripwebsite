@@ -260,7 +260,32 @@ section h3 {
 /* DARK HERO SECTIONS ONLY */
 .hero.bg-blue .hero-content h1,
 .hero.bg-dark .hero-content h1,
-.section-dark .hero-content h1 {
+.section-dark .hero-content h1,
+
+.hero.bg-blue .jaipur-hero-content h1,
+.hero.bg-dark .jaipur-hero-content h1,
+.section-dark .jaipur-hero-content h1,
+
+.hero.bg-blue .contact-hero-content h1,
+.hero.bg-dark .contact-hero-content h1,
+.section-dark .contact-hero-content h1,
+
+.hero.bg-blue .social-hero-content h1,
+.hero.bg-dark .social-hero-content h1,
+.section-dark .social-hero-content h1,
+
+.hero.bg-blue .portfolio-hero-content h1,
+.hero.bg-dark .portfolio-hero-content h1,
+.section-dark .portfolio-hero-content h1,
+
+.hero.bg-blue .policy-hero-content h1,
+.hero.bg-dark .policy-hero-content h1,
+.section-dark .policy-hero-content h1,
+
+.hero.bg-blue .hero-smb-content h1,
+.hero.bg-dark .hero-smb-content h1,
+.section-dark .hero-smb-content h1
+{
     color: #ffffff !important;
 }
 
