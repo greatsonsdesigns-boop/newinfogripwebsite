@@ -252,4 +252,3 @@
             setTimeout(animateStats, 1500);
         });
         
-
