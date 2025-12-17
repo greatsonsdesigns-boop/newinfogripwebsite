@@ -276,3 +276,12 @@ section h3 {
 .hero:not(.bg-blue):not(.bg-dark) .hero-content h1 {
     color: var(--text-color) !important;
 }
+/* ===============================
+   FORCE SERVICE CARD HOVER TEXT
+================================ */
+
+.service-card:hover .service-content h3,
+.service-card:hover .service-content p,
+.service-card:hover .service-content a {
+    color: #ffffff !important;
+}
