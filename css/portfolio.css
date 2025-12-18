@@ -493,7 +493,7 @@
 }
 
 /* CTA Section */
-.portfolio-cta {
+.cta {
     padding: 100px 0;
     background: linear-gradient(135deg, var(--dark-blue) 0%, var(--blue) 100%);
     color: var(--white);
@@ -501,7 +501,7 @@
     position: relative;
 }
 
-.portfolio-cta::before {
+.cta::before {
     content: '';
     position: absolute;
     top: 0;
@@ -519,12 +519,12 @@
     z-index: 1;
 }
 
-.portfolio-cta h2 {
+.cta h2 {
     font-size: 2.5rem;
     margin-bottom: 20px;
 }
 
-.portfolio-cta p {
+.cta p {
     font-size: 1.2rem;
     margin-bottom: 30px;
     opacity: 0.9;
