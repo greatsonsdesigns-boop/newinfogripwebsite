@@ -304,9 +304,40 @@ section h3 {
 /* ===============================
    FORCE SERVICE CARD HOVER TEXT
 ================================ */
+/* ======================================
+   FIX: TEXT VISIBILITY ON DARK BLUE SECTIONS
+   (CTA + TESTIMONIALS ONLY)
+====================================== */
 
-.service-card:hover .service-content h3,
-.service-card:hover .service-content p,
-.service-card:hover .service-content a {
+/* Target ONLY dark-blue background sections */
+.cta,
+.testimonials,
+.bg-blue {
+    color: #ffffff;
+}
+
+/* Headings inside dark-blue sections */
+.cta h1,
+.cta h2,
+.cta h3,
+
+.testimonials h1,
+.testimonials h2,
+.testimonials h3,
+
+.political-testimonials h1,
+.political-testimonials h2,
+.political-testimonials h3,
+
+.bg-blue h1,
+.bg-blue h2,
+.bg-blue h3 {
     color: #ffffff !important;
+}
+
+/* Paragraph text */
+.cta p,
+.testimonials p,
+.bg-blue p {
+    color: rgba(255, 255, 255, 0.9);
 }
