@@ -165,6 +165,12 @@
         .service-card:hover .service-content {
             color: var(--white);
         }
+        
+        .service-card:hover .service-content h3,
+        .service-card:hover .service-content p,
+        .service-card:hover .service-content a {
+        color: #ffffff !important;
+       }
 
         .service-card:hover .service-icon {
             background-color: var(--orange);
