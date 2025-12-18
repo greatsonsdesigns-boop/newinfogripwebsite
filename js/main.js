@@ -168,83 +168,96 @@ if (window.innerWidth > 768 && cursor && cursorFollower) {
 document.addEventListener('DOMContentLoaded', function() {
     console.log('🚀 Initializing Premium Cylindrical Header...');
     
-    // ===== ELEMENTS =====
+    // ===== ELEMENTS - MATCHING YOUR HTML =====
     const cylindricalHeader = document.querySelector('.cylindrical-header');
-    const headerHamburger = document.getElementById('header-hamburger');
-    const headerThemeToggle = document.getElementById('header-theme-toggle');
-    const mobileOverlay = document.getElementById('mobile-menu-overlay');
-    const mobileClose = document.getElementById('mobile-close');
-    const mainLogo = document.getElementById('main-logo');
-    const mobileLogo = document.querySelector('.mobile-logo-img');
-    const allNavLinks = document.querySelectorAll('.nav-link, .mobile-nav-link');
-    
-    // Check if elements exist
-    if (!cylindricalHeader) {
-        console.error('❌ Cylindrical header not found!');
-        return;
-    }
+    const headerHamburger = document.querySelector('.hamburger');
+    const headerThemeToggle = document.querySelector('#theme-toggle'); // This should work
+    const navMenu = document.querySelector('.nav-menu');
+    const mainLogo = document.querySelector('.logo-img');
+    const allNavLinks = document.querySelectorAll('.nav-menu a');
     
     console.log('✅ Header elements found:', {
         header: !!cylindricalHeader,
         hamburger: !!headerHamburger,
         themeToggle: !!headerThemeToggle,
-        mobileOverlay: !!mobileOverlay,
+        navMenu: !!navMenu,
         mainLogo: !!mainLogo
     });
     
-    // ===== LOGO CONFIGURATION =====
-    const LOGO_CONFIG = {
-        light: '../assets/logo.png',
-        dark: '../assets/white-logo.png' // Same for now
-    };
+    // Debug: Log the theme toggle element
+    console.log('🎯 Theme toggle element:', headerThemeToggle);
+    console.log('🎯 Theme toggle HTML:', headerThemeToggle?.outerHTML);
     
-    // Update logos for theme
-    function updateLogos() {
-        const isDark = document.body.classList.contains('dark-theme');
-        const logoUrl = isDark ? LOGO_CONFIG.dark : LOGO_CONFIG.light;
-        
-        if (mainLogo) {
-            mainLogo.src = logoUrl;
-            if (isDark) {
-                mainLogo.style.filter = 'brightness(0) invert(1)';
-            } else {
-                mainLogo.style.filter = 'none';
-            }
+    // ===== MOBILE MENU FUNCTIONALITY =====
+    function initMobileMenu() {
+        if (!headerHamburger || !navMenu) {
+            console.warn('⚠️ Mobile menu elements missing');
+            return;
         }
         
-        if (mobileLogo) {
-            mobileLogo.src = logoUrl;
-            if (isDark) {
-                mobileLogo.style.filter = 'brightness(0) invert(1)';
-            } else {
-                mobileLogo.style.filter = 'none';
-            }
+        console.log('✅ Initializing mobile menu...');
+        
+        // Create mobile overlay if it doesn't exist
+        let mobileOverlay = document.querySelector('.mobile-overlay');
+        if (!mobileOverlay) {
+            mobileOverlay = document.createElement('div');
+            mobileOverlay.className = 'mobile-overlay';
+            
+            const mobileMenuContent = document.createElement('div');
+            mobileMenuContent.className = 'mobile-menu-content';
+            
+            const mobileNav = navMenu.cloneNode(true);
+            mobileNav.className = 'mobile-nav';
+            
+            const closeBtn = document.createElement('button');
+            closeBtn.className = 'mobile-close';
+            closeBtn.innerHTML = '✕';
+            closeBtn.setAttribute('aria-label', 'Close menu');
+            
+            mobileMenuContent.appendChild(closeBtn);
+            mobileMenuContent.appendChild(mobileNav);
+            mobileOverlay.appendChild(mobileMenuContent);
+            document.body.appendChild(mobileOverlay);
+            
+            console.log('📱 Created mobile overlay dynamically');
         }
-    }
-    
-    // ===== MOBILE MENU =====
-    if (headerHamburger && mobileOverlay && mobileClose) {
-        console.log('✅ Mobile menu elements found');
+        
+        const mobileClose = document.querySelector('.mobile-close');
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav a');
         
         // Open mobile menu
         headerHamburger.addEventListener('click', function(e) {
             e.stopPropagation();
+            e.preventDefault();
             console.log('🍔 Hamburger clicked - Opening mobile menu');
-            this.classList.add('active');
-            mobileOverlay.classList.add('active');
-            document.body.style.overflow = 'hidden';
+            
+            this.classList.toggle('active');
+            mobileOverlay.classList.toggle('active');
+            navMenu.classList.toggle('active');
+            
+            if (mobileOverlay.classList.contains('active')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = 'auto';
+            }
         });
         
-        // Close mobile menu
+        // Close mobile menu function
         function closeMobileMenu() {
             console.log('📱 Closing mobile menu');
             headerHamburger.classList.remove('active');
             mobileOverlay.classList.remove('active');
+            navMenu.classList.remove('active');
             document.body.style.overflow = 'auto';
         }
         
         // Close with X button
-        mobileClose.addEventListener('click', closeMobileMenu);
+        if (mobileClose) {
+            mobileClose.addEventListener('click', function(e) {
+                e.stopPropagation();
+                closeMobileMenu();
+            });
+        }
         
         // Close when clicking overlay
         mobileOverlay.addEventListener('click', function(e) {
@@ -253,9 +266,14 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
         
-        // Close when clicking nav links
-        document.querySelectorAll('.mobile-nav-link').forEach(link => {
-            link.addEventListener('click', closeMobileMenu);
+        // Close when clicking mobile nav links
+        mobileNavLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href && href.startsWith('#')) {
+                    setTimeout(closeMobileMenu, 300);
+                }
+            });
         });
         
         // Close with Escape key
@@ -264,173 +282,446 @@ document.addEventListener('DOMContentLoaded', function() {
                 closeMobileMenu();
             }
         });
-    } else {
-        console.warn('⚠️ Mobile menu elements missing');
     }
     
-    // ===== THEME TOGGLE =====
-    if (headerThemeToggle) {
-        const themeIcon = headerThemeToggle.querySelector('i');
-        
-        // Check for saved theme
-        const savedTheme = localStorage.getItem('theme') || 'light';
-        if (savedTheme === 'dark') {
-            document.body.classList.add('dark-theme');
-            if (themeIcon) {
-                themeIcon.classList.remove('fa-moon');
-                themeIcon.classList.add('fa-sun');
+    // ===== THEME TOGGLE - FIXED VERSION =====
+    function initThemeToggle() {
+        if (!headerThemeToggle) {
+            console.error('❌ Theme toggle button not found! Searching for #theme-toggle...');
+            
+            // Try alternative selectors
+            const themeToggleAlt = document.querySelector('.theme-toggle');
+            if (themeToggleAlt) {
+                console.log('✅ Found theme toggle using .theme-toggle class');
+                headerThemeToggle = themeToggleAlt;
+            } else {
+                console.error('❌ Theme toggle not found with any selector!');
+                return;
             }
-            console.log('🌙 Dark theme loaded from localStorage');
-        } else {
-            console.log('☀️ Light theme loaded');
         }
         
-        // Update logos on initial load
-        updateLogos();
+        console.log('✅ Theme toggle initialized:', headerThemeToggle);
         
-        // Theme toggle click
+        // Get the icon element
+        const themeIcon = headerThemeToggle.querySelector('i');
+        console.log('🎯 Theme icon found:', !!themeIcon);
+        
+        // Function to apply theme
+        function applyTheme(theme) {
+            if (theme === 'dark') {
+                document.body.classList.add('dark-theme');
+                if (themeIcon) {
+                    themeIcon.classList.remove('fa-moon');
+                    themeIcon.classList.add('fa-sun');
+                }
+                console.log('🌙 Applied dark theme');
+            } else {
+                document.body.classList.remove('dark-theme');
+                if (themeIcon) {
+                    themeIcon.classList.remove('fa-sun');
+                    themeIcon.classList.add('fa-moon');
+                }
+                console.log('☀️ Applied light theme');
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('theme', theme);
+        }
+        
+        // Check for saved theme or system preference
+        const savedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        
+        let initialTheme = 'light';
+        if (savedTheme) {
+            initialTheme = savedTheme;
+            console.log('📁 Using saved theme from localStorage:', savedTheme);
+        } else if (prefersDark) {
+            initialTheme = 'dark';
+            console.log('🖥️ Using system preference: dark');
+        }
+        
+        // Apply initial theme
+        applyTheme(initialTheme);
+        
+        // Theme toggle click - SIMPLIFIED VERSION
         headerThemeToggle.addEventListener('click', function() {
             console.log('🎨 Theme toggle clicked');
             
-            // Toggle theme
-            document.body.classList.toggle('dark-theme');
+            // Check current theme
+            const isDark = document.body.classList.contains('dark-theme');
+            console.log('Current is dark theme?', isDark);
             
-            // Update icon
-            if (themeIcon) {
-                if (document.body.classList.contains('dark-theme')) {
-                    themeIcon.classList.remove('fa-moon');
-                    themeIcon.classList.add('fa-sun');
-                    localStorage.setItem('theme', 'dark');
-                    console.log('🌙 Switched to dark theme');
-                } else {
-                    themeIcon.classList.remove('fa-sun');
-                    themeIcon.classList.add('fa-moon');
-                    localStorage.setItem('theme', 'light');
-                    console.log('☀️ Switched to light theme');
-                }
+            // Toggle theme
+            if (isDark) {
+                applyTheme('light');
+            } else {
+                applyTheme('dark');
             }
             
-            // Update logos
-            updateLogos();
+            // Debug: Verify theme was applied
+            setTimeout(() => {
+                console.log('✅ Theme after toggle:', 
+                    document.body.classList.contains('dark-theme') ? 'dark' : 'light');
+                console.log('✅ Icon classes:', themeIcon?.className);
+            }, 100);
         });
-    } else {
-        console.error('❌ Theme toggle button not found!');
+        
+        // Listen for system theme changes
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+            if (!localStorage.getItem('theme')) { // Only if user hasn't set preference
+                applyTheme(e.matches ? 'dark' : 'light');
+            }
+        });
+        
+        // Debug function to test theme
+        window.testThemeToggle = function() {
+            console.log('🧪 Testing theme toggle...');
+            console.log('1. Theme button:', headerThemeToggle);
+            console.log('2. Has click event?', headerThemeToggle.onclick);
+            console.log('3. Current theme:', document.body.classList.contains('dark-theme') ? 'dark' : 'light');
+            console.log('4. Icon:', themeIcon?.outerHTML);
+            console.log('5. localStorage theme:', localStorage.getItem('theme'));
+            
+            // Simulate a click
+            headerThemeToggle.click();
+        };
     }
     
     // ===== SCROLL EFFECT =====
-    window.addEventListener('scroll', function() {
-        if (window.scrollY > 50) {
-            cylindricalHeader.classList.add('scrolled');
-        } else {
-            cylindricalHeader.classList.remove('scrolled');
-        }
-    });
-    
-    // Initialize scroll effect
-    window.dispatchEvent(new Event('scroll'));
-    
-    // ===== ACTIVE LINK =====
-    function setActiveLink() {
-        const currentHash = window.location.hash || '#home';
-        allNavLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href') === currentHash) {
-                link.classList.add('active');
+    function initScrollEffect() {
+        window.addEventListener('scroll', function() {
+            if (!cylindricalHeader) return;
+            
+            if (window.scrollY > 50) {
+                cylindricalHeader.classList.add('scrolled');
+            } else {
+                cylindricalHeader.classList.remove('scrolled');
             }
+        });
+        
+        window.dispatchEvent(new Event('scroll'));
+    }
+    
+    // ===== ACTIVE LINK MANAGEMENT =====
+    function initActiveLinks() {
+        function setActiveLink() {
+            const currentHash = window.location.hash || '';
+            const currentPage = window.location.pathname.split("/").pop() || "index.html";
+            
+            allNavLinks.forEach(link => {
+                const href = link.getAttribute('href');
+                link.classList.remove('active');
+                
+                if (href === currentHash) {
+                    link.classList.add('active');
+                }
+                else if (href === currentPage || 
+                        (href === 'index.html' && currentPage === '') ||
+                        (href === currentPage.replace('.html', ''))) {
+                    link.classList.add('active');
+                }
+            });
+            
+            const mobileNavLinks = document.querySelectorAll('.mobile-nav a');
+            mobileNavLinks.forEach(link => {
+                const href = link.getAttribute('href');
+                link.classList.remove('active');
+                
+                if (href === currentHash) {
+                    link.classList.add('active');
+                }
+                else if (href === currentPage || 
+                        (href === 'index.html' && currentPage === '')) {
+                    link.classList.add('active');
+                }
+            });
+        }
+        
+        setActiveLink();
+        window.addEventListener('hashchange', setActiveLink);
+        
+        allNavLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                const href = this.getAttribute('href');
+                
+                if (href && href.startsWith('#')) {
+                    allNavLinks.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const mobileLinks = document.querySelectorAll('.mobile-nav a');
+                    mobileLinks.forEach(mobileLink => {
+                        if (mobileLink.getAttribute('href') === href) {
+                            mobileLink.classList.add('active');
+                        } else {
+                            mobileLink.classList.remove('active');
+                        }
+                    });
+                }
+            });
         });
     }
     
-    // Set active link on load
-    setActiveLink();
+    // ===== ADD REQUIRED CSS FOR THEME =====
+    function addThemeCSS() {
+        if (!document.querySelector('#theme-styles')) {
+            const style = document.createElement('style');
+            style.id = 'theme-styles';
+            style.textContent = `
+                /* Dark theme variables - add your own colors */
+                .dark-theme {
+                    --bg-color: #121212;
+                    --text-color: #ffffff;
+                    --header-bg: rgba(18, 18, 18, 0.95);
+                    --primary-color: #7c3aed;
+                    --secondary-color: #a855f7;
+                }
+                
+                /* Light theme variables */
+                :root {
+                    --bg-color: #ffffff;
+                    --text-color: #333333;
+                    --header-bg: rgba(255, 255, 255, 0.95);
+                    --primary-color: #4f46e5;
+                    --secondary-color: #6366f1;
+                }
+                
+                /* Theme toggle button styling */
+                .theme-toggle {
+                    background: var(--primary-color);
+                    border: none;
+                    color: white;
+                    width: 40px;
+                    height: 40px;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                }
+                
+                .theme-toggle:hover {
+                    transform: scale(1.1);
+                    background: var(--secondary-color);
+                }
+                
+                /* Apply theme to body and header */
+                body.dark-theme {
+                    background-color: var(--bg-color);
+                    color: var(--text-color);
+                }
+                
+                .dark-theme .cylindrical-header {
+                    background: var(--header-bg);
+                }
+                
+                /* Mobile overlay in dark theme */
+                .dark-theme .mobile-overlay {
+                    background: rgba(0, 0, 0, 0.98);
+                }
+                
+                .dark-theme .mobile-menu-content {
+                    background: #1a1a1a;
+                }
+                
+                .dark-theme .mobile-nav a {
+                    color: #ffffff;
+                }
+                
+                .dark-theme .mobile-close {
+                    color: #ffffff;
+                }
+            `;
+            document.head.appendChild(style);
+            console.log('🎨 Added theme CSS');
+        }
+    }
     
-    // Update active link on hash change
-    window.addEventListener('hashchange', setActiveLink);
+    // ===== ADD REQUIRED CSS FOR MOBILE MENU =====
+    function addMobileMenuCSS() {
+        if (!document.querySelector('#mobile-menu-styles')) {
+            const style = document.createElement('style');
+            style.id = 'mobile-menu-styles';
+            style.textContent = `
+                .mobile-overlay {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0, 0, 0, 0.95);
+                    z-index: 9998;
+                    opacity: 0;
+                    visibility: hidden;
+                    transition: all 0.3s ease;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+                
+                .mobile-overlay.active {
+                    opacity: 1;
+                    visibility: visible;
+                }
+                
+                .mobile-menu-content {
+                    background: var(--bg-color, #ffffff);
+                    border-radius: 20px;
+                    padding: 40px 30px;
+                    max-width: 90%;
+                    max-height: 90%;
+                    overflow-y: auto;
+                    position: relative;
+                    transform: translateY(20px);
+                    transition: transform 0.3s ease;
+                }
+                
+                .mobile-overlay.active .mobile-menu-content {
+                    transform: translateY(0);
+                }
+                
+                .mobile-close {
+                    position: absolute;
+                    top: 15px;
+                    right: 15px;
+                    background: none;
+                    border: none;
+                    font-size: 28px;
+                    color: var(--text-color, #333);
+                    cursor: pointer;
+                    width: 40px;
+                    height: 40px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    border-radius: 50%;
+                    transition: all 0.3s ease;
+                }
+                
+                .mobile-close:hover {
+                    background: rgba(0, 0, 0, 0.1);
+                }
+                
+                .mobile-nav {
+                    list-style: none;
+                    padding: 0;
+                    margin: 0;
+                    text-align: center;
+                }
+                
+                .mobile-nav li {
+                    margin: 15px 0;
+                }
+                
+                .mobile-nav a {
+                    color: var(--text-color, #333);
+                    text-decoration: none;
+                    font-size: 24px;
+                    font-weight: 600;
+                    padding: 10px 20px;
+                    display: block;
+                    border-radius: 10px;
+                    transition: all 0.3s ease;
+                }
+                
+                .mobile-nav a:hover,
+                .mobile-nav a.active {
+                    background: var(--primary-color, #4f46e5);
+                    color: white;
+                }
+                
+                .hamburger.active .bar:nth-child(1) {
+                    transform: rotate(45deg) translate(6px, 6px);
+                }
+                
+                .hamburger.active .bar:nth-child(2) {
+                    opacity: 0;
+                }
+                
+                .hamburger.active .bar:nth-child(3) {
+                    transform: rotate(-45deg) translate(6px, -6px);
+                }
+                
+                @media (min-width: 769px) {
+                    .mobile-overlay {
+                        display: none !important;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+    }
     
-    // Also update when clicking links
-    allNavLinks.forEach(link => {
-        link.addEventListener('click', function() {
-            const href = this.getAttribute('href');
-            if (href.startsWith('#')) {
-                allNavLinks.forEach(l => l.classList.remove('active'));
-                this.classList.add('active');
-            }
-        });
+    // ===== INITIALIZE ALL FUNCTIONALITIES =====
+    initMobileMenu();
+    initThemeToggle(); // Make sure this is called!
+    initScrollEffect();
+    initActiveLinks();
+    addThemeCSS();
+    addMobileMenuCSS();
+    
+    // ===== WINDOW RESIZE HANDLER =====
+    window.addEventListener('resize', function() {
+        const mobileOverlay = document.querySelector('.mobile-overlay');
+        if (window.innerWidth > 768 && mobileOverlay && mobileOverlay.classList.contains('active')) {
+            headerHamburger.classList.remove('active');
+            mobileOverlay.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
     });
     
-    // ===== INITIALIZATION COMPLETE =====
+    // ===== DEBUGGING HELPERS =====
     console.log('✅ Premium Cylindrical Header initialized successfully!');
     
-    // Add white logo later:
-    console.log('📝 To add white logo for dark theme:');
-    console.log('   1. Upload your white logo to an image host');
-    console.log('   2. Update LOGO_CONFIG.dark with the URL');
-    console.log('   3. Remove the filter line if using actual white logo');
-});
-// ===== FIX FOR HAMBURGER CLOSE =====
-document.addEventListener('DOMContentLoaded', function() {
-    // Wait a bit for elements to load
-    setTimeout(function() {
-        const hamburger = document.querySelector('.cylindrical-header .hamburger');
-        const navMenu = document.querySelector('.cylindrical-header .nav-menu');
+    // Add global debug function
+    window.debugHeader = function() {
+        console.log('🔍 Header Debug Info:');
+        console.log('- Theme toggle exists:', !!headerThemeToggle);
+        console.log('- Current theme:', document.body.classList.contains('dark-theme') ? 'dark' : 'light');
+        console.log('- localStorage theme:', localStorage.getItem('theme'));
+        console.log('- Theme icon:', headerThemeToggle?.querySelector('i')?.className);
         
-        if (hamburger && navMenu) {
-            console.log('✅ Found hamburger and nav-menu');
-            
-            // Close menu when clicking the X (pseudo-element)
-            // We need to add a real close button
-            const closeBtn = document.createElement('div');
-            closeBtn.className = 'mobile-close-btn';
-            closeBtn.innerHTML = '✕';
-            closeBtn.style.cssText = `
-                position: absolute;
-                top: 30px;
-                right: 30px;
-                font-size: 2rem;
-                color: var(--text-color);
-                cursor: pointer;
-                z-index: 999;
-                width: 40px;
-                height: 40px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                border-radius: 50%;
-                background: rgba(255, 255, 255, 0.1);
-                transition: all 0.3s ease;
-            `;
-            
-            // Only add on mobile
-            if (window.innerWidth <= 768) {
-                navMenu.appendChild(closeBtn);
-                
-                // Close menu when clicking the X
-                closeBtn.addEventListener('click', function() {
-                    hamburger.classList.remove('active');
-                    navMenu.classList.remove('active');
-                });
-                
-                // Also close when clicking outside menu
-                document.addEventListener('click', function(event) {
-                    if (navMenu.classList.contains('active') && 
-                        !navMenu.contains(event.target) && 
-                        !hamburger.contains(event.target)) {
-                        hamburger.classList.remove('active');
-                        navMenu.classList.remove('active');
-                    }
-                });
+        // Test theme toggle
+        if (headerThemeToggle) {
+            console.log('- Theme toggle clickable: YES');
+            console.log('- Theme toggle position:', headerThemeToggle.getBoundingClientRect());
+        }
+    };
+});
+
+// Simple theme test - add this after your main JS loads
+setTimeout(function() {
+    console.log('🧪 Testing theme functionality...');
+    
+    // Check if theme toggle exists
+    const themeToggle = document.getElementById('theme-toggle');
+    if (!themeToggle) {
+        console.error('❌ theme-toggle not found in HTML!');
+        console.log('Looking for theme toggle...', document.querySelectorAll('[id*="theme"], [class*="theme"]'));
+        return;
+    }
+    
+    console.log('✅ Found theme toggle:', themeToggle);
+    
+    // Manually add click event as test
+    themeToggle.addEventListener('click', function() {
+        console.log('🎨 Manual test: Theme toggle clicked!');
+        document.body.classList.toggle('dark-theme');
+        
+        // Toggle icon
+        const icon = this.querySelector('i');
+        if (icon) {
+            if (document.body.classList.contains('dark-theme')) {
+                icon.className = 'fas fa-sun';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                icon.className = 'fas fa-moon';
+                localStorage.setItem('theme', 'light');
             }
         }
-    }, 100);
-});
-  const currentPage = window.location.pathname.split("/").pop() || "index.html";
-
-  document.querySelectorAll(".nav-menu a").forEach(link => {
-    const linkPage = link.getAttribute("href");
-
-    if (linkPage === currentPage) {
-      link.classList.add("active");
-    } else {
-      link.classList.remove("active");
-    }
-  });
-
+    });
+    
+    console.log('✅ Added manual theme toggle handler');
+    
+}, 2000);
