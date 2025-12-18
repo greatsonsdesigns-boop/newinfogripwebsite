@@ -490,7 +490,7 @@
         }
 
         /* ===== JAIPUR CTA ===== */
-        .jaipur-cta {
+        .cta {
             background: linear-gradient(135deg, var(--dark-blue) 0%, var(--blue) 100%);
             color: var(--white);
             text-align: center;
@@ -498,7 +498,7 @@
             position: relative;
         }
 
-        .jaipur-cta::before {
+        .cta::before {
             content: '';
             position: absolute;
             top: 0;
@@ -509,19 +509,19 @@
             background-size: cover;
         }
 
-        .jaipur-cta-content {
+        .cta-content {
             max-width: 700px;
             margin: 0 auto;
             position: relative;
             z-index: 1;
         }
 
-        .jaipur-cta h2 {
+        .cta h2 {
             font-size: 2.8rem;
             margin-bottom: 20px;
         }
 
-        .jaipur-cta p {
+        .cta p {
             font-size: 1.2rem;
             margin-bottom: 30px;
             opacity: 0.9;
@@ -542,7 +542,7 @@
                 flex: 0 0 calc(50% - 20px);
             }
 
-            .jaipur-cta h2 {
+            .cta h2 {
                 font-size: 2.2rem;
             }
 
@@ -657,11 +657,11 @@
                 grid-template-columns: 1fr;
             }
 
-            .jaipur-cta h2 {
+            .cta h2 {
                 font-size: 1.8rem;
             }
 
-            .jaipur-cta p {
+            .cta p {
                 font-size: 1rem;
             }
 
@@ -728,4 +728,4 @@
                 width: 35px;
                 height: 35px;
             }
-          }
+        }
