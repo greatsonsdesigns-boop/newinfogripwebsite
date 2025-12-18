@@ -285,6 +285,7 @@ section h3 {
 .hero.bg-blue .hero-smb-content h1,
 .hero.bg-dark .hero-smb-content h1,
 .section-dark .hero-smb-content h1
+
 {
     color: #ffffff !important;
 }
@@ -304,6 +305,8 @@ section h3 {
 /* ===============================
    FORCE SERVICE CARD HOVER TEXT
 ================================ */
+
+
 /* ======================================
    FIX: TEXT VISIBILITY ON DARK BLUE SECTIONS
    (CTA + TESTIMONIALS ONLY)
@@ -324,10 +327,24 @@ section h3 {
 .testimonials h1,
 .testimonials h2,
 .testimonials h3,
+.testimonials a,
+
 
 .political-testimonials h1,
 .political-testimonials h2,
 .political-testimonials h3,
+.political-testimonials a,
+
+
+.jaipur-clients h1,
+.jaipur-clients h2, 
+.jaipur-clients h3,
+.jaipur-clients a,
+
+.impact-section h1,
+.impact-section h2,
+.impact-section h3,
+.impact-section a,
 
 .bg-blue h1,
 .bg-blue h2,
@@ -341,3 +358,4 @@ section h3 {
 .bg-blue p {
     color: rgba(255, 255, 255, 0.9);
 }
+
