@@ -468,6 +468,15 @@
             z-index: 1;
         }
 
+        /* Headings inside dark-blue sections */
+        .stats-smb h1,
+        .stats-smb h2,
+        .stats-smb h3
+        {
+        color: #ffffff !important;
+        }
+
+
         .stats-smb-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -579,7 +588,7 @@
         }
 
         /* ===== PRICING CTA SECTION ===== */
-        .pricing-cta {
+        .cta {
             background: linear-gradient(135deg, var(--dark-blue) 0%, var(--blue) 100%);
             color: var(--white);
             padding: 100px 0;
@@ -588,7 +597,7 @@
             overflow: hidden;
         }
 
-        .pricing-cta::before {
+        .cta::before {
             content: '';
             position: absolute;
             top: 0;
@@ -599,20 +608,20 @@
             background-size: cover;
         }
 
-        .pricing-cta-content {
+        .cta-content {
             max-width: 700px;
             margin: 0 auto;
             position: relative;
             z-index: 1;
         }
 
-        .pricing-cta h2 {
+        .cta h2 {
             font-size: 2.5rem;
             margin-bottom: 20px;
             color: var(--white);
         }
 
-        .pricing-cta p {
+        .cta p {
             font-size: 1.2rem;
             margin-bottom: 30px;
             opacity: 0.9;
@@ -947,4 +956,4 @@
                 height: 35px;
                 font-size: 0.9rem;
             }
-          }
+        }
