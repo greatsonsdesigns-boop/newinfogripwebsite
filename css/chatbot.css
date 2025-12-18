@@ -300,3 +300,6 @@
     color: white;
     transform: translateY(-2px);
 }
+.chat-header-info h3{
+    color: #ffffff !important;
+}
