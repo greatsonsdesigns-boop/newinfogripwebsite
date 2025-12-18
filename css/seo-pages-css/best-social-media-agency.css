@@ -496,15 +496,15 @@
         }
 
         /* CTA Section */
-        .cta-section {
+        .cta {
             background: linear-gradient(135deg, var(--dark-blue) 0%, var(--blue) 100%);
-            color: var(--white);
+            color: #ffffff;
             text-align: center;
             padding: 100px 0;
             position: relative;
         }
 
-        .cta-section::before {
+        .cta::before {
             content: '';
             position: absolute;
             top: 0;
@@ -522,12 +522,12 @@
             z-index: 1;
         }
 
-        .cta-section h2 {
+        .cta h2 {
             font-size: 2.5rem;
             margin-bottom: 20px;
         }
 
-        .cta-section p {
+        .cta p {
             font-size: 1.2rem;
             margin-bottom: 30px;
             opacity: 0.9;
@@ -807,4 +807,4 @@
             .carousel-card {
                 padding: 25px;
             }
-          }
+        }
