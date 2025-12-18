@@ -98,6 +98,9 @@
             const speed = isDeleting ? 50 : 100;
             setTimeout(typePoliticalText, speed);
         }
+            // Start the typing effect
+            typePoliticalText();
+
         
         // Theme Toggle
         const themeToggle = document.getElementById('theme-toggle');
