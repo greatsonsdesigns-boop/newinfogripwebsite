@@ -21,6 +21,7 @@ header:not(.cylindrical-header) {
     box-shadow: 0 10px 40px rgba(0, 28, 79, 0.15), 0 0 0 1.5px rgba(255, 255, 255, 0.8);
     z-index: 1000;
     transition: all 0.4s ease;
+    overflow: hidden;
 }
 
 /* Dark Theme */
@@ -188,7 +189,7 @@ header:not(.cylindrical-header) {
 
 /* ===== FIXED HAMBURGER MENU ===== */
 .cylindrical-header .hamburger {
-    display: none; /* Hidden on desktop */
+    display: none; /* Hidden on desktop by default */
     cursor: pointer;
     background: transparent;
     border: none;
@@ -197,6 +198,7 @@ header:not(.cylindrical-header) {
     position: relative;
     padding: 0;
     margin-left: 15px;
+    z-index: 999;
 }
 
 .cylindrical-header .hamburger .bar {
@@ -238,6 +240,9 @@ header:not(.cylindrical-header) {
     transform: translateY(-9px) rotate(-45deg);
     background-color: var(--blue); /* Changes color when active */
 }
+body.menu-open {
+    overflow: hidden;
+}
 
 /* Mobile Menu Styles */
 @media (max-width: 768px) {
@@ -267,7 +272,7 @@ header:not(.cylindrical-header) {
     
     /* Show hamburger on mobile */
     .cylindrical-header .hamburger {
-        display: block; /* CHANGED TO BLOCK */
+        display: block; /* Show on mobile */
         order: 3; /* Ensures it's on the right */
     }
     
@@ -389,6 +394,13 @@ header:not(.cylindrical-header) {
         font-size: 1.8rem;
     }
 }
+
+/* Hide hamburger completely on desktop */
+@media (min-width: 769px) {
+    .cylindrical-header .hamburger {
+        display: none !important; /* Completely hide hamburger on desktop */
+    }
+    }
 
 /* Footer Styles */
 footer {
