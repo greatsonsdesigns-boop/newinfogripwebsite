@@ -407,7 +407,7 @@
         }
 
         /* Final CTA Section */
-        .final-cta {
+        .cta {
             background: linear-gradient(135deg, var(--dark-blue) 0%, var(--blue) 100%);
             color: var(--white);
             text-align: center;
@@ -416,7 +416,7 @@
             overflow: hidden;
         }
 
-        .final-cta::before {
+        .cta::before {
             content: '';
             position: absolute;
             top: 0;
@@ -427,25 +427,25 @@
             background-size: cover;
         }
 
-        .final-cta-content {
+        .cta-content {
             max-width: 700px;
             margin: 0 auto;
             position: relative;
             z-index: 1;
         }
 
-        .final-cta h2 {
+        .cta h2 {
             font-size: 2.5rem;
             margin-bottom: 20px;
         }
 
-        .final-cta p {
+        .cta p {
             font-size: 1.2rem;
             margin-bottom: 30px;
             opacity: 0.9;
         }
 
-        .final-cta-btns {
+        .cta-btns {
             display: flex;
             gap: 15px;
             justify-content: center;
@@ -563,7 +563,7 @@
                 font-size: 2rem;
             }
 
-            .final-cta-btns {
+            .cta-btns {
                 flex-direction: column;
                 align-items: center;
             }
