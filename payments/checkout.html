@@ -555,6 +555,44 @@
             display: none;
         }
 
+        /* Test Payment Section */
+        .test-payment-section {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            border: 2px dashed #dee2e6;
+        }
+
+        .test-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .test-btn {
+            padding: 10px 15px;
+            background: var(--blue);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .test-btn:hover {
+            background: var(--dark-blue);
+        }
+
+        .test-btn.test {
+            background: #28a745;
+        }
+
+        .test-btn.debug {
+            background: #6c757d;
+        }
+
         /* Mobile Responsive */
         @media (max-width: 768px) {
             .header-content {
@@ -620,6 +658,19 @@
                     <button class="debug-toggle" onclick="clearDebug()">Clear</button>
                 </div>
                 <div class="debug-content" id="debugContent"></div>
+            </div>
+
+            <!-- Test Payment Section (Hidden by default) -->
+            <div class="test-payment-section" id="testSection" style="display: none;">
+                <h3><i class="fas fa-vial"></i> Test Payment</h3>
+                <p style="color: #666; font-size: 0.9rem; margin-bottom: 10px;">Use these buttons for testing:</p>
+                <div class="test-buttons">
+                    <button class="test-btn test" onclick="testPayment(100)">Test ₹1</button>
+                    <button class="test-btn test" onclick="testPayment(1000)">Test ₹10</button>
+                    <button class="test-btn test" onclick="testPayment(5000)">Test ₹50</button>
+                    <button class="test-btn debug" onclick="testRazorpayDirect()">Test Razorpay Direct</button>
+                    <button class="test-btn" onclick="checkRazorpayScript()">Check Razorpay Script</button>
+                </div>
             </div>
 
             <div class="payment-container" id="paymentContainer" style="display: none;">
@@ -712,7 +763,7 @@
                     <div class="payment-methods">
                         <h3 style="margin-bottom: 15px; color: var(--dark-blue);">Select Payment Method</h3>
                         
-                        <div class="method-option active">
+                        <div class="method-option active" data-method="card">
                             <div class="method-icon">
                                 <i class="fas fa-credit-card"></i>
                             </div>
@@ -722,7 +773,7 @@
                             </div>
                         </div>
 
-                        <div class="method-option">
+                        <div class="method-option" data-method="netbanking">
                             <div class="method-icon">
                                 <i class="fas fa-university"></i>
                             </div>
@@ -732,7 +783,7 @@
                             </div>
                         </div>
 
-                        <div class="method-option">
+                        <div class="method-option" data-method="upi">
                             <div class="method-icon">
                                 <i class="fas fa-wallet"></i>
                             </div>
@@ -823,11 +874,20 @@
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     
     <script>
-        // REPLACE THIS WITH YOUR GOOGLE APPS SCRIPT WEB APP URL
+        // ============================================
+        // CONFIGURATION
+        // ============================================
+        // REPLACE THIS WITH YOUR ACTUAL GOOGLE APPS SCRIPT URL
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyj0TFIDfK0OoBb8JaQG36zBlGbrmn7uBzuZ6OKT4R3a9WWdGwOYSgBsY5ll2nJJ3olRw/exec';
         
-        // Debug logging
+        // For testing - use this if above doesn't work
+        const TEST_KEY = 'rzp_test_RukxAEn3jjoflr'; // Replace with your test key
+        
+        // ============================================
+        // DEBUG SYSTEM
+        // ============================================
         let debugLogs = [];
+        let isDebugMode = false;
         
         function logDebug(message, data = null) {
             const timestamp = new Date().toLocaleTimeString();
@@ -848,12 +908,17 @@
                     `<div><strong>[${log.time}]</strong> ${log.message} ${log.data ? JSON.stringify(log.data) : ''}</div>`
                 ).join('');
                 debugContent.style.display = 'block';
+                debugContent.scrollTop = debugContent.scrollHeight;
             }
         }
         
         function toggleDebug() {
+            isDebugMode = !isDebugMode;
             const panel = document.getElementById('debugPanel');
-            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+            panel.style.display = isDebugMode ? 'block' : 'none';
+            
+            // Show test section in debug mode
+            document.getElementById('testSection').style.display = isDebugMode ? 'block' : 'none';
         }
         
         function clearDebug() {
@@ -861,29 +926,47 @@
             updateDebugPanel();
         }
         
-        // Get client ID from URL
+        // ============================================
+        // GLOBAL VARIABLES
+        // ============================================
         const urlParams = new URLSearchParams(window.location.search);
         const clientId = urlParams.get('clientId');
-        
         let clientData = null;
         let paymentLink = '';
-
+        let razorpayOrderId = null;
+        
+        // ============================================
+        // INITIALIZATION
+        // ============================================
         document.addEventListener('DOMContentLoaded', function() {
-            logDebug('Page loaded', { clientId: clientId, url: window.location.href });
+            logDebug('Page loaded', { 
+                clientId: clientId,
+                url: window.location.href,
+                razorpayLoaded: typeof Razorpay !== 'undefined'
+            });
             
             if (!clientId) {
                 showError('Client ID not found in URL. Please use a valid payment link.');
-                logDebug('No client ID found in URL');
+                document.getElementById('loading').style.display = 'none';
                 return;
             }
-
+            
             // Update display
             document.getElementById('clientIdDisplay').textContent = clientId;
             
             // Load client data
             loadClientData();
+            
+            // Show test section if in debug mode
+            const debugParam = urlParams.get('debug');
+            if (debugParam === 'true') {
+                toggleDebug();
+            }
         });
-
+        
+        // ============================================
+        // CLIENT DATA FUNCTIONS
+        // ============================================
         async function loadClientData() {
             logDebug('Loading client data', { clientId: clientId });
             
@@ -892,14 +975,22 @@
                 logDebug('Fetching from URL', url);
                 
                 const response = await fetch(url);
-                logDebug('Response received', { status: response.status, ok: response.ok });
+                logDebug('Response received', { 
+                    status: response.status, 
+                    ok: response.ok,
+                    statusText: response.statusText
+                });
                 
                 const result = await response.json();
                 logDebug('Response parsed', result);
                 
                 if (result.success) {
                     clientData = result.data;
-                    logDebug('Client data loaded successfully', clientData);
+                    logDebug('Client data loaded successfully', {
+                        name: clientData.clientName,
+                        amount: clientData.finalAmount,
+                        service: clientData.serviceName
+                    });
                     displayClientData();
                     setupPayment();
                 } else {
@@ -907,35 +998,41 @@
                     logDebug('API error', result);
                 }
             } catch (error) {
-                showError('Network error. Please try again.');
+                showError('Network error. Please try again: ' + error.message);
                 logDebug('Network error', error);
                 console.error(error);
             }
         }
-
+        
         function displayClientData() {
             logDebug('Displaying client data');
             
             // Hide loading, show content
             document.getElementById('loading').style.display = 'none';
             document.getElementById('paymentContainer').style.display = 'grid';
-
+            
+            // Check if client data is valid
+            if (!clientData || !clientData.clientName) {
+                showError('Invalid client data received');
+                return;
+            }
+            
             // Basic client info
-            document.getElementById('clientIdBadge').textContent = clientData.clientId;
+            document.getElementById('clientIdBadge').textContent = clientData.clientId || clientId;
             document.getElementById('clientName').textContent = clientData.clientName;
             
             // Contact info
             document.getElementById('contactInfo').innerHTML = `
-                ${clientData.mobile}<br>
-                ${clientData.email}
+                ${clientData.mobile || 'N/A'}<br>
+                ${clientData.email || 'N/A'}
             `;
-
+            
             // Category
-            document.getElementById('category').textContent = clientData.category;
+            document.getElementById('category').textContent = clientData.category || 'Not specified';
             const badge = document.getElementById('categoryBadge');
-            badge.textContent = clientData.category;
-            badge.className = `category-badge category-${clientData.category.toLowerCase()}`;
-
+            badge.textContent = clientData.category || 'Not specified';
+            badge.className = `category-badge category-${(clientData.category || 'business').toLowerCase()}`;
+            
             // Category-specific info
             if (clientData.category === 'Business' && clientData.businessName) {
                 document.getElementById('businessInfo').style.display = 'block';
@@ -947,11 +1044,11 @@
                     ${clientData.partyName || ''}
                 `;
             }
-
+            
             // Service info
-            document.getElementById('serviceName').textContent = clientData.serviceName || 'No service';
+            document.getElementById('serviceName').textContent = clientData.serviceName || 'No service specified';
             document.getElementById('billingCycle').textContent = clientData.billingCycle || 'Monthly';
-
+            
             // Amount breakdown
             const baseAmount = parseFloat(clientData.baseAmount) || 0;
             const gstApplicable = clientData.gstApplicable === 'Yes';
@@ -974,17 +1071,17 @@
                 document.getElementById('gstPercent').textContent = `@${gstPercent}%`;
                 document.getElementById('gstAmount').textContent = `₹${gstAmount.toFixed(2)}`;
             }
-
+            
             if (discount > 0) {
                 document.getElementById('discountRow').style.display = 'flex';
                 document.getElementById('discountAmount').textContent = `-₹${discount.toFixed(2)}`;
             }
-
+            
             if (extraCharges > 0) {
                 document.getElementById('extraRow').style.display = 'flex';
                 document.getElementById('extraAmount').textContent = `₹${extraCharges.toFixed(2)}`;
             }
-
+            
             // Calculate final amount
             let finalAmount = baseAmount + gstAmount - discount + extraCharges;
             
@@ -992,12 +1089,24 @@
             if (clientData.finalAmount) {
                 finalAmount = parseFloat(clientData.finalAmount);
             }
-
+            
+            // Ensure minimum amount for Razorpay (₹1)
+            if (finalAmount < 1) {
+                finalAmount = 100; // ₹1 in paise
+                logDebug('Amount too low, setting to minimum', { finalAmount });
+            }
+            
             document.getElementById('baseAmount').textContent = `₹${baseAmount.toFixed(2)}`;
             document.getElementById('finalAmount').textContent = `₹${finalAmount.toFixed(2)}`;
             
-            logDebug('Final amount', { finalAmount });
-
+            // Store final amount in clientData
+            clientData.calculatedAmount = finalAmount;
+            
+            logDebug('Final amount calculated', { 
+                finalAmount: finalAmount,
+                inPaise: finalAmount * 100
+            });
+            
             // Status badge
             const statusBadge = document.getElementById('statusBadge');
             if (clientData.subscriptionStatus) {
@@ -1014,97 +1123,115 @@
                     statusBadge.style.color = '#721c24';
                 }
             }
-
+            
             // Payment link
             paymentLink = window.location.href;
             document.getElementById('paymentLink').value = paymentLink;
         }
-
+        
         function setupPayment() {
             const payButton = document.getElementById('payButton');
             const copyButton = document.getElementById('copyButton');
-
+            
             payButton.addEventListener('click', initiatePayment);
             copyButton.addEventListener('click', copyPaymentLink);
-
+            
             // Enable button
             payButton.disabled = false;
             
+            // Method selection
+            document.querySelectorAll('.method-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    document.querySelectorAll('.method-option').forEach(opt => {
+                        opt.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                });
+            });
+            
             logDebug('Payment setup complete');
         }
-
+        
+        // ============================================
+        // PAYMENT FUNCTIONS
+        // ============================================
         async function initiatePayment() {
             logDebug('Initiating payment');
             
             const payButton = document.getElementById('payButton');
             payButton.disabled = true;
             payButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
-
+            
             try {
-                const finalAmount = parseFloat(clientData.finalAmount) || 
-                    calculateFinalAmount(clientData);
+                const finalAmount = clientData.calculatedAmount || calculateFinalAmount(clientData);
+                const amountInPaise = Math.round(finalAmount * 100);
                 
-                logDebug('Creating Razorpay order', { 
+                logDebug('Creating order', { 
                     clientId: clientId, 
                     amount: finalAmount,
-                    amountInPaise: Math.round(finalAmount * 100)
+                    amountInPaise: amountInPaise
                 });
-
-                // Create Razorpay order using GET request (compatible with Google Apps Script)
-                const url = `${SCRIPT_URL}?action=createOrder&clientId=${clientId}&amount=${Math.round(finalAmount * 100)}`;
+                
+                // Create Razorpay order using GET request
+                const url = `${SCRIPT_URL}?action=createOrder&clientId=${clientId}&amount=${amountInPaise}`;
                 logDebug('Request URL', url);
                 
-                const response = await fetch(url, {
-                    method: 'GET'
-                });
-                
-                logDebug('Order response received', { 
+                const response = await fetch(url);
+                logDebug('Order response', { 
                     status: response.status,
                     statusText: response.statusText 
                 });
                 
                 const result = await response.json();
-                logDebug('Order response parsed', result);
+                logDebug('Order result', result);
                 
                 if (result.success) {
                     logDebug('Order created successfully', result.data);
+                    razorpayOrderId = result.data.orderId;
                     openRazorpayCheckout(result.data);
                 } else {
                     throw new Error(result.error || 'Failed to create order');
                 }
             } catch (error) {
                 logDebug('Payment initiation error', error);
-                showError(error.message);
+                showError('Payment failed: ' + error.message);
                 payButton.disabled = false;
                 payButton.innerHTML = '<i class="fas fa-lock"></i> Pay Securely with Razorpay';
             }
         }
-
+        
         function openRazorpayCheckout(orderData) {
-            logDebug('Opening Razorpay checkout', orderData);
+            logDebug('Opening Razorpay checkout', { 
+                orderId: orderData.orderId,
+                amount: orderData.amount,
+                key: orderData.key ? orderData.key.substring(0, 10) + '...' : 'No key'
+            });
             
-            const finalAmount = parseFloat(clientData.finalAmount) || 
-                calculateFinalAmount(clientData);
+            const finalAmount = clientData.calculatedAmount || calculateFinalAmount(clientData);
+            const amountInPaise = Math.round(finalAmount * 100);
+            
+            // Use key from orderData or fallback to test key
+            const razorpayKey = orderData.key || TEST_KEY;
             
             const options = {
-                key: orderData.key,
-                amount: orderData.amount,
-                currency: orderData.currency || "INR",
+                key: razorpayKey,
+                amount: amountInPaise,
+                currency: "INR",
                 name: "InfoGrip Media Solution",
-                description: `Payment for ${clientData.serviceName || 'Service'}`,
+                description: `Payment for ${clientData.serviceName || 'services'}`,
                 order_id: orderData.orderId,
                 handler: function(response) {
                     logDebug('Razorpay payment completed', response);
                     verifyPayment(response);
                 },
                 prefill: {
-                    name: clientData.clientName,
-                    email: clientData.email,
-                    contact: clientData.mobile
+                    name: clientData.clientName || '',
+                    email: clientData.email || '',
+                    contact: clientData.mobile || ''
                 },
                 notes: {
                     clientId: clientId,
-                    service: clientData.serviceName
+                    service: clientData.serviceName || 'Service'
                 },
                 theme: {
                     color: "#001c4f"
@@ -1118,32 +1245,51 @@
                     }
                 }
             };
-
-            logDebug('Razorpay options', options);
-            const rzp = new Razorpay(options);
-            rzp.open();
             
-            logDebug('Razorpay checkout opened');
+            logDebug('Razorpay options', { 
+                key: options.key.substring(0, 10) + '...',
+                amount: options.amount,
+                order_id: options.order_id
+            });
+            
+            // Check if Razorpay is loaded
+            if (typeof Razorpay === 'undefined') {
+                showError('Razorpay payment gateway not loaded. Please refresh the page.');
+                logDebug('Razorpay not loaded');
+                return;
+            }
+            
+            try {
+                const rzp = new Razorpay(options);
+                rzp.open();
+                logDebug('Razorpay checkout opened successfully');
+            } catch (error) {
+                logDebug('Error opening Razorpay', error);
+                showError('Failed to open payment gateway: ' + error.message);
+                const payButton = document.getElementById('payButton');
+                payButton.disabled = false;
+                payButton.innerHTML = '<i class="fas fa-lock"></i> Pay Securely with Razorpay';
+            }
         }
-
+        
         async function verifyPayment(paymentResponse) {
             logDebug('Verifying payment', paymentResponse);
             
             const payButton = document.getElementById('payButton');
             payButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verifying...';
-
+            
             try {
-                const finalAmount = parseFloat(clientData.finalAmount) || 
-                    calculateFinalAmount(clientData);
-
+                const finalAmount = clientData.calculatedAmount || calculateFinalAmount(clientData);
+                const amountInPaise = Math.round(finalAmount * 100);
+                
                 logDebug('Sending verification request', {
                     orderId: paymentResponse.razorpay_order_id,
                     paymentId: paymentResponse.razorpay_payment_id,
                     signature: paymentResponse.razorpay_signature,
                     clientId: clientId,
-                    amount: finalAmount
+                    amount: amountInPaise
                 });
-
+                
                 const response = await fetch(`${SCRIPT_URL}?action=verifyPayment`, {
                     method: 'POST',
                     headers: {
@@ -1154,10 +1300,10 @@
                         paymentId: paymentResponse.razorpay_payment_id,
                         signature: paymentResponse.razorpay_signature,
                         clientId: clientId,
-                        amount: finalAmount * 100 // Convert to paise
+                        amount: amountInPaise
                     })
                 });
-
+                
                 const result = await response.json();
                 logDebug('Verification response', result);
                 
@@ -1166,10 +1312,10 @@
                     
                     // Redirect to thank you page
                     const params = new URLSearchParams({
-                        clientName: encodeURIComponent(clientData.clientName),
+                        clientName: encodeURIComponent(clientData.clientName || 'Customer'),
                         amount: finalAmount,
-                        invoiceNumber: result.data.invoiceNumber,
-                        invoiceUrl: result.data.invoiceUrl
+                        invoiceNumber: result.data.invoiceNumber || 'N/A',
+                        invoiceUrl: result.data.invoiceUrl || '#'
                     });
                     
                     window.location.href = `thankyou.html?${params.toString()}`;
@@ -1178,12 +1324,142 @@
                 }
             } catch (error) {
                 logDebug('Payment verification error', error);
-                showError(error.message);
+                showError('Payment verification failed: ' + error.message);
                 payButton.disabled = false;
                 payButton.innerHTML = '<i class="fas fa-lock"></i> Pay Securely with Razorpay';
             }
         }
-
+        
+        // ============================================
+        // TEST FUNCTIONS
+        // ============================================
+        function testPayment(amountInPaise) {
+            logDebug('Test payment initiated', { amountInPaise: amountInPaise });
+            
+            // Create a test order directly with Razorpay
+            const testOrderId = 'order_' + Math.random().toString(36).substring(7);
+            razorpayOrderId = testOrderId;
+            
+            const options = {
+                key: TEST_KEY,
+                amount: amountInPaise,
+                currency: "INR",
+                name: "InfoGrip Media Solution",
+                description: "Test Payment",
+                order_id: testOrderId,
+                handler: function(response) {
+                    logDebug('Test payment completed', response);
+                    alert('Test payment successful! Payment ID: ' + response.razorpay_payment_id);
+                    
+                    // Reset button
+                    const payButton = document.getElementById('payButton');
+                    payButton.disabled = false;
+                    payButton.innerHTML = '<i class="fas fa-lock"></i> Pay Securely with Razorpay';
+                },
+                prefill: {
+                    name: "Test Customer",
+                    email: "test@example.com",
+                    contact: "9876543210"
+                },
+                theme: {
+                    color: "#001c4f"
+                },
+                modal: {
+                    ondismiss: function() {
+                        logDebug('Test payment modal dismissed');
+                        const payButton = document.getElementById('payButton');
+                        payButton.disabled = false;
+                        payButton.innerHTML = '<i class="fas fa-lock"></i> Pay Securely with Razorpay';
+                    }
+                }
+            };
+            
+            if (typeof Razorpay === 'undefined') {
+                alert('Razorpay script not loaded!');
+                return;
+            }
+            
+            try {
+                const rzp = new Razorpay(options);
+                rzp.open();
+                logDebug('Test Razorpay opened');
+            } catch (error) {
+                logDebug('Error opening test Razorpay', error);
+                alert('Error: ' + error.message);
+            }
+        }
+        
+        function testRazorpayDirect() {
+            logDebug('Testing Razorpay directly');
+            
+            // Direct test without Google Apps Script
+            const options = {
+                key: TEST_KEY,
+                amount: 100, // ₹1
+                currency: "INR",
+                name: "InfoGrip Media Solution",
+                description: "Direct Test Payment",
+                handler: function(response) {
+                    alert('Direct test successful! Payment ID: ' + response.razorpay_payment_id);
+                    logDebug('Direct test successful', response);
+                },
+                prefill: {
+                    name: "Test User",
+                    email: "test@example.com",
+                    contact: "9999999999"
+                },
+                theme: {
+                    color: "#001c4f"
+                }
+            };
+            
+            if (typeof Razorpay === 'undefined') {
+                alert('Razorpay script not loaded! Check console for errors.');
+                console.error('Razorpay object:', Razorpay);
+                return;
+            }
+            
+            try {
+                const rzp = new Razorpay(options);
+                rzp.open();
+                logDebug('Direct Razorpay test opened');
+            } catch (error) {
+                logDebug('Direct test error', error);
+                alert('Direct test error: ' + error.message);
+            }
+        }
+        
+        function checkRazorpayScript() {
+            logDebug('Checking Razorpay script');
+            
+            if (typeof Razorpay === 'undefined') {
+                alert('❌ Razorpay script NOT loaded!\nCheck browser console for errors.');
+                console.error('Razorpay script failed to load. Possible issues:');
+                console.error('1. Network blocked the script');
+                console.error('2. Ad blocker blocking the script');
+                console.error('3. Script URL incorrect');
+            } else {
+                alert('✅ Razorpay script is loaded successfully!');
+                logDebug('Razorpay script is loaded', { version: 'v1' });
+            }
+        }
+        
+        // ============================================
+        // UTILITY FUNCTIONS
+        // ============================================
+        function calculateFinalAmount(client) {
+            const base = parseFloat(client.baseAmount) || 0;
+            const gst = client.gstApplicable === 'Yes' ? 
+                (base * parseFloat(client.gstPercent || 18) / 100) : 0;
+            const discount = parseFloat(client.discount) || 0;
+            const extra = parseFloat(client.extraCharges) || 0;
+            
+            const finalAmount = base + gst - discount + extra;
+            
+            // Ensure minimum amount
+            return finalAmount < 1 ? 1 : finalAmount;
+        }
+        
         function copyPaymentLink() {
             const input = document.getElementById('paymentLink');
             input.select();
@@ -1208,19 +1484,7 @@
                     console.error('Failed to copy: ', err);
                 });
         }
-
-        function calculateFinalAmount(client) {
-            const base = parseFloat(client.baseAmount) || 0;
-            const gst = client.gstApplicable === 'Yes' ? 
-                (base * parseFloat(client.gstPercent) / 100) : 0;
-            const discount = parseFloat(client.discount) || 0;
-            const extra = parseFloat(client.extraCharges) || 0;
-            
-            const finalAmount = base + gst - discount + extra;
-            logDebug('Calculated final amount', { base, gst, discount, extra, finalAmount });
-            return finalAmount;
-        }
-
+        
         function showError(message) {
             logDebug('Showing error', message);
             
@@ -1232,15 +1496,28 @@
             
             document.getElementById('loading').style.display = 'none';
         }
-
-        // Method selection
-        document.querySelectorAll('.method-option').forEach(option => {
-            option.addEventListener('click', function() {
-                document.querySelectorAll('.method-option').forEach(opt => {
-                    opt.classList.remove('active');
-                });
-                this.classList.add('active');
-            });
+        
+        // ============================================
+        // INITIAL DEBUG CHECKS
+        // ============================================
+        // Check if SCRIPT_URL is set
+        if (SCRIPT_URL.includes('YOUR_DEPLOYMENT_ID')) {
+            console.warn('⚠️ WARNING: SCRIPT_URL not configured!');
+            console.warn('Please replace YOUR_DEPLOYMENT_ID with your actual Google Apps Script URL');
+        }
+        
+        // Check if TEST_KEY is set
+        if (TEST_KEY.includes('YOUR_TEST_KEY_ID')) {
+            console.warn('⚠️ WARNING: TEST_KEY not configured!');
+            console.warn('Please replace YOUR_TEST_KEY_ID with your actual Razorpay test key');
+        }
+        
+        // Log initial state
+        logDebug('Initial state', {
+            clientId: clientId,
+            SCRIPT_URL: SCRIPT_URL,
+            TEST_KEY: TEST_KEY ? TEST_KEY.substring(0, 10) + '...' : 'Not set',
+            RazorpayLoaded: typeof Razorpay !== 'undefined'
         });
     </script>
 </body>
