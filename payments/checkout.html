@@ -521,6 +521,40 @@
             border: 1px solid #f5c6cb;
         }
 
+        /* Debug Panel */
+        .debug-panel {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px 0;
+            font-family: monospace;
+            font-size: 0.8rem;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .debug-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .debug-toggle {
+            background: var(--blue);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .debug-content {
+            display: none;
+        }
+
         /* Mobile Responsive */
         @media (max-width: 768px) {
             .header-content {
@@ -574,6 +608,18 @@
             <div id="errorMessage" class="alert alert-error" style="display: none;">
                 <i class="fas fa-exclamation-circle"></i>
                 <span id="errorText"></span>
+                <button onclick="toggleDebug()" style="margin-left: auto; background: none; border: none; color: inherit; cursor: pointer;">
+                    <i class="fas fa-bug"></i> Debug
+                </button>
+            </div>
+
+            <!-- Debug Panel -->
+            <div class="debug-panel" id="debugPanel" style="display: none;">
+                <div class="debug-header">
+                    <strong>Debug Information</strong>
+                    <button class="debug-toggle" onclick="clearDebug()">Clear</button>
+                </div>
+                <div class="debug-content" id="debugContent"></div>
             </div>
 
             <div class="payment-container" id="paymentContainer" style="display: none;">
@@ -777,12 +823,44 @@
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     
     <script>
-        // Replace with your Google Apps Script Web App URL
+        // REPLACE THIS WITH YOUR GOOGLE APPS SCRIPT WEB APP URL
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyj0TFIDfK0OoBb8JaQG36zBlGbrmn7uBzuZ6OKT4R3a9WWdGwOYSgBsY5ll2nJJ3olRw/exec';
         
-        // 🔑 ADD YOUR RAZORPAY TEST KEY HERE 🔑
-        const RAZORPAY_KEY_ID = 'rzp_test_RukxAEn3jjoflr';
-
+        // Debug logging
+        let debugLogs = [];
+        
+        function logDebug(message, data = null) {
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = {
+                time: timestamp,
+                message: message,
+                data: data
+            };
+            debugLogs.push(logEntry);
+            console.log(`[${timestamp}] ${message}`, data || '');
+            updateDebugPanel();
+        }
+        
+        function updateDebugPanel() {
+            const debugContent = document.getElementById('debugContent');
+            if (debugContent) {
+                debugContent.innerHTML = debugLogs.map(log => 
+                    `<div><strong>[${log.time}]</strong> ${log.message} ${log.data ? JSON.stringify(log.data) : ''}</div>`
+                ).join('');
+                debugContent.style.display = 'block';
+            }
+        }
+        
+        function toggleDebug() {
+            const panel = document.getElementById('debugPanel');
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+        }
+        
+        function clearDebug() {
+            debugLogs = [];
+            updateDebugPanel();
+        }
+        
         // Get client ID from URL
         const urlParams = new URLSearchParams(window.location.search);
         const clientId = urlParams.get('clientId');
@@ -791,8 +869,11 @@
         let paymentLink = '';
 
         document.addEventListener('DOMContentLoaded', function() {
+            logDebug('Page loaded', { clientId: clientId, url: window.location.href });
+            
             if (!clientId) {
                 showError('Client ID not found in URL. Please use a valid payment link.');
+                logDebug('No client ID found in URL');
                 return;
             }
 
@@ -804,24 +885,37 @@
         });
 
         async function loadClientData() {
+            logDebug('Loading client data', { clientId: clientId });
+            
             try {
-                const response = await fetch(`${SCRIPT_URL}?action=getClient&clientId=${clientId}`);
+                const url = `${SCRIPT_URL}?action=getClient&clientId=${clientId}`;
+                logDebug('Fetching from URL', url);
+                
+                const response = await fetch(url);
+                logDebug('Response received', { status: response.status, ok: response.ok });
+                
                 const result = await response.json();
+                logDebug('Response parsed', result);
                 
                 if (result.success) {
                     clientData = result.data;
+                    logDebug('Client data loaded successfully', clientData);
                     displayClientData();
                     setupPayment();
                 } else {
                     showError(result.error || 'Failed to load client data');
+                    logDebug('API error', result);
                 }
             } catch (error) {
                 showError('Network error. Please try again.');
+                logDebug('Network error', error);
                 console.error(error);
             }
         }
 
         function displayClientData() {
+            logDebug('Displaying client data');
+            
             // Hide loading, show content
             document.getElementById('loading').style.display = 'none';
             document.getElementById('paymentContainer').style.display = 'grid';
@@ -855,15 +949,23 @@
             }
 
             // Service info
-            document.getElementById('serviceName').textContent = clientData.serviceName;
-            document.getElementById('billingCycle').textContent = clientData.billingCycle;
+            document.getElementById('serviceName').textContent = clientData.serviceName || 'No service';
+            document.getElementById('billingCycle').textContent = clientData.billingCycle || 'Monthly';
 
             // Amount breakdown
             const baseAmount = parseFloat(clientData.baseAmount) || 0;
             const gstApplicable = clientData.gstApplicable === 'Yes';
-            const gstPercent = parseFloat(clientData.gstPercent) || 0;
+            const gstPercent = parseFloat(clientData.gstPercent) || 18;
             const discount = parseFloat(clientData.discount) || 0;
             const extraCharges = parseFloat(clientData.extraCharges) || 0;
+            
+            logDebug('Amount calculation', { 
+                baseAmount, 
+                gstApplicable, 
+                gstPercent, 
+                discount, 
+                extraCharges 
+            });
             
             let gstAmount = 0;
             if (gstApplicable && baseAmount > 0) {
@@ -886,13 +988,15 @@
             // Calculate final amount
             let finalAmount = baseAmount + gstAmount - discount + extraCharges;
             
-            // Use calculated final amount if available, otherwise calculate
+            // Use calculated final amount if available
             if (clientData.finalAmount) {
                 finalAmount = parseFloat(clientData.finalAmount);
             }
 
             document.getElementById('baseAmount').textContent = `₹${baseAmount.toFixed(2)}`;
             document.getElementById('finalAmount').textContent = `₹${finalAmount.toFixed(2)}`;
+            
+            logDebug('Final amount', { finalAmount });
 
             // Status badge
             const statusBadge = document.getElementById('statusBadge');
@@ -925,9 +1029,13 @@
 
             // Enable button
             payButton.disabled = false;
+            
+            logDebug('Payment setup complete');
         }
 
         async function initiatePayment() {
+            logDebug('Initiating payment');
+            
             const payButton = document.getElementById('payButton');
             payButton.disabled = true;
             payButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
@@ -935,27 +1043,37 @@
             try {
                 const finalAmount = parseFloat(clientData.finalAmount) || 
                     calculateFinalAmount(clientData);
-
-                // Create Razorpay order
-                const response = await fetch(`${SCRIPT_URL}?action=createRazorpayOrder`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        clientId: clientId,
-                        amount: finalAmount
-                    })
+                
+                logDebug('Creating Razorpay order', { 
+                    clientId: clientId, 
+                    amount: finalAmount,
+                    amountInPaise: Math.round(finalAmount * 100)
                 });
 
+                // Create Razorpay order using GET request (compatible with Google Apps Script)
+                const url = `${SCRIPT_URL}?action=createOrder&clientId=${clientId}&amount=${Math.round(finalAmount * 100)}`;
+                logDebug('Request URL', url);
+                
+                const response = await fetch(url, {
+                    method: 'GET'
+                });
+                
+                logDebug('Order response received', { 
+                    status: response.status,
+                    statusText: response.statusText 
+                });
+                
                 const result = await response.json();
+                logDebug('Order response parsed', result);
                 
                 if (result.success) {
-                    openRazorpayCheckout(result);
+                    logDebug('Order created successfully', result.data);
+                    openRazorpayCheckout(result.data);
                 } else {
                     throw new Error(result.error || 'Failed to create order');
                 }
             } catch (error) {
+                logDebug('Payment initiation error', error);
                 showError(error.message);
                 payButton.disabled = false;
                 payButton.innerHTML = '<i class="fas fa-lock"></i> Pay Securely with Razorpay';
@@ -963,14 +1081,20 @@
         }
 
         function openRazorpayCheckout(orderData) {
+            logDebug('Opening Razorpay checkout', orderData);
+            
+            const finalAmount = parseFloat(clientData.finalAmount) || 
+                calculateFinalAmount(clientData);
+            
             const options = {
-                key: RAZORPAY_KEY_ID, // ⬅️ USE YOUR KEY HERE
+                key: orderData.key,
                 amount: orderData.amount,
-                currency: orderData.currency,
+                currency: orderData.currency || "INR",
                 name: "InfoGrip Media Solution",
-                description: `Payment for ${clientData.serviceName}`,
+                description: `Payment for ${clientData.serviceName || 'Service'}`,
                 order_id: orderData.orderId,
                 handler: function(response) {
+                    logDebug('Razorpay payment completed', response);
                     verifyPayment(response);
                 },
                 prefill: {
@@ -987,6 +1111,7 @@
                 },
                 modal: {
                     ondismiss: function() {
+                        logDebug('Razorpay modal dismissed');
                         const payButton = document.getElementById('payButton');
                         payButton.disabled = false;
                         payButton.innerHTML = '<i class="fas fa-lock"></i> Pay Securely with Razorpay';
@@ -994,17 +1119,30 @@
                 }
             };
 
+            logDebug('Razorpay options', options);
             const rzp = new Razorpay(options);
             rzp.open();
+            
+            logDebug('Razorpay checkout opened');
         }
 
         async function verifyPayment(paymentResponse) {
+            logDebug('Verifying payment', paymentResponse);
+            
             const payButton = document.getElementById('payButton');
             payButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verifying...';
 
             try {
                 const finalAmount = parseFloat(clientData.finalAmount) || 
                     calculateFinalAmount(clientData);
+
+                logDebug('Sending verification request', {
+                    orderId: paymentResponse.razorpay_order_id,
+                    paymentId: paymentResponse.razorpay_payment_id,
+                    signature: paymentResponse.razorpay_signature,
+                    clientId: clientId,
+                    amount: finalAmount
+                });
 
                 const response = await fetch(`${SCRIPT_URL}?action=verifyPayment`, {
                     method: 'POST',
@@ -1021,14 +1159,17 @@
                 });
 
                 const result = await response.json();
+                logDebug('Verification response', result);
                 
                 if (result.success) {
+                    logDebug('Payment verified successfully', result.data);
+                    
                     // Redirect to thank you page
                     const params = new URLSearchParams({
                         clientName: encodeURIComponent(clientData.clientName),
                         amount: finalAmount,
-                        invoiceNumber: result.invoiceNumber,
-                        invoiceLink: result.invoiceLink
+                        invoiceNumber: result.data.invoiceNumber,
+                        invoiceUrl: result.data.invoiceUrl
                     });
                     
                     window.location.href = `thankyou.html?${params.toString()}`;
@@ -1036,6 +1177,7 @@
                     throw new Error(result.error || 'Payment verification failed');
                 }
             } catch (error) {
+                logDebug('Payment verification error', error);
                 showError(error.message);
                 payButton.disabled = false;
                 payButton.innerHTML = '<i class="fas fa-lock"></i> Pay Securely with Razorpay';
@@ -1049,6 +1191,7 @@
             
             navigator.clipboard.writeText(input.value)
                 .then(() => {
+                    logDebug('Payment link copied');
                     const copyButton = document.getElementById('copyButton');
                     const originalText = copyButton.innerHTML;
                     
@@ -1061,6 +1204,7 @@
                     }, 2000);
                 })
                 .catch(err => {
+                    logDebug('Failed to copy link', err);
                     console.error('Failed to copy: ', err);
                 });
         }
@@ -1072,10 +1216,14 @@
             const discount = parseFloat(client.discount) || 0;
             const extra = parseFloat(client.extraCharges) || 0;
             
-            return base + gst - discount + extra;
+            const finalAmount = base + gst - discount + extra;
+            logDebug('Calculated final amount', { base, gst, discount, extra, finalAmount });
+            return finalAmount;
         }
 
         function showError(message) {
+            logDebug('Showing error', message);
+            
             const errorDiv = document.getElementById('errorMessage');
             const errorText = document.getElementById('errorText');
             
