@@ -8,23 +8,20 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <style>
         :root {
             --dark-blue: #001c4f;
             --blue: #07217c;
+            --razorpay-blue: #0f4c8a;
             --white: #ffffff;
-            --light-blue: rgba(7, 33, 124, 0.1);
-            --transition: all 0.3s ease;
-            --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            --glass: rgba(255, 255, 255, 0.1);
-            --glass-border: rgba(255, 255, 255, 0.2);
-            --bg-color: #ffffff;
-            --text-color: #001c4f;
-            --card-bg: #ffffff;
-            --section-bg: #f8f9fa;
+            --light-blue: rgba(7, 33, 124, 0.05);
             --success: #28a745;
             --warning: #ffc107;
             --danger: #dc3545;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --shadow: 0 10px 40px rgba(0, 28, 79, 0.1);
+            --radius: 16px;
         }
 
         * {
@@ -35,11 +32,12 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            color: var(--text-color);
+            background: linear-gradient(135deg, #f8fafc 0%, #e9ecef 100%);
+            color: var(--dark-blue);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            line-height: 1.6;
         }
 
         .container {
@@ -52,46 +50,114 @@
         /* Header */
         .header {
             background: var(--white);
-            box-shadow: var(--shadow);
-            padding: 20px 0;
+            box-shadow: 0 4px 20px rgba(0, 28, 79, 0.08);
+            padding: 18px 0;
             position: sticky;
             top: 0;
             z-index: 1000;
+            backdrop-filter: blur(10px);
         }
 
         .header-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
         .logo img {
-            height: 50px;
+            height: 45px;
+            transition: var(--transition);
         }
 
-        .header-title {
+        .logo img:hover {
+            transform: scale(1.05);
+        }
+
+        .logo-text {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--dark-blue);
+        }
+
+        .header-center {
+            flex: 1;
             text-align: center;
-            flex-grow: 1;
         }
 
-        .header-title h1 {
-            font-size: 1.5rem;
+        .payment-title {
+            font-size: 1.3rem;
             color: var(--dark-blue);
             margin-bottom: 5px;
+            font-weight: 700;
         }
 
-        .header-title p {
-            color: var(--blue);
+        .payment-subtitle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            color: var(--razorpay-blue);
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .razorpay-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: linear-gradient(135deg, var(--razorpay-blue) 0%, #1a6fc1 100%);
+            color: white;
+            padding: 6px 15px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .client-id {
+            background: var(--dark-blue);
+            color: white;
+            padding: 8px 18px;
+            border-radius: 50px;
             font-size: 0.9rem;
+            font-weight: 600;
+            white-space: nowrap;
+            animation: pulse 2s infinite;
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 400px;
+            gap: 20px;
+        }
+
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid var(--light-blue);
+            border-top-color: var(--razorpay-blue);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
         }
 
         /* Main Content */
         .main-content {
             flex: 1;
             padding: 40px 0;
+            animation: fadeIn 0.8s ease;
         }
 
-        .payment-container {
+        .payment-grid {
             display: grid;
             grid-template-columns: 1fr;
             gap: 30px;
@@ -100,201 +166,194 @@
         }
 
         @media (min-width: 992px) {
-            .payment-container {
+            .payment-grid {
                 grid-template-columns: 1fr 1fr;
             }
         }
 
-        /* Client Info Card */
-        .info-card {
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 30px;
+        /* Cards */
+        .card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 35px;
             box-shadow: var(--shadow);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-            animation: slideInLeft 0.6s ease;
+            border: 1px solid rgba(0, 28, 79, 0.05);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(0, 28, 79, 0.15);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--razorpay-blue), var(--blue));
         }
 
         .card-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
             border-bottom: 2px solid var(--light-blue);
         }
 
-        .card-header h2 {
-            font-size: 1.5rem;
+        .card-title {
+            font-size: 1.4rem;
             color: var(--dark-blue);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .client-id {
-            background: var(--dark-blue);
-            color: white;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 600;
-        }
-
+        /* Info Items */
         .info-group {
             margin-bottom: 20px;
-            padding: 15px;
-            background: var(--section-bg);
-            border-radius: 10px;
+            padding: 20px;
+            background: var(--light-blue);
+            border-radius: 12px;
             transition: var(--transition);
+            border: 1px solid transparent;
         }
 
         .info-group:hover {
             transform: translateX(5px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-color: var(--blue);
+            background: white;
         }
 
         .info-label {
             display: block;
             font-size: 0.85rem;
             color: var(--blue);
-            margin-bottom: 5px;
+            margin-bottom: 8px;
             font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .info-value {
             font-size: 1.1rem;
-            color: var(--text-color);
-            font-weight: 500;
-        }
-
-        .category-badge {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
+            color: var(--dark-blue);
             font-weight: 600;
-            margin-top: 5px;
         }
 
-        .category-business {
-            background: #e3f2fd;
-            color: #1565c0;
-        }
-
-        .category-politician {
-            background: #f3e5f5;
-            color: #7b1fa2;
-        }
-
-        .category-ngo {
-            background: #e8f5e9;
-            color: #2e7d32;
-        }
-
-        .category-personal {
-            background: #fff3e0;
-            color: #ef6c00;
-        }
-
-        /* Payment Card */
-        .payment-card {
-            background: var(--card-bg);
-            border-radius: 20px;
+        /* Amount Section */
+        .amount-section {
+            background: linear-gradient(135deg, var(--light-blue) 0%, #e9ecef 100%);
+            border-radius: 16px;
             padding: 30px;
-            box-shadow: var(--shadow);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-            animation: slideInRight 0.6s ease;
+            margin: 30px 0;
         }
 
-        .amount-breakdown {
-            background: linear-gradient(135deg, var(--section-bg) 0%, #e9ecef 100%);
-            border-radius: 15px;
-            padding: 25px;
-            margin-bottom: 30px;
-        }
-
-        .breakdown-item {
+        .amount-item {
             display: flex;
             justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px dashed #dee2e6;
+            padding: 15px 0;
+            border-bottom: 1px dashed rgba(0, 28, 79, 0.1);
+            transition: var(--transition);
         }
 
-        .breakdown-item:last-child {
+        .amount-item:hover {
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        .amount-item:last-child {
             border-bottom: none;
         }
 
-        .breakdown-label {
-            color: var(--blue);
-        }
-
-        .breakdown-value {
-            font-weight: 600;
-        }
-
-        .final-amount {
-            background: linear-gradient(135deg, var(--dark-blue) 0%, var(--blue) 100%);
+        .total-amount {
+            background: linear-gradient(135deg, var(--dark-blue) 0%, var(--razorpay-blue) 100%);
             color: white;
-            padding: 20px;
-            border-radius: 15px;
-            margin: 20px 0;
+            padding: 30px;
+            border-radius: 16px;
+            margin: 25px 0;
             text-align: center;
-            animation: pulse 2s infinite;
+            position: relative;
+            overflow: hidden;
         }
 
-        .final-amount h3 {
+        .total-amount::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+            animation: shimmer 2s infinite;
+        }
+
+        .total-label {
             font-size: 1rem;
-            margin-bottom: 5px;
             opacity: 0.9;
+            margin-bottom: 10px;
+            font-weight: 500;
         }
 
-        .final-amount .amount {
-            font-size: 2.5rem;
-            font-weight: 700;
+        .total-value {
+            font-size: 3rem;
+            font-weight: 800;
+            letter-spacing: -1px;
         }
 
         /* Payment Methods */
         .payment-methods {
-            margin-bottom: 30px;
+            margin: 30px 0;
         }
 
         .method-option {
             display: flex;
             align-items: center;
-            padding: 15px;
-            border: 2px solid #dee2e6;
-            border-radius: 10px;
-            margin-bottom: 10px;
+            padding: 20px;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            margin-bottom: 15px;
             cursor: pointer;
             transition: var(--transition);
+            background: white;
         }
 
         .method-option:hover {
-            border-color: var(--blue);
-            transform: translateY(-2px);
+            border-color: var(--razorpay-blue);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(15, 76, 138, 0.1);
         }
 
         .method-option.active {
-            border-color: var(--blue);
+            border-color: var(--razorpay-blue);
             background: var(--light-blue);
         }
 
         .method-icon {
-            width: 40px;
-            height: 40px;
-            background: var(--light-blue);
-            border-radius: 10px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--light-blue) 0%, white 100%);
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-right: 15px;
-            font-size: 1.2rem;
-            color: var(--blue);
+            margin-right: 20px;
+            font-size: 1.4rem;
+            color: var(--razorpay-blue);
+            border: 2px solid rgba(15, 76, 138, 0.1);
         }
 
         .method-info h4 {
-            font-size: 1rem;
-            margin-bottom: 3px;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            color: var(--dark-blue);
         }
 
         .method-info p {
@@ -302,102 +361,90 @@
             color: #666;
         }
 
+        /* Payment Button */
+        .payment-button {
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--razorpay-blue) 0%, var(--blue) 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin: 30px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .payment-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(15, 76, 138, 0.3);
+        }
+
+        .payment-button:hover::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.2) 50%, transparent 70%);
+            animation: shimmer 1s infinite;
+        }
+
+        .payment-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+
         /* Security Badges */
         .security-badges {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
             margin: 30px 0;
-            flex-wrap: wrap;
         }
 
         .security-badge {
             text-align: center;
+            padding: 20px 10px;
+            background: var(--light-blue);
+            border-radius: 12px;
+            transition: var(--transition);
+        }
+
+        .security-badge:hover {
+            transform: translateY(-5px);
+            background: white;
+            box-shadow: 0 10px 20px rgba(0, 28, 79, 0.1);
         }
 
         .security-icon {
             width: 50px;
             height: 50px;
-            background: var(--light-blue);
+            background: white;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 10px;
-            font-size: 1.2rem;
-            color: var(--blue);
+            margin: 0 auto 12px;
+            font-size: 1.3rem;
+            color: var(--razorpay-blue);
+            border: 2px solid rgba(15, 76, 138, 0.1);
         }
 
         .security-badge p {
             font-size: 0.8rem;
-            color: #666;
-        }
-
-        /* Payment Button */
-        .payment-btn {
-            width: 100%;
-            padding: 18px;
-            background: linear-gradient(135deg, var(--dark-blue) 0%, var(--blue) 100%);
-            color: white;
-            border: none;
-            border-radius: 50px;
-            font-size: 1.1rem;
+            color: var(--dark-blue);
             font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .payment-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(7, 33, 124, 0.3);
-        }
-
-        .payment-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        /* Copy Link Section */
-        .copy-link-section {
-            background: var(--section-bg);
-            border-radius: 15px;
-            padding: 20px;
-            margin-top: 20px;
-        }
-
-        .link-container {
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .link-input {
-            flex: 1;
-            padding: 12px 15px;
-            border: 1px solid #dee2e6;
-            border-radius: 10px;
-            background: white;
-            font-family: monospace;
-            font-size: 0.9rem;
-        }
-
-        .copy-btn {
-            padding: 12px 20px;
-            background: var(--blue);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .copy-btn:hover {
-            background: var(--dark-blue);
         }
 
         /* Footer */
@@ -409,213 +456,142 @@
         }
 
         .footer-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
             text-align: center;
         }
 
         .footer-logo img {
             height: 40px;
             margin-bottom: 20px;
+            opacity: 0.9;
         }
 
         .footer-links {
             display: flex;
-            gap: 20px;
+            justify-content: center;
+            gap: 25px;
             margin: 20px 0;
             flex-wrap: wrap;
-            justify-content: center;
         }
 
         .footer-links a {
             color: rgba(255, 255, 255, 0.8);
             text-decoration: none;
             transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .footer-links a:hover {
             color: white;
+            transform: translateY(-2px);
         }
 
         .copyright {
-            margin-top: 20px;
-            font-size: 0.9rem;
-            opacity: 0.8;
+            margin-top: 25px;
+            font-size: 0.85rem;
+            opacity: 0.7;
+            line-height: 1.5;
         }
 
         /* Animations */
-        @keyframes slideInLeft {
-            from {
-                opacity: 0;
-                transform: translateX(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes slideInRight {
-            from {
-                opacity: 0;
-                transform: translateX(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.02);
-            }
-        }
-
-        /* Loading Animation */
-        .loading {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 300px;
-        }
-
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 3px solid var(--light-blue);
-            border-top-color: var(--blue);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
+            to { transform: rotate(360deg); }
         }
 
-        /* Success/Error Messages */
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* Alert Messages */
         .alert {
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 20px;
+            padding: 18px 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
             display: flex;
             align-items: center;
-            gap: 10px;
-        }
-
-        .alert-success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
+            gap: 12px;
+            animation: slideInDown 0.5s ease;
+            border-left: 4px solid;
         }
 
         .alert-error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
+            background: #fee;
+            color: #c00;
+            border-left-color: #c00;
         }
 
-        /* Debug Panel */
-        .debug-panel {
-            background: #f8f9fa;
-            border: 1px solid #dee2e6;
-            border-radius: 10px;
-            padding: 15px;
-            margin: 20px 0;
-            font-family: monospace;
-            font-size: 0.8rem;
-            max-height: 200px;
-            overflow-y: auto;
+        .alert-success {
+            background: #e8f7ef;
+            color: #0a5;
+            border-left-color: #0a5;
         }
 
-        .debug-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .debug-toggle {
-            background: var(--blue);
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 0.8rem;
-        }
-
-        .debug-content {
-            display: none;
-        }
-
-        /* Test Payment Section */
-        .test-payment-section {
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 20px;
-            margin-top: 20px;
-            border: 2px dashed #dee2e6;
-        }
-
-        .test-buttons {
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
-            flex-wrap: wrap;
-        }
-
-        .test-btn {
-            padding: 10px 15px;
-            background: var(--blue);
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 0.9rem;
-        }
-
-        .test-btn:hover {
-            background: var(--dark-blue);
-        }
-
-        .test-btn.test {
-            background: #28a745;
-        }
-
-        .test-btn.debug {
-            background: #6c757d;
-        }
-
-        /* Mobile Responsive */
+        /* Responsive */
         @media (max-width: 768px) {
             .header-content {
                 flex-direction: column;
                 gap: 15px;
             }
-
-            .header-title h1 {
-                font-size: 1.3rem;
+            
+            .payment-title {
+                font-size: 1.1rem;
             }
-
-            .info-card, .payment-card {
-                padding: 20px;
+            
+            .card {
+                padding: 25px 20px;
             }
-
-            .final-amount .amount {
-                font-size: 2rem;
+            
+            .total-value {
+                font-size: 2.2rem;
             }
-
-            .payment-btn {
-                padding: 15px;
-                font-size: 1rem;
+            
+            .payment-button {
+                padding: 16px;
+                font-size: 1.1rem;
             }
+            
+            .payment-grid {
+                gap: 20px;
+            }
+        }
+
+        /* Debug Panel */
+        .debug-panel {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 2px dashed #dee2e6;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: var(--light-blue);
+            border-radius: 2px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--razorpay-blue), var(--blue));
+            border-radius: 2px;
+            transition: width 0.5s ease;
+            width: 0%;
         }
     </style>
 </head>
@@ -625,143 +601,144 @@
         <div class="container">
             <div class="header-content">
                 <div class="logo">
-                    <img src="https://i.postimg.cc/Nj3bmPwC/Infogrip-Medi-Soluiton-(Social-Media)-(1).png" alt="InfoGrip Media Solution">
+                    <img src="https://i.postimg.cc/Nj3bmPwC/Infogrip-Medi-Soluiton-(Social-Media)-(1).png" 
+                         alt="InfoGrip Media Solution">
+                    <span class="logo-text">InfoGrip</span>
                 </div>
-                <div class="header-title">
-                    <h1>Secure Payment Portal</h1>
-                    <p>Powered by Razorpay • 100% Secure</p>
+                
+                <div class="header-center">
+                    <h1 class="payment-title">Secure Payment Portal</h1>
+                    <div class="payment-subtitle">
+                        <span>Powered by</span>
+                        <span class="razorpay-badge">
+                            <i class="fas fa-shield-alt"></i>
+                            Razorpay
+                        </span>
+                        <span>• 100% Secure</span>
+                    </div>
                 </div>
+                
                 <div class="client-id" id="clientIdDisplay">Loading...</div>
             </div>
         </div>
     </header>
 
+    <!-- Progress Bar -->
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
+
     <!-- Main Content -->
     <main class="main-content">
         <div class="container">
+            <!-- Loading -->
             <div id="loading" class="loading">
                 <div class="spinner"></div>
+                <p style="color: var(--dark-blue); font-weight: 500;">Loading payment details...</p>
             </div>
 
+            <!-- Error Message -->
             <div id="errorMessage" class="alert alert-error" style="display: none;">
                 <i class="fas fa-exclamation-circle"></i>
                 <span id="errorText"></span>
-                <button onclick="toggleDebug()" style="margin-left: auto; background: none; border: none; color: inherit; cursor: pointer;">
-                    <i class="fas fa-bug"></i> Debug
-                </button>
             </div>
 
-            <!-- Debug Panel -->
-            <div class="debug-panel" id="debugPanel" style="display: none;">
-                <div class="debug-header">
-                    <strong>Debug Information</strong>
-                    <button class="debug-toggle" onclick="clearDebug()">Clear</button>
-                </div>
-                <div class="debug-content" id="debugContent"></div>
-            </div>
-
-            <!-- Test Payment Section (Hidden by default) -->
-            <div class="test-payment-section" id="testSection" style="display: none;">
-                <h3><i class="fas fa-vial"></i> Test Payment</h3>
-                <p style="color: #666; font-size: 0.9rem; margin-bottom: 10px;">Use these buttons for testing:</p>
-                <div class="test-buttons">
-                    <button class="test-btn test" onclick="testPayment(100)">Test ₹1</button>
-                    <button class="test-btn test" onclick="testPayment(1000)">Test ₹10</button>
-                    <button class="test-btn test" onclick="testPayment(5000)">Test ₹50</button>
-                    <button class="test-btn debug" onclick="testRazorpayDirect()">Test Razorpay Direct</button>
-                    <button class="test-btn" onclick="checkRazorpayScript()">Check Razorpay Script</button>
-                </div>
-            </div>
-
-            <div class="payment-container" id="paymentContainer" style="display: none;">
+            <!-- Payment Container -->
+            <div class="payment-grid" id="paymentContainer" style="display: none;">
                 <!-- Client Information -->
-                <div class="info-card">
+                <div class="card animate__animated animate__fadeInLeft">
                     <div class="card-header">
-                        <h2>Client Information</h2>
+                        <h2 class="card-title">
+                            <i class="fas fa-user-circle"></i>
+                            Client Information
+                        </h2>
                         <div class="client-id" id="clientIdBadge"></div>
                     </div>
 
                     <div class="info-group">
                         <span class="info-label">Client Name</span>
-                        <div class="info-value" id="clientName"></div>
+                        <div class="info-value" id="clientName">-</div>
                     </div>
 
                     <div class="info-group">
                         <span class="info-label">Contact Information</span>
-                        <div class="info-value" id="contactInfo"></div>
+                        <div class="info-value" id="contactInfo">-</div>
                     </div>
 
                     <div class="info-group">
                         <span class="info-label">Category</span>
                         <div class="info-value">
-                            <span id="category"></span>
-                            <span class="category-badge" id="categoryBadge"></span>
+                            <span id="category">-</span>
                         </div>
                     </div>
 
                     <div class="info-group" id="businessInfo" style="display: none;">
                         <span class="info-label">Business Name</span>
-                        <div class="info-value" id="businessName"></div>
-                    </div>
-
-                    <div class="info-group" id="politicianInfo" style="display: none;">
-                        <span class="info-label">Political Details</span>
-                        <div class="info-value" id="politicalDetails"></div>
+                        <div class="info-value" id="businessName">-</div>
                     </div>
 
                     <div class="info-group">
                         <span class="info-label">Service</span>
-                        <div class="info-value" id="serviceName"></div>
+                        <div class="info-value" id="serviceName">-</div>
                     </div>
 
                     <div class="info-group">
                         <span class="info-label">Billing Cycle</span>
-                        <div class="info-value" id="billingCycle"></div>
+                        <div class="info-value" id="billingCycle">-</div>
                     </div>
                 </div>
 
                 <!-- Payment Section -->
-                <div class="payment-card">
+                <div class="card animate__animated animate__fadeInRight">
                     <div class="card-header">
-                        <h2>Payment Details</h2>
+                        <h2 class="card-title">
+                            <i class="fas fa-credit-card"></i>
+                            Payment Details
+                        </h2>
                         <div class="status-badge" id="statusBadge"></div>
                     </div>
 
                     <!-- Amount Breakdown -->
-                    <div class="amount-breakdown">
-                        <h3 style="margin-bottom: 15px; color: var(--dark-blue);">Amount Breakdown</h3>
+                    <div class="amount-section">
+                        <h3 style="margin-bottom: 20px; color: var(--dark-blue); font-size: 1.1rem;">
+                            <i class="fas fa-receipt"></i> Amount Breakdown
+                        </h3>
                         
-                        <div class="breakdown-item">
-                            <span class="breakdown-label">Base Amount</span>
-                            <span class="breakdown-value" id="baseAmount">₹0</span>
+                        <div class="amount-item">
+                            <span>Base Amount</span>
+                            <span class="info-value" id="baseAmount">₹0</span>
                         </div>
 
-                        <div class="breakdown-item" id="gstRow" style="display: none;">
-                            <span class="breakdown-label">GST <span id="gstPercent"></span></span>
-                            <span class="breakdown-value" id="gstAmount">₹0</span>
+                        <div class="amount-item" id="gstRow" style="display: none;">
+                            <span>GST <span id="gstPercent"></span></span>
+                            <span class="info-value" id="gstAmount">₹0</span>
                         </div>
 
-                        <div class="breakdown-item" id="discountRow" style="display: none;">
-                            <span class="breakdown-label">Discount</span>
-                            <span class="breakdown-value" id="discountAmount">-₹0</span>
+                        <div class="amount-item" id="discountRow" style="display: none;">
+                            <span>Discount</span>
+                            <span class="info-value" style="color: var(--success);" id="discountAmount">-₹0</span>
                         </div>
 
-                        <div class="breakdown-item" id="extraRow" style="display: none;">
-                            <span class="breakdown-label">Extra Charges</span>
-                            <span class="breakdown-value" id="extraAmount">₹0</span>
+                        <div class="amount-item" id="extraRow" style="display: none;">
+                            <span>Extra Charges</span>
+                            <span class="info-value" id="extraAmount">₹0</span>
                         </div>
                     </div>
 
-                    <!-- Final Amount -->
-                    <div class="final-amount">
-                        <h3>Total Amount Payable</h3>
-                        <div class="amount" id="finalAmount">₹0</div>
-                        <p style="opacity: 0.8; font-size: 0.9rem; margin-top: 5px;">Including all taxes and charges</p>
+                    <!-- Total Amount -->
+                    <div class="total-amount">
+                        <div class="total-label">Total Amount Payable</div>
+                        <div class="total-value" id="finalAmount">₹0</div>
+                        <p style="opacity: 0.9; font-size: 0.9rem; margin-top: 10px;">
+                            <i class="fas fa-check-circle"></i> Including all taxes
+                        </p>
                     </div>
 
-                    <!-- Payment Method -->
+                    <!-- Payment Methods -->
                     <div class="payment-methods">
-                        <h3 style="margin-bottom: 15px; color: var(--dark-blue);">Select Payment Method</h3>
+                        <h3 style="margin-bottom: 20px; color: var(--dark-blue); font-size: 1.1rem;">
+                            <i class="fas fa-wallet"></i> Select Payment Method
+                        </h3>
                         
                         <div class="method-option active" data-method="card">
                             <div class="method-icon">
@@ -785,7 +762,7 @@
 
                         <div class="method-option" data-method="upi">
                             <div class="method-icon">
-                                <i class="fas fa-wallet"></i>
+                                <i class="fas fa-mobile-alt"></i>
                             </div>
                             <div class="method-info">
                                 <h4>UPI & Wallets</h4>
@@ -812,35 +789,27 @@
                             <div class="security-icon">
                                 <i class="fas fa-user-shield"></i>
                             </div>
-                            <p>PCI DSS Compliant</p>
+                            <p>PCI DSS</p>
+                        </div>
+                        <div class="security-badge">
+                            <div class="security-icon">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            <p>Instant Payment</p>
                         </div>
                     </div>
 
                     <!-- Payment Button -->
-                    <button class="payment-btn" id="payButton">
+                    <button class="payment-button" id="payButton">
                         <i class="fas fa-lock"></i>
                         <span>Pay Securely with Razorpay</span>
+                        <i class="fas fa-arrow-right"></i>
                     </button>
 
-                    <p style="text-align: center; color: #666; font-size: 0.9rem; margin-bottom: 20px;">
-                        <i class="fas fa-info-circle"></i> Your payment is processed by Razorpay. No card details are stored with us.
+                    <p style="text-align: center; color: #666; font-size: 0.85rem; padding: 0 20px;">
+                        <i class="fas fa-info-circle"></i> 
+                        Your payment is processed by Razorpay. No card details are stored with us.
                     </p>
-
-                    <!-- Copy Payment Link -->
-                    <div class="copy-link-section">
-                        <p style="color: var(--blue); font-weight: 600; margin-bottom: 10px;">
-                            <i class="fas fa-link"></i> Share Payment Link
-                        </p>
-                        <div class="link-container">
-                            <input type="text" class="link-input" id="paymentLink" readonly>
-                            <button class="copy-btn" id="copyButton">
-                                <i class="far fa-copy"></i> Copy
-                            </button>
-                        </div>
-                        <p style="font-size: 0.8rem; color: #666; margin-top: 10px;">
-                            Share this link to pay from any device
-                        </p>
-                    </div>
                 </div>
             </div>
         </div>
@@ -851,18 +820,28 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-logo">
-                    <img src="https://i.postimg.cc/Nj3bmPwC/Infogrip-Medi-Soluiton-(Social-Media)-(1).png" alt="InfoGrip Media Solution">
+                    <img src="https://i.postimg.cc/Nj3bmPwC/Infogrip-Medi-Soluiton-(Social-Media)-(1).png" 
+                         alt="InfoGrip Media Solution">
                 </div>
                 
                 <div class="footer-links">
-                    <a href="tel:+916367556906"><i class="fas fa-phone"></i> +91 6367556906</a>
-                    <a href="mailto:info@infogrip.com"><i class="fas fa-envelope"></i> info@infogrip.com</a>
-                    <a href="https://wa.me/916367556906" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+                    <a href="tel:+916367556906">
+                        <i class="fas fa-phone"></i> +91 6367556906
+                    </a>
+                    <a href="mailto:info@infogrip.com">
+                        <i class="fas fa-envelope"></i> info@infogrip.com
+                    </a>
+                    <a href="https://wa.me/916367556906" target="_blank">
+                        <i class="fab fa-whatsapp"></i> WhatsApp
+                    </a>
+                    <a href="#" id="copyPaymentLink">
+                        <i class="fas fa-link"></i> Copy Payment Link
+                    </a>
                 </div>
 
                 <div class="copyright">
                     <p>&copy; 2024 InfoGrip Media Solution Ltd. All Rights Reserved</p>
-                    <p style="margin-top: 5px; font-size: 0.8rem;">
+                    <p style="margin-top: 8px;">
                         <i class="fas fa-lock"></i> Secure Payment Portal • Powered by Razorpay
                     </p>
                 </div>
@@ -874,152 +853,89 @@
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     
     <script>
-        // ============================================
-        // CONFIGURATION
-        // ============================================
-        // REPLACE THIS WITH YOUR ACTUAL GOOGLE APPS SCRIPT URL
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyj0TFIDfK0OoBb8JaQG36zBlGbrmn7uBzuZ6OKT4R3a9WWdGwOYSgBsY5ll2nJJ3olRw/exec';
+        // Configuration
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwwA8OHKYN3_OOsv-3a_H3Xjcv6V-tvChFVz8m8ooYqoWJArXRIbTeuC96BUxrQd6ze4Q/exec';
         
-        // For testing - use this if above doesn't work
-        const TEST_KEY = 'rzp_test_RukxAEn3jjoflr'; // Replace with your test key
-        
-        // ============================================
-        // DEBUG SYSTEM
-        // ============================================
-        let debugLogs = [];
-        let isDebugMode = false;
-        
-        function logDebug(message, data = null) {
-            const timestamp = new Date().toLocaleTimeString();
-            const logEntry = {
-                time: timestamp,
-                message: message,
-                data: data
-            };
-            debugLogs.push(logEntry);
-            console.log(`[${timestamp}] ${message}`, data || '');
-            updateDebugPanel();
-        }
-        
-        function updateDebugPanel() {
-            const debugContent = document.getElementById('debugContent');
-            if (debugContent) {
-                debugContent.innerHTML = debugLogs.map(log => 
-                    `<div><strong>[${log.time}]</strong> ${log.message} ${log.data ? JSON.stringify(log.data) : ''}</div>`
-                ).join('');
-                debugContent.style.display = 'block';
-                debugContent.scrollTop = debugContent.scrollHeight;
-            }
-        }
-        
-        function toggleDebug() {
-            isDebugMode = !isDebugMode;
-            const panel = document.getElementById('debugPanel');
-            panel.style.display = isDebugMode ? 'block' : 'none';
-            
-            // Show test section in debug mode
-            document.getElementById('testSection').style.display = isDebugMode ? 'block' : 'none';
-        }
-        
-        function clearDebug() {
-            debugLogs = [];
-            updateDebugPanel();
-        }
-        
-        // ============================================
-        // GLOBAL VARIABLES
-        // ============================================
+        // Global variables
         const urlParams = new URLSearchParams(window.location.search);
         const clientId = urlParams.get('clientId');
         let clientData = null;
-        let paymentLink = '';
-        let razorpayOrderId = null;
+        let paymentAmount = 0;
         
-        // ============================================
-        // INITIALIZATION
-        // ============================================
+        // DOM Elements
+        const loadingEl = document.getElementById('loading');
+        const errorEl = document.getElementById('errorMessage');
+        const errorTextEl = document.getElementById('errorText');
+        const paymentContainer = document.getElementById('paymentContainer');
+        const progressFill = document.getElementById('progressFill');
+        
+        // Initialize
         document.addEventListener('DOMContentLoaded', function() {
-            logDebug('Page loaded', { 
-                clientId: clientId,
-                url: window.location.href,
-                razorpayLoaded: typeof Razorpay !== 'undefined'
-            });
+            console.log('Payment page loaded');
+            updateProgress(10);
             
             if (!clientId) {
-                showError('Client ID not found in URL. Please use a valid payment link.');
-                document.getElementById('loading').style.display = 'none';
+                showError('Client ID not found. Please use a valid payment link.');
+                loadingEl.style.display = 'none';
                 return;
             }
             
-            // Update display
             document.getElementById('clientIdDisplay').textContent = clientId;
-            
-            // Load client data
             loadClientData();
             
-            // Show test section if in debug mode
-            const debugParam = urlParams.get('debug');
-            if (debugParam === 'true') {
-                toggleDebug();
-            }
+            // Setup copy link
+            document.getElementById('copyPaymentLink').addEventListener('click', function(e) {
+                e.preventDefault();
+                navigator.clipboard.writeText(window.location.href)
+                    .then(() => {
+                        alert('✅ Payment link copied to clipboard!');
+                    });
+            });
         });
         
-        // ============================================
-        // CLIENT DATA FUNCTIONS
-        // ============================================
+        // Progress bar
+        function updateProgress(percent) {
+            progressFill.style.width = percent + '%';
+        }
+        
+        // Load client data
         async function loadClientData() {
-            logDebug('Loading client data', { clientId: clientId });
+            updateProgress(30);
             
             try {
                 const url = `${SCRIPT_URL}?action=getClient&clientId=${clientId}`;
-                logDebug('Fetching from URL', url);
-                
                 const response = await fetch(url);
-                logDebug('Response received', { 
-                    status: response.status, 
-                    ok: response.ok,
-                    statusText: response.statusText
-                });
-                
                 const result = await response.json();
-                logDebug('Response parsed', result);
                 
                 if (result.success) {
                     clientData = result.data;
-                    logDebug('Client data loaded successfully', {
-                        name: clientData.clientName,
-                        amount: clientData.finalAmount,
-                        service: clientData.serviceName
-                    });
+                    updateProgress(60);
                     displayClientData();
-                    setupPayment();
+                    updateProgress(100);
+                    
+                    // Auto-hide progress bar after delay
+                    setTimeout(() => {
+                        document.querySelector('.progress-bar').style.opacity = '0';
+                        setTimeout(() => {
+                            document.querySelector('.progress-bar').style.display = 'none';
+                        }, 500);
+                    }, 1000);
                 } else {
                     showError(result.error || 'Failed to load client data');
-                    logDebug('API error', result);
                 }
             } catch (error) {
-                showError('Network error. Please try again: ' + error.message);
-                logDebug('Network error', error);
-                console.error(error);
+                showError('Network error: ' + error.message);
             }
         }
         
+        // Display client data
         function displayClientData() {
-            logDebug('Displaying client data');
+            loadingEl.style.display = 'none';
+            paymentContainer.style.display = 'grid';
             
-            // Hide loading, show content
-            document.getElementById('loading').style.display = 'none';
-            document.getElementById('paymentContainer').style.display = 'grid';
-            
-            // Check if client data is valid
-            if (!clientData || !clientData.clientName) {
-                showError('Invalid client data received');
-                return;
-            }
-            
-            // Basic client info
+            // Client info
             document.getElementById('clientIdBadge').textContent = clientData.clientId || clientId;
-            document.getElementById('clientName').textContent = clientData.clientName;
+            document.getElementById('clientName').textContent = clientData.clientName || 'N/A';
             
             // Contact info
             document.getElementById('contactInfo').innerHTML = `
@@ -1029,24 +945,15 @@
             
             // Category
             document.getElementById('category').textContent = clientData.category || 'Not specified';
-            const badge = document.getElementById('categoryBadge');
-            badge.textContent = clientData.category || 'Not specified';
-            badge.className = `category-badge category-${(clientData.category || 'business').toLowerCase()}`;
             
-            // Category-specific info
+            // Business info
             if (clientData.category === 'Business' && clientData.businessName) {
                 document.getElementById('businessInfo').style.display = 'block';
                 document.getElementById('businessName').textContent = clientData.businessName;
-            } else if (clientData.category === 'Politician') {
-                document.getElementById('politicianInfo').style.display = 'block';
-                document.getElementById('politicalDetails').innerHTML = `
-                    ${clientData.politicalRole || 'N/A'}<br>
-                    ${clientData.partyName || ''}
-                `;
             }
             
             // Service info
-            document.getElementById('serviceName').textContent = clientData.serviceName || 'No service specified';
+            document.getElementById('serviceName').textContent = clientData.serviceName || 'Service';
             document.getElementById('billingCycle').textContent = clientData.billingCycle || 'Monthly';
             
             // Amount breakdown
@@ -1055,14 +962,6 @@
             const gstPercent = parseFloat(clientData.gstPercent) || 18;
             const discount = parseFloat(clientData.discount) || 0;
             const extraCharges = parseFloat(clientData.extraCharges) || 0;
-            
-            logDebug('Amount calculation', { 
-                baseAmount, 
-                gstApplicable, 
-                gstPercent, 
-                discount, 
-                extraCharges 
-            });
             
             let gstAmount = 0;
             if (gstApplicable && baseAmount > 0) {
@@ -1083,61 +982,19 @@
             }
             
             // Calculate final amount
-            let finalAmount = baseAmount + gstAmount - discount + extraCharges;
+            let finalAmount = parseFloat(clientData.finalAmount) || 
+                            (baseAmount + gstAmount - discount + extraCharges);
             
-            // Use calculated final amount if available
-            if (clientData.finalAmount) {
-                finalAmount = parseFloat(clientData.finalAmount);
-            }
-            
-            // Ensure minimum amount for Razorpay (₹1)
-            if (finalAmount < 1) {
-                finalAmount = 100; // ₹1 in paise
-                logDebug('Amount too low, setting to minimum', { finalAmount });
-            }
+            if (finalAmount < 1) finalAmount = 100; // ₹1 in paise
             
             document.getElementById('baseAmount').textContent = `₹${baseAmount.toFixed(2)}`;
             document.getElementById('finalAmount').textContent = `₹${finalAmount.toFixed(2)}`;
             
-            // Store final amount in clientData
-            clientData.calculatedAmount = finalAmount;
+            // Store for payment
+            paymentAmount = finalAmount;
             
-            logDebug('Final amount calculated', { 
-                finalAmount: finalAmount,
-                inPaise: finalAmount * 100
-            });
-            
-            // Status badge
-            const statusBadge = document.getElementById('statusBadge');
-            if (clientData.subscriptionStatus) {
-                statusBadge.textContent = clientData.subscriptionStatus;
-                statusBadge.className = 'status-badge';
-                if (clientData.subscriptionStatus.includes('Active')) {
-                    statusBadge.style.background = '#d4edda';
-                    statusBadge.style.color = '#155724';
-                } else if (clientData.subscriptionStatus.includes('Expiring')) {
-                    statusBadge.style.background = '#fff3cd';
-                    statusBadge.style.color = '#856404';
-                } else if (clientData.subscriptionStatus.includes('Expired')) {
-                    statusBadge.style.background = '#f8d7da';
-                    statusBadge.style.color = '#721c24';
-                }
-            }
-            
-            // Payment link
-            paymentLink = window.location.href;
-            document.getElementById('paymentLink').value = paymentLink;
-        }
-        
-        function setupPayment() {
-            const payButton = document.getElementById('payButton');
-            const copyButton = document.getElementById('copyButton');
-            
-            payButton.addEventListener('click', initiatePayment);
-            copyButton.addEventListener('click', copyPaymentLink);
-            
-            // Enable button
-            payButton.disabled = false;
+            // Setup payment button
+            document.getElementById('payButton').addEventListener('click', initiatePayment);
             
             // Method selection
             document.querySelectorAll('.method-option').forEach(option => {
@@ -1148,377 +1005,107 @@
                     this.classList.add('active');
                 });
             });
-            
-            logDebug('Payment setup complete');
         }
         
-        // ============================================
-        // PAYMENT FUNCTIONS
-        // ============================================
+        // Initiate payment
         async function initiatePayment() {
-            logDebug('Initiating payment');
-            
             const payButton = document.getElementById('payButton');
             payButton.disabled = true;
             payButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
             
             try {
-                const finalAmount = clientData.calculatedAmount || calculateFinalAmount(clientData);
-                const amountInPaise = Math.round(finalAmount * 100);
+                const amountInPaise = Math.round(paymentAmount * 100);
                 
-                logDebug('Creating order', { 
-                    clientId: clientId, 
-                    amount: finalAmount,
-                    amountInPaise: amountInPaise
-                });
+                // Create order
+                const orderResponse = await fetch(
+                    `${SCRIPT_URL}?action=createOrder&clientId=${clientId}&amount=${amountInPaise}`
+                );
+                const orderResult = await orderResponse.json();
                 
-                // Create Razorpay order using GET request
-                const url = `${SCRIPT_URL}?action=createOrder&clientId=${clientId}&amount=${amountInPaise}`;
-                logDebug('Request URL', url);
-                
-                const response = await fetch(url);
-                logDebug('Order response', { 
-                    status: response.status,
-                    statusText: response.statusText 
-                });
-                
-                const result = await response.json();
-                logDebug('Order result', result);
-                
-                if (result.success) {
-                    logDebug('Order created successfully', result.data);
-                    razorpayOrderId = result.data.orderId;
-                    openRazorpayCheckout(result.data);
-                } else {
-                    throw new Error(result.error || 'Failed to create order');
+                if (!orderResult.success) {
+                    throw new Error(orderResult.error || 'Failed to create order');
                 }
+                
+                const orderData = orderResult.data;
+                
+                // Open Razorpay
+                const options = {
+                    key: orderData.key,
+                    amount: orderData.amount,
+                    currency: "INR",
+                    name: "InfoGrip Media Solution",
+                    description: `Payment for ${clientData.serviceName || 'services'}`,
+                    order_id: orderData.orderId,
+                    handler: async function(response) {
+                        // Verify payment
+                        const verifyResponse = await fetch(SCRIPT_URL, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                action: 'verifyPayment',
+                                razorpay_order_id: response.razorpay_order_id,
+                                razorpay_payment_id: response.razorpay_payment_id,
+                                razorpay_signature: response.razorpay_signature,
+                                clientId: clientId,
+                                amount: amountInPaise
+                            })
+                        });
+                        
+                        const verifyResult = await verifyResponse.json();
+                        
+                        if (verifyResult.success) {
+                            // Redirect to thank you page
+                            const params = new URLSearchParams({
+                                clientName: encodeURIComponent(clientData.clientName || 'Customer'),
+                                amount: paymentAmount,
+                                invoiceNumber: verifyResult.data.invoiceNumber,
+                                invoiceLink: verifyResult.data.downloadUrl
+                            });
+                            
+                            window.location.href = `thankyou.html?${params.toString()}`;
+                        } else {
+                            showError('Payment verification failed: ' + verifyResult.error);
+                            payButton.disabled = false;
+                            payButton.innerHTML = '<i class="fas fa-lock"></i> Pay Securely with Razorpay';
+                        }
+                    },
+                    prefill: {
+                        name: clientData.clientName || '',
+                        email: clientData.email || '',
+                        contact: clientData.mobile || ''
+                    },
+                    theme: {
+                        color: "#001c4f"
+                    },
+                    modal: {
+                        ondismiss: function() {
+                            payButton.disabled = false;
+                            payButton.innerHTML = '<i class="fas fa-lock"></i> Pay Securely with Razorpay';
+                        }
+                    }
+                };
+                
+                const rzp = new Razorpay(options);
+                rzp.open();
+                
             } catch (error) {
-                logDebug('Payment initiation error', error);
                 showError('Payment failed: ' + error.message);
                 payButton.disabled = false;
                 payButton.innerHTML = '<i class="fas fa-lock"></i> Pay Securely with Razorpay';
             }
         }
         
-        function openRazorpayCheckout(orderData) {
-            logDebug('Opening Razorpay checkout', { 
-                orderId: orderData.orderId,
-                amount: orderData.amount,
-                key: orderData.key ? orderData.key.substring(0, 10) + '...' : 'No key'
-            });
-            
-            const finalAmount = clientData.calculatedAmount || calculateFinalAmount(clientData);
-            const amountInPaise = Math.round(finalAmount * 100);
-            
-            // Use key from orderData or fallback to test key
-            const razorpayKey = orderData.key || TEST_KEY;
-            
-            const options = {
-                key: razorpayKey,
-                amount: amountInPaise,
-                currency: "INR",
-                name: "InfoGrip Media Solution",
-                description: `Payment for ${clientData.serviceName || 'services'}`,
-                order_id: orderData.orderId,
-                handler: function(response) {
-                    logDebug('Razorpay payment completed', response);
-                    verifyPayment(response);
-                },
-                prefill: {
-                    name: clientData.clientName || '',
-                    email: clientData.email || '',
-                    contact: clientData.mobile || ''
-                },
-                notes: {
-                    clientId: clientId,
-                    service: clientData.serviceName || 'Service'
-                },
-                theme: {
-                    color: "#001c4f"
-                },
-                modal: {
-                    ondismiss: function() {
-                        logDebug('Razorpay modal dismissed');
-                        const payButton = document.getElementById('payButton');
-                        payButton.disabled = false;
-                        payButton.innerHTML = '<i class="fas fa-lock"></i> Pay Securely with Razorpay';
-                    }
-                }
-            };
-            
-            logDebug('Razorpay options', { 
-                key: options.key.substring(0, 10) + '...',
-                amount: options.amount,
-                order_id: options.order_id
-            });
-            
-            // Check if Razorpay is loaded
-            if (typeof Razorpay === 'undefined') {
-                showError('Razorpay payment gateway not loaded. Please refresh the page.');
-                logDebug('Razorpay not loaded');
-                return;
-            }
-            
-            try {
-                const rzp = new Razorpay(options);
-                rzp.open();
-                logDebug('Razorpay checkout opened successfully');
-            } catch (error) {
-                logDebug('Error opening Razorpay', error);
-                showError('Failed to open payment gateway: ' + error.message);
-                const payButton = document.getElementById('payButton');
-                payButton.disabled = false;
-                payButton.innerHTML = '<i class="fas fa-lock"></i> Pay Securely with Razorpay';
-            }
-        }
-        
-        async function verifyPayment(paymentResponse) {
-            logDebug('Verifying payment', paymentResponse);
-            
-            const payButton = document.getElementById('payButton');
-            payButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verifying...';
-            
-            try {
-                const finalAmount = clientData.calculatedAmount || calculateFinalAmount(clientData);
-                const amountInPaise = Math.round(finalAmount * 100);
-                
-                logDebug('Sending verification request', {
-                    orderId: paymentResponse.razorpay_order_id,
-                    paymentId: paymentResponse.razorpay_payment_id,
-                    signature: paymentResponse.razorpay_signature,
-                    clientId: clientId,
-                    amount: amountInPaise
-                });
-                
-                const response = await fetch(`${SCRIPT_URL}?action=verifyPayment`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        orderId: paymentResponse.razorpay_order_id,
-                        paymentId: paymentResponse.razorpay_payment_id,
-                        signature: paymentResponse.razorpay_signature,
-                        clientId: clientId,
-                        amount: amountInPaise
-                    })
-                });
-                
-                const result = await response.json();
-                logDebug('Verification response', result);
-                
-                if (result.success) {
-                    logDebug('Payment verified successfully', result.data);
-                    
-                    // Redirect to thank you page
-                    const params = new URLSearchParams({
-                        clientName: encodeURIComponent(clientData.clientName || 'Customer'),
-                        amount: finalAmount,
-                        invoiceNumber: result.data.invoiceNumber || 'N/A',
-                        invoiceUrl: result.data.invoiceUrl || '#'
-                    });
-                    
-                    window.location.href = `thankyou.html?${params.toString()}`;
-                } else {
-                    throw new Error(result.error || 'Payment verification failed');
-                }
-            } catch (error) {
-                logDebug('Payment verification error', error);
-                showError('Payment verification failed: ' + error.message);
-                payButton.disabled = false;
-                payButton.innerHTML = '<i class="fas fa-lock"></i> Pay Securely with Razorpay';
-            }
-        }
-        
-        // ============================================
-        // TEST FUNCTIONS
-        // ============================================
-        function testPayment(amountInPaise) {
-            logDebug('Test payment initiated', { amountInPaise: amountInPaise });
-            
-            // Create a test order directly with Razorpay
-            const testOrderId = 'order_' + Math.random().toString(36).substring(7);
-            razorpayOrderId = testOrderId;
-            
-            const options = {
-                key: TEST_KEY,
-                amount: amountInPaise,
-                currency: "INR",
-                name: "InfoGrip Media Solution",
-                description: "Test Payment",
-                order_id: testOrderId,
-                handler: function(response) {
-                    logDebug('Test payment completed', response);
-                    alert('Test payment successful! Payment ID: ' + response.razorpay_payment_id);
-                    
-                    // Reset button
-                    const payButton = document.getElementById('payButton');
-                    payButton.disabled = false;
-                    payButton.innerHTML = '<i class="fas fa-lock"></i> Pay Securely with Razorpay';
-                },
-                prefill: {
-                    name: "Test Customer",
-                    email: "test@example.com",
-                    contact: "9876543210"
-                },
-                theme: {
-                    color: "#001c4f"
-                },
-                modal: {
-                    ondismiss: function() {
-                        logDebug('Test payment modal dismissed');
-                        const payButton = document.getElementById('payButton');
-                        payButton.disabled = false;
-                        payButton.innerHTML = '<i class="fas fa-lock"></i> Pay Securely with Razorpay';
-                    }
-                }
-            };
-            
-            if (typeof Razorpay === 'undefined') {
-                alert('Razorpay script not loaded!');
-                return;
-            }
-            
-            try {
-                const rzp = new Razorpay(options);
-                rzp.open();
-                logDebug('Test Razorpay opened');
-            } catch (error) {
-                logDebug('Error opening test Razorpay', error);
-                alert('Error: ' + error.message);
-            }
-        }
-        
-        function testRazorpayDirect() {
-            logDebug('Testing Razorpay directly');
-            
-            // Direct test without Google Apps Script
-            const options = {
-                key: TEST_KEY,
-                amount: 100, // ₹1
-                currency: "INR",
-                name: "InfoGrip Media Solution",
-                description: "Direct Test Payment",
-                handler: function(response) {
-                    alert('Direct test successful! Payment ID: ' + response.razorpay_payment_id);
-                    logDebug('Direct test successful', response);
-                },
-                prefill: {
-                    name: "Test User",
-                    email: "test@example.com",
-                    contact: "9999999999"
-                },
-                theme: {
-                    color: "#001c4f"
-                }
-            };
-            
-            if (typeof Razorpay === 'undefined') {
-                alert('Razorpay script not loaded! Check console for errors.');
-                console.error('Razorpay object:', Razorpay);
-                return;
-            }
-            
-            try {
-                const rzp = new Razorpay(options);
-                rzp.open();
-                logDebug('Direct Razorpay test opened');
-            } catch (error) {
-                logDebug('Direct test error', error);
-                alert('Direct test error: ' + error.message);
-            }
-        }
-        
-        function checkRazorpayScript() {
-            logDebug('Checking Razorpay script');
-            
-            if (typeof Razorpay === 'undefined') {
-                alert('❌ Razorpay script NOT loaded!\nCheck browser console for errors.');
-                console.error('Razorpay script failed to load. Possible issues:');
-                console.error('1. Network blocked the script');
-                console.error('2. Ad blocker blocking the script');
-                console.error('3. Script URL incorrect');
-            } else {
-                alert('✅ Razorpay script is loaded successfully!');
-                logDebug('Razorpay script is loaded', { version: 'v1' });
-            }
-        }
-        
-        // ============================================
-        // UTILITY FUNCTIONS
-        // ============================================
-        function calculateFinalAmount(client) {
-            const base = parseFloat(client.baseAmount) || 0;
-            const gst = client.gstApplicable === 'Yes' ? 
-                (base * parseFloat(client.gstPercent || 18) / 100) : 0;
-            const discount = parseFloat(client.discount) || 0;
-            const extra = parseFloat(client.extraCharges) || 0;
-            
-            const finalAmount = base + gst - discount + extra;
-            
-            // Ensure minimum amount
-            return finalAmount < 1 ? 1 : finalAmount;
-        }
-        
-        function copyPaymentLink() {
-            const input = document.getElementById('paymentLink');
-            input.select();
-            input.setSelectionRange(0, 99999);
-            
-            navigator.clipboard.writeText(input.value)
-                .then(() => {
-                    logDebug('Payment link copied');
-                    const copyButton = document.getElementById('copyButton');
-                    const originalText = copyButton.innerHTML;
-                    
-                    copyButton.innerHTML = '<i class="fas fa-check"></i> Copied!';
-                    copyButton.style.background = '#28a745';
-                    
-                    setTimeout(() => {
-                        copyButton.innerHTML = originalText;
-                        copyButton.style.background = '';
-                    }, 2000);
-                })
-                .catch(err => {
-                    logDebug('Failed to copy link', err);
-                    console.error('Failed to copy: ', err);
-                });
-        }
-        
+        // Error handling
         function showError(message) {
-            logDebug('Showing error', message);
+            errorTextEl.textContent = message;
+            errorEl.style.display = 'flex';
+            loadingEl.style.display = 'none';
             
-            const errorDiv = document.getElementById('errorMessage');
-            const errorText = document.getElementById('errorText');
-            
-            errorText.textContent = message;
-            errorDiv.style.display = 'flex';
-            
-            document.getElementById('loading').style.display = 'none';
+            // Auto-hide after 10 seconds
+            setTimeout(() => {
+                errorEl.style.display = 'none';
+            }, 10000);
         }
-        
-        // ============================================
-        // INITIAL DEBUG CHECKS
-        // ============================================
-        // Check if SCRIPT_URL is set
-        if (SCRIPT_URL.includes('YOUR_DEPLOYMENT_ID')) {
-            console.warn('⚠️ WARNING: SCRIPT_URL not configured!');
-            console.warn('Please replace YOUR_DEPLOYMENT_ID with your actual Google Apps Script URL');
-        }
-        
-        // Check if TEST_KEY is set
-        if (TEST_KEY.includes('YOUR_TEST_KEY_ID')) {
-            console.warn('⚠️ WARNING: TEST_KEY not configured!');
-            console.warn('Please replace YOUR_TEST_KEY_ID with your actual Razorpay test key');
-        }
-        
-        // Log initial state
-        logDebug('Initial state', {
-            clientId: clientId,
-            SCRIPT_URL: SCRIPT_URL,
-            TEST_KEY: TEST_KEY ? TEST_KEY.substring(0, 10) + '...' : 'Not set',
-            RazorpayLoaded: typeof Razorpay !== 'undefined'
-        });
     </script>
 </body>
 </html>
