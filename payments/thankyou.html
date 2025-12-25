@@ -471,10 +471,19 @@
             const clientName = decodeURIComponent(urlParams.get('clientName') || 'Customer');
             const amount = urlParams.get('amount') || '0';
             const invoiceNumber = urlParams.get('invoiceNumber') || '';
-            const invoiceUrl = urlParams.get('invoiceUrl') || '';
-            
+            const invoiceUrl =
+            urlParams.get('downloadUrl') ||
+            urlParams.get('invoiceUrl') ||
+            '';            
             console.log('URL Parameters:', { clientName, amount, invoiceNumber, invoiceUrl });
-            
+            // Store URL data immediately as fallback
+            sessionStorage.setItem('paymentSuccessData', JSON.stringify({
+            clientName,
+            amount,
+            invoiceNumber,
+            invoiceUrl
+            }));
+
             // Check if we have minimal data
             if (!clientName || clientName === 'Customer') {
                 // Try to get data from sessionStorage or localStorage as fallback
