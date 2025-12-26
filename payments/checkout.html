@@ -399,44 +399,21 @@
             transform: translate(-50%, -50%);
             z-index: 10;
         }
-        /* Date Time Display */
-.date-time-display {
-    background: var(--gray-100);
+       /* Simple Date Time Display */
+.simple-date-time {
+    background: var(--gray-50);
     border-radius: var(--radius-md);
-    padding: 10px 16px;
-    margin: 16px 0 0;
+    padding: 8px 12px;
+    margin: 12px 0 0;
     text-align: center;
+    border: 1px solid var(--gray-200);
     animation: fadeIn 0.4s ease 0.1s both;
 }
 
-.date-info {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 12px;
+#simpleDateTime {
     font-size: 13px;
     color: var(--gray-600);
     font-weight: 500;
-}
-
-.date-info span {
-    display: inline-block;
-}
-
-.separator {
-    color: var(--gray-400);
-    font-weight: 400;
-}
-
-#currentTime {
-    background: var(--white);
-    padding: 4px 8px;
-    border-radius: 6px;
-    font-weight: 600;
-    color: var(--blue);
-    min-width: 60px;
-    text-align: center;
-    box-shadow: var(--shadow-sm);
 }
 
         .spinner {
@@ -609,15 +586,9 @@
                     </div>
                 </div>
             </div>
-                 <!-- Date Time Display -->
-<div class="date-time-display">
-    <div class="date-info">
-        <span id="currentDate">Loading...</span>
-        <span class="separator">•</span>
-        <span id="currentDay">Loading...</span>
-        <span class="separator">•</span>
-        <span id="currentTime">Loading...</span>
-    </div>
+                <!-- Simple Date Time Display -->
+<div class="simple-date-time">
+    <span id="simpleDateTime">Loading date and time...</span>
 </div>
 
             <!-- Client Information -->
@@ -791,7 +762,7 @@
                 return;
             }
              // ▼▼▼ ADD THIS LINE RIGHT HERE ▼▼▼
-            initDateTime();
+             initSimpleDateTime(); // ← ADD THIS LINE
             
             loadClientData();
         });
@@ -1149,37 +1120,37 @@
                 console.log('Razorpay script is loaded');
             }
         }
-        // ============================================
-// DATE TIME FUNCTIONS
+ // ============================================
+// SIMPLE DATE TIME FUNCTIONS
 // ============================================
-function updateDateTime() {
+function updateSimpleDateTime() {
     const now = new Date();
     
-    // Format date (e.g., "25 Dec 2024")
-    const dateOptions = { day: 'numeric', month: 'short', year: 'numeric' };
-    const dateStr = now.toLocaleDateString('en-IN', dateOptions);
-    
-    // Get day name (e.g., "Wednesday")
-    const dayStr = now.toLocaleDateString('en-IN', { weekday: 'long' });
-    
-    // Format time (e.g., "14:30")
-    const timeStr = now.toLocaleTimeString('en-IN', { 
+    // Format: "Wednesday, 25 Dec 2024, 14:30:45"
+    const day = now.toLocaleDateString('en-IN', { weekday: 'long' });
+    const date = now.toLocaleDateString('en-IN', { 
+        day: 'numeric', 
+        month: 'short', 
+        year: 'numeric' 
+    });
+    const time = now.toLocaleTimeString('en-IN', { 
         hour: '2-digit', 
         minute: '2-digit',
+        second: '2-digit',
         hour12: false 
     });
     
-    // Update elements
-    document.getElementById('currentDate').textContent = dateStr;
-    document.getElementById('currentDay').textContent = dayStr;
-    document.getElementById('currentTime').textContent = timeStr;
+    // Combine into one text
+    const dateTimeText = `${day}, ${date}, ${time}`;
+    
+    // Update element
+    document.getElementById('simpleDateTime').textContent = dateTimeText;
 }
 
-// Call updateDateTime on load and every minute
-function initDateTime() {
-    updateDateTime();
-    // Update every minute (60000ms)
-    setInterval(updateDateTime, 60000);
+function initSimpleDateTime() {
+    updateSimpleDateTime();
+    // Update every second (1000ms)
+    setInterval(updateSimpleDateTime, 1000);
 }
         
         // ============================================
