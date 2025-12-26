@@ -389,6 +389,7 @@
         .contact-item:hover {
             color: var(--blue);
         }
+        
 
         /* Loading States */
         #loading {
@@ -398,6 +399,45 @@
             transform: translate(-50%, -50%);
             z-index: 10;
         }
+        /* Date Time Display */
+.date-time-display {
+    background: var(--gray-100);
+    border-radius: var(--radius-md);
+    padding: 10px 16px;
+    margin: 16px 0 0;
+    text-align: center;
+    animation: fadeIn 0.4s ease 0.1s both;
+}
+
+.date-info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+    color: var(--gray-600);
+    font-weight: 500;
+}
+
+.date-info span {
+    display: inline-block;
+}
+
+.separator {
+    color: var(--gray-400);
+    font-weight: 400;
+}
+
+#currentTime {
+    background: var(--white);
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-weight: 600;
+    color: var(--blue);
+    min-width: 60px;
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+}
 
         .spinner {
             width: 48px;
@@ -513,6 +553,21 @@
             .security-row {
                 gap: 16px;
             }
+             .date-info {
+        flex-wrap: wrap;
+        gap: 6px;
+        font-size: 12px;
+    }
+    
+    .date-info span:not(.separator) {
+        flex: 1;
+        text-align: center;
+        min-width: 100px;
+    }
+    
+    .separator {
+        display: none;
+    }
         }
     </style>
 </head>
@@ -554,6 +609,16 @@
                     </div>
                 </div>
             </div>
+                 <!-- Date Time Display -->
+<div class="date-time-display">
+    <div class="date-info">
+        <span id="currentDate">Loading...</span>
+        <span class="separator">•</span>
+        <span id="currentDay">Loading...</span>
+        <span class="separator">•</span>
+        <span id="currentTime">Loading...</span>
+    </div>
+</div>
 
             <!-- Client Information -->
             <div class="client-info-section">
@@ -655,7 +720,7 @@
                 <div class="footer-col">
                     <img src="/assets/logo.png" alt="InfoGrip Media Solution" style="height: 60px; margin-bottom: 20px;">
                     <p>Need Expert Help? We're Just a Message Away!</p>
-                    <a href="../onboarding.html" class="btn btn-outline">Let's Connect</a>
+                    <a href="..//" class="btn btn-outline">Return Home</a>
                     <div class="social-links">
                         <a href="https://www.facebook.com/profile.php?id=61582320555612" class="social-link" target="_blank"><i class="fab fa-facebook-f"></i></a>
                         <a href="https://www.instagram.com/infogrip.in/" class="social-link" target="_blank"><i class="fab fa-instagram"></i></a>
@@ -665,24 +730,11 @@
                     </div>
                 </div>
                 <div class="footer-col">
-                    <h3>Company</h3>
-                    <ul class="footer-links">
-                        <li><a href="..//">Home</a></li>
-                        <li><a href="..//#services">Services</a></li>
-                        <li><a href="../about.html">About</a></li>
-                        <li><a href="..//#testimonials">Testimonials</a></li>
-                        <li><a href="..//#faq">FAQ</a></li>
-                        <li><a href="../contact.html">Contact</a></li>
-                        <li><a href="../portfolio.html">Portfolio</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
                     <h3>Documentation</h3>
                     <ul class="footer-links">
                         <li><a href="../privacy-policy.html">Privacy Policy</a></li>
                         <li><a href="../terms-conditions.html">Terms & Conditions</a></li>
                         <li><a href="../refund-policy.html">Refund Policy</a></li>
-                        <li><a href="../onboarding.html">Onboarding Process</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
@@ -738,6 +790,8 @@
                 document.getElementById('loading').style.display = 'none';
                 return;
             }
+             // ▼▼▼ ADD THIS LINE RIGHT HERE ▼▼▼
+            initDateTime();
             
             loadClientData();
         });
@@ -1095,6 +1149,38 @@
                 console.log('Razorpay script is loaded');
             }
         }
+        // ============================================
+// DATE TIME FUNCTIONS
+// ============================================
+function updateDateTime() {
+    const now = new Date();
+    
+    // Format date (e.g., "25 Dec 2024")
+    const dateOptions = { day: 'numeric', month: 'short', year: 'numeric' };
+    const dateStr = now.toLocaleDateString('en-IN', dateOptions);
+    
+    // Get day name (e.g., "Wednesday")
+    const dayStr = now.toLocaleDateString('en-IN', { weekday: 'long' });
+    
+    // Format time (e.g., "14:30")
+    const timeStr = now.toLocaleTimeString('en-IN', { 
+        hour: '2-digit', 
+        minute: '2-digit',
+        hour12: false 
+    });
+    
+    // Update elements
+    document.getElementById('currentDate').textContent = dateStr;
+    document.getElementById('currentDay').textContent = dayStr;
+    document.getElementById('currentTime').textContent = timeStr;
+}
+
+// Call updateDateTime on load and every minute
+function initDateTime() {
+    updateDateTime();
+    // Update every minute (60000ms)
+    setInterval(updateDateTime, 60000);
+}
         
         // ============================================
         // INITIAL CHECKS
