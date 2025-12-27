@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="64x64" href="/favicon.png">
     <link rel="apple-touch-icon" href="/favicon.png">
@@ -18,33 +19,33 @@
     <link rel="stylesheet" href="../css/responsive.css">
     <link rel="stylesheet" href="../css/layout.css">
     <link rel="stylesheet" href="../css/style.css">
-    
+
     <style>
         :root {
-            --dark-blue: #001c4f;
-            --blue: #07217c;
-            --blue-light: #2d5bff;
-            --white: #ffffff;
-            --gray-50: #f8fafc;
-            --gray-100: #f1f5f9;
-            --gray-200: #e2e8f0;
-            --gray-300: #cbd5e1;
-            --gray-400: #94a3b8;
-            --gray-500: #64748b;
-            --gray-600: #475569;
-            --gray-700: #334155;
-            --gray-800: #1e293b;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --danger: #ef4444;
-            --glass: rgba(255, 255, 255, 0.05);
-            --shadow-sm: 0 1px 2px rgba(0, 28, 79, 0.05);
+            --primary-blue: #001c4f;
+            --secondary-blue: #07217c;
+            --accent-blue: #2563eb;
+            --success-green: #10b981;
+            --warning-yellow: #f59e0b;
+            --danger-red: #ef4444;
+            --dark-bg: #0f172a;
+            --card-bg: #ffffff;
+            --body-bg: #f8fafc;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+            --border-color: #e2e8f0;
+            --shadow-sm: 0 1px 3px rgba(0, 28, 79, 0.1);
             --shadow-md: 0 4px 12px rgba(0, 28, 79, 0.08);
-            --shadow-lg: 0 12px 32px rgba(0, 28, 79, 0.12);
+            --shadow-lg: 0 10px 25px rgba(0, 28, 79, 0.15);
+            --shadow-glow: 0 0 40px rgba(37, 99, 235, 0.25);
+            --shadow-glow-strong: 0 0 50px rgba(37, 99, 235, 0.35);
             --radius-sm: 8px;
             --radius-md: 12px;
-            --radius-lg: 20px;
-            --radius-xl: 28px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+            --radius-full: 9999px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         * {
@@ -55,399 +56,652 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-            color: var(--gray-800);
+            background: var(--body-bg);
+            color: var(--text-dark);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
+            line-height: 1.5;
         }
 
-        /* Main Container */
-        .main-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-            position: relative;
-        }
-
-        /* Payment Card */
-        .payment-card {
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
             width: 100%;
-            max-width: 420px;
-            background: var(--white);
-            border-radius: var(--radius-xl);
-            box-shadow: var(--shadow-lg);
-            overflow: hidden;
-            animation: cardSlideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-            position: relative;
-        }
-
-        @media (max-width: 480px) {
-            .payment-card {
-                max-width: 94%;
-                border-radius: var(--radius-lg);
-            }
         }
 
         /* Header */
-        .card-header {
-            padding: 32px 32px 0;
-            text-align: center;
-            position: relative;
+        .header {
+            background: var(--card-bg);
+            padding: 28px 0 24px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-sm);
+            animation: fadeInDown 0.6s ease;
         }
 
-        .logo-container {
+        .header-content {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 16px;
-            margin-bottom: 20px;
         }
 
-        .company-logo img {
-            height: 36px;
-            filter: brightness(0) invert(0);
+        .razorpay-logo-header {
+            height: 32px;
+            width: auto;
+            transition: var(--transition);
         }
 
-        .razorpay-logo img {
-            height: 20px;
+        .razorpay-logo-header:hover {
+            transform: translateY(-2px);
         }
 
-        .header-text {
-            margin-bottom: 24px;
+        /* Main Content - CSS Grid Layout */
+        .main-content {
+            flex: 1;
+            padding: 32px 0 48px;
         }
 
-        .header-text h1 {
-            font-size: 22px;
-            font-weight: 700;
-            color: var(--dark-blue);
-            margin-bottom: 8px;
-            letter-spacing: -0.3px;
+        .checkout-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
-        .header-text .subtitle {
+        /* Tablet Breakpoint: 2-column layout */
+        @media (min-width: 768px) {
+            .checkout-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 32px;
+                align-items: start;
+            }
+            
+            /* Desktop Breakpoint: 60/40 split */
+            @media (min-width: 1024px) {
+                .checkout-grid {
+                    grid-template-columns: 3fr 2fr;
+                }
+            }
+        }
+
+        /* Client Details Column */
+        .client-details-column {
             display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 12px;
-            color: var(--gray-500);
-            font-size: 13px;
-            font-weight: 500;
+            flex-direction: column;
+            gap: 24px;
         }
 
-        .security-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            background: var(--gray-100);
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 11px;
-            color: var(--gray-600);
-        }
-
-        /* Client Info Section */
-        .client-info-section {
-            background: var(--gray-50);
-            margin: 0 24px;
-            padding: 20px;
-            border-radius: var(--radius-lg);
-            border: 1px solid var(--gray-200);
-            animation: fadeIn 0.4s ease 0.2s both;
-        }
-
-        .info-row {
+        /* Payment Column */
+        .payment-column {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid var(--gray-200);
+            flex-direction: column;
+            gap: 24px;
         }
 
-        .info-row:last-child {
-            border-bottom: none;
-            padding-bottom: 0;
+        /* Tablet Sticky Payment Section */
+        @media (min-width: 768px) {
+            .payment-column {
+                position: sticky;
+                top: 100px; /* Below header */
+                align-self: start;
+            }
+            
+            .payment-sticky-container {
+                position: sticky;
+                top: 100px;
+            }
         }
 
-        .info-row:first-child {
-            padding-top: 0;
-        }
-
-        .info-label {
-            color: var(--gray-600);
-            font-size: 14px;
-            font-weight: 500;
-        }
-
-        .info-value {
-            color: var(--gray-800);
-            font-size: 14px;
-            font-weight: 600;
-            text-align: right;
-            max-width: 60%;
-            word-break: break-word;
-        }
-
-        .skeleton {
-            background: linear-gradient(90deg, var(--gray-200) 25%, var(--gray-300) 50%, var(--gray-200) 75%);
-            background-size: 200% 100%;
-            animation: shimmer 1.5s infinite;
-            border-radius: 4px;
-            height: 16px;
-            width: 100px;
-        }
-
-        /* Amount Card */
-        .amount-card {
-            background: linear-gradient(135deg, var(--dark-blue) 0%, var(--blue) 100%);
-            margin: 24px;
-            padding: 28px;
-            border-radius: var(--radius-lg);
-            text-align: center;
-            color: var(--white);
+        /* Cards Base Style */
+        .checkout-card {
+            background: var(--card-bg);
+            border-radius: var(--radius-xl);
+            padding: 32px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
             position: relative;
             overflow: hidden;
-            animation: fadeIn 0.4s ease 0.3s both;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        .amount-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(0, 28, 79, 0.2);
-        }
-
-        .amount-card::before {
+        .checkout-card::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-blue), var(--accent-blue), var(--primary-blue));
+            background-size: 200% 100%;
+            animation: shimmerLine 3s infinite linear;
         }
 
-        .amount-label {
-            font-size: 14px;
-            opacity: 0.9;
-            margin-bottom: 8px;
-            letter-spacing: 0.5px;
-            font-weight: 500;
+        .checkout-card:hover {
+            box-shadow: var(--shadow-lg), var(--shadow-glow);
+            transform: translateY(-2px);
         }
 
-        .amount {
-            font-size: 42px;
-            font-weight: 700;
-            margin: 8px 0;
-            letter-spacing: -1px;
-            line-height: 1;
-        }
-
-        .amount-note {
-            font-size: 13px;
-            opacity: 0.8;
-            margin-top: 4px;
-        }
-
-        /* Security Badges */
-        .security-row {
-            display: flex;
-            justify-content: center;
-            gap: 24px;
-            margin: 0 24px 28px;
-            animation: fadeIn 0.4s ease 0.4s both;
-        }
-
-        .security-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .security-icon {
-            width: 32px;
-            height: 32px;
-            background: var(--gray-100);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--blue);
-            font-size: 14px;
-        }
-
-        .security-text {
-            font-size: 11px;
-            color: var(--gray-500);
-            font-weight: 500;
+        /* Card Header */
+        .card-header {
             text-align: center;
+            margin-bottom: 32px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--border-color);
         }
 
-        /* Payment Button */
-        .payment-button-section {
-            padding: 0 24px 32px;
-            animation: fadeIn 0.4s ease 0.5s both;
+        .card-header h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textGlow 2s ease-in-out infinite alternate;
         }
 
-        #payButton {
-            width: 100%;
-            padding: 20px;
-            background: linear-gradient(135deg, var(--blue) 0%, var(--blue-light) 100%);
-            color: white;
-            border: none;
-            border-radius: var(--radius-md);
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
+        .card-subtitle {
+            font-size: 0.875rem;
+            color: var(--text-light);
+            margin-bottom: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 6px 12px;
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            border: 1px solid var(--border-color);
+        }
+
+        .badge.success {
+            background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+            color: #065f46;
+            border-color: #10b981;
+        }
+
+        .badge.warning {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            color: #92400e;
+            border-color: #f59e0b;
+        }
+
+        .datetime {
+            font-size: 0.875rem;
+            color: var(--text-light);
+            font-weight: 500;
+            margin-top: 16px;
+            padding: 8px 16px;
+            background: #f8fafc;
+            border-radius: var(--radius-full);
+            display: inline-block;
+            border: 1px solid var(--border-color);
+        }
+
+        /* Client Info */
+        .client-info {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
             position: relative;
             overflow: hidden;
         }
 
-        #payButton:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(7, 33, 124, 0.25);
+        .client-info::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--primary-blue), var(--accent-blue));
         }
 
-        #payButton:active {
-            transform: translateY(0);
-            transition: transform 0.1s ease;
+        .client-info:hover {
+            transform: translateX(4px);
+            border-color: var(--accent-blue);
+            box-shadow: var(--shadow-md);
         }
 
-        #payButton:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none !important;
-            box-shadow: none !important;
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
         }
 
-        .button-content {
+        .info-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .info-label {
+            font-size: 0.875rem;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        .info-value {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            text-align: right;
+            max-width: 60%;
+            word-break: break-word;
+        }
+
+        .client-id-badge {
+            display: inline-block;
+            padding: 6px 16px;
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+            color: white;
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 8px;
+            letter-spacing: 0.5px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* Service Details Card */
+        .service-details {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            border: 1px solid var(--border-color);
+        }
+
+        .service-details h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 20px;
             display: flex;
             align-items: center;
-            gap: 12px;
-            position: relative;
-            z-index: 2;
+            gap: 10px;
         }
 
-        .razorpay-btn-logo {
-            width: 20px;
-            height: 20px;
-            background: var(--white);
-            border-radius: 4px;
+        .service-details h3 i {
+            color: var(--accent-blue);
+        }
+
+        /* Amount Card */
+        .amount-card {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, #1e40af 50%, var(--secondary-blue) 100%);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            animation: pulseGlow 2.5s infinite;
+            box-shadow: 0 8px 32px rgba(7, 33, 124, 0.2);
+        }
+
+        .amount-card::before {
+            content: '';
+            position: absolute;
+            top: -100%;
+            left: -100%;
+            width: 300%;
+            height: 300%;
+            background: linear-gradient(
+                45deg,
+                transparent 30%,
+                rgba(255, 255, 255, 0.15) 50%,
+                transparent 70%
+            );
+            animation: shimmer 4s infinite linear;
+        }
+
+        .amount-label {
+            font-size: 0.875rem;
+            opacity: 0.9;
+            margin-bottom: 8px;
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+
+        .amount-value {
+            font-size: 2.75rem;
+            font-weight: 800;
+            margin-bottom: 4px;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            animation: amountPulse 3s infinite;
+        }
+
+        .amount-note {
+            font-size: 0.75rem;
+            opacity: 0.8;
+            font-weight: 500;
+        }
+
+        /* Amount Breakdown */
+        .breakdown-section {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            border: 1px solid var(--border-color);
+        }
+
+        .breakdown-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .breakdown-title i {
+            color: var(--accent-blue);
+            font-size: 1.1rem;
+        }
+
+        .breakdown-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px dashed var(--border-color);
+            transition: var(--transition);
+        }
+
+        .breakdown-item:hover {
+            transform: translateX(4px);
+        }
+
+        .breakdown-item:last-child {
+            border-bottom: none;
+        }
+
+        .breakdown-label {
+            font-size: 0.875rem;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        .breakdown-value {
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        /* Security Badges */
+        .security-badges {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin: 24px 0;
+            flex-wrap: wrap;
+        }
+
+        .security-badge {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            padding: 16px;
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            min-width: 90px;
+            transition: var(--transition);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .security-badge:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent-blue);
+            box-shadow: var(--shadow-md);
+        }
+
+        .security-icon {
+            width: 40px;
+            height: 40px;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 2px;
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+            color: white;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 12px rgba(7, 33, 124, 0.15);
         }
 
-        .razorpay-btn-logo img {
-            height: 12px;
+        .security-text {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            font-weight: 600;
+            text-align: center;
+        }
+
+        /* Payment Button - ULTRA PREMIUM */
+        .payment-btn-container {
+            margin: 24px 0;
+            position: relative;
+        }
+
+        .payment-btn {
+            width: 100%;
+            padding: 22px 32px;
+            background: linear-gradient(135deg, #001c4f 0%, #07217c 50%, #2563eb 100%);
+            color: white;
+            border: none;
+            border-radius: var(--radius-lg);
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition-slow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            box-shadow: 0 8px 30px rgba(7, 33, 124, 0.3);
+            border: 2px solid transparent;
+        }
+
+        .payment-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: var(--transition-slow);
+        }
+
+        .payment-btn:hover::before {
+            left: 100%;
+        }
+
+        .payment-btn:hover {
+            transform: translateY(-6px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(37, 99, 235, 0.4), var(--shadow-glow);
+            background: linear-gradient(135deg, #07217c 0%, #2563eb 50%, #3b82f6 100%);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .payment-btn:active {
+            transform: translateY(-2px) scale(0.99);
+            transition: all 0.1s ease;
+        }
+
+        .payment-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .payment-btn-text {
+            font-weight: 700;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .razorpay-logo-btn {
+            height: 24px;
+            width: auto;
+            filter: brightness(0) invert(1);
+            transition: var(--transition);
+        }
+
+        .payment-btn:hover .razorpay-logo-btn {
+            transform: scale(1.1);
+        }
+
+        /* Button Effects for Mobile */
+        @media (max-width: 480px) {
+            .payment-btn {
+                padding: 20px 24px;
+                gap: 12px;
+            }
+            
+            .payment-btn-text {
+                font-size: 1rem;
+            }
+            
+            .razorpay-logo-btn {
+                height: 22px;
+            }
+        }
+
+        /* Mobile-only: Pay with Razorpay (icon only) */
+        @media (max-width: 400px) {
+            .payment-btn {
+                padding: 18px 20px;
+            }
+            
+            .payment-btn-text {
+                display: none;
+            }
+            
+            .payment-btn::after {
+                content: 'Pay with';
+                position: absolute;
+                top: 6px;
+                font-size: 0.7rem;
+                opacity: 0.9;
+                font-weight: 500;
+            }
+            
+            .razorpay-logo-btn {
+                height: 28px;
+                margin-top: 8px;
+            }
         }
 
         /* Footer Trust */
         .footer-trust {
-            padding: 24px;
-            border-top: 1px solid var(--gray-200);
-            background: var(--gray-50);
-            animation: fadeIn 0.4s ease 0.6s both;
+            text-align: center;
+            padding: 24px 0 0;
+            border-top: 1px solid var(--border-color);
+            margin-top: 24px;
         }
 
         .trust-text {
-            text-align: center;
-            color: var(--gray-600);
-            font-size: 13px;
-            line-height: 1.5;
+            font-size: 0.875rem;
+            color: var(--text-light);
             margin-bottom: 20px;
+            line-height: 1.6;
+            padding: 0 10px;
+        }
+
+        .company-info {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            flex-wrap: wrap;
         }
 
         .company-contact {
             display: flex;
-            justify-content: center;
             align-items: center;
-            gap: 20px;
-            font-size: 12px;
-            color: var(--gray-500);
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 6px;
+            gap: 8px;
+            font-size: 0.875rem;
+            color: var(--text-light);
             text-decoration: none;
-            color: inherit;
-            transition: color 0.2s ease;
+            transition: var(--transition);
+            padding: 8px 16px;
+            border-radius: var(--radius-full);
+            background: #f8fafc;
+            border: 1px solid var(--border-color);
         }
 
-        .contact-item:hover {
-            color: var(--blue);
+        .company-contact:hover {
+            color: var(--accent-blue);
+            background: white;
+            border-color: var(--accent-blue);
+            transform: translateY(-2px);
         }
-        
+
+        .company-contact i {
+            font-size: 0.875rem;
+        }
 
         /* Loading States */
-        #loading {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 10;
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 200px;
+            grid-column: 1 / -1;
         }
-       /* Simple Date Time Display */
-.simple-date-time {
-    background: var(--gray-50);
-    border-radius: var(--radius-md);
-    padding: 8px 12px;
-    margin: 12px 0 0;
-    text-align: center;
-    border: 1px solid var(--gray-200);
-    animation: fadeIn 0.4s ease 0.1s both;
-}
-
-#simpleDateTime {
-    font-size: 13px;
-    color: var(--gray-600);
-    font-weight: 500;
-}
 
         .spinner {
             width: 48px;
             height: 48px;
-            border: 3px solid var(--gray-200);
-            border-top-color: var(--blue);
+            border: 3px solid rgba(0, 28, 79, 0.1);
+            border-top-color: var(--accent-blue);
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
 
         /* Error States */
-        #errorMessage {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--white);
-            border: 1px solid var(--danger);
-            border-radius: var(--radius-md);
-            padding: 16px;
-            max-width: 400px;
-            width: 90%;
-            z-index: 1000;
-            box-shadow: var(--shadow-lg);
-            display: none;
-            animation: slideDown 0.3s ease;
+        .alert {
+            padding: 18px;
+            border-radius: var(--radius-lg);
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            animation: shake 0.5s ease;
+            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+            color: #dc2626;
+            border: 1px solid #fca5a5;
+            box-shadow: var(--shadow-sm);
+            grid-column: 1 / -1;
+        }
+
+        .alert i {
+            font-size: 1.2rem;
         }
 
         /* Animations */
-        @keyframes cardSlideUp {
+        @keyframes fadeInDown {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(-30px);
             }
             to {
                 opacity: 1;
@@ -455,21 +709,14 @@
             }
         }
 
-        @keyframes fadeIn {
+        @keyframes slideUp {
             from {
                 opacity: 0;
+                transform: translateY(40px);
             }
             to {
                 opacity: 1;
-            }
-        }
-
-        @keyframes shimmer {
-            0% {
-                background-position: -200% 0;
-            }
-            100% {
-                background-position: 200% 0;
+                transform: translateY(0);
             }
         }
 
@@ -479,212 +726,373 @@
             }
         }
 
-        @keyframes slideDown {
+        @keyframes pulseGlow {
+            0%, 100% {
+                box-shadow: 0 8px 32px rgba(7, 33, 124, 0.2);
+            }
+            50% {
+                box-shadow: 0 8px 40px rgba(37, 99, 235, 0.3);
+            }
+        }
+
+        @keyframes amountPulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.02);
+            }
+        }
+
+        @keyframes shimmer {
+            0% {
+                transform: translateX(-100%) translateY(-100%) rotate(45deg);
+            }
+            100% {
+                transform: translateX(100%) translateY(100%) rotate(45deg);
+            }
+        }
+
+        @keyframes shimmerLine {
+            0% {
+                background-position: 200% 0;
+            }
+            100% {
+                background-position: -200% 0;
+            }
+        }
+
+        @keyframes textGlow {
             from {
-                opacity: 0;
-                transform: translate(-50%, -20px);
+                filter: drop-shadow(0 0 2px rgba(37, 99, 235, 0.3));
             }
             to {
-                opacity: 1;
-                transform: translate(-50%, 0);
+                filter: drop-shadow(0 0 4px rgba(37, 99, 235, 0.5));
+            }
+        }
+
+        @keyframes shake {
+            0%, 100% {
+                transform: translateX(0);
+            }
+            10%, 30%, 50%, 70%, 90% {
+                transform: translateX(-5px);
+            }
+            20%, 40%, 60%, 80% {
+                transform: translateX(5px);
             }
         }
 
         /* Responsive Adjustments */
-        @media (max-width: 768px) {
-            .payment-card {
-                max-width: 90%;
+        @media (min-width: 768px) {
+            .checkout-card {
+                padding: 28px;
             }
             
-            .card-header {
-                padding: 24px 24px 0;
+            .amount-value {
+                font-size: 2.5rem;
             }
             
-            .header-text h1 {
-                font-size: 20px;
+            .security-badges {
+                gap: 12px;
             }
             
-            .amount {
-                font-size: 36px;
+            .security-badge {
+                min-width: 85px;
+                padding: 14px;
             }
             
-            .client-info-section,
-            .amount-card,
-            .security-row,
-            .payment-button-section {
-                margin-left: 20px;
-                margin-right: 20px;
+            .header {
+                padding: 24px 0 20px;
+            }
+            
+            .razorpay-logo-header {
+                height: 30px;
+            }
+            
+            /* Adjust card heights for grid */
+            .client-info,
+            .service-details,
+            .breakdown-section {
+                min-height: auto;
+            }
+            
+            .payment-column .checkout-card {
+                position: sticky;
+                top: 120px;
             }
         }
 
-        @media (max-width: 480px) {
-            .company-contact {
+        @media (max-width: 767px) {
+            .checkout-card {
+                padding: 24px;
+            }
+            
+            .card-header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .amount-value {
+                font-size: 2.25rem;
+            }
+            
+            .payment-btn {
+                padding: 20px;
+            }
+            
+            .security-badge {
+                min-width: 80px;
+                padding: 12px;
+            }
+            
+            .company-info {
                 flex-direction: column;
                 gap: 12px;
             }
             
-            .amount {
-                font-size: 32px;
+            .company-contact {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .checkout-card {
+                padding: 20px;
             }
             
-            .security-row {
-                gap: 16px;
+            .card-header h1 {
+                font-size: 1.3rem;
             }
-             .date-info {
-        flex-wrap: wrap;
-        gap: 6px;
-        font-size: 12px;
-    }
-    
-    .date-info span:not(.separator) {
-        flex: 1;
-        text-align: center;
-        min-width: 100px;
-    }
-    
-    .separator {
-        display: none;
-    }
+            
+            .amount-value {
+                font-size: 2rem;
+            }
+            
+            .security-badges {
+                gap: 8px;
+            }
+            
+            .security-badge {
+                min-width: 75px;
+                padding: 10px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .checkout-card {
+                padding: 18px;
+            }
+            
+            .card-header h1 {
+                font-size: 1.2rem;
+            }
+            
+            .amount-value {
+                font-size: 1.8rem;
+            }
+        }
+
+        /* Enhanced Mobile Experience */
+        @media (max-width: 767px) {
+            .checkout-card {
+                border-radius: var(--radius-lg);
+            }
+            
+            .card-header {
+                margin-bottom: 24px;
+                padding-bottom: 20px;
+            }
+            
+            .client-info, .amount-card, .breakdown-section, .service-details {
+                padding: 20px;
+            }
+            
+            .payment-btn-container {
+                margin: 20px 0;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Main Container -->
-    <div class="main-container">
-        <!-- Loading Spinner -->
-        <div id="loading" class="loading">
-            <div class="spinner"></div>
-        </div>
-
-        <!-- Error Message -->
-        <div id="errorMessage" class="alert alert-error" style="display: none;">
-            <i class="fas fa-exclamation-circle"></i>
-            <span id="errorText"></span>
-            <button onclick="toggleDebug()" style="margin-left: auto; background: none; border: none; color: inherit; cursor: pointer;">
-                <i class="fas fa-bug"></i> Debug
-            </button>
-        </div>
-
-        <!-- Payment Card -->
-        <div class="payment-card" id="paymentContainer" style="display: none;">
-            <!-- Header -->
-            <div class="card-header">
-                <div class="logo-container">
-                    <div class="razorpay-logo">
-                        <img src="https://razorpay.com/assets/razorpay-logo.svg" alt="Razorpay">
-                    </div>
-                </div>
-                
-                <div class="header-text">
-                    <h1>Secure Payment Portal</h1>
-                    <div class="subtitle">
-                        <span>Powered by Razorpay</span>
-                        <span class="security-badge">
-                            <i class="fas fa-shield-alt"></i>
-                            PCI-DSS
-                        </span>
-                    </div>
-                </div>
-            </div>
-                <!-- Simple Date Time Display -->
-<div class="simple-date-time">
-    <span id="simpleDateTime">Loading date and time...</span>
-</div>
-
-            <!-- Client Information -->
-            <div class="client-info-section">
-                <div class="info-row">
-                    <span class="info-label">Client Name</span>
-                    <span class="info-value" id="clientName">
-                        <span class="skeleton"></span>
-                    </span>
-                </div>
-                
-                <div class="info-row">
-                    <span class="info-label">Service</span>
-                    <span class="info-value" id="serviceName">
-                        <span class="skeleton"></span>
-                    </span>
-                </div>
-                
-                <div class="info-row">
-                    <span class="info-label">Billing Cycle</span>
-                    <span class="info-value" id="billingCycle">
-                        <span class="skeleton"></span>
-                    </span>
-                </div>
-                
-                <div class="info-row">
-                    <span class="info-label">Client ID</span>
-                    <span class="info-value" id="clientIdBadge">
-                        <span class="skeleton"></span>
-                    </span>
-                </div>
-            </div>
-
-            <!-- Amount Card -->
-            <div class="amount-card">
-                <div class="amount-label">Total Amount Payable</div>
-                <div class="amount" id="finalAmount">
-                    ₹<span class="skeleton" style="width: 120px; height: 42px; display: inline-block; vertical-align: middle;"></span>
-                </div>
-                <div class="amount-note">Including all taxes & charges</div>
-            </div>
-
-            <!-- Security Badges -->
-            <div class="security-row">
-                <div class="security-item">
-                    <div class="security-icon">
-                        <i class="fas fa-lock"></i>
-                    </div>
-                    <span class="security-text">SSL Secured</span>
-                </div>
-                
-                <div class="security-item">
-                    <div class="security-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <span class="security-text">100% Secure</span>
-                </div>
-                
-                <div class="security-item">
-                    <div class="security-icon">
-                        <i class="fas fa-check-circle"></i>
-                    </div>
-                    <span class="security-text">PCI DSS</span>
-                </div>
-            </div>
-
-            <!-- Payment Button -->
-            <div class="payment-button-section">
-                <button class="payment-btn" id="payButton" disabled>
-                    <div class="button-content">
-                        <span>Pay Securely with Razorpay</span>
-                    </div>
-                </button>
-            </div>
-
-            <!-- Footer Trust -->
-            <div class="footer-trust">
-                <p class="trust-text">
-                    Your payment is processed by Razorpay. We do not store card details.
-                </p>
-                
-                <div class="company-contact">
-                    <a href="tel:+916367556906" class="contact-item">
-                        <i class="fas fa-phone"></i>
-                        <span>+91 6367556906</span>
-                    </a>
-                    
-                    <a href="mailto:info@infogrip.com" class="contact-item">
-                        <i class="fas fa-envelope"></i>
-                        <span>info@infogrip.com</span>
-                    </a>
-                </div>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <img src="https://razorpay.com/assets/razorpay-logo.svg" alt="Razorpay" class="razorpay-logo-header">
             </div>
         </div>
-    </div>
-     <!-- Footer -->
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Loading State -->
+            <div id="loading" class="loading">
+                <div class="spinner"></div>
+            </div>
+
+            <!-- Error Message -->
+            <div id="errorMessage" class="alert alert-error" style="display: none;">
+                <i class="fas fa-exclamation-circle"></i>
+                <span id="errorText"></span>
+            </div>
+
+            <div class="checkout-grid" id="checkoutGrid" style="display: none;">
+                <!-- Left Column: Client Details -->
+                <div class="client-details-column">
+                    <!-- Header Card -->
+                    <div class="checkout-card">
+                        <div class="card-header">
+                            <h1>Secure Payment Portal</h1>
+                            <div class="card-subtitle">
+                                <span class="badge success">
+                                    <i class="fas fa-shield-alt"></i>
+                                    100% Secure
+                                </span>
+                                <span class="badge">
+                                    <i class="fas fa-lock"></i>
+                                    PCI-DSS
+                                </span>
+                                <span class="badge warning">
+                                    <i class="fas fa-bolt"></i>
+                                    Powered by Razorpay
+                                </span>
+                            </div>
+                            <div class="datetime" id="currentDateTime">
+                                Wednesday, 25 Dec 2024, 14:30:45
+                            </div>
+                        </div>
+
+                        <!-- Client Information -->
+                        <div class="client-info" id="clientInfoSection">
+                            <div class="info-row">
+                                <span class="info-label">Client</span>
+                                <span class="info-value">
+                                    <span id="clientName">Loading...</span>
+                                    <div class="client-id-badge" id="clientIdBadge">ID: Loading...</div>
+                                </span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Email</span>
+                                <span class="info-value" id="clientEmail">Loading...</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Mobile</span>
+                                <span class="info-value" id="clientMobile">Loading...</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Category</span>
+                                <span class="info-value" id="clientCategory">Loading...</span>
+                            </div>
+                        </div>
+
+                        <!-- Service Details -->
+                        <div class="service-details">
+                            <h3><i class="fas fa-cube"></i> Service Details</h3>
+                            <div class="info-row">
+                                <span class="info-label">Service</span>
+                                <span class="info-value" id="serviceName">Loading...</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Billing Cycle</span>
+                                <span class="info-value" id="billingCycle">Loading...</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Subscription Status</span>
+                                <span class="info-value" id="subscriptionStatus">Loading...</span>
+                            </div>
+                        </div>
+
+                        <!-- Amount Breakdown -->
+                        <div class="breakdown-section" id="breakdownSection">
+                            <div class="breakdown-title">
+                                <i class="fas fa-receipt"></i>
+                                Amount Breakdown
+                            </div>
+                            <div class="breakdown-item">
+                                <span class="breakdown-label">Base Amount</span>
+                                <span class="breakdown-value" id="baseAmount">₹0</span>
+                            </div>
+                            <div class="breakdown-item" id="gstRow" style="display: none;">
+                                <span class="breakdown-label">GST <span id="gstPercent"></span></span>
+                                <span class="breakdown-value" id="gstAmount">₹0</span>
+                            </div>
+                            <div class="breakdown-item" id="discountRow" style="display: none;">
+                                <span class="breakdown-label">Discount</span>
+                                <span class="breakdown-value" id="discountAmount">-₹0</span>
+                            </div>
+                            <div class="breakdown-item" id="extraRow" style="display: none;">
+                                <span class="breakdown-label">Extra Charges</span>
+                                <span class="breakdown-value" id="extraAmount">₹0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Payment Box (Sticky on Tablet+) -->
+                <div class="payment-column">
+                    <div class="payment-sticky-container">
+                        <div class="checkout-card">
+                            <!-- Amount Card -->
+                            <div class="amount-card" id="amountCard">
+                                <div class="amount-label">Total Amount Payable</div>
+                                <div class="amount-value" id="finalAmount">₹0</div>
+                                <div class="amount-note">Including all taxes & charges</div>
+                            </div>
+
+                            <!-- Security Badges -->
+                            <div class="security-badges">
+                                <div class="security-badge">
+                                    <div class="security-icon">
+                                        <i class="fas fa-lock"></i>
+                                    </div>
+                                    <span class="security-text">SSL Secured</span>
+                                </div>
+                                <div class="security-badge">
+                                    <div class="security-icon">
+                                        <i class="fas fa-shield-alt"></i>
+                                    </div>
+                                    <span class="security-text">100% Secure</span>
+                                </div>
+                                <div class="security-badge">
+                                    <div class="security-icon">
+                                        <i class="fas fa-user-shield"></i>
+                                    </div>
+                                    <span class="security-text">PCI DSS</span>
+                                </div>
+                            </div>
+
+                            <!-- Payment Button Container -->
+                            <div class="payment-btn-container">
+                                <button class="payment-btn" id="payButton" disabled>
+                                    <span class="payment-btn-text">Pay With</span>
+                                    <img src="https://razorpay.com/assets/razorpay-logo.svg" alt="Razorpay" class="razorpay-logo-btn">
+                                </button>
+                            </div>
+
+                            <!-- Footer Trust -->
+                            <div class="footer-trust">
+                                <p class="trust-text">
+                                    Your payment is processed by Razorpay. We do not store card details.
+                                </p>
+                                <div class="company-info">
+                                    <a href="tel:+916367556906" class="company-contact">
+                                        <i class="fas fa-phone"></i>
+                                        +91 6367556906
+                                    </a>
+                                    <a href="mailto:info@infogrip.com" class="company-contact">
+                                        <i class="fas fa-envelope"></i>
+                                        info@infogrip.com
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- Footer -->
     <footer id="contact">
         <div class="container">
             <div class="footer-content">
@@ -732,10 +1140,10 @@
         </a>
         </div>
 
+
     <!-- Razorpay Script -->
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     
-    <!-- EXISTING JAVASCRIPT (Unchanged) -->
     <script>
         // ============================================
         // CONFIGURATION
@@ -748,7 +1156,6 @@
         const urlParams = new URLSearchParams(window.location.search);
         const clientId = urlParams.get('clientId');
         let clientData = null;
-        let paymentLink = '';
         
         // ============================================
         // INITIALIZATION
@@ -756,16 +1163,37 @@
         document.addEventListener('DOMContentLoaded', function() {
             console.log('Page loaded', { clientId: clientId, url: window.location.href });
             
+            // Update date time
+            updateDateTime();
+            setInterval(updateDateTime, 1000);
+            
             if (!clientId) {
                 showError('Client ID not found in URL. Please use a valid payment link.');
                 document.getElementById('loading').style.display = 'none';
                 return;
             }
-             // ▼▼▼ ADD THIS LINE RIGHT HERE ▼▼▼
-             initSimpleDateTime(); // ← ADD THIS LINE
             
+            // Load client data
             loadClientData();
         });
+        
+        function updateDateTime() {
+            const now = new Date();
+            const options = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'short', 
+                day: 'numeric' 
+            };
+            const dateStr = now.toLocaleDateString('en-IN', options);
+            const timeStr = now.toLocaleTimeString('en-IN', { 
+                hour: '2-digit', 
+                minute: '2-digit', 
+                second: '2-digit',
+                hour12: false 
+            });
+            document.getElementById('currentDateTime').textContent = `${dateStr}, ${timeStr}`;
+        }
         
         // ============================================
         // CLIENT DATA FUNCTIONS
@@ -809,19 +1237,32 @@
         function displayClientData() {
             console.log('Displaying client data');
             
+            // Hide loading, show content
             document.getElementById('loading').style.display = 'none';
-            document.getElementById('paymentContainer').style.display = 'block';
+            document.getElementById('checkoutGrid').style.display = 'grid';
+            document.getElementById('clientInfoSection').style.display = 'block';
+            document.getElementById('amountCard').style.display = 'block';
+            document.getElementById('breakdownSection').style.display = 'block';
             
+            // Check if client data is valid
             if (!clientData || !clientData.clientName) {
                 showError('Invalid client data received. Please contact support.');
                 return;
             }
             
-            document.getElementById('clientIdBadge').textContent = clientData.clientId || clientId;
+            // Basic client info
+            document.getElementById('clientIdBadge').textContent = `ID: ${clientData.clientId || clientId}`;
             document.getElementById('clientName').textContent = clientData.clientName || 'N/A';
+            document.getElementById('clientEmail').textContent = clientData.email || 'N/A';
+            document.getElementById('clientMobile').textContent = clientData.mobile || 'N/A';
+            document.getElementById('clientCategory').textContent = clientData.category || 'Not specified';
+            
+            // Service info
             document.getElementById('serviceName').textContent = clientData.serviceName || 'No service specified';
             document.getElementById('billingCycle').textContent = clientData.billingCycle || 'Monthly';
+            document.getElementById('subscriptionStatus').textContent = clientData.subscriptionStatus || 'Active';
             
+            // Amount breakdown
             const baseAmount = parseFloat(clientData.baseAmount) || 0;
             const gstApplicable = clientData.gstApplicable === 'Yes';
             const gstPercent = parseFloat(clientData.gstPercent) || 18;
@@ -839,20 +1280,39 @@
             let gstAmount = 0;
             if (gstApplicable && baseAmount > 0) {
                 gstAmount = (baseAmount * gstPercent) / 100;
+                document.getElementById('gstRow').style.display = 'flex';
+                document.getElementById('gstPercent').textContent = `@${gstPercent}%`;
+                document.getElementById('gstAmount').textContent = `₹${gstAmount.toFixed(2)}`;
             }
             
+            if (discount > 0) {
+                document.getElementById('discountRow').style.display = 'flex';
+                document.getElementById('discountAmount').textContent = `-₹${discount.toFixed(2)}`;
+            }
+            
+            if (extraCharges > 0) {
+                document.getElementById('extraRow').style.display = 'flex';
+                document.getElementById('extraAmount').textContent = `₹${extraCharges.toFixed(2)}`;
+            }
+            
+            // Calculate final amount
             let finalAmount = baseAmount + gstAmount - discount + extraCharges;
             
+            // Use calculated final amount if available
             if (clientData.finalAmount) {
                 finalAmount = parseFloat(clientData.finalAmount);
             }
             
+            // Ensure minimum amount for Razorpay (₹1)
             if (finalAmount < 1) {
                 finalAmount = 1;
                 console.log('Amount too low, setting to minimum:', finalAmount);
             }
             
-            document.getElementById('finalAmount').innerHTML = `₹${finalAmount.toFixed(2)}`;
+            document.getElementById('baseAmount').textContent = `₹${baseAmount.toFixed(2)}`;
+            document.getElementById('finalAmount').textContent = `₹${finalAmount.toFixed(2)}`;
+            
+            // Store final amount in clientData
             clientData.calculatedAmount = finalAmount;
             
             console.log('Final amount calculated:', { 
@@ -865,6 +1325,8 @@
             const payButton = document.getElementById('payButton');
             
             payButton.addEventListener('click', initiatePayment);
+            
+            // Enable button
             payButton.disabled = false;
             
             console.log('Payment setup complete');
@@ -878,7 +1340,12 @@
             
             const payButton = document.getElementById('payButton');
             payButton.disabled = true;
-            payButton.innerHTML = '<div class="button-content"><i class="fas fa-spinner fa-spin"></i> Processing...</div>';
+            
+            // Mobile vs Desktop loading text
+            const isMobile = window.innerWidth <= 480;
+            payButton.innerHTML = isMobile ? 
+                `<div class="spinner" style="width: 20px; height: 20px; border-width: 2px;"></div>` :
+                `<div class="spinner" style="width: 20px; height: 20px; border-width: 2px;"></div> Processing...`;
             
             try {
                 const finalAmount = clientData.calculatedAmount || calculateFinalAmount(clientData);
@@ -890,6 +1357,7 @@
                     amountInPaise: amountInPaise
                 });
                 
+                // Create Razorpay order using GET request
                 const url = `${SCRIPT_URL}?action=createOrder&clientId=${clientId}&amount=${amountInPaise}`;
                 console.log('Request URL:', url);
                 
@@ -913,7 +1381,8 @@
                 console.error('Payment initiation error:', error);
                 showError('Payment failed: ' + error.message);
                 payButton.disabled = false;
-                payButton.innerHTML = '<div class="button-content"><div class="razorpay-btn-logo"><img src="https://razorpay.com/assets/razorpay-logo.svg" alt="Razorpay"></div><span>Pay Securely with Razorpay</span></div>';
+                // Restore original button content based on screen size
+                restoreButtonContent();
             }
         }
         
@@ -927,13 +1396,14 @@
             const finalAmount = clientData.calculatedAmount || calculateFinalAmount(clientData);
             const amountInPaise = Math.round(finalAmount * 100);
             
+            // Use key from orderData
             const razorpayKey = orderData.key;
             
             if (!razorpayKey || razorpayKey.includes('YOUR_TEST_KEY_ID')) {
                 showError('Payment gateway not configured. Please contact support.');
                 const payButton = document.getElementById('payButton');
                 payButton.disabled = false;
-                payButton.innerHTML = '<div class="button-content"><div class="razorpay-btn-logo"><img src="https://razorpay.com/assets/razorpay-logo.svg" alt="Razorpay"></div><span>Pay Securely with Razorpay</span></div>';
+                restoreButtonContent();
                 return;
             }
             
@@ -965,7 +1435,7 @@
                         console.log('Razorpay modal dismissed');
                         const payButton = document.getElementById('payButton');
                         payButton.disabled = false;
-                        payButton.innerHTML = '<div class="button-content"><div class="razorpay-btn-logo"><img src="https://razorpay.com/assets/razorpay-logo.svg" alt="Razorpay"></div><span>Pay Securely with Razorpay</span></div>';
+                        restoreButtonContent();
                     }
                 }
             };
@@ -976,12 +1446,13 @@
                 order_id: options.order_id
             });
             
+            // Check if Razorpay is loaded
             if (typeof Razorpay === 'undefined') {
                 showError('Razorpay payment gateway not loaded. Please refresh the page or check your internet connection.');
                 console.error('Razorpay not loaded');
                 const payButton = document.getElementById('payButton');
                 payButton.disabled = false;
-                payButton.innerHTML = '<div class="button-content"><div class="razorpay-btn-logo"><img src="https://razorpay.com/assets/razorpay-logo.svg" alt="Razorpay"></div><span>Pay Securely with Razorpay</span></div>';
+                restoreButtonContent();
                 return;
             }
             
@@ -994,7 +1465,7 @@
                 showError('Failed to open payment gateway: ' + error.message);
                 const payButton = document.getElementById('payButton');
                 payButton.disabled = false;
-                payButton.innerHTML = '<div class="button-content"><div class="razorpay-btn-logo"><img src="https://razorpay.com/assets/razorpay-logo.svg" alt="Razorpay"></div><span>Pay Securely with Razorpay</span></div>';
+                restoreButtonContent();
             }
         }
         
@@ -1002,29 +1473,30 @@
             console.log('Verifying payment:', paymentResponse);
             
             const payButton = document.getElementById('payButton');
-            payButton.innerHTML = '<div class="button-content"><i class="fas fa-spinner fa-spin"></i> Verifying...</div>';
+            const isMobile = window.innerWidth <= 480;
+            payButton.innerHTML = isMobile ? 
+                `<div class="spinner" style="width: 20px; height: 20px; border-width: 2px;"></div>` :
+                `<div class="spinner" style="width: 20px; height: 20px; border-width: 2px;"></div> Verifying...`;
             
             try {
                 const finalAmount = clientData.calculatedAmount || calculateFinalAmount(clientData);
-                const amountInPaise = Math.round(finalAmount * 100);
                 
                 console.log('Sending verification request:', {
                     orderId: paymentResponse.razorpay_order_id,
                     paymentId: paymentResponse.razorpay_payment_id,
                     signature: paymentResponse.razorpay_signature,
                     clientId: clientId,
-                    amount: amountInPaise
+                    amount: finalAmount
                 });
                 
-                
                 const params = new URLSearchParams({
-                action: 'verifyPayment',
-                razorpay_order_id: paymentResponse.razorpay_order_id,
-                razorpay_payment_id: paymentResponse.razorpay_payment_id,
-                razorpay_signature: paymentResponse.razorpay_signature,
-                clientId: clientId,
-                amount: finalAmount
-               });
+                    action: 'verifyPayment',
+                    razorpay_order_id: paymentResponse.razorpay_order_id,
+                    razorpay_payment_id: paymentResponse.razorpay_payment_id,
+                    razorpay_signature: paymentResponse.razorpay_signature,
+                    clientId: clientId,
+                    amount: finalAmount
+                });
 
                 const response = await fetch(`${SCRIPT_URL}?${params.toString()}`);
                 
@@ -1058,7 +1530,7 @@
                 console.error('Payment verification error:', error);
                 showError('Payment verification failed: ' + error.message);
                 payButton.disabled = false;
-                payButton.innerHTML = '<div class="button-content"><div class="razorpay-btn-logo"><img src="https://razorpay.com/assets/razorpay-logo.svg" alt="Razorpay"></div><span>Pay Securely with Razorpay</span></div>';
+                restoreButtonContent();
             }
         }
         
@@ -1077,6 +1549,27 @@
             return finalAmount < 1 ? 1 : finalAmount;
         }
         
+        function restoreButtonContent() {
+            const payButton = document.getElementById('payButton');
+            const isMobile = window.innerWidth <= 480;
+            if (isMobile && window.innerWidth <= 400) {
+                payButton.innerHTML = `
+                    <span class="payment-btn-text" style="display: none;"></span>
+                    <img src="https://razorpay.com/assets/razorpay-logo.svg" alt="Razorpay" class="razorpay-logo-btn">
+                `;
+            } else if (isMobile) {
+                payButton.innerHTML = `
+                    <span class="payment-btn-text">Pay with</span>
+                    <img src="https://razorpay.com/assets/razorpay-logo.svg" alt="Razorpay" class="razorpay-logo-btn">
+                `;
+            } else {
+                payButton.innerHTML = `
+                    <span class="payment-btn-text">Pay Securely with</span>
+                    <img src="https://razorpay.com/assets/razorpay-logo.svg" alt="Razorpay" class="razorpay-logo-btn">
+                `;
+            }
+        }
+        
         function showError(message) {
             console.error('Showing error:', message);
             
@@ -1088,70 +1581,6 @@
             
             document.getElementById('loading').style.display = 'none';
         }
-        
-        // ============================================
-        // DEBUG FUNCTIONS (Unchanged)
-        // ============================================
-        function toggleDebug() {
-            // Debug functionality removed for premium UI
-            alert('Debug functionality is disabled in the premium interface.');
-        }
-        
-        function clearDebug() {
-            // Debug functionality removed for premium UI
-        }
-        
-        function testPayment(amountInPaise) {
-            console.log('Test payment initiated:', amountInPaise);
-            alert('Test payment feature disabled in production. Use actual payment.');
-        }
-        
-        function testRazorpayDirect() {
-            console.log('Testing Razorpay directly');
-            alert('Direct test disabled in production.');
-        }
-        
-        function checkRazorpayScript() {
-            if (typeof Razorpay === 'undefined') {
-                alert('❌ Razorpay script NOT loaded!\nCheck browser console for errors.');
-                console.error('Razorpay script failed to load.');
-            } else {
-                alert('✅ Razorpay script is loaded successfully!');
-                console.log('Razorpay script is loaded');
-            }
-        }
- // ============================================
-// SIMPLE DATE TIME FUNCTIONS
-// ============================================
-function updateSimpleDateTime() {
-    const now = new Date();
-    
-    // Format: "Wednesday, 25 Dec 2024, 14:30:45"
-    const day = now.toLocaleDateString('en-IN', { weekday: 'long' });
-    const date = now.toLocaleDateString('en-IN', { 
-        day: 'numeric', 
-        month: 'short', 
-        year: 'numeric' 
-    });
-    const time = now.toLocaleTimeString('en-IN', { 
-        hour: '2-digit', 
-        minute: '2-digit',
-        second: '2-digit',
-        hour12: false 
-    });
-    
-    // Combine into one text
-    const dateTimeText = `${day}, ${date}, ${time}`;
-    
-    // Update element
-    document.getElementById('simpleDateTime').textContent = dateTimeText;
-}
-
-function initSimpleDateTime() {
-    updateSimpleDateTime();
-    // Update every second (1000ms)
-    setInterval(updateSimpleDateTime, 1000);
-}
         
         // ============================================
         // INITIAL CHECKS
