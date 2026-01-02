@@ -440,12 +440,12 @@
                     patterns: ['contact', 'call', 'phone', 'meet', 'संपर्क', 'कॉल', 'मिलना'],
                     responses: {
                         english: [
-                            "You can reach our political campaign team at +91 6367556906, email political@infogrip.com, or fill our political onboarding form. We offer free initial consultation for serious candidates.",
-                            "Contact our campaign specialists at +91 6367556906. We're available 9 AM to 9 PM, 7 days a week during election seasons."
+                            "You can reach our political campaign team at +91 9928140288, email political@infogrip.com, or fill our political onboarding form. We offer free initial consultation for serious candidates.",
+                            "Contact our campaign specialists at +91 9928140288. We're available 9 AM to 9 PM, 7 days a week during election seasons."
                         ],
                         hindi: [
-                            "आप हमारी राजनीतिक अभियान टीम को +91 6367556906 पर, ईमेल political@infogrip.com पर, या हमारा राजनीतिक ऑनबोर्डिंग फॉर्म भरकर संपर्क कर सकते हैं। हम गंभीर उम्मीदवारों के लिए मुफ्त प्रारंभिक परामर्श प्रदान करते हैं।",
-                            "हमारे अभियान विशेषज्ञों से +91 6367556906 पर संपर्क करें। हम चुनाव के मौसम के दौरान सप्ताह के 7 दिन, सुबह 9 बजे से रात 9 बजे तक उपलब्ध हैं।"
+                            "आप हमारी राजनीतिक अभियान टीम को +91 9928140288 पर, ईमेल political@infogrip.com पर, या हमारा राजनीतिक ऑनबोर्डिंग फॉर्म भरकर संपर्क कर सकते हैं। हम गंभीर उम्मीदवारों के लिए मुफ्त प्रारंभिक परामर्श प्रदान करते हैं।",
+                            "हमारे अभियान विशेषज्ञों से +91 9928140288 पर संपर्क करें। हम चुनाव के मौसम के दौरान सप्ताह के 7 दिन, सुबह 9 बजे से रात 9 बजे तक उपलब्ध हैं।"
                         ]
                     }
                 }
@@ -602,10 +602,10 @@
                             <button class="action-btn" onclick="window.open('onboarding.html', '_blank')">
                                 <i class="fas fa-file-alt"></i> Fill Political Form
                             </button>
-                            <button class="action-btn" onclick="window.open('tel:+916367556906')">
+                            <button class="action-btn" onclick="window.open('tel:+919928140288')">
                                 <i class="fas fa-phone"></i> Call Campaign Team
                             </button>
-                            <button class="action-btn" onclick="window.open('https://wa.me/916367556906', '_blank')">
+                            <button class="action-btn" onclick="window.open('https://wa.me/919928140288', '_blank')">
                                 <i class="fab fa-whatsapp"></i> WhatsApp
                             </button>
                         </div>
