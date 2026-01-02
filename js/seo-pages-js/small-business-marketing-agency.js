@@ -434,7 +434,7 @@
             }
             
             if (lowerMessage.includes('contact') || lowerMessage.includes('call') || lowerMessage.includes('email')) {
-                return "You can reach us at +91 6367556906 or email info@infogrip.com. We typically respond within 2 hours during business days.";
+                return "You can reach us at +91 9928140288 or email info@infogrip.com. We typically respond within 2 hours during business days.";
             }
             
             return smallBusinessKnowledge.default[Math.floor(Math.random() * smallBusinessKnowledge.default.length)];
