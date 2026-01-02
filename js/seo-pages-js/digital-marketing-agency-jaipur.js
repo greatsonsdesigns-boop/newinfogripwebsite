@@ -295,7 +295,7 @@
         // ===== CHATBOT FUNCTIONALITY =====
         document.getElementById('chatbot-btn').addEventListener('click', (e) => {
             e.preventDefault();
-            window.open('https://wa.me/916367556906', '_blank');
+            window.open('https://wa.me/919928140288', '_blank');
         });
 
         // ===== INITIALIZE =====
