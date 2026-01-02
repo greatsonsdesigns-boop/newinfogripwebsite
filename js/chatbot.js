@@ -216,8 +216,8 @@ document.addEventListener('DOMContentLoaded', function() {
                             break;
                         case 'contact':
                             response = selectedLanguage === 'english'
-                                ? "You can reach us at +91 6367556906, email info@infogrip.com, or fill out our onboarding form at infogrip.com/onboarding.html"
-                                : "आप हमें +91 6367556906 पर, ईमेल info@infogrip.com पर, या infogrip.com/onboarding.html पर हमारा ऑनबोर्डिंग फॉर्म भरकर संपर्क कर सकते हैं";
+                                ? "You can reach us at +91 9928140288, email info@infogrip.com, or fill out our onboarding form at infogrip.com/onboarding.html"
+                                : "आप हमें +91 9928140288 पर, ईमेल info@infogrip.com पर, या infogrip.com/onboarding.html पर हमारा ऑनबोर्डिंग फॉर्म भरकर संपर्क कर सकते हैं";
                             break;
                     }
                     addMessage(response);
@@ -248,8 +248,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         response = knowledgeBase.commonQuestions.howMuch[selectedLanguage];
                     } else if (lowerMessage.includes('contact') || lowerMessage.includes('call') || lowerMessage.includes('email')) {
                         response = selectedLanguage === 'english'
-                            ? "You can reach us at +91 6367556906, email info@infogrip.com, or fill out our onboarding form at infogrip.com/onboarding.html"
-                            : "आप हमें +91 6367556906 पर, ईमेल info@infogrip.com पर, या infogrip.com/onboarding.html पर हमारा ऑनबोर्डिंग फॉर्म भरकर संपर्क कर सकते हैं";
+                            ? "You can reach us at +91 9928140288, email info@infogrip.com, or fill out our onboarding form at infogrip.com/onboarding.html"
+                            : "आप हमें +91 9928140288 पर, ईमेल info@infogrip.com पर, या infogrip.com/onboarding.html पर हमारा ऑनबोर्डिंग फॉर्म भरकर संपर्क कर सकते हैं";
                     } else {
                         response = selectedLanguage === 'english'
                             ? "Thanks for your message! I'm here to help with your marketing needs. Would you like to know about our services, pricing, or see some examples of our work?"
