@@ -1,3 +1,7 @@
+
+
+document.body.classList.add("header-ready");
+
 // Common utility functions and shared functionality
 
 // Debounce function for performance
@@ -165,6 +169,7 @@ if (window.innerWidth > 768 && cursor && cursorFollower) {
 }
 
 // ===== CYLINDRICAL HEADER FUNCTIONALITY =====
+
 document.addEventListener('DOMContentLoaded', function() {
     console.log('🚀 Initializing Premium Cylindrical Header...');
     
@@ -391,18 +396,13 @@ document.addEventListener('DOMContentLoaded', function() {
     // ===== SCROLL EFFECT =====
     function initScrollEffect() {
         window.addEventListener('scroll', function() {
-            if (!cylindricalHeader) return;
-            
-            if (window.scrollY > 50) {
-                cylindricalHeader.classList.add('scrolled');
-            } else {
-                cylindricalHeader.classList.remove('scrolled');
-            }
-        });
-        
-        window.dispatchEvent(new Event('scroll'));
+    if (window.scrollY > 150) {
+        cylindricalHeader.classList.add('scrolled');
+    } else {
+        cylindricalHeader.classList.remove('scrolled');
     }
-    
+});
+    }
     // ===== ACTIVE LINK MANAGEMENT =====
     function initActiveLinks() {
         function setActiveLink() {
@@ -725,3 +725,4 @@ setTimeout(function() {
     console.log('✅ Added manual theme toggle handler');
     
 }, 2000);
+
