@@ -1,3 +1,4 @@
+
 /* Header Styles */
 /* Hide original header */
 header:not(.cylindrical-header) {
@@ -8,8 +9,11 @@ header:not(.cylindrical-header) {
 .cylindrical-header {
     position: fixed;
     top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
+    
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+
     width: 94%;
     max-width: 1400px;
     height: 100px;
@@ -20,7 +24,6 @@ header:not(.cylindrical-header) {
     -webkit-backdrop-filter: blur(20px);
     box-shadow: 0 10px 40px rgba(0, 28, 79, 0.15), 0 0 0 1.5px rgba(255, 255, 255, 0.8);
     z-index: 1000;
-    transition: all 0.4s ease;
     overflow: hidden;
 }
 
@@ -33,7 +36,7 @@ header:not(.cylindrical-header) {
 
 /* Scrolled State */
 .cylindrical-header.scrolled {
-    height: 80px;
+    height: 100px; /* same as default */
     top: 15px;
     border-radius: 40px;
 }
@@ -64,19 +67,15 @@ header:not(.cylindrical-header) {
 }
 
 .cylindrical-header .logo-img {
-    height: 150px;
+    height: 200px;
     width: auto;
-    max-width: 300px;
+    max-width: 320px;
     object-fit: contain;
-    transition: all 0.3s ease;
+    transition: none;
 }
 
 .dark-theme .cylindrical-header .logo-img {
     filter: brightness(0) invert(1);
-}
-
-.cylindrical-header.scrolled .logo-img {
-    height: 120px;
 }
 
 /* Navigation Menu */
@@ -262,12 +261,12 @@ body.menu-open {
     }
     
     .cylindrical-header .logo-img {
-        height: 70px;
-        max-width: 160px;
+        height: 150px;
+        max-width: 300px;
     }
     
     .cylindrical-header.scrolled .logo-img {
-        height: 60px;
+        height: 120px;
     }
     
     /* Show hamburger on mobile */
@@ -365,11 +364,11 @@ body.menu-open {
     }
     
     .cylindrical-header .logo-img {
-        height: 100px;
-        max-width: 260px;
+        height: 150px;
+        max-width: 300px;
     }
     .cylindrical-header.scrolled .logo-img {
-        height: 80px;
+        height: 120px;
     }
     
     .cylindrical-header .hamburger {
@@ -494,10 +493,18 @@ footer img[src*="assets/logo.png"] {
 }
 @media (max-width: 768px) {
     header .logo img {
-        height: 80px;
+        height: 150px;
     }
 
     footer img[src*="assets/logo.png"] {
         height: 150px !important;
     }
+}
+.cylindrical-header .nav-menu a::after {
+    display: none !important;
+}
+.nav-menu,
+.mobile-overlay,
+.mobile-menu-content {
+    transition: none !important;
 }
