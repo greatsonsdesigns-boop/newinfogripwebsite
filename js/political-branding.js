@@ -1,5 +1,6 @@
-    
-        // Services Carousel
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // Existing Services Carousel
         const services = [
             {
                 icon: 'fas fa-users',
@@ -295,8 +296,6 @@
         document.getElementById('download-brochure').addEventListener('click', function(e) {
             e.preventDefault();
             alert('Political Campaign Brochure download will start shortly. For now, please contact us for detailed information.');
-            // In production, replace with actual download link
-            // window.location.href = 'brochures/political-campaign-brochure.pdf';
         });
 
         document.getElementById('brochure-download').addEventListener('click', function(e) {
@@ -304,7 +303,7 @@
             alert('Political Strategy Kit download will start shortly. For now, please contact us for detailed information.');
         });
 
-        // Scroll Animation
+        // Scroll Animation for existing sections
         const processObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -377,319 +376,450 @@
             }
         });
 
-        // Enhanced Chatbot for Political Campaigning
-        document.addEventListener('DOMContentLoaded', function() {
-            const chatMessages = document.getElementById('chatMessages');
-            const messageInput = document.getElementById('messageInput');
-            const sendButton = document.getElementById('sendButton');
-            const quickOptions = document.querySelectorAll('.quick-option');
-            const languageOptions = document.querySelectorAll('.language-option');
+        // ==================== NEW FEATURES ====================
+
+        // Blog Carousel
+        const blogs = [
+            {
+                title: "How to Win Elections in India: Digital Strategy 2026",
+                excerpt: "Learn the proven digital strategies that helped political candidates win elections across India. From social media dominance to WhatsApp campaigning, discover what works in 2026.",
+                category: "Election Strategy",
+                readLink: "../blog/how-to-win-elections-india.html",
+                image: "https://images.unsplash.com/photo-1540910419892-4a36d2c3266c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                title: "Political Branding vs Political Marketing: Key Differences",
+                excerpt: "Understanding the crucial difference between building a political brand and marketing it. Learn why successful politicians master both for long-term success.",
+                category: "Branding",
+                readLink: "../blog/political-branding-vs-marketing.html",
+                image: "https://images.unsplash.com/photo-1551135042-1035a519c37f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                title: "Digital Campaign Strategy for Indian Politicians",
+                excerpt: "Step-by-step guide to creating effective digital campaigns for Indian elections. Budget allocation, platform selection, and measurement metrics explained.",
+                category: "Digital Strategy",
+                readLink: "../blog/digital-campaign-strategy.html",
+                image: "https://images.unsplash.com/photo-1580136607996-cab1c2ef76dc?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                title: "Social Media Strategy for Political Leaders in Hindi Belt",
+                excerpt: "How to effectively use social media to connect with Hindi-speaking voters. Language nuances, cultural references, and regional content strategies.",
+                category: "Social Media",
+                readLink: "../blog/hindi-social-media-strategy.html",
+                image: "https://images.unsplash.com/photo-1590080876092-9667b2d6b668?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                title: "2026 Election Preparation: 12-Month Timeline",
+                excerpt: "Complete timeline for election preparation starting 12 months before polling day. What to do each month for maximum impact and voter connection.",
+                category: "Planning",
+                readLink: "../blog/2026-election-timeline.html",
+                image: "https://images.unsplash.com/photo-1540910419892-4a36d2c3266c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                title: "Hindi Political Campaigning: Language Strategy",
+                excerpt: "How to craft political messages in Hindi that resonate with diverse audiences across North India. Balancing formal and colloquial language for maximum impact.",
+                category: "Communication",
+                readLink: "../blog/hindi-political-communication.html",
+                image: "https://images.unsplash.com/photo-1551135042-1035a519c37f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                title: "Election Commission Guidelines for Digital Campaigns",
+                excerpt: "Complete guide to Election Commission rules for digital political advertising. Spending limits, disclaimers, silence period, and compliance requirements.",
+                category: "Legal",
+                readLink: "../blog/eci-digital-guidelines.html",
+                image: "https://images.unsplash.com/photo-1580136607996-cab1c2ef76dc?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                title: "Youth Voter Targeting: Strategies That Work",
+                excerpt: "How to connect with 18-35 year old voters through digital channels. Understanding youth issues, communication style, and platform preferences.",
+                category: "Targeting",
+                readLink: "../blog/youth-voter-strategy.html",
+                image: "https://images.unsplash.com/photo-1590080876092-9667b2d6b668?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+            }
+        ];
+
+        const blogTrack = document.getElementById('blog-track');
+        const blogNav = document.getElementById('blog-nav');
+        let currentBlogSlide = 0;
+        const blogsPerSlide = 3;
+
+        // Create blog slides
+        for (let i = 0; i < blogs.length; i += blogsPerSlide) {
+            const slide = document.createElement('div');
+            slide.className = 'blog-slide';
+            slide.style.minWidth = '100%';
+            slide.style.display = 'flex';
+            slide.style.gap = '30px';
+            slide.style.padding = '0 10px';
             
-            let selectedLanguage = 'english';
-            let conversationContext = {
-                currentTopic: null,
-                previousQuestions: [],
-                userType: null, // candidate, party-worker, supporter
-                conversationDepth: 0
-            };
-
-            // Political campaign conversation database
-            const politicalConversationDB = {
-                greetings: {
-                    patterns: ['hi', 'hello', 'hey', 'namaste', 'नमस्ते', 'प्रणाम'],
-                    responses: {
-                        english: [
-                            "नमस्ते! 👋 I'm your political campaign assistant. How can I help you today?",
-                            "Hello! Ready to build a winning political campaign? What can I assist with?",
-                            "Hi! Great to connect with a future leader. What's on your mind?"
-                        ],
-                        hindi: [
-                            "नमस्ते! 👋 मैं आपका राजनीतिक अभियान सहायक हूं। आज मैं आपकी क्या मदद कर सकता हूं?",
-                            "हैलो! क्या आप एक जीतने वाला राजनीतिक अभियान बनाने के लिए तैयार हैं? मैं किस बात में सहायता कर सकता हूं?",
-                            "हाय! भविष्य के नेता से जुड़कर अच्छा लगा। आप क्या सोच रहे हैं?"
-                        ]
-                    }
-                },
-                services: {
-                    patterns: ['services', 'service', 'what do you offer', 'क्या सेवाएं', 'सेवाएं'],
-                    responses: {
-                        english: [
-                            "We offer complete political campaign management including digital branding, social media management, voter outreach, crisis management, and real-time analytics. Which area interests you?",
-                            "Our political services include campaign strategy, content creation, social media management, reputation protection, and election war room setup. What specific help do you need?"
-                        ],
-                        hindi: [
-                            "हम पूर्ण राजनीतिक अभियान प्रबंधन प्रदान करते हैं जिसमें डिजिटल ब्रांडिंग, सोशल मीडिया प्रबंधन, मतदाता आउटरीच, संकट प्रबंधन और रीयल-टाइम विश्लेषण शामिल हैं। आपको किस क्षेत्र में रुचि है?",
-                            "हमारी राजनीतिक सेवाओं में अभियान रणनीति, सामग्री निर्माण, सोशल मीडिया प्रबंधन, प्रतिष्ठा सुरक्षा और चुनाव वार रूम सेटअप शामिल हैं। आपको किस विशिष्ट मदद की आवश्यकता है?"
-                        ]
-                    }
-                },
-                pricing: {
-                    patterns: ['price', 'cost', 'how much', 'कीमत', 'लागत', 'कितना'],
-                    responses: {
-                        english: [
-                            "Political campaign pricing depends on scale, duration, and services needed. Basic social media management starts at ₹25,000/month, while complete campaign management ranges from ₹1-5 lakhs/month. Would you like a customized quote?",
-                            "We offer flexible political campaign packages based on your budget and goals. Basic digital presence starts at ₹20,000, comprehensive campaigns from ₹75,000. Let me connect you with our campaign specialist."
-                        ],
-                        hindi: [
-                            "राजनीतिक अभियान मूल्य निर्धारण पैमाने, अवधि और आवश्यक सेवाओं पर निर्भर करता है। बुनियादी सोशल मीडिया प्रबंधन ₹25,000/माह से शुरू होता है, जबकि पूर्ण अभियान प्रबंधन ₹1-5 लाख/माह तक होता है। क्या आप एक अनुकूलित उद्धरण चाहेंगे?",
-                            "हम आपके बजट और लक्ष्यों के आधार पर लचीले राजनीतिक अभियान पैकेज प्रदान करते हैं। बुनियादी डिजिटल उपस्थिति ₹20,000 से शुरू होती है, व्यापक अभियान ₹75,000 से। मुझे आपको हमारे अभियान विशेषज्ञ से जोड़ने दें।"
-                        ]
-                    }
-                },
-                contact: {
-                    patterns: ['contact', 'call', 'phone', 'meet', 'संपर्क', 'कॉल', 'मिलना'],
-                    responses: {
-                        english: [
-                            "You can reach our political campaign team at +91 9928140288, email political@infogrip.com, or fill our political onboarding form. We offer free initial consultation for serious candidates.",
-                            "Contact our campaign specialists at +91 9928140288. We're available 9 AM to 9 PM, 7 days a week during election seasons."
-                        ],
-                        hindi: [
-                            "आप हमारी राजनीतिक अभियान टीम को +91 9928140288 पर, ईमेल political@infogrip.com पर, या हमारा राजनीतिक ऑनबोर्डिंग फॉर्म भरकर संपर्क कर सकते हैं। हम गंभीर उम्मीदवारों के लिए मुफ्त प्रारंभिक परामर्श प्रदान करते हैं।",
-                            "हमारे अभियान विशेषज्ञों से +91 9928140288 पर संपर्क करें। हम चुनाव के मौसम के दौरान सप्ताह के 7 दिन, सुबह 9 बजे से रात 9 बजे तक उपलब्ध हैं।"
-                        ]
-                    }
-                }
-            };
-
-            // Function to add a message to the chat
-            function addMessage(text, isUser = false, isHTML = false) {
-                const messageDiv = document.createElement('div');
-                messageDiv.className = isUser ? 'message user-message' : 'message bot-message';
-                
-                const timestamp = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-                
-                if (isHTML) {
-                    messageDiv.innerHTML = text;
-                } else {
-                    messageDiv.innerHTML = `
-                        ${text}
-                        <div style="font-size: 0.7rem; opacity: 0.7; margin-top: 5px; text-align: right;">${timestamp}</div>
-                    `;
-                }
-                
-                chatMessages.appendChild(messageDiv);
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            }
-
-            // Function to simulate typing
-            function showTypingIndicator(minTime = 800, maxTime = 2000) {
-                const typingDiv = document.createElement('div');
-                typingDiv.className = 'typing-indicator';
-                typingDiv.id = 'typingIndicator';
-                typingDiv.innerHTML = `
-                    <div class="typing-dot"></div>
-                    <div class="typing-dot"></div>
-                    <div class="typing-dot"></div>
-                `;
-                chatMessages.appendChild(typingDiv);
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-                
-                return new Promise(resolve => {
-                    setTimeout(resolve, Math.random() * (maxTime - minTime) + minTime);
-                });
-            }
-
-            // Function to hide typing indicator
-            function hideTypingIndicator() {
-                const typingIndicator = document.getElementById('typingIndicator');
-                if (typingIndicator) {
-                    typingIndicator.remove();
-                }
-            }
-
-            // Process user message
-            function understandPoliticalIntent(message) {
-                const lowerMessage = message.toLowerCase();
-                
-                // Update conversation context
-                conversationContext.previousQuestions.push(lowerMessage);
-                conversationContext.conversationDepth++;
-                
-                // Check for different intents
-                for (const [category, data] of Object.entries(politicalConversationDB)) {
-                    for (const pattern of data.patterns) {
-                        if (lowerMessage.includes(pattern)) {
-                            return {
-                                type: category,
-                                confidence: 0.9
-                            };
-                        }
-                    }
-                }
-                
-                // Check for specific political terms
-                if (lowerMessage.includes('campaign') || lowerMessage.includes('election') || lowerMessage.includes('vote')) {
-                    return {
-                        type: 'campaign',
-                        confidence: 0.8
-                    };
-                }
-                
-                if (lowerMessage.includes('social media') || lowerMessage.includes('facebook') || lowerMessage.includes('instagram')) {
-                    return {
-                        type: 'social',
-                        confidence: 0.85
-                    };
-                }
-                
-                if (lowerMessage.includes('whatsapp') || lowerMessage.includes('broadcast')) {
-                    return {
-                        type: 'whatsapp',
-                        confidence: 0.9
-                    };
-                }
-                
-                return {
-                    type: 'general',
-                    confidence: 0.5
-                };
-            }
-
-            // Generate response
-            function generatePoliticalResponse(intent, userMessage) {
-                if (politicalConversationDB[intent.type]) {
-                    const responses = politicalConversationDB[intent.type].responses[selectedLanguage];
-                    return responses[Math.floor(Math.random() * responses.length)];
-                }
-                
-                // Default responses for other intents
-                const defaultResponses = {
-                    campaign: {
-                        english: "For political campaigns, we recommend starting at least 3-6 months before elections. Our team creates a comprehensive strategy including ground outreach, digital presence, and media management. Would you like to know more about our campaign packages?",
-                        hindi: "राजनीतिक अभियानों के लिए, हम चुनाव से कम से कम 3-6 महीने पहले शुरू करने की सलाह देते हैं। हमारी टीम एक व्यापक रणनीति बनाती है जिसमें जमीनी आउटरीच, डिजिटल उपस्थिति और मीडिया प्रबंधन शामिल है। क्या आप हमारे अभियान पैकेजों के बारे में अधिक जानना चाहेंगे?"
-                    },
-                    social: {
-                        english: "Political social media requires consistent posting, engagement with voters, and crisis monitoring. We manage 3-5 posts daily across platforms, with special focus during rallies and events. Our team handles both Hindi and English content.",
-                        hindi: "राजनीतिक सोशल मीडिया के लिए लगातार पोस्टिंग, मतदाताओं के साथ जुड़ाव और संकट निगरानी की आवश्यकता होती है। हम प्लेटफॉर्म पर प्रतिदिन 3-5 पोस्ट प्रबंधित करते हैं, रैलियों और कार्यक्रमों के दौरान विशेष ध्यान देते हैं। हमारी टीम हिंदी और अंग्रेजी दोनों सामग्री को संभालती है।"
-                    },
-                    whatsapp: {
-                        english: "WhatsApp is crucial for political campaigns. We set up automated broadcasts, group management, and personal messaging systems. Our typical political WhatsApp strategy reaches 85-95% of voters in a constituency.",
-                        hindi: "राजनीतिक अभियानों के लिए व्हाट्सएप महत्वपूर्ण है। हम स्वचालित प्रसारण, समूह प्रबंधन और व्यक्तिगत मैसेजिंग सिस्टम स्थापित करते हैं। हमारी विशिष्ट राजनीतिक व्हाट्सएप रणनीति एक निर्वाचन क्षेत्र में 85-95% मतदाताओं तक पहुंचती है।"
-                    },
-                    general: {
-                        english: "I specialize in political campaign assistance. You can ask me about campaign strategy, social media for politicians, voter outreach, crisis management, or pricing. What specific aspect of political campaigning interests you?",
-                        hindi: "मैं राजनीतिक अभियान सहायता में विशेषज्ञता रखता हूं। आप मुझसे अभियान रणनीति, राजनेताओं के लिए सोशल मीडिया, मतदाता आउटरीच, संकट प्रबंधन, या मूल्य निर्धारण के बारे में पूछ सकते हैं। राजनीतिक अभियान का कौन सा विशिष्ट पहलू आपको रुचिकर लगता है?"
-                    }
-                };
-                
-                if (defaultResponses[intent.type]) {
-                    return defaultResponses[intent.type][selectedLanguage];
-                }
-                
-                return selectedLanguage === 'english' 
-                    ? "I'm here to help with political campaign queries. Could you rephrase your question about campaigning, or ask about our specific political services?"
-                    : "मैं राजनीतिक अभियान प्रश्नों में मदद करने के लिए यहां हूं। क्या आप अपना प्रश्न अभियान के बारे में फिर से बना सकते हैं, या हमारी विशिष्ट राजनीतिक सेवाओं के बारे में पूछ सकते हैं?";
-            }
-
-            // Process user message with typing simulation
-            async function processUserMessage(message) {
-                // Add user message
-                addMessage(message, true);
-                messageInput.value = '';
-                
-                // Show typing with delay
-                await showTypingIndicator();
-                hideTypingIndicator();
-                
-                // Understand intent and generate response
-                const intent = understandPoliticalIntent(message);
-                let response = generatePoliticalResponse(intent, message);
-                
-                // Add action buttons for specific intents
-                if (intent.type === 'pricing' || intent.type === 'contact' || conversationContext.conversationDepth > 2) {
-                    const actionButtons = `
-                        <div class="action-buttons">
-                            <button class="action-btn" onclick="window.open('onboarding.html', '_blank')">
-                                <i class="fas fa-file-alt"></i> Fill Political Form
-                            </button>
-                            <button class="action-btn" onclick="window.open('tel:+919928140288')">
-                                <i class="fas fa-phone"></i> Call Campaign Team
-                            </button>
-                            <button class="action-btn" onclick="window.open('https://wa.me/919928140288', '_blank')">
-                                <i class="fab fa-whatsapp"></i> WhatsApp
-                            </button>
+            for (let j = i; j < Math.min(i + blogsPerSlide, blogs.length); j++) {
+                const blog = blogs[j];
+                const blogCard = document.createElement('div');
+                blogCard.className = 'blog-card';
+                blogCard.innerHTML = `
+                    <div class="blog-image">
+                        <img src="${blog.image}" alt="${blog.title}" loading="lazy">
+                    </div>
+                    <div class="blog-content">
+                        <div class="blog-meta">
+                            <span class="blog-category">${blog.category}</span>
+                            <span>${Math.floor(Math.random() * 30) + 1} min read</span>
                         </div>
-                    `;
-                    response += actionButtons;
-                    addMessage(response, false, true);
-                } else {
-                    addMessage(response);
-                }
-                
-                // Update conversation context
-                conversationContext.currentTopic = intent.type;
+                        <h3>${blog.title}</h3>
+                        <p>${blog.excerpt}</p>
+                        <a href="${blog.readLink}" class="btn btn-outline btn-small" style="margin-top: 15px;">Read More</a>
+                    </div>
+                `;
+                slide.appendChild(blogCard);
             }
+            blogTrack.appendChild(slide);
 
-            // Event listeners for language selection
-            languageOptions.forEach(option => {
-                option.addEventListener('click', function() {
-                    selectedLanguage = this.getAttribute('data-lang');
-                    
-                    // Remove language options
-                    document.querySelectorAll('.language-option').forEach(opt => {
-                        opt.remove();
-                    });
-                    
-                    // Update message
-                    const messageDiv = document.querySelector('.bot-message');
-                    const greeting = selectedLanguage === 'english' 
-                        ? "Great! Let's continue in English. I'm here to help with your political campaign needs. What would you like to know?" 
-                        : "बढ़िया! हिंदी में बातचीत जारी रखते हैं। मैं आपकी राजनीतिक अभियान आवश्यकताओं में मदद करने के लिए यहां हूं। आप क्या जानना चाहेंगे?";
-                    
-                    messageDiv.innerHTML = `
-                        <p>${greeting}</p>
-                        <div style="font-size: 0.7rem; opacity: 0.7; margin-top: 5px; text-align: right;">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
-                    `;
-                });
+            // Create navigation dots
+            const dot = document.createElement('div');
+            dot.className = 'carousel-dot';
+            if (i === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => {
+                goToBlogSlide(Math.floor(i / blogsPerSlide));
             });
+            blogNav.appendChild(dot);
+        }
 
-            // Event listeners for quick options
-            quickOptions.forEach(button => {
-                button.addEventListener('click', function() {
-                    const action = this.getAttribute('data-action');
-                    let message = '';
-                    
-                    switch(action) {
-                        case 'political-services':
-                            message = selectedLanguage === 'english' 
-                                ? "What political campaign services do you offer?" 
-                                : "आप कौन सी राजनीतिक अभियान सेवाएं प्रदान करते हैं?";
-                            break;
-                        case 'campaign-pricing':
-                            message = selectedLanguage === 'english' 
-                                ? "What are your prices for political campaigns?" 
-                                : "राजनीतिक अभियानों के लिए आपकी कीमतें क्या हैं?";
-                            break;
-                        case 'political-portfolio':
-                            message = selectedLanguage === 'english' 
-                                ? "Can I see examples of your political work?" 
-                                : "क्या मैं आपके राजनीतिक काम के उदाहरण देख सकता हूं?";
-                            break;
-                        case 'contact-campaign':
-                            message = selectedLanguage === 'english' 
-                                ? "How can I contact your political campaign team?" 
-                                : "मैं आपकी राजनीतिक अभियान टीम से कैसे संपर्क कर सकता हूं?";
-                            break;
-                    }
-                    
-                    processUserMessage(message);
-                });
+        // Blog carousel navigation
+        function goToBlogSlide(index) {
+            currentBlogSlide = index;
+            blogTrack.style.transform = `translateX(-${currentBlogSlide * 100}%)`;
+            
+            // Update active dot
+            document.querySelectorAll('#blog-nav .carousel-dot').forEach((dot, i) => {
+                dot.classList.toggle('active', i === currentBlogSlide);
             });
+        }
 
-            // Event listeners for input
-            sendButton.addEventListener('click', () => {
-                const message = messageInput.value.trim();
-                if (message) {
-                    processUserMessage(message);
+        function nextBlogSlide() {
+            const totalSlides = Math.ceil(blogs.length / blogsPerSlide);
+            currentBlogSlide = (currentBlogSlide + 1) % totalSlides;
+            goToBlogSlide(currentBlogSlide);
+        }
+
+        function prevBlogSlide() {
+            const totalSlides = Math.ceil(blogs.length / blogsPerSlide);
+            currentBlogSlide = (currentBlogSlide - 1 + totalSlides) % totalSlides;
+            goToBlogSlide(currentBlogSlide);
+        }
+
+        // Blog carousel event listeners
+        document.querySelector('.blog-prev').addEventListener('click', () => {
+            prevBlogSlide();
+        });
+        
+        document.querySelector('.blog-next').addEventListener('click', () => {
+            nextBlogSlide();
+        });
+
+        // FAQ Section
+        const faqs = [
+            {
+                question: "What is political branding?",
+                answer: "Political branding is the process of creating a unique identity, narrative, and emotional connection for a political candidate or party. It goes beyond logos and colors to establish core values, messaging consistency, and voter trust that differentiates them from opponents in elections."
+            },
+            {
+                question: "Is political branding legal in India?",
+                answer: "Yes, political branding is completely legal in India as long as it follows Election Commission guidelines. Campaign spending must be within prescribed limits, content should not violate model code of conduct, and all advertisements require proper disclaimers and transparency about funding sources."
+            },
+            {
+                question: "What's the difference between political marketing and political branding?",
+                answer: "Political branding establishes who you are—your identity, values, and long-term reputation. Political marketing promotes that identity through campaigns, advertising, and voter outreach. Branding is strategic (long-term), while marketing is tactical (campaign-specific). Both are essential for election success."
+            },
+            {
+                question: "When should a political campaign start?",
+                answer: "For best results, political campaigns should start 6-12 months before elections. MLA/MP campaigns need 6-8 months for proper groundwork. Early start allows for voter research, narrative development, volunteer mobilization, and gradual brand building rather than rushed last-minute efforts."
+            },
+            {
+                question: "What about political branding for first-time candidates?",
+                answer: "First-time candidates need to establish name recognition and credibility. We focus on personal story narrative, community engagement, and consistent visibility. Digital platforms are particularly effective for new candidates to build following without large budgets."
+            },
+            {
+                question: "What are digital campaigning rules by Election Commission of India?",
+                answer: "ECI requires all political ads to carry disclaimer 'Paid for by...', spending records must be maintained, no anonymous donations above ₹2000, no campaigning 48 hours before polling (silence period), and social media posts during silence period must be pre-approved."
+            },
+            {
+                question: "What is the cost of political branding in India?",
+                answer: "Costs vary by scale: MLA campaigns ₹5-15 lakhs, MP campaigns ₹20-50 lakhs, comprehensive services ₹1-5 crores. Factors include constituency size, competition level, duration, and services needed (digital, ground, media, research). We offer packages starting from ₹25,000/month for basic digital presence."
+            },
+            {
+                question: "What is the role of social media in elections?",
+                answer: "Social media reaches 60-80% of urban voters and 40-60% of rural voters in India. It allows targeted messaging, real-time engagement, crisis management, and organic reach at low cost. Facebook, WhatsApp, and Instagram are most effective for Indian political campaigns."
+            },
+            {
+                question: "Hindi vs English political messaging - which is better?",
+                answer: "Use Hindi for emotional connection with masses, English for urban educated voters and media. Most successful campaigns use Hindi for rallies/social media, English for press releases/policy documents. Regional languages should be used where relevant for local connection."
+            },
+            {
+                question: "What are local constituency targeting methods?",
+                answer: "Effective methods include: 1) Ward-level WhatsApp groups 2) Hyper-local Facebook pages 3) Local issue content 4) Community influencer engagement 5) Area-specific problem-solving content 6) Vernacular language communication 7) Local event coverage and participation."
+            },
+            {
+                question: "How to measure political campaign success?",
+                answer: "Key metrics: 1) Social media reach/engagement 2) Website traffic 3) Volunteer signups 4) Donation amounts 5) Event attendance 6) Media mentions 7) Voter sentiment surveys 8) Name recognition growth 9) Polling data trends 10) Final election results."
+            },
+            {
+                question: "Can political branding help between elections?",
+                answer: "Absolutely. Consistent branding between elections maintains voter connection, builds credibility for future campaigns, establishes thought leadership, and creates a foundation for re-election. Year-round engagement prevents 'starting from zero' each election cycle."
+            }
+        ];
+
+        const faqContainer = document.getElementById('faq-container');
+
+        faqs.forEach((faq, index) => {
+            const faqItem = document.createElement('div');
+            faqItem.className = 'faq-item';
+            faqItem.innerHTML = `
+                <div class="faq-question">
+                    <span>${faq.question}</span>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>${faq.answer}</p>
+                </div>
+            `;
+            
+            faqItem.addEventListener('click', () => {
+                faqItem.classList.toggle('active');
+            });
+            
+            faqContainer.appendChild(faqItem);
+        });
+
+        // Popup Modal
+        const politicalPopup = document.getElementById('politicalPopup');
+        const popupClose = document.getElementById('popupClose');
+        const popupLater = document.getElementById('popupLater');
+
+        // Show popup after 5 seconds
+        setTimeout(() => {
+            politicalPopup.style.display = 'flex';
+        }, 5000);
+
+        popupClose.addEventListener('click', () => {
+            politicalPopup.style.display = 'none';
+            // Set cookie to not show again for 7 days
+            document.cookie = "politicalPopupClosed=true; max-age=604800; path=/";
+        });
+
+        popupLater.addEventListener('click', () => {
+            politicalPopup.style.display = 'none';
+            // Show again after 24 hours
+            setTimeout(() => {
+                if (!document.cookie.includes('politicalPopupClosed')) {
+                    politicalPopup.style.display = 'flex';
                 }
-            });
+            }, 86400000);
+        });
 
-            messageInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    const message = messageInput.value.trim();
-                    if (message) {
-                        processUserMessage(message);
-                    }
-                }
+        // Close popup when clicking outside
+        politicalPopup.addEventListener('click', (e) => {
+            if (e.target === politicalPopup) {
+                politicalPopup.style.display = 'none';
+            }
+        });
+
+        // Check if popup was previously closed
+        if (document.cookie.includes('politicalPopupClosed')) {
+            politicalPopup.style.display = 'none';
+        }
+
+        // Progress Bar
+        const progressBar = document.getElementById('progressBar');
+        
+        window.addEventListener('scroll', () => {
+            const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (window.scrollY / windowHeight) * 100;
+            progressBar.style.width = scrolled + '%';
+        });
+
+        // Back to Top Button
+        const backToTop = document.getElementById('backToTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTop.classList.add('show');
+            } else {
+                backToTop.classList.remove('show');
+            }
+        });
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
             });
         });
+
+        // Share Buttons
+        const currentUrl = encodeURIComponent(window.location.href);
+        const pageTitle = encodeURIComponent(document.title);
+        
+        document.getElementById('shareFacebook').href = `https://www.facebook.com/sharer/sharer.php?u=${currentUrl}`;
+        document.getElementById('shareTwitter').href = `https://twitter.com/intent/tweet?url=${currentUrl}&text=${pageTitle}`;
+        document.getElementById('shareLinkedIn').href = `https://www.linkedin.com/sharing/share-offsite/?url=${currentUrl}`;
+        document.getElementById('shareWhatsApp').href = `https://wa.me/?text=${pageTitle}%20${currentUrl}`;
+
+        // Enhanced Chatbot (existing functionality preserved)
+        const chatMessages = document.getElementById('chatMessages');
+        const messageInput = document.getElementById('messageInput');
+        const sendButton = document.getElementById('sendButton');
+        const quickOptions = document.querySelectorAll('.quick-option');
+        const languageOptions = document.querySelectorAll('.language-option');
+        
+        let selectedLanguage = 'english';
+        let conversationContext = {
+            currentTopic: null,
+            previousQuestions: [],
+            userType: null,
+            conversationDepth: 0
+        };
+
+        // Language selection
+        languageOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                selectedLanguage = this.getAttribute('data-lang');
+                
+                document.querySelectorAll('.language-option').forEach(opt => {
+                    opt.remove();
+                });
+                
+                const messageDiv = document.querySelector('.bot-message');
+                const greeting = selectedLanguage === 'english' 
+                    ? "Great! Let's continue in English. I'm here to help with your political campaign needs. What would you like to know?" 
+                    : "बढ़िया! हिंदी में बातचीत जारी रखते हैं। मैं आपकी राजनीतिक अभियान आवश्यकताओं में मदद करने के लिए यहां हूं। आप क्या जानना चाहेंगे?";
+                
+                messageDiv.innerHTML = `
+                    <p>${greeting}</p>
+                    <div style="font-size: 0.7rem; opacity: 0.7; margin-top: 5px; text-align: right;">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
+                `;
+            });
+        });
+
+        // Quick options
+        quickOptions.forEach(button => {
+            button.addEventListener('click', function() {
+                const action = this.getAttribute('data-action');
+                let message = '';
+                
+                switch(action) {
+                    case 'political-services':
+                        message = selectedLanguage === 'english' 
+                            ? "What political campaign services do you offer?" 
+                            : "आप कौन सी राजनीतिक अभियान सेवाएं प्रदान करते हैं?";
+                        break;
+                    case 'campaign-pricing':
+                        message = selectedLanguage === 'english' 
+                            ? "What are your prices for political campaigns?" 
+                            : "राजनीतिक अभियानों के लिए आपकी कीमतें क्या हैं?";
+                        break;
+                    case 'political-portfolio':
+                        message = selectedLanguage === 'english' 
+                            ? "Can I see examples of your political work?" 
+                            : "क्या मैं आपके राजनीतिक काम के उदाहरण देख सकता हूं?";
+                        break;
+                    case 'contact-campaign':
+                        message = selectedLanguage === 'english' 
+                            ? "How can I contact your political campaign team?" 
+                            : "मैं आपकी राजनीतिक अभियान टीम से कैसे संपर्क कर सकता हूं?";
+                        break;
+                }
+                
+                // Simulate chatbot response
+                const userMessageDiv = document.createElement('div');
+                userMessageDiv.className = 'message user-message';
+                userMessageDiv.innerHTML = `
+                    ${message}
+                    <div style="font-size: 0.7rem; opacity: 0.7; margin-top: 5px; text-align: right;">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
+                `;
+                chatMessages.appendChild(userMessageDiv);
+                
+                // Bot response
+                setTimeout(() => {
+                    const botResponse = selectedLanguage === 'english' 
+                        ? "I'd be happy to help with that! Our political campaign services include digital strategy, social media management, voter outreach, and crisis management. Would you like specific details about any of these areas?" 
+                        : "मुझे आपकी मदद करने में खुशी होगी! हमारी राजनीतिक अभियान सेवाओं में डिजिटल रणनीति, सोशल मीडिया प्रबंधन, मतदाता आउटरीच और संकट प्रबंधन शामिल हैं। क्या आप इनमें से किसी भी क्षेत्र के बारे में विशिष्ट विवरण चाहेंगे?";
+                    
+                    const botMessageDiv = document.createElement('div');
+                    botMessageDiv.className = 'message bot-message';
+                    botMessageDiv.innerHTML = `
+                        ${botResponse}
+                        <div style="font-size: 0.7rem; opacity: 0.7; margin-top: 5px; text-align: right;">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
+                    `;
+                    chatMessages.appendChild(botMessageDiv);
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }, 1000);
+                
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            });
+        });
+
+        // Chat input
+        sendButton.addEventListener('click', () => {
+            const message = messageInput.value.trim();
+            if (message) {
+                const userMessageDiv = document.createElement('div');
+                userMessageDiv.className = 'message user-message';
+                userMessageDiv.innerHTML = `
+                    ${message}
+                    <div style="font-size: 0.7rem; opacity: 0.7; margin-top: 5px; text-align: right;">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
+                `;
+                chatMessages.appendChild(userMessageDiv);
+                messageInput.value = '';
+                
+                // Bot response
+                setTimeout(() => {
+                    const responses = selectedLanguage === 'english' 
+                        ? [
+                            "That's an excellent question about political campaigning. Our team specializes in creating winning strategies for Indian elections. Would you like to schedule a free consultation?",
+                            "Great question! For detailed political campaign advice, I recommend speaking with our campaign specialists. They can provide customized strategies for your specific constituency.",
+                            "I understand your query about political marketing. Our experts have helped numerous candidates win elections across India. Let me connect you with our campaign team for personalized guidance."
+                        ]
+                        : [
+                            "यह राजनीतिक अभियान के बारे में एक उत्कृष्ट प्रश्न है। हमारी टीम भारतीय चुनावों के लिए जीतने वाली रणनीतियाँ बनाने में माहिर है। क्या आप एक मुफ्त परामर्श शेड्यूल करना चाहेंगे?",
+                            "बढ़िया सवाल! विस्तृत राजनीतिक अभियान सलाह के लिए, मैं हमारे अभियान विशेषज्ञों से बात करने की सलाह देता हूं। वे आपके विशिष्ट निर्वाचन क्षेत्र के लिए अनुकूलित रणनीतियां प्रदान कर सकते हैं।",
+                            "मैं राजनीतिक मार्केटिंग के बारे में आपकी जिज्ञासा समझता हूं। हमारे विशेषज्ञों ने पूरे भारत में कई उम्मीदवारों को चुनाव जीतने में मदद की है। मुझे व्यक्तिगत मार्गदर्शन के लिए आपको हमारी अभियान टीम से जोड़ने दें।"
+                        ];
+                    
+                    const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                    
+                    const botMessageDiv = document.createElement('div');
+                    botMessageDiv.className = 'message bot-message';
+                    botMessageDiv.innerHTML = `
+                        ${randomResponse}
+                        <div style="margin-top: 10px;">
+                            <button class="action-btn" onclick="window.open('onboarding.html', '_blank')" style="margin-right: 10px;">
+                                <i class="fas fa-file-alt"></i> Fill Form
+                            </button>
+                            <button class="action-btn" onclick="window.open('tel:+919928140288')">
+                                <i class="fas fa-phone"></i> Call Now
+                            </button>
+                        </div>
+                        <div style="font-size: 0.7rem; opacity: 0.7; margin-top: 5px; text-align: right;">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
+                    `;
+                    chatMessages.appendChild(botMessageDiv);
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }, 1500);
+                
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+        });
+
+        messageInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendButton.click();
+            }
+        });
+
+        // Print-friendly page
+        const printButton = document.createElement('button');
+        printButton.innerHTML = '<i class="fas fa-print"></i>';
+        printButton.style.cssText = 'position:fixed;bottom:140px;right:20px;width:45px;height:45px;border-radius:50%;background:var(--card-bg);color:var(--text-color);border:none;box-shadow:var(--shadow);z-index:1000;cursor:pointer;';
+        printButton.title = 'Print this page';
+        printButton.addEventListener('click', () => window.print());
+        document.body.appendChild(printButton);
+    });
