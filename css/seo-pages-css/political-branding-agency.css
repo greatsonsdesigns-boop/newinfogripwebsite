@@ -136,9 +136,11 @@
             transition: var(--transition);
             position: relative;
             z-index: 1;
-            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+            border: 2px solid transparent;
             cursor: pointer;
         }
+
 
         .service-card:hover {
             transform: translateY(-10px);
@@ -671,4 +673,4 @@
             .hindi-popup {
                 max-width: 220px;
             }
-          }
+        }
