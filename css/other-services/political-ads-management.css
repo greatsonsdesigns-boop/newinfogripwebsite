@@ -1,0 +1,389 @@
+
+/* Dashboard Preview */
+.ad-dashboard-preview {
+    background: linear-gradient(135deg, rgba(7, 33, 124, 0.05) 0%, rgba(0, 28, 79, 0.03) 100%);
+    padding: 60px 0;
+}
+
+.dashboard-widget {
+    background: var(--card-bg);
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: var(--shadow);
+    margin-top: 30px;
+}
+
+.dashboard-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+    border-bottom: 2px solid var(--light-blue);
+    padding-bottom: 15px;
+}
+
+.dashboard-tab {
+    background: transparent;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--text-color);
+    transition: var(--transition);
+}
+
+.dashboard-tab.active {
+    background: var(--blue);
+    color: var(--white);
+}
+
+.dashboard-tab:hover:not(.active) {
+    background: var(--light-blue);
+}
+
+.dashboard-content {
+    display: none;
+}
+
+.dashboard-content.active {
+    display: block;
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.metric-card {
+    background: var(--section-bg);
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    position: relative;
+    border: 1px solid var(--light-blue);
+}
+
+.metric-value {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--blue);
+    margin-bottom: 5px;
+}
+
+.metric-label {
+    font-size: 0.9rem;
+    color: var(--gray-text);
+    margin-bottom: 10px;
+}
+
+.metric-change {
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+    display: inline-block;
+}
+
+.metric-change.positive {
+    background: rgba(34, 197, 94, 0.1);
+    color: #16a34a;
+}
+
+.metric-change.negative {
+    background: rgba(239, 68, 68, 0.1);
+    color: #dc2626;
+}
+
+/* Platform Comparison Matrix */
+.platform-comparison {
+    padding: 80px 0;
+    background-color: var(--section-bg);
+}
+
+.comparison-table {
+    background: var(--card-bg);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    margin-top: 30px;
+}
+
+.comparison-header {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    background: var(--blue);
+    color: var(--white);
+    padding: 20px;
+    font-weight: 600;
+}
+
+.comparison-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    padding: 20px;
+    border-bottom: 1px solid var(--light-blue);
+    align-items: center;
+}
+
+.comparison-row:nth-child(even) {
+    background: rgba(7, 33, 124, 0.02);
+}
+
+.comparison-feature {
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.comparison-platform {
+    color: var(--text-color);
+    font-size: 0.9rem;
+}
+
+.recommend-badge {
+    background: var(--orange);
+    color: var(--dark-blue);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+/* Ad Compliance Checklist */
+.compliance-checklist {
+    padding: 80px 0;
+}
+
+.checklist-container {
+    max-width: 800px;
+    margin: 40px auto 0;
+}
+
+.checklist-item {
+    display: flex;
+    align-items: flex-start;
+    background: var(--card-bg);
+    border-radius: 10px;
+    padding: 25px;
+    margin-bottom: 15px;
+    border: 1px solid var(--light-blue);
+    transition: var(--transition);
+}
+
+.checklist-item:hover {
+    border-color: var(--blue);
+    transform: translateX(5px);
+}
+
+.checklist-icon {
+    color: var(--blue);
+    font-size: 1.5rem;
+    margin-right: 20px;
+    flex-shrink: 0;
+}
+
+.checklist-content h4 {
+    color: var(--text-color);
+    margin-bottom: 8px;
+    font-size: 1.1rem;
+}
+
+.checklist-content p {
+    color: var(--gray-text);
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+/* Campaign Impact Calculator */
+.metrics-calculator {
+    padding: 80px 0;
+    background: linear-gradient(135deg, rgba(7, 33, 124, 0.03) 0%, rgba(0, 28, 79, 0.05) 100%);
+}
+
+.calculator-widget {
+    background: var(--card-bg);
+    border-radius: 15px;
+    padding: 40px;
+    box-shadow: var(--shadow);
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+}
+
+@media (max-width: 768px) {
+    .calculator-widget {
+        grid-template-columns: 1fr;
+    }
+}
+
+.calculator-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.input-group input[type="range"] {
+    width: 100%;
+    height: 8px;
+    background: var(--light-blue);
+    border-radius: 4px;
+    outline: none;
+    -webkit-appearance: none;
+}
+
+.input-group input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    background: var(--blue);
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.budget-display {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--blue);
+    margin-top: 10px;
+    text-align: center;
+}
+
+.input-group select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--light-blue);
+    border-radius: 8px;
+    background: var(--card-bg);
+    color: var(--text-color);
+    font-size: 1rem;
+}
+
+.calculator-results h3 {
+    color: var(--text-color);
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.result-metrics {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.result-metric {
+    background: var(--section-bg);
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+}
+
+.result-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--blue);
+    margin-bottom: 5px;
+}
+
+.result-label {
+    font-size: 0.9rem;
+    color: var(--gray-text);
+}
+
+#calculate-btn {
+    width: 100%;
+    margin-top: 20px;
+}
+
+/* Internal Link Styling */
+.internal-link {
+    color: var(--blue);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.internal-link:hover {
+    color: var(--dark-blue);
+    text-decoration: none;
+}
+
+/* Typing text animation for ads focus */
+.typing-text {
+    color: var(--orange);
+    border-right: 3px solid var(--orange);
+    animation: blink 1s infinite;
+    display: inline-block;
+    font-weight: 600;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .comparison-header,
+    .comparison-row {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    
+    .comparison-header {
+        display: none;
+    }
+    
+    .comparison-row {
+        border: 1px solid var(--light-blue);
+        border-radius: 10px;
+        margin-bottom: 15px;
+    }
+    
+    .comparison-feature {
+        font-size: 1.1rem;
+        margin-bottom: 5px;
+    }
+    
+    .comparison-platform::before {
+        content: attr(data-label) ": ";
+        font-weight: 600;
+        color: var(--blue);
+    }
+    
+    .comparison-platform {
+        font-size: 0.9rem;
+        margin-bottom: 3px;
+    }
+    
+    .metrics-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .result-metrics {
+        grid-template-columns: 1fr;
+    }
+    
+    .dashboard-tabs {
+        flex-wrap: wrap;
+    }
+    
+    .checklist-item {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .checklist-icon {
+        margin-right: 0;
+        margin-bottom: 15px;
+    }
+}
