@@ -401,103 +401,10 @@ body.menu-open {
     }
     }
 
-/* Footer Styles */
-footer {
-    background-color: var(--card-bg);
-    color: var(--text-color);
-    padding: 70px 0 20px;
-    box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.05);
-}
 
-.footer-content {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 40px;
-    margin-bottom: 50px;
-}
-
-.footer-col h3 {
-    font-size: 1.3rem;
-    margin-bottom: 25px;
-    position: relative;
-    padding-bottom: 10px;
-}
-
-.footer-col h3::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 50px;
-    height: 3px;
-    background-color: var(--orange);
-}
-
-.footer-col p {
-    margin-bottom: 20px;
-}
-
-.footer-links li {
-    margin-bottom: 12px;
-}
-
-.footer-links a {
-    color: var(--blue);
-    transition: var(--transition);
-}
-
-.footer-links a:hover {
-    color: var(--orange);
-    padding-left: 5px;
-}
-
-.footer-bottom {
-    text-align: center;
-    padding-top: 20px;
-    border-top: 1px solid #eee;
-    font-size: 0.9rem;
-    color: var(--blue);
-}
-
-.footer-bottom-links {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-top: 10px;
-}
-
-.footer-bottom-links a {
-    color: var(--blue);
-    transition: var(--transition);
-}
-
-.footer-bottom-links a:hover {
-    color: var(--orange);
-}
-/* GLOBAL FOOTER LOGO SIZE FIX */
-footer img[src*="assets/logo.png"] {
-    height: 200px !important;
-    width: auto !important;
-    margin-bottom: 20px;
-}
-
-/* Responsive Footer */
-@media (max-width: 576px) {
-    .footer-content {
-        grid-template-columns: 1fr;
-    }
-    
-    .logo img {
-        height: 160px;
-    }
-}
 @media (max-width: 768px) {
     header .logo img {
         height: 150px;
-    }
-
-    footer img[src*="assets/logo.png"] {
-        height: 150px !important;
     }
 }
 .cylindrical-header .nav-menu a::after {
@@ -507,4 +414,261 @@ footer img[src*="assets/logo.png"] {
 .mobile-overlay,
 .mobile-menu-content {
     transition: none !important;
+}
+/* =====================================
+   FOOTER BASE
+===================================== */
+footer {
+    background-color: #ffffff;
+    color: #1e2a3b;
+    padding: 80px 0 35px;
+    border-top: 1px solid #e6ebf2;
+}
+
+/* =====================================
+   FOOTER GRID (STABLE & SCALABLE)
+===================================== */
+.footer-content {
+    display: grid;
+    grid-template-columns: 420px repeat(auto-fit, minmax(180px, 1fr));
+    gap: 50px;
+    align-items: flex-start;
+    margin-bottom: 55px;
+}
+
+/* =====================================
+   FOOTER COLUMN
+===================================== */
+.footer-col {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+/* =====================================
+   BRAND / LOGO SECTION (PNG ONLY)
+===================================== */
+.footer-col:first-child {
+    gap: 14px;
+}
+
+/* BIG, CLEAR PNG LOGO */
+.footer-col:first-child img {
+    width: auto;
+    max-width: 280px;   /* SAFE SIZE FOR PNG */
+    height: auto;
+    display: block;
+    margin-bottom: 14px;
+
+    /* Force sharp rendering */
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+}
+
+/* Logo hover animation */
+.footer-col:first-child img:hover {
+    transform: scale(1.05);
+    filter: drop-shadow(0 10px 20px rgba(11, 44, 255, 0.25));
+}
+
+/* Brand text */
+.footer-col:first-child p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: #3a4a63;
+    max-width: 90%;
+}
+
+/* =====================================
+   CTA BUTTON (ROYAL BLUE)
+===================================== */
+.footer-col .btn-outline {
+    margin-top: 6px;
+    padding: 12px 28px;
+    border-radius: 30px;
+    border: 2px solid #0b2cff;
+    color: #0b2cff;
+    font-weight: 500;
+    text-decoration: none;
+    background: transparent;
+    transition: all 0.3s ease;
+}
+
+.footer-col .btn-outline:hover {
+    background: #0b2cff;
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(11, 44, 255, 0.25);
+}
+
+/* =====================================
+   SOCIAL ICONS (ROYAL BLUE + ANIMATION)
+===================================== */
+.social-links {
+    display: flex;
+    gap: 14px;
+    margin-top: 10px;
+}
+
+.social-link {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #eef2ff;
+    color: #0b2cff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    transition: all 0.3s ease;
+}
+
+.social-link:hover {
+    background: #0b2cff;
+    color: #ffffff;
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 10px 20px rgba(11, 44, 255, 0.35);
+}
+
+/* =====================================
+   HEADINGS
+===================================== */
+.footer-col h3 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: #0f1f3a;
+}
+
+/* =====================================
+   FOOTER LINKS
+===================================== */
+.footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-links li {
+    margin-bottom: 9px;
+}
+
+.footer-links a {
+    font-size: 0.9rem;
+    color: #3a4a63;
+    text-decoration: none;
+    transition: all 0.25s ease;
+}
+
+.footer-links a:hover {
+    color: #0b2cff;
+    padding-left: 4px;
+}
+
+/* =====================================
+   CONTACT INFO
+===================================== */
+.footer-col p i {
+    color: #0b2cff;
+    margin-right: 8px;
+}
+
+/* =====================================
+   NEWSLETTER
+===================================== */
+.newsletter-form {
+    display: flex;
+    border: 1px solid #dbe3f3;
+    border-radius: 30px;
+    overflow: hidden;
+    margin-top: 12px;
+    max-width: 260px;
+}
+
+.newsletter-form input {
+    flex: 1;
+    border: none;
+    padding: 11px 16px;
+    outline: none;
+    font-size: 0.85rem;
+}
+
+.newsletter-form button {
+    background: #0b2cff;
+    border: none;
+    color: #ffffff;
+    padding: 0 20px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.newsletter-form button:hover {
+    background: #081fa8;
+}
+
+/* =====================================
+   FOOTER BOTTOM
+===================================== */
+.footer-bottom {
+    border-top: 1px solid #e6ebf2;
+    padding-top: 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 14px;
+    font-size: 0.85rem;
+    color: #5b6b85;
+}
+
+.footer-bottom-links {
+    display: flex;
+    gap: 18px;
+}
+
+.footer-bottom-links a {
+    color: #5b6b85;
+    text-decoration: none;
+    transition: color 0.25s ease;
+}
+
+.footer-bottom-links a:hover {
+    color: #0b2cff;
+}
+
+/* =====================================
+   RESPONSIVE
+===================================== */
+@media (max-width: 1024px) {
+    .footer-content {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .footer-col:first-child img {
+        max-width: 320px;
+    }
+}
+
+@media (max-width: 576px) {
+    .footer-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .footer-col {
+        align-items: center;
+    }
+
+    .footer-col:first-child p {
+        max-width: 100%;
+    }
+
+    .footer-col:first-child img {
+        max-width: 280px;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+    }
 }
