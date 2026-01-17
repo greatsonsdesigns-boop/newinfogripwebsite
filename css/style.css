@@ -4,9 +4,14 @@
     --white: #ffffff;
     --orange: #fdcb54;
     --light-blue: rgba(7, 33, 124, 0.1);
+    --royal-blue: #0b1f44;
+    --light-gray: #f8f9fa;
+    --gray-text: #6b7280;
+    --dark-bg: #0A0F1F;
 
     --transition: all 0.3s ease;
     --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    --shadow-hover: 0 10px 30px rgba(0, 0, 0, 0.15);
 
     --glass: rgba(255, 255, 255, 0.1);
     --glass-border: rgba(255, 255, 255, 0.2);
@@ -176,6 +181,11 @@ section {
     color: var(--dark-blue);
     transform: translateY(-3px);
 }
+.btn-small {
+            padding: 8px 18px;
+            font-size: 0.9rem;
+        }
+
 
 /* ===============================
    ✅ FIX: HEADER CTA VISIBILITY
@@ -346,6 +356,11 @@ section h3 {
 .impact-section h3,
 .impact-section a,
 
+.faq-hero h1,
+.faq-hero h2,       
+.faq-hero h3,
+.faq-hero a,
+
 .bg-blue h1,
 .bg-blue h2,
 .bg-blue h3 {
@@ -358,4 +373,21 @@ section h3 {
 .bg-blue p {
     color: rgba(255, 255, 255, 0.9);
 }
+/* ==========================================
+   HERO TEXT COLOR – ADD POLITICAL FRAMEWORK HERO
+========================================== */
 
+/* Add .framework-hero to the existing dark hero section selector list */
+.hero.bg-blue .framework-hero h1,
+.hero.bg-dark .framework-hero h1,
+.section-dark .framework-hero h1 {
+    color: #ffffff !important;
+}
+
+/* Dark hero paragraph - add framework-hero */
+.hero.bg-blue .framework-hero p,
+.hero.bg-dark .framework-hero p,
+.section-dark .framework-hero p {
+    color: #ffffff;
+    opacity: 0.9;
+}
