@@ -1,0 +1,438 @@
+
+/* Additional CSS for new features in Campaign Creative & Design page */
+
+/* Creative Showcase Carousel */
+.creative-showcase {
+    background: linear-gradient(135deg, rgba(7, 33, 124, 0.05) 0%, rgba(0, 28, 79, 0.03) 100%);
+    padding: 60px 0;
+}
+
+.creative-carousel {
+    position: relative;
+    max-width: 1000px;
+    margin: 30px auto 0;
+    overflow: hidden;
+}
+
+.creative-track {
+    display: flex;
+    transition: transform 0.5s ease;
+}
+
+.creative-slide {
+    min-width: 100%;
+    padding: 0 15px;
+    box-sizing: border-box;
+}
+
+.creative-card {
+    background: var(--card-bg);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+}
+
+.creative-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+.creative-image {
+    height: 300px;
+    overflow: hidden;
+    position: relative;
+}
+
+.creative-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.creative-card:hover .creative-image img {
+    transform: scale(1.05);
+}
+
+.creative-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: var(--orange);
+    color: var(--dark-blue);
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.creative-content {
+    padding: 20px;
+    text-align: center;
+}
+
+.creative-content h3 {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+    color: var(--text-color);
+}
+
+.creative-content p {
+    color: var(--gray-text);
+    font-size: 0.9rem;
+}
+
+/* Monthly Creative Package Highlight */
+.monthly-package {
+    padding: 80px 0;
+    background-color: var(--section-bg);
+}
+
+.package-highlight {
+    background: linear-gradient(135deg, var(--dark-blue) 0%, var(--blue) 100%);
+    border-radius: 20px;
+    padding: 40px;
+    margin-top: 30px;
+    position: relative;
+    overflow: hidden;
+    color: var(--white);
+}
+
+.package-badge {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: var(--orange);
+    color: var(--dark-blue);
+    padding: 8px 20px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+
+.package-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: center;
+}
+
+@media (max-width: 768px) {
+    .package-content {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+}
+
+.package-features {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.feature-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.feature-icon {
+    color: var(--orange);
+    font-size: 1.2rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.feature-text {
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.package-cta {
+    text-align: center;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+}
+
+.package-cta h3 {
+    color: var(--white);
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+}
+
+.package-cta p {
+    margin-bottom: 20px;
+    opacity: 0.9;
+}
+
+.package-cta .btn {
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+.package-note {
+    font-size: 0.8rem;
+    margin-top: 15px;
+    opacity: 0.8;
+    font-style: italic;
+}
+
+/* Creative Types Showcase */
+.creative-types {
+    padding: 80px 0;
+}
+
+.creative-types-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    margin-top: 40px;
+}
+
+.type-card {
+    background: var(--card-bg);
+    border-radius: 15px;
+    padding: 25px;
+    text-align: center;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    border: 2px solid transparent;
+}
+
+.type-card:hover {
+    border-color: var(--orange);
+    transform: translateY(-5px);
+}
+
+.type-icon {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--dark-blue) 0%, var(--blue) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    font-size: 1.8rem;
+    color: var(--white);
+}
+
+.type-card h4 {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    color: var(--text-color);
+}
+
+.type-card p {
+    color: var(--gray-text);
+    font-size: 0.95rem;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+.type-tags {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.tag {
+    background: var(--light-blue);
+    color: var(--blue);
+    padding: 4px 10px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+/* Design Consistency Score Calculator */
+.design-score-calculator {
+    padding: 80px 0;
+    background: linear-gradient(135deg, rgba(7, 33, 124, 0.03) 0%, rgba(0, 28, 79, 0.05) 100%);
+}
+
+.score-calculator {
+    background: var(--card-bg);
+    border-radius: 15px;
+    padding: 40px;
+    box-shadow: var(--shadow);
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+}
+
+@media (max-width: 768px) {
+    .score-calculator {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+}
+
+.calculator-questions {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.question-item {
+    padding: 20px;
+    background: var(--section-bg);
+    border-radius: 10px;
+    border: 1px solid var(--light-blue);
+}
+
+.question-text {
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: var(--text-color);
+}
+
+.question-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.question-options label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    color: var(--text-color);
+    font-size: 0.95rem;
+}
+
+.question-options input[type="radio"] {
+    accent-color: var(--blue);
+}
+
+.calculator-results {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.score-display {
+    text-align: center;
+    padding: 30px;
+    background: linear-gradient(135deg, var(--dark-blue) 0%, var(--blue) 100%);
+    border-radius: 15px;
+    color: var(--white);
+}
+
+.score-label {
+    font-size: 1rem;
+    margin-bottom: 10px;
+    opacity: 0.9;
+}
+
+.score-value {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.score-message {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.score-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.score-tips {
+    background: var(--section-bg);
+    border-radius: 10px;
+    padding: 20px;
+    border: 1px solid var(--light-blue);
+}
+
+.score-tips h4 {
+    color: var(--text-color);
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+}
+
+.score-tips ul {
+    list-style-type: disc;
+    padding-left: 20px;
+    color: var(--gray-text);
+}
+
+.score-tips li {
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+/* Internal Link Styling */
+.internal-link {
+    color: var(--blue);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.internal-link:hover {
+    color: var(--dark-blue);
+    text-decoration: none;
+}
+
+/* Typing text animation for creative focus */
+.typing-text {
+    color: var(--orange);
+    border-right: 3px solid var(--orange);
+    animation: blink 1s infinite;
+    display: inline-block;
+    font-weight: 600;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .creative-slide {
+        min-width: 100%;
+    }
+    
+    .creative-image {
+        height: 250px;
+    }
+    
+    .package-highlight {
+        padding: 25px;
+    }
+    
+    .creative-types-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .score-actions {
+        flex-direction: column;
+    }
+    
+    .question-options {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 576px) {
+    .creative-image {
+        height: 200px;
+    }
+    
+    .type-card {
+        padding: 20px;
+    }
+    
+    .score-calculator {
+        padding: 25px;
+    }
+}
