@@ -1,0 +1,370 @@
+
+/* Additional CSS for new features in WhatsApp Voter Outreach page */
+
+/* WhatsApp Stats Section */
+.whatsapp-stats {
+    background: linear-gradient(135deg, rgba(7, 33, 124, 0.05) 0%, rgba(0, 28, 79, 0.03) 100%);
+    padding: 60px 0;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+    margin-top: 40px;
+}
+
+.stat-item {
+    background: var(--card-bg);
+    border-radius: 15px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    border: 2px solid transparent;
+}
+
+.stat-item:hover {
+    border-color: #25D366; /* WhatsApp green */
+    transform: translateY(-5px);
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #25D366; /* WhatsApp green */
+    margin-bottom: 10px;
+}
+
+.stat-text {
+    color: var(--text-color);
+    font-size: 1rem;
+    line-height: 1.4;
+}
+
+/* Branding Support Section */
+.branding-support {
+    padding: 80px 0;
+    background-color: var(--section-bg);
+}
+
+.support-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    margin-top: 40px;
+}
+
+.support-card {
+    background: var(--card-bg);
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    border-left: 4px solid #25D366; /* WhatsApp green */
+}
+
+.support-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.support-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: rgba(37, 211, 102, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    color: #25D366; /* WhatsApp green */
+}
+
+.support-card h4 {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    color: var(--text-color);
+}
+
+.support-card p {
+    color: var(--gray-text);
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+/* WhatsApp Message Samples */
+.message-samples {
+    padding: 80px 0;
+    background: linear-gradient(135deg, rgba(7, 33, 124, 0.03) 0%, rgba(0, 28, 79, 0.05) 100%);
+}
+
+.message-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    margin-top: 40px;
+}
+
+.message-card {
+    background: var(--card-bg);
+    border-radius: 15px;
+    padding: 0;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    border: 1px solid var(--light-blue);
+}
+
+.message-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.message-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background: rgba(37, 211, 102, 0.1);
+    border-bottom: 1px solid rgba(37, 211, 102, 0.2);
+}
+
+.message-type {
+    font-weight: 600;
+    color: #25D366; /* WhatsApp green */
+    font-size: 0.9rem;
+}
+
+.message-language {
+    background: rgba(37, 211, 102, 0.2);
+    color: #25D366;
+    padding: 4px 10px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.message-content {
+    padding: 20px;
+    min-height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.message-content p {
+    color: var(--text-color);
+    font-size: 1rem;
+    line-height: 1.6;
+    text-align: center;
+    margin: 0;
+}
+
+.message-purpose {
+    padding: 15px 20px;
+    background: var(--section-bg);
+    border-top: 1px solid var(--light-blue);
+    font-size: 0.9rem;
+    color: var(--gray-text);
+    font-style: italic;
+}
+
+/* WhatsApp Reach Calculator */
+.reach-calculator {
+    padding: 80px 0;
+    background-color: var(--section-bg);
+}
+
+.calculator-widget {
+    background: var(--card-bg);
+    border-radius: 15px;
+    padding: 40px;
+    box-shadow: var(--shadow);
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+}
+
+@media (max-width: 768px) {
+    .calculator-widget {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+}
+
+.calculator-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.input-group input[type="range"] {
+    width: 100%;
+    height: 8px;
+    background: var(--light-blue);
+    border-radius: 4px;
+    outline: none;
+    -webkit-appearance: none;
+    margin-bottom: 10px;
+}
+
+.input-group input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    background: #25D366; /* WhatsApp green */
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.value-display {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--blue);
+    text-align: center;
+    margin-top: 10px;
+}
+
+.input-group select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--light-blue);
+    border-radius: 8px;
+    background: var(--card-bg);
+    color: var(--text-color);
+    font-size: 1rem;
+}
+
+.calculator-results h3 {
+    color: var(--text-color);
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.result-metrics {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.result-metric {
+    background: var(--section-bg);
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+}
+
+.result-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #25D366; /* WhatsApp green */
+    margin-bottom: 5px;
+}
+
+.result-label {
+    font-size: 0.9rem;
+    color: var(--gray-text);
+}
+
+#calculate-reach {
+    width: 100%;
+    margin-top: 20px;
+    background: #25D366; /* WhatsApp green */
+    border-color: #25D366;
+}
+
+#calculate-reach:hover {
+    background: #1da851;
+    border-color: #1da851;
+}
+
+/* WhatsApp-themed typing text */
+.typing-text {
+    color: #25D366; /* WhatsApp green */
+    border-right: 3px solid #25D366;
+    animation: blink 1s infinite;
+    display: inline-block;
+    font-weight: 600;
+}
+
+/* Internal Link Styling */
+.internal-link {
+    color: var(--blue);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.internal-link:hover {
+    color: var(--dark-blue);
+    text-decoration: none;
+}
+
+/* WhatsApp-themed badges */
+.hindi-badge {
+    background: #25D366; /* WhatsApp green */
+    color: white;
+}
+
+.hindi-badge i {
+    color: white;
+}
+
+/* Process step WhatsApp theme */
+.process-step .step-content h3 {
+    color: var(--text-color);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .support-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .message-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .result-metrics {
+        grid-template-columns: 1fr;
+    }
+    
+    .message-content {
+        min-height: 150px;
+    }
+}
+
+@media (max-width: 576px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .stat-item {
+        padding: 20px;
+    }
+    
+    .calculator-widget {
+        padding: 25px;
+    }
+    
+    .message-header {
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+    }
+}
