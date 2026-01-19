@@ -62,7 +62,7 @@
 
         /* Hero Section with Political Background */
         .political-hero {
-            background:linear-gradient(rgba(0, 28, 79, 0.55), rgba(7, 33, 124, 0.6)),url('../assets/political-cover.png');
+            background:linear-gradient(rgba(0, 28, 79, 0.55), rgba(7, 33, 124, 0.6)),url('../assets/political-cover.webp');
             background-size: cover;
             background-position: center;
             background-attachment: scroll;
