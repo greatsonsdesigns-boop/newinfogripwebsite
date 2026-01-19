@@ -28,6 +28,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     
     <!-- CSS Files -->
     <link rel="stylesheet" href="css/style.css">
@@ -53,7 +54,7 @@
        ORGANIZATION (CORE ENTITY)
        ========================= */
     {
-      "@type": "Organization",
+      "@type": ["Organization","LocalBusiness"],
       "@id": "https://infogrip.in/#organization",
       "name": "InfoGrip Solution",
       "alternateName": "InfoGrip",
@@ -83,7 +84,7 @@
         "availableLanguage": ["English", "Hindi"]
       },
       "priceRange": "₹₹",
-      "openingHours": "Mo-Su 00:00-23:59",
+      "openingHours": "Mo-Fri 10:00-19:00",
       "areaServed": {
         "@type": "Country",
         "name": "India"
@@ -219,6 +220,24 @@
   ]
 }
 </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": "https://infogrip.in/#homepage",
+  "url": "https://infogrip.in/",
+  "name": "InfoGrip Solution – Political Marketing Agency in India",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [
+      ".hero-heading",
+      ".hero-subheading",
+      ".section-title h2",
+      "#faq .faq-question span"
+    ]
+  }
+}
+</script>
 
 <script type="application/ld+json">
 {
@@ -312,7 +331,6 @@
                     <span class="badge-icon">🚀</span>
                     <span class="badge-text">AI-Powered Political Growth Platform</span>
                 </div>
-
     <h1 class="hero-heading">
       <span class="hero-static">Scale Your Presence</span>
 
@@ -372,7 +390,7 @@
             <div class="services-grid">
                 <div class="service-card" onclick="window.location.href='/services/political-branding/'">
                     <div class="service-img">
-                        <img src="/assets/Service-illustration/political-illustration(1).png" alt="Political digital branding for leaders including online identity, image building, and reputation management" loading="lazy">
+                        <img src="/assets/Service-illustration/political-illustration(1).webp" alt="Political digital branding for leaders including online identity, image building, and reputation management" loading="lazy">
                     </div>
                     <div class="service-content">
                         <div class="service-icon">
@@ -385,7 +403,7 @@
                 </div>
                 <div class="service-card" onclick="window.location.href='/services/political-social-media-framework/'">
                     <div class="service-img">
-                        <img src="/assets/Service-illustration/political-illustration(3).png" alt="Political social media framework showing structured content planning and platform management for leaders" loading="lazy">   
+                        <img src="/assets/Service-illustration/political-illustration(3).webp" alt="Political social media framework showing structured content planning and platform management for leaders" loading="lazy">   
                     </div>
                     <div class="service-content">
                         <div class="service-icon">
@@ -398,7 +416,7 @@
                 </div>
                 <div class="service-card" onclick="window.location.href='/services/digital-election-campaign/'">
                     <div class="service-img">
-                        <img src="/assets/Service-illustration/political-illustration(2).png" alt="Digital election campaign execution with online voter outreach and election-focused digital promotion" loading="lazy">
+                        <img src="/assets/Service-illustration/political-illustration(2).webp" alt="Digital election campaign execution with online voter outreach and election-focused digital promotion" loading="lazy">
                     </div>
                     <div class="service-content">
                         <div class="service-icon">
@@ -411,7 +429,7 @@
                 </div>
                 <div class="service-card" onclick="window.location.href='/services/political-digital-communication/'">
                     <div class="service-img">
-                        <img src="/assets/Service-illustration/political-illustration(4).png" alt="Political digital communication for planned online messaging and public engagement" loading="lazy">
+                        <img src="/assets/Service-illustration/political-illustration(4).webp" alt="Political digital communication for planned online messaging and public engagement" loading="lazy">
                     </div>
                     <div class="service-content">
                         <div class="service-icon">
@@ -436,6 +454,144 @@
             </div>
         </div>
     </section>
+
+    <!-- Location-wise Political Marketing Services Section -->
+<section id="location-services">
+  <div class="container">
+
+    <div class="section-title">
+      <h2>Political Marketing Services Across India</h2>
+      <p>
+        State-wise political marketing, political branding, and digital campaign services
+        for politicians, political parties, and election campaigns across India.
+      </p>
+    </div>
+
+    <div class="services-grid">
+
+      <!-- India -->
+      <div class="service-card" onclick="window.location.href='/political-marketing-in-india/'">
+        <div class="service-img">
+          <img src="/assets/location-wise/india-map.webp"
+               alt="Political marketing services across India for politicians and election campaigns"
+               loading="lazy">
+        </div>
+        <div class="service-content">
+          <div class="service-icon">
+            <i class="fas fa-map"></i>
+          </div>
+          <h3>Political Marketing in India</h3>
+          <p>
+            Nationwide political marketing services including political branding,
+            social media management, digital election campaigns, and voter outreach.
+          </p>
+          <a href="/political-marketing-in-india/" class="btn btn-outline">Explore India</a>
+        </div>
+      </div>
+
+      <!-- Rajasthan -->
+      <div class="service-card" onclick="window.location.href='/political-marketing/rajasthan/'">
+        <div class="service-img">
+          <img src="/assets/location-wise/rajasthan-map.webp"
+               alt="Political marketing services in Rajasthan for election campaigns and political leaders"
+               loading="lazy">
+        </div>
+        <div class="service-content">
+          <div class="service-icon">
+            <i class="fas fa-location-dot"></i>
+          </div>
+          <h3>Political Marketing in Rajasthan</h3>
+          <p>
+            Political branding, digital campaigns, and social media marketing
+            services for leaders and election teams in Rajasthan.
+          </p>
+          <a href="/political-marketing/rajasthan/" class="btn btn-outline">View Services</a>
+        </div>
+      </div>
+
+      <!-- Uttar Pradesh -->
+      <div class="service-card" onclick="window.location.href='/political-marketing/uttar-pradesh/'">
+        <div class="service-img">
+          <img src="/assets/location-wise/uttar-pradesh-map.webp"
+               alt="Political marketing and election campaign services in Uttar Pradesh"
+               loading="lazy">
+        </div>
+        <div class="service-content">
+          <div class="service-icon">
+            <i class="fas fa-location-dot"></i>
+          </div>
+          <h3>Political Marketing in Uttar Pradesh</h3>
+          <p>
+            State-level political marketing and digital election campaign
+            execution tailored for Uttar Pradesh constituencies.
+          </p>
+          <a href="/political-marketing/uttar-pradesh/" class="btn btn-outline">View Services</a>
+        </div>
+      </div>
+
+      <!-- Haryana -->
+      <div class="service-card" onclick="window.location.href='/political-marketing/haryana/'">
+        <div class="service-img">
+          <img src="/assets/location-wise/haryana-map.webp"
+               alt="Political marketing services in Haryana for politicians and parties"
+               loading="lazy">
+        </div>
+        <div class="service-content">
+          <div class="service-icon">
+            <i class="fas fa-location-dot"></i>
+          </div>
+          <h3>Political Marketing in Haryana</h3>
+          <p>
+            Digital political campaigns, political branding, and online communication
+            services for leaders in Haryana.
+          </p>
+          <a href="/political-marketing/haryana/" class="btn btn-outline">View Services</a>
+        </div>
+      </div>
+
+      <!-- Bihar -->
+      <div class="service-card" onclick="window.location.href='/political-marketing/bihar/'">
+        <div class="service-img">
+          <img src="/assets/location-wise/bihar-map.webp"
+               alt="Political marketing and digital election services in Bihar"
+               loading="lazy">
+        </div>
+        <div class="service-content">
+          <div class="service-icon">
+            <i class="fas fa-location-dot"></i>
+          </div>
+          <h3>Political Marketing in Bihar</h3>
+          <p>
+            Election-focused political marketing, social media execution,
+            and voter outreach services across Bihar.
+          </p>
+          <a href="/political-marketing/bihar/" class="btn btn-outline">View Services</a>
+        </div>
+      </div>
+
+      <!-- Madhya Pradesh -->
+      <div class="service-card" onclick="window.location.href='/political-marketing/madhya-pradesh/'">
+        <div class="service-img">
+          <img src="/assets/location-wise/madya-pradesh-map.webp"
+               alt="Political marketing services in Madhya Pradesh for election campaigns"
+               loading="lazy">
+        </div>
+        <div class="service-content">
+          <div class="service-icon">
+            <i class="fas fa-location-dot"></i>
+          </div>
+          <h3>Political Marketing in Madhya Pradesh</h3>
+          <p>
+            Political branding, digital campaigns, and communication services
+            for leaders across Madhya Pradesh.
+          </p>
+          <a href="/political-marketing/madhya-pradesh/" class="btn btn-outline">View Services</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
 
   <!-- Features Section with Modern Carousel -->
 <section class="features">
@@ -614,7 +770,7 @@
                     <ul class="footer-links">
                         <li><a href="/services/political-branding/">Political Branding Services</a></li>
                         <li><a href="/services/political-social-media-framework/">Social Media Marketing for Politicians</a></li>
-                        <li><a href="/services/digital-election-campaigns/">Election Campaign Digital Strategy</a></li>
+                        <li><a href="/services/digital-election-campaign/">Election Campaign Digital Strategy</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
@@ -657,12 +813,12 @@
                     <h3>Contact Info</h3>
                     <p><i class="fas fa-map-marker-alt"></i> Jaipur, Rajasthan, India</p>
                     <p><i class="fas fa-phone"></i> +91 9928140288</p>
-                    <p><i class="fas fa-envelope"></i> info@infogrip.com</p>
+                    <p><i class="fas fa-envelope"></i> info@infogrip.in</p>
                 </div>
             </div>
 
             <div class="footer-bottom">
-                <p>&copy; InfoGrip Solution Ltd. All Rights Reserved 2025</p>
+                <p>&copy; InfoGrip Solution Ltd. All Rights Reserved 2026</p>
                 <div class="footer-bottom-links">
                     <a href="/legal/privacy-policy/">Privacy Policy</a>
                     <a href="/legal/terms-conditions/">Terms & Conditions</a>
