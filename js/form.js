@@ -345,4 +345,24 @@ console.log('=================');
         });
     }
 }
+form.addEventListener('submit', function (e) {
 
+    // ✅ CONSENT CHECK (SAFE)
+    const consent = document.getElementById('consent');
+    if (!consent || !consent.checked) {
+        e.preventDefault();
+        alert('Please accept the Privacy Policy and Terms & Conditions to continue.');
+        return;
+    }
+
+    // 🔽 EXISTING VALIDATION CONTINUES
+    if (!validateForm()) {
+        e.preventDefault();
+        return;
+    }
+
+    // 🔽 EXISTING LOADING / SUBMIT LOGIC
+    showLoading();
+    submitForm();
+
+});
