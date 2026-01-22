@@ -391,3 +391,19 @@ section h3 {
     color: #ffffff;
     opacity: 0.9;
 }
+
+.blue-link {
+  color: #0066ff;        /* Professional blue */
+  font-weight: normal;  /* Remove bold */
+  text-decoration: none;
+}
+
+.blue-link:hover {
+  text-decoration: underline;
+  color: #0044cc;
+}
+
+.blue-link:focus {
+  outline: 2px solid #0066ff;
+  outline-offset: 2px;
+}
