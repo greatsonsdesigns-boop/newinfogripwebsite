@@ -44,10 +44,11 @@
   <!--robots meta tag -->
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
 
-    <script type="application/ld+json">
+   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@graph": [
+
     {
       "@type": "AboutPage",
       "@id": "https://infogrip.in/about/#aboutpage",
@@ -59,14 +60,30 @@
       "about": {
         "@id": "https://infogrip.in/#organization"
       },
+      "mainEntityOfPage": {
+        "@id": "https://infogrip.in/#organization"
+      },
+      "speakable": {
+        "@type": "SpeakableSpecification",
+        "cssSelector": [
+          ".about-hero h1",
+          ".story-content h2",
+          ".story-content p",
+          ".mission-section h2"
+        ]
+      },
       "inLanguage": "en-IN"
     },
+
     {
       "@type": "Organization",
       "@id": "https://infogrip.in/#organization",
       "name": "InfoGrip Solution",
       "url": "https://infogrip.in/",
-      "logo": "https://infogrip.in/assets/logo.png",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://infogrip.in/assets/logo.png"
+      },
       "foundingLocation": {
         "@type": "Place",
         "name": "Jaipur, Rajasthan, India"
@@ -92,27 +109,11 @@
         }
       ]
     }
+
   ]
 }
 </script>
 
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "AboutPage",
-  "@id": "https://infogrip.in/about/#aboutpage",
-  "url": "https://infogrip.in/about/",
-  "speakable": {
-    "@type": "SpeakableSpecification",
-    "cssSelector": [
-      ".about-hero h1",
-      ".story-content h2",
-      ".story-content p",
-      ".mission-section h2"
-    ]
-  }
-}
-</script>
 
     
 </head>
@@ -208,6 +209,7 @@
 
     <p>
        In addition to political digital execution, we offer limited secondary digital services such as website development, without shifting our primary focus from political growth.
+    </p>
 
     <p>
         We believe in clarity, transparency, and long-term partnerships — building digital systems that are practical, ethical,
