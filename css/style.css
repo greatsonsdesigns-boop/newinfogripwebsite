@@ -407,3 +407,74 @@ section h3 {
   outline: 2px solid #0066ff;
   outline-offset: 2px;
 }
+/* ================================
+   Form Disclaimer (Legal & Trust)
+================================ */
+
+.form-disclaimer {
+    margin-top: 10px;
+    margin-bottom: 25px;
+    padding: 14px 18px;
+    background: rgba(0, 0, 0, 0.03);
+    border-left: 4px solid var(--primary-blue);
+    border-radius: 6px;
+    font-size: 11px;
+    line-height: 1.5;
+    color: #444;
+}
+
+.form-disclaimer strong {
+    color: var(--primary-blue);
+    font-weight: 600;
+}
+
+/* Dark mode support */
+body.dark .form-disclaimer {
+    background: rgba(255, 255, 255, 0.06);
+    color: #ccc;
+    border-left-color: var(--primary-blue);
+}
+/* =====================================
+   Consent Section (Legal + Ads Safe)
+===================================== */
+
+.consent-group {
+    margin-top: 18px;
+    margin-bottom: 20px;
+}
+
+.consent-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #444;
+    cursor: pointer;
+}
+
+.consent-label input[type="checkbox"] {
+    margin-top: 4px;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    accent-color: var(--primary-blue);
+}
+
+.consent-label span {
+    display: inline-block;
+}
+
+.consent-label a {
+    color: var(--primary-blue);
+    font-weight: 500;
+}
+
+.consent-label a:hover {
+    text-decoration: none;
+}
+
+/* Dark Mode Support */
+body.dark .consent-label {
+    color: #ccc;
+}
