@@ -1,0 +1,320 @@
+/* Glow Pulse Button Animation */
+.btn-glow-pulse {
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.btn-glow-pulse::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, var(--orange), #ff9d00, var(--orange));
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border-radius: 50px;
+}
+
+.btn-glow-pulse:hover::before {
+    opacity: 1;
+    animation: glow-pulse 2s infinite;
+}
+
+@keyframes glow-pulse {
+    0% {
+        box-shadow: 0 0 5px rgba(253, 203, 84, 0.7);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(253, 203, 84, 0.9), 0 0 30px rgba(253, 203, 84, 0.6);
+    }
+    100% {
+        box-shadow: 0 0 5px rgba(253, 203, 84, 0.7);
+    }
+}
+
+/* Section Title */
+.section-title {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.section-title h2 {
+    font-size: 2.5rem;
+    color: var(--text-color);
+    position: relative;
+    display: inline-block;
+}
+
+.section-title h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, #1e3a8a, #2563eb, #3b82f6);
+    border-radius: 2px;
+}
+
+.section-title p {
+    font-size: 1.1rem;
+    color: var(--blue);
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* Floating Animation for Cards */
+@keyframes float-card {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* Card hover effects */
+.feature-card, .service-card, .stat-card {
+    transition: var(--transition);
+}
+
+.feature-card:hover, .service-card:hover, .stat-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* Custom Cursor */
+.cursor {
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: rgba(253, 203, 84, 0.5);
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.2s ease;
+    mix-blend-mode: difference;
+}
+
+.cursor-follower {
+    position: fixed;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid rgba(253, 203, 84, 0.3);
+    pointer-events: none;
+    z-index: 9998;
+    transition: transform 0.4s ease;
+}
+
+.cursor.hover {
+    transform: scale(1.5);
+    background: rgba(253, 203, 84, 0.8);
+}
+
+.cursor.text-hover {
+    transform: scale(0.5);
+    background: rgba(253, 203, 84, 0.3);
+}
+
+.cursor-follower.hover {
+    transform: scale(1.5);
+    border-color: rgba(253, 203, 84, 0.6);
+}
+
+/* Floating Buttons */
+.floating-buttons {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.floating-btn {
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    font-size: 1.6rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: var(--transition);
+    position: relative;
+    animation: pulse 2s infinite;
+}
+
+.whatsapp-btn {
+    background-color: #25D366;
+}
+
+.chatbot-btn {
+    background: linear-gradient(135deg, var(--dark-blue) 0%, var(--blue) 100%);
+}
+
+.floating-btn:hover {
+    transform: scale(1.1);
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(37, 211, 102, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+    }
+}
+
+/* Social Links */
+.social-links {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.social-link {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--light-blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--blue);
+    transition: var(--transition);
+}
+
+.social-link:hover {
+    background-color: var(--blue);
+    color: var(--white);
+    transform: translateY(-3px);
+}
+
+/* Newsletter Form */
+.newsletter-form {
+    display: flex;
+    margin-top: 20px;
+}
+
+.newsletter-form input {
+    flex: 1;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 50px 0 0 50px;
+    outline: none;
+    background: var(--card-bg);
+    color: var(--text-color);
+}
+
+.newsletter-form button {
+    background: var(--blue);
+    color: var(--white);
+    border: none;
+    padding: 0 20px;
+    border-radius: 0 50px 50px 0;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.newsletter-form button:hover {
+    background: var(--dark-blue);
+}
+
+/* FAQ Item */
+.faq-item {
+    margin-bottom: 15px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    background: var(--card-bg);
+}
+
+.faq-question {
+    padding: 20px;
+    background: var(--card-bg);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    transition: var(--transition);
+}
+
+.faq-question:hover {
+    background-color: var(--light-blue);
+}
+
+.faq-question i {
+    transition: var(--transition);
+}
+
+.faq-answer {
+    padding: 0 20px;
+    max-height: 0;
+    overflow: hidden;
+    transition: var(--transition);
+    background-color: var(--card-bg);
+}
+
+.faq-item.active .faq-question {
+    background-color: var(--light-blue);
+}
+
+.faq-item.active .faq-question i {
+    transform: rotate(180deg);
+}
+
+.faq-item.active .faq-answer {
+    padding: 20px;
+    max-height: 500px;
+}
+
+/* Responsive adjustments for components */
+@media (max-width: 768px) {
+    .section-title h2 {
+        font-size: 2rem;
+    }
+    
+    .floating-buttons {
+        bottom: 20px;
+        right: 20px;
+    }
+    
+    .floating-btn {
+        width: 55px;
+        height: 55px;
+        font-size: 1.4rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .section-title h2 {
+        font-size: 1.8rem;
+    }
+    
+    .newsletter-form {
+        flex-direction: column;
+    }
+    
+    .newsletter-form input {
+        border-radius: 50px;
+        margin-bottom: 10px;
+    }
+    
+    .newsletter-form button {
+        border-radius: 50px;
+        padding: 12px;
+    }
+}
