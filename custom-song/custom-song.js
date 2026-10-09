@@ -10,7 +10,7 @@
      ============================================================ */
   // Replace with a real campaign end date when running the promotion.
   // Format: ISO 8601 with IST offset.
-  const PROMOTION_END_DATE = '2026-12-31T23:59:59+05:30';
+  const PROMOTION_END_DATE = '2026-10-12T23:59:59+05:30';
 
   const ORDER_URL = '/custom-song/order/';
 
