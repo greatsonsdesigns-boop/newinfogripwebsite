@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+<link rel="icon" type="image/png" sizes="64x64" href="/favicon.png">
+<link rel="apple-touch-icon" href="/favicon.png">
+<meta name="theme-color" content="#ffffff">
+
+<title>Order Confirmed | InfoGrip Custom Song</title>
+<meta name="description" content="Your InfoGrip Custom Professional Song order has been confirmed successfully.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="canonical" href="https://infogrip.in/custom-song/success/">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Order Confirmed | InfoGrip Custom Song">
+<meta property="og:description" content="Your InfoGrip Custom Professional Song order has been confirmed successfully.">
+<meta property="og:url" content="https://infogrip.in/custom-song/success/">
+<meta property="og:image" content="https://infogrip.in/assets/logo.png">
+<meta property="og:locale" content="hi_IN">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<!-- Existing global CSS -->
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/components.css">
+<link rel="stylesheet" href="/css/layout.css">
+<link rel="stylesheet" href="/css/homepage.css">
+<link rel="stylesheet" href="/css/responsive.css">
+
+<!-- Google tag (reused, not duplicated) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Y9RP0K1L4V"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-Y9RP0K1L4V');
+</script>
+
+<style>
+/* =============================================================
+   SUCCESS PAGE — Page-Scoped Styles
+   ============================================================= */
+
+:root {
+  --su-brand:        #0b1f44;
+  --su-brand-2:      #123167;
+  --su-brand-tint:   rgba(11, 31, 68, 0.06);
+  --su-red:          #c81d25;
+  --su-red-soft:     rgba(200, 29, 37, 0.08);
+  --su-ink:          #0d1b2a;
+  --su-mute:         #5b6b85;
+  --su-line:         #e6ebf2;
+  --su-bg:           #ffffff;
+  --su-bg-alt:       #f6f8fc;
+  --su-card:         #ffffff;
+  --su-success:      #059669;
+  --su-success-soft: rgba(5, 150, 105, 0.08);
+  --su-warning:      #d97706;
+  --su-warning-soft: rgba(217, 119, 6, 0.08);
+  --su-shadow-sm:    0 1px 3px rgba(11, 31, 68, 0.06);
+  --su-shadow:       0 4px 16px rgba(11, 31, 68, 0.08);
+  --su-r:            12px;
+  --su-r-lg:         18px;
+  --su-trans:        0.2s cubic-bezier(.2,.7,.3,1);
+}
+
+.dark-theme {
+  --su-ink:      #eef2ff;
+  --su-mute:     #a0aec4;
+  --su-line:     #1e2740;
+  --su-bg:       #0A0F1F;
+  --su-bg-alt:   #0F172A;
+  --su-card:     #111827;
+  --su-brand-tint: rgba(255, 255, 255, 0.05);
+  --su-red:      #ef4444;
+  --su-red-soft: rgba(239, 68, 68, 0.14);
+  --su-success:  #34d399;
+  --su-success-soft: rgba(52, 211, 153, 0.12);
+  --su-warning:  #fbbf24;
+  --su-warning-soft: rgba(251, 191, 36, 0.12);
+}
+
+/* ---- Page Layout ---- */
+.su-page {
+  background: var(--su-bg);
+  min-height: 100vh;
+  padding-top: 130px;
+}
+
+.su-container {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 0 16px 80px;
+}
+
+/* ---- Card ---- */
+.su-card {
+  background: var(--su-card);
+  border: 1px solid var(--su-line);
+  border-radius: var(--su-r-lg);
+  padding: 32px 24px;
+  box-shadow: var(--su-shadow-sm);
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+@media (min-width: 480px) {
+  .su-card { padding: 40px 32px; }
+}
+
+/* ---- Loading ---- */
+.su-loading { text-align: center; padding: 60px 20px; }
+
+.su-spinner {
+  display: inline-block;
+  width: 40px; height: 40px;
+  border: 4px solid var(--su-line);
+  border-top-color: var(--su-brand);
+  border-radius: 50%;
+  animation: suSpin 0.9s linear infinite;
+}
+
+@keyframes suSpin { to { transform: rotate(360deg); } }
+
+/* ---- Icon ---- */
+.su-icon {
+  width: 72px; height: 72px;
+  border-radius: 50%;
+  background: var(--su-success-soft);
+  color: var(--su-success);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  margin-bottom: 20px;
+  animation: suPopIn 0.5s cubic-bezier(.2,.7,.3,1);
+}
+
+@keyframes suPopIn {
+  from { opacity: 0; transform: scale(0.7); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.su-icon.warn { background: var(--su-warning-soft); color: var(--su-warning); }
+.su-icon.error { background: var(--su-red-soft); color: var(--su-red); }
+
+/* ---- Typography ---- */
+.su-title {
+  font-size: clamp(1.25rem, 4vw, 1.6rem);
+  font-weight: 800;
+  color: var(--su-ink);
+  margin: 0 0 10px;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+}
+
+.su-subtitle {
+  font-size: 0.95rem;
+  color: var(--su-mute);
+  line-height: 1.6;
+  margin: 0 0 22px;
+  max-width: 480px;
+  margin-inline: auto;
+}
+
+/* ---- Order ID ---- */
+.su-order-id {
+  font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--su-brand);
+  background: var(--su-brand-tint);
+  padding: 10px 20px;
+  border-radius: 8px;
+  display: inline-block;
+  margin: 12px 0 20px;
+  letter-spacing: 0.03em;
+}
+
+/* ---- Details Table ---- */
+.su-details {
+  background: var(--su-bg-alt);
+  border: 1px solid var(--su-line);
+  border-radius: var(--su-r);
+  padding: 14px 18px;
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.su-detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+  font-size: 0.88rem;
+  border-bottom: 1px dashed var(--su-line);
+}
+
+.su-detail-row:last-child { border-bottom: none; }
+
+.su-detail-row span:first-child {
+  color: var(--su-mute);
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.su-detail-row span:last-child {
+  font-weight: 700;
+  color: var(--su-ink);
+  text-align: right;
+  word-break: break-word;
+}
+
+.su-detail-row .paid { color: var(--su-success); }
+
+/* ---- Checklist ---- */
+.su-checks {
+  list-style: none;
+  padding: 0;
+  margin: 24px 0 8px;
+  display: grid;
+  gap: 10px;
+  text-align: left;
+}
+
+.su-checks li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.88rem;
+  color: var(--su-ink);
+  line-height: 1.5;
+}
+
+.su-checks i {
+  color: var(--su-success);
+  font-size: 0.9rem;
+  width: 20px;
+  flex-shrink: 0;
+  text-align: center;
+}
+
+/* ---- Actions ---- */
+.su-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 26px;
+}
+
+@media (min-width: 480px) {
+  .su-actions { flex-direction: row; justify-content: center; flex-wrap: wrap; }
+  .su-btn { width: auto; min-width: 180px; }
+}
+
+.su-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 13px 22px;
+  font-weight: 700;
+  font-size: 0.92rem;
+  font-family: inherit;
+  border-radius: 999px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform var(--su-trans), background var(--su-trans), color var(--su-trans), box-shadow var(--su-trans);
+  border: none;
+  width: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.su-btn--primary {
+  background: var(--su-brand);
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(11, 31, 68, 0.2);
+}
+
+.su-btn--primary:hover {
+  background: var(--su-brand-2);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(11, 31, 68, 0.28);
+}
+
+.su-btn--outline {
+  background: transparent;
+  color: var(--su-brand);
+  border: 2px solid var(--su-brand);
+}
+
+.su-btn--outline:hover {
+  background: var(--su-brand);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.su-btn:focus-visible {
+  outline: 3px solid var(--su-brand);
+  outline-offset: 3px;
+}
+
+/* ---- Invoice Link ---- */
+.su-invoice-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--su-brand);
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-decoration: none;
+  padding: 10px 16px;
+  background: var(--su-brand-tint);
+  border-radius: 8px;
+  margin-top: 14px;
+  transition: background var(--su-trans), color var(--su-trans);
+}
+
+.su-invoice-link:hover {
+  background: var(--su-brand);
+  color: #fff;
+}
+
+/* ---- Utility ---- */
+.su-hidden { display: none !important; }
+
+/* ---- Reduced motion ---- */
+@media (prefers-reduced-motion: reduce) {
+  .su-spinner { animation-duration: 2s; }
+  .su-icon { animation: none; }
+  .su-btn:hover { transform: none; }
+}
+</style>
+</head>
+
+<body>
+<!-- Cursor -->
+<div class="cursor"></div>
+<div class="cursor-follower"></div>
+
+<!-- ============================================
+     NAVBAR
+============================================= -->
+<header class="cylindrical-header">
+  <div class="container">
+    <nav class="navbar">
+      <a href="/" class="logo" aria-label="InfoGrip Solution Home">
+        <img src="/assets/logo.png" alt="InfoGrip Solution" class="logo-img">
+      </a>
+
+      <ul class="nav-menu">
+        <li><a href="/">Home</a></li>
+        <li><a href="/#services">Services</a></li>
+        <li><a href="/about/">About</a></li>
+        <li><a href="/portfolio/">Portfolio</a></li>
+        <li><a href="/custom-song/">Custom Song</a></li>
+        <li><a href="/contact/">Contact</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="/custom-song/" class="btn btn-primary header-cta">← Song Page</a>
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+          <i class="fas fa-moon"></i>
+        </button>
+        <div class="hamburger" role="button" tabindex="0" aria-label="Open menu">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<!-- ============================================
+     MAIN
+============================================= -->
+<main class="su-page">
+  <div class="su-container">
+
+    <!-- ===== LOADING STATE ===== -->
+    <div class="su-card su-loading" id="suLoading">
+      <div class="su-spinner"></div>
+      <p style="margin-top:18px;color:var(--su-mute);font-size:0.9rem;">
+        Order verify किया जा रहा है...
+      </p>
+    </div>
+
+    <!-- ===== SUCCESS STATE ===== -->
+    <div class="su-card su-hidden" id="suSuccess">
+      <div class="su-icon"><i class="fas fa-check"></i></div>
+
+      <h1 class="su-title">Payment Successful 🎵</h1>
+      <p class="su-subtitle">
+        आपका Custom Professional Song Order successfully confirm हो गया है।
+      </p>
+
+      <div class="su-order-id" id="suOrderId">IG-SNG-XXXX</div>
+
+      <div class="su-details">
+        <div class="su-detail-row">
+          <span>Amount Paid</span>
+          <span>₹999</span>
+        </div>
+        <div class="su-detail-row">
+          <span>Payment Status</span>
+          <span class="paid">PAID</span>
+        </div>
+        <div class="su-detail-row" id="suNameRow" style="display:none;">
+          <span>Name</span>
+          <span id="suName">—</span>
+        </div>
+        <div class="su-detail-row" id="suInvoiceRow" style="display:none;">
+          <span>Invoice No</span>
+          <span id="suInvoiceNum">—</span>
+        </div>
+      </div>
+
+      <ul class="su-checks">
+        <li><i class="fas fa-check-circle"></i> Payment received</li>
+        <li><i class="fas fa-check-circle"></i> Order confirmed</li>
+        <li><i class="fas fa-check-circle"></i> Invoice generated</li>
+        <li><i class="fas fa-check-circle"></i> Our Team will contact you soon</li>
+        <li><i class="fas fa-check-circle"></i> Song requirements will be discussed</li>
+        <li><i class="fas fa-check-circle"></i> Production will begin after confirmation</li>
+      </ul>
+
+      <p style="font-size:0.9rem;color:var(--su-mute);font-weight:600;margin-top:14px;">
+        हमारी Team जल्द आपसे संपर्क करेगी।
+      </p>
+
+      <a href="#" id="suInvoiceLink" class="su-invoice-link su-hidden" target="_blank" rel="noopener">
+        <i class="fas fa-file-invoice"></i>
+        View Invoice PDF
+      </a>
+
+      <div class="su-actions">
+        <a href="/custom-song/" class="su-btn su-btn--primary">
+          <i class="fas fa-home"></i> Back to Home
+        </a>
+        <a href="/contact/" class="su-btn su-btn--outline">
+          <i class="fas fa-phone"></i> Contact Support
+        </a>
+      </div>
+    </div>
+
+    <!-- ===== PENDING STATE ===== -->
+    <div class="su-card su-hidden" id="suPending">
+      <div class="su-icon warn"><i class="fas fa-clock"></i></div>
+
+      <h1 class="su-title">Payment Pending</h1>
+      <p class="su-subtitle">
+        आपका Payment अभी confirm नहीं हुआ है। कृपया कुछ देर बाद page refresh करें या दोबारा प्रयास करें।
+      </p>
+
+      <div class="su-order-id" id="suPendingOrderId">IG-SNG-XXXX</div>
+
+      <div class="su-actions">
+        <a href="#" id="suRetryBtn" class="su-btn su-btn--primary">
+          <i class="fas fa-redo"></i> Refresh Status
+        </a>
+        <a href="/custom-song/" class="su-btn su-btn--outline">
+          Back to Home
+        </a>
+      </div>
+    </div>
+
+    <!-- ===== ERROR STATE ===== -->
+    <div class="su-card su-hidden" id="suError">
+      <div class="su-icon error"><i class="fas fa-exclamation-triangle"></i></div>
+
+      <h1 class="su-title">Order जानकारी उपलब्ध नहीं</h1>
+      <p class="su-subtitle">
+        यह Order Session उपलब्ध नहीं है। कृपया अपना Order ID check करें या Order Form से दोबारा शुरू करें।
+      </p>
+
+      <div class="su-actions">
+        <a href="/custom-song/order/" class="su-btn su-btn--primary">
+          <i class="fas fa-arrow-left"></i> Order Form पर जाएं
+        </a>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<!-- ============================================
+     FOOTER
+============================================= -->
+<footer id="contact">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-col">
+        <a href="/" aria-label="Go to Homepage">
+          <img src="/assets/footer-logo.png" alt="InfoGrip Solution" style="height:70px;margin-bottom:20px;">
+        </a>
+        <p>Helping Indian political leaders build digital influence.</p>
+        <p>Need Expert Help? We're Just a Message Away!</p>
+        <a href="/onboarding/" class="btn btn-outline">Let's Connect</a>
+        <div class="social-links">
+          <a href="https://www.facebook.com/profile.php?id=61582320555612" class="social-link" target="_blank" rel="noopener"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://www.instagram.com/infogrip.in/" class="social-link" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
+          <a href="https://www.linkedin.com/company/infogripsolution/?viewAsMember=true" class="social-link" target="_blank" rel="noopener"><i class="fab fa-linkedin-in"></i></a>
+          <a href="https://x.com/InfoGrip" class="social-link" target="_blank" rel="noopener"><i class="fab fa-twitter"></i></a>
+          <a href="https://in.pinterest.com/infogrip_solution/_profile/" class="social-link" target="_blank" rel="noopener"><i class="fab fa-pinterest-p"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h3>Company</h3>
+        <ul class="footer-links">
+          <li><a href="/about/">About Us</a></li>
+          <li><a href="/contact/">Contact Us</a></li>
+          <li><a href="/legal/privacy-policy/">Privacy Policy</a></li>
+          <li><a href="/legal/terms-condition/">Terms &amp; Conditions</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>Core Services</h3>
+        <ul class="footer-links">
+          <li><a href="/services/political-branding/">Political Branding Services</a></li>
+          <li><a href="/services/political-social-media-framework/">Social Media for Politicians</a></li>
+          <li><a href="/services/digital-election-campaign/">Election Campaign Digital Strategy</a></li>
+          <li><a href="/custom-song/">Custom Professional Song</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>Contact Info</h3>
+        <p><i class="fas fa-map-marker-alt"></i> Jaipur, Rajasthan, India</p>
+        <p><i class="fas fa-phone"></i> +91 9928140288</p>
+        <p><i class="fas fa-envelope"></i> info@infogrip.in</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; InfoGrip Solution Ltd. All Rights Reserved 2026</p>
+      <div class="footer-bottom-links">
+        <a href="/legal/privacy-policy/">Privacy Policy</a>
+        <a href="/legal/terms-condition/">Terms &amp; Conditions</a>
+        <a href="/legal/refund-policy/">Refund Policy</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ============================================
+     SCRIPTS
+============================================= -->
+<script src="/js/main.js" defer></script>
+<script>
+(function() {
+  'use strict';
+
+  /* ============================================================
+     ⚙️ CONFIGURATION — PASTE YOUR APPS SCRIPT URL BELOW
+     ============================================================ */
+  const CUSTOM_SONG_API_URL = 'https://script.google.com/macros/s/AKfycbxjQviN-PS1ZNX7MEKPC-PGC0rgRr6PuIKks2hg4N17HyBYbFvwI26orqy3dOCUCPu31g/exec';
+
+  const $ = (sel) => document.querySelector(sel);
+
+  function show(stateId) {
+    ['suLoading', 'suSuccess', 'suPending', 'suError'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.classList.toggle('su-hidden', id !== stateId);
+    });
+  }
+
+  function track(eventName, params) {
+    try {
+      if (typeof window.gtag === 'function') {
+        window.gtag('event', eventName, Object.assign({}, params || {}));
+      }
+    } catch (_) {}
+  }
+
+  async function fetchOrderFromBackend(orderId) {
+    if (!CUSTOM_SONG_API_URL || CUSTOM_SONG_API_URL.indexOf('PASTE_') === 0) {
+      return null;
+    }
+    try {
+      const res = await fetch(CUSTOM_SONG_API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ action: 'getOrder', orderId: orderId })
+      });
+      if (!res.ok) return null;
+      const json = await res.json();
+      if (json.success && json.order) return json.order;
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  function firePurchaseOnce(orderId) {
+    try {
+      const key = 'ig_purchase_fired_' + orderId;
+      if (sessionStorage.getItem(key) === '1') return;
+      sessionStorage.setItem(key, '1');
+
+      track('purchase', {
+        transaction_id: orderId,
+        value: 999,
+        currency: 'INR',
+        items: [{
+          item_id: 'custom-song',
+          item_name: 'Custom Professional Song',
+          price: 999,
+          quantity: 1
+        }]
+      });
+
+      if (typeof window.fbq === 'function') {
+        window.fbq('track', 'Purchase', {
+          value: 999,
+          currency: 'INR',
+          content_name: 'Custom Professional Song'
+        });
+      }
+    } catch (_) {}
+  }
+
+  function renderSuccess(orderId, order) {
+    document.getElementById('suOrderId').textContent = orderId;
+
+    if (order.name) {
+      document.getElementById('suName').textContent = order.name;
+      document.getElementById('suNameRow').style.display = 'flex';
+    }
+
+    if (order.invoiceNumber && order.invoiceLink) {
+      document.getElementById('suInvoiceNum').textContent = order.invoiceNumber;
+      document.getElementById('suInvoiceRow').style.display = 'flex';
+      const invLink = document.getElementById('suInvoiceLink');
+      invLink.href = order.invoiceLink;
+      invLink.classList.remove('su-hidden');
+    }
+
+    show('suSuccess');
+  }
+
+  function renderPending(orderId) {
+    document.getElementById('suPendingOrderId').textContent = orderId;
+    document.getElementById('suRetryBtn').addEventListener('click', (e) => {
+      e.preventDefault();
+      window.location.reload();
+    });
+    show('suPending');
+  }
+
+  async function init() {
+    const params = new URLSearchParams(window.location.search);
+    const orderId = params.get('order');
+
+    if (!orderId) {
+      show('suError');
+      return;
+    }
+
+    // Try backend first (authoritative)
+    const order = await fetchOrderFromBackend(orderId);
+
+    if (order) {
+      if (order.paymentStatus === 'PAID') {
+        renderSuccess(orderId, order);
+        firePurchaseOnce(orderId);
+        track('page_view_confirmation', { order_id: orderId });
+      } else if (order.paymentStatus === 'PENDING') {
+        renderPending(orderId);
+      } else {
+        show('suError');
+      }
+      return;
+    }
+
+    // Fallback: sessionStorage (when backend URL not configured)
+    try {
+      const stored = sessionStorage.getItem('infogrip_custom_song_order');
+      if (stored) {
+        const data = JSON.parse(stored);
+        if (data.orderId === orderId && data.paymentStatus === 'PAID') {
+          renderSuccess(orderId, data);
+          firePurchaseOnce(orderId);
+          return;
+        }
+      }
+    } catch (_) {}
+
+    show('suError');
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+})();
+</script>
+
+</body>
+</html>

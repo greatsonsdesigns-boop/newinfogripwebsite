@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" sizes="64x64" href="/favicon.png">
+<link rel="apple-touch-icon" href="/favicon.png">
+<meta name="theme-color" content="#ffffff">
+
+<!-- SEO - Transactional page -->
+<title>अपना Custom Song Order करें | InfoGrip Solution</title>
+<meta name="description" content="सिर्फ 2 मिनट में basic जानकारी भरें और अपना Professional Custom Song बनवाएं — ₹999/- में।">
+<meta name="robots" content="noindex, follow">
+<link rel="canonical" href="https://infogrip.in/custom-song/order/">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="अपना Custom Song Order करें | InfoGrip Solution">
+<meta property="og:description" content="सिर्फ 2 मिनट में basic जानकारी भरें — बाकी काम हमारी Team करेगी।">
+<meta property="og:url" content="https://infogrip.in/custom-song/order/">
+<meta property="og:image" content="https://infogrip.in/assets/logo.png">
+<meta property="og:locale" content="hi_IN">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="अपना Custom Song Order करें | InfoGrip Solution">
+<meta name="twitter:description" content="सिर्फ 2 मिनट में basic जानकारी भरें — बाकी काम हमारी Team करेगी।">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<!-- Existing global CSS -->
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/components.css">
+<link rel="stylesheet" href="/css/layout.css">
+<link rel="stylesheet" href="/css/homepage.css">
+<link rel="stylesheet" href="/css/responsive.css">
+
+<!-- Google tag (reused) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Y9RP0K1L4V"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-Y9RP0K1L4V');
+</script>
+
+<style>
+/* =============================================================
+   ORDER FORM — Page-Scoped Styles
+   ============================================================= */
+
+:root {
+  --of-brand:        #0b1f44;
+  --of-brand-2:      #123167;
+  --of-brand-tint:   rgba(11, 31, 68, 0.06);
+  --of-red:          #c81d25;
+  --of-red-2:        #a4141c;
+  --of-red-soft:     rgba(200, 29, 37, 0.08);
+  --of-ink:          #0d1b2a;
+  --of-mute:         #5b6b85;
+  --of-line:         #e6ebf2;
+  --of-bg:           #ffffff;
+  --of-bg-alt:       #f6f8fc;
+  --of-card:         #ffffff;
+  --of-success:      #059669;
+  --of-success-soft: rgba(5, 150, 105, 0.08);
+  --of-r-sm:         8px;
+  --of-r:            12px;
+  --of-r-lg:         18px;
+  --of-shadow-sm:    0 1px 3px rgba(11, 31, 68, 0.06);
+  --of-shadow:       0 4px 16px rgba(11, 31, 68, 0.08);
+  --of-shadow-lg:    0 12px 36px rgba(11, 31, 68, 0.12);
+  --of-trans:        0.2s cubic-bezier(.2,.7,.3,1);
+}
+
+.dark-theme {
+  --of-ink:      #eef2ff;
+  --of-mute:     #a0aec4;
+  --of-line:     #1e2740;
+  --of-bg:       #0A0F1F;
+  --of-bg-alt:   #0F172A;
+  --of-card:     #111827;
+  --of-brand-tint: rgba(255, 255, 255, 0.05);
+  --of-red:      #ef4444;
+  --of-red-2:    #dc2626;
+  --of-red-soft: rgba(239, 68, 68, 0.14);
+  --of-success:  #34d399;
+  --of-success-soft: rgba(52, 211, 153, 0.12);
+}
+
+.of-page {
+  background: var(--of-bg);
+  min-height: 100vh;
+  padding-top: 130px;
+}
+
+.of-container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 16px 80px;
+}
+
+/* ---- Page Intro ---- */
+.of-intro { text-align: center; margin-bottom: 28px; }
+.of-intro__title {
+  font-size: clamp(1.35rem, 4.5vw, 1.75rem);
+  font-weight: 800;
+  color: var(--of-ink);
+  line-height: 1.25;
+  margin: 0 0 8px;
+  letter-spacing: -0.02em;
+}
+.of-intro__sub {
+  font-size: clamp(0.9rem, 3.2vw, 1rem);
+  color: var(--of-mute);
+  line-height: 1.5;
+  margin: 0 0 12px;
+  max-width: 520px;
+  margin-inline: auto;
+}
+.of-intro__trust {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--of-brand);
+  background: var(--of-brand-tint);
+  padding: 6px 14px;
+  border-radius: 999px;
+}
+.of-intro__trust i { color: var(--of-red); font-size: 0.75rem; }
+
+/* ---- Progress ---- */
+.of-progress {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+}
+.of-progress__step {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--of-mute);
+  white-space: nowrap;
+}
+.of-progress__step.is-active { color: var(--of-brand); }
+.of-progress__num {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: var(--of-line);
+  color: var(--of-mute);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65rem;
+  font-weight: 700;
+  transition: all var(--of-trans);
+}
+.of-progress__step.is-active .of-progress__num { background: var(--of-brand); color: #fff; }
+.of-progress__arrow { color: var(--of-line); font-size: 0.65rem; }
+
+/* ---- Cards ---- */
+.of-card {
+  background: var(--of-card);
+  border: 1px solid var(--of-line);
+  border-radius: var(--of-r-lg);
+  padding: 24px 20px;
+  margin-bottom: 20px;
+  box-shadow: var(--of-shadow-sm);
+}
+@media (min-width: 480px) { .of-card { padding: 28px 24px; } }
+
+.of-card__header {
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--of-line);
+}
+.of-card__title {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--of-ink);
+  margin: 0 0 6px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.of-card__title-num {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: var(--of-brand);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.of-card__helper {
+  font-size: 0.85rem;
+  color: var(--of-mute);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ---- Fields ---- */
+.of-field { margin-bottom: 18px; }
+.of-field:last-child { margin-bottom: 0; }
+
+.of-label {
+  display: block;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--of-ink);
+  margin-bottom: 6px;
+}
+.of-label .of-required { color: var(--of-red); margin-left: 2px; }
+.of-helper {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--of-mute);
+  margin-top: 5px;
+  line-height: 1.45;
+}
+
+.of-input, .of-textarea {
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  color: var(--of-ink);
+  background: var(--of-bg);
+  border: 1.5px solid var(--of-line);
+  border-radius: var(--of-r);
+  transition: border-color var(--of-trans), box-shadow var(--of-trans), background var(--of-trans);
+  -webkit-appearance: none;
+  appearance: none;
+}
+.of-input::placeholder, .of-textarea::placeholder { color: var(--of-mute); opacity: 0.7; }
+.of-input:hover, .of-textarea:hover { border-color: #c5cfe0; }
+.dark-theme .of-input:hover, .dark-theme .of-textarea:hover { border-color: #2d3a55; }
+.of-input:focus, .of-textarea:focus {
+  outline: none;
+  border-color: var(--of-brand);
+  box-shadow: 0 0 0 3px var(--of-brand-tint);
+  background: var(--of-bg);
+}
+.of-input.is-error, .of-textarea.is-error {
+  border-color: var(--of-red);
+  background: var(--of-red-soft);
+}
+.of-input.is-error:focus, .of-textarea.is-error:focus {
+  box-shadow: 0 0 0 3px var(--of-red-soft);
+}
+.of-textarea {
+  resize: vertical;
+  min-height: 90px;
+  line-height: 1.5;
+}
+
+/* ---- Error ---- */
+.of-error {
+  display: none;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--of-red);
+  margin-top: 5px;
+  align-items: center;
+  gap: 5px;
+}
+.of-error.is-visible { display: flex; }
+.of-error i { font-size: 0.7rem; }
+
+.of-counter {
+  display: block;
+  text-align: right;
+  font-size: 0.72rem;
+  color: var(--of-mute);
+  margin-top: 4px;
+}
+
+/* ---- Dropdown ---- */
+.of-dropdown { position: relative; }
+.of-dropdown__trigger {
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  color: var(--of-ink);
+  background: var(--of-bg);
+  border: 1.5px solid var(--of-line);
+  border-radius: var(--of-r);
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  transition: border-color var(--of-trans), box-shadow var(--of-trans);
+}
+.of-dropdown__trigger:hover { border-color: #c5cfe0; }
+.dark-theme .of-dropdown__trigger:hover { border-color: #2d3a55; }
+.of-dropdown__trigger:focus {
+  outline: none;
+  border-color: var(--of-brand);
+  box-shadow: 0 0 0 3px var(--of-brand-tint);
+}
+.of-dropdown__trigger.is-error {
+  border-color: var(--of-red);
+  background: var(--of-red-soft);
+}
+.of-dropdown__trigger-text {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.of-dropdown__trigger-text.is-placeholder { color: var(--of-mute); opacity: 0.7; }
+.of-dropdown__arrow {
+  font-size: 0.7rem;
+  color: var(--of-mute);
+  transition: transform var(--of-trans);
+  flex-shrink: 0;
+}
+.of-dropdown.is-open .of-dropdown__arrow { transform: rotate(180deg); }
+.of-dropdown__menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: var(--of-card);
+  border: 1px solid var(--of-line);
+  border-radius: var(--of-r);
+  box-shadow: var(--of-shadow-lg);
+  z-index: 100;
+  display: none;
+  max-height: 280px;
+  overflow: hidden;
+}
+.of-dropdown.is-open .of-dropdown__menu {
+  display: block;
+  animation: ofDropIn 0.18s ease;
+}
+@keyframes ofDropIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.of-dropdown__search {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--of-line);
+}
+.of-dropdown__search input {
+  width: 100%;
+  padding: 8px 10px;
+  font-size: 0.88rem;
+  font-family: inherit;
+  border: 1px solid var(--of-line);
+  border-radius: var(--of-r-sm);
+  background: var(--of-bg-alt);
+  color: var(--of-ink);
+  outline: none;
+}
+.of-dropdown__search input:focus { border-color: var(--of-brand); }
+.of-dropdown__list {
+  list-style: none;
+  margin: 0;
+  padding: 6px;
+  max-height: 220px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.of-dropdown__option {
+  padding: 10px 12px;
+  font-size: 0.9rem;
+  color: var(--of-ink);
+  border-radius: var(--of-r-sm);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  transition: background var(--of-trans), color var(--of-trans);
+}
+.of-dropdown__option:hover,
+.of-dropdown__option.is-highlighted {
+  background: var(--of-brand-tint);
+  color: var(--of-brand);
+}
+.of-dropdown__option.is-selected {
+  background: var(--of-brand-tint);
+  color: var(--of-brand);
+  font-weight: 600;
+}
+.of-dropdown__option i {
+  font-size: 0.7rem;
+  color: var(--of-brand);
+  opacity: 0;
+}
+.of-dropdown__option.is-selected i { opacity: 1; }
+.of-dropdown__empty {
+  padding: 16px 12px;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--of-mute);
+}
+
+/* ---- Conditional ---- */
+.of-conditional { display: none; }
+.of-conditional.is-visible {
+  display: block;
+  animation: ofSlideIn 0.25s ease;
+}
+@keyframes ofSlideIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ---- Card Options ---- */
+.of-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+@media (min-width: 480px) { .of-cards { grid-template-columns: repeat(3, 1fr); } }
+
+.of-card-option {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 14px 10px;
+  background: var(--of-bg);
+  border: 1.5px solid var(--of-line);
+  border-radius: var(--of-r);
+  cursor: pointer;
+  transition: border-color var(--of-trans), background var(--of-trans), box-shadow var(--of-trans), transform var(--of-trans);
+  -webkit-tap-highlight-color: transparent;
+}
+.of-card-option:hover {
+  border-color: #c5cfe0;
+  transform: translateY(-1px);
+  box-shadow: var(--of-shadow-sm);
+}
+.dark-theme .of-card-option:hover { border-color: #2d3a55; }
+.of-card-option.is-selected {
+  border-color: var(--of-brand);
+  background: var(--of-brand-tint);
+  box-shadow: 0 0 0 1px var(--of-brand);
+}
+.of-card-option.is-error {
+  border-color: var(--of-red);
+  background: var(--of-red-soft);
+}
+.of-card-option__icon {
+  font-size: 1.2rem;
+  color: var(--of-brand);
+  margin-bottom: 6px;
+}
+.dark-theme .of-card-option__icon { color: #93b4ff; }
+.of-card-option__label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--of-ink);
+  line-height: 1.3;
+}
+.of-card-option__desc {
+  font-size: 0.7rem;
+  color: var(--of-mute);
+  margin-top: 3px;
+  line-height: 1.35;
+}
+.of-card-option__check {
+  position: absolute;
+  top: 6px; right: 6px;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: var(--of-brand);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.6rem;
+  opacity: 0;
+  transform: scale(0.5);
+  transition: all var(--of-trans);
+}
+.of-card-option.is-selected .of-card-option__check {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ---- Reassure ---- */
+.of-reassure {
+  background: linear-gradient(135deg, var(--of-brand-tint), transparent);
+  border: 1px solid var(--of-line);
+  border-left: 4px solid var(--of-brand);
+  border-radius: var(--of-r);
+  padding: 18px 20px;
+  margin-bottom: 20px;
+}
+.of-reassure__title {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--of-ink);
+  margin: 0 0 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.of-reassure__title i { color: var(--of-brand); }
+.of-reassure__text {
+  font-size: 0.85rem;
+  color: var(--of-mute);
+  line-height: 1.6;
+  margin: 0 0 6px;
+}
+.of-reassure__text:last-child { margin-bottom: 0; }
+
+/* ---- Price Card ---- */
+.of-price-card {
+  background: var(--of-card);
+  border: 2px solid var(--of-brand);
+  border-radius: var(--of-r-lg);
+  padding: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+  position: relative;
+}
+.of-price-card__badge {
+  position: absolute;
+  top: -12px; left: 50%;
+  transform: translateX(-50%);
+  background: var(--of-red);
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 4px 14px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.of-price-card__title {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--of-ink);
+  margin: 8px 0 12px;
+}
+.of-price-card__amount {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--of-red);
+  margin: 0 0 12px;
+  letter-spacing: -0.02em;
+}
+.of-price-card__amount small {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--of-mute);
+  text-decoration: line-through;
+  margin-right: 8px;
+}
+.of-price-card__features {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 8px;
+  text-align: left;
+}
+.of-price-card__features li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: var(--of-ink);
+}
+.of-price-card__features i {
+  color: var(--of-success);
+  font-size: 0.7rem;
+  flex-shrink: 0;
+}
+
+/* ---- Consent ---- */
+.of-consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 14px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.of-consent:last-of-type { margin-bottom: 0; }
+.of-consent input[type="checkbox"] {
+  width: 20px; height: 20px;
+  margin-top: 1px;
+  accent-color: var(--of-brand);
+  flex-shrink: 0;
+  cursor: pointer;
+}
+.of-consent__text {
+  font-size: 0.85rem;
+  color: var(--of-mute);
+  line-height: 1.55;
+}
+.of-consent__text a {
+  color: var(--of-brand);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.of-consent__text a:hover { text-decoration: none; }
+.of-consent.is-error .of-consent__text { color: var(--of-red); }
+
+/* ---- Info Box ---- */
+.of-info-box {
+  background: var(--of-bg-alt);
+  border: 1px solid var(--of-line);
+  border-radius: var(--of-r);
+  padding: 14px 16px;
+  margin-top: 18px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+.of-info-box i {
+  color: var(--of-mute);
+  font-size: 0.85rem;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+.of-info-box p {
+  font-size: 0.78rem;
+  color: var(--of-mute);
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* ---- Submit ---- */
+.of-submit {
+  width: 100%;
+  padding: 16px 24px;
+  font-size: 1.05rem;
+  font-weight: 800;
+  font-family: inherit;
+  color: #fff;
+  background: var(--of-red);
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: background var(--of-trans), transform var(--of-trans), box-shadow var(--of-trans);
+  box-shadow: 0 8px 24px rgba(200, 29, 37, 0.32);
+  -webkit-tap-highlight-color: transparent;
+  margin-top: 8px;
+}
+.of-submit:hover:not(:disabled) {
+  background: var(--of-red-2);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(200, 29, 37, 0.42);
+}
+.of-submit:active:not(:disabled) { transform: translateY(0) scale(0.99); }
+.of-submit:focus-visible {
+  outline: 3px solid var(--of-brand);
+  outline-offset: 3px;
+}
+.of-submit:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+.of-submit.is-loading .fa-arrow-right { display: none; }
+.of-submit.is-loading .fa-spinner { display: inline-block !important; }
+
+.of-submit__note {
+  text-align: center;
+  font-size: 0.78rem;
+  color: var(--of-mute);
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.of-submit__note i {
+  color: var(--of-success);
+  font-size: 0.7rem;
+}
+
+/* ---- Alert (network error etc.) ---- */
+.of-alert {
+  display: none;
+  border-radius: var(--of-r);
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  align-items: flex-start;
+  gap: 10px;
+}
+.of-alert.is-visible { display: flex; }
+.of-alert i { flex-shrink: 0; margin-top: 2px; font-size: 0.9rem; }
+.of-alert p { margin: 0; }
+.of-alert--error {
+  background: var(--of-red-soft);
+  border: 1px solid rgba(200, 29, 37, 0.2);
+  color: var(--of-red);
+}
+
+/* ---- Success ---- */
+.of-success { display: none; text-align: center; padding: 40px 20px; }
+.of-success.is-visible {
+  display: block;
+  animation: ofFadeIn 0.4s ease;
+}
+@keyframes ofFadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.of-success__icon {
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  background: var(--of-success-soft);
+  color: var(--of-success);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.75rem;
+  margin-bottom: 16px;
+}
+.of-success__title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--of-ink);
+  margin: 0 0 8px;
+}
+.of-success__text {
+  font-size: 0.9rem;
+  color: var(--of-mute);
+  line-height: 1.6;
+  margin: 0 0 16px;
+  max-width: 400px;
+  margin-inline: auto;
+}
+.of-success__order {
+  display: inline-block;
+  font-family: monospace;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--of-brand);
+  background: var(--of-brand-tint);
+  padding: 8px 16px;
+  border-radius: var(--of-r-sm);
+  margin-bottom: 20px;
+}
+
+@media (max-width: 374px) {
+  .of-container { padding: 0 12px 60px; }
+  .of-card { padding: 18px 14px; }
+  .of-cards { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .of-card-option { padding: 10px 8px; }
+  .of-card-option__label { font-size: 0.78rem; }
+  .of-card-option__desc { font-size: 0.65rem; }
+}
+
+.dark-theme .of-input,
+.dark-theme .of-textarea,
+.dark-theme .of-dropdown__trigger { background: var(--of-card); }
+.dark-theme .of-dropdown__search input { background: var(--of-bg); }
+.dark-theme .of-card-option { background: var(--of-card); }
+.dark-theme .of-price-card { background: var(--of-card); }
+
+@media (prefers-reduced-motion: reduce) {
+  .of-conditional.is-visible,
+  .of-dropdown.is-open .of-dropdown__menu,
+  .of-success.is-visible { animation: none; }
+  .of-submit:hover,
+  .of-card-option:hover { transform: none; }
+}
+
+.of-card-option:focus-visible,
+.of-consent input:focus-visible {
+  outline: 2px solid var(--of-brand);
+  outline-offset: 2px;
+}
+</style>
+</head>
+
+<body>
+<div class="cursor"></div>
+<div class="cursor-follower"></div>
+
+<!-- ============================================
+     NAVBAR
+============================================= -->
+<header class="cylindrical-header">
+  <div class="container">
+    <nav class="navbar">
+      <a href="/" class="logo" aria-label="InfoGrip Solution Home">
+        <img src="/assets/logo.png" alt="InfoGrip Solution" class="logo-img">
+      </a>
+
+      <ul class="nav-menu">
+        <li><a href="/">Home</a></li>
+        <li><a href="/#services">Services</a></li>
+        <li><a href="/about/">About</a></li>
+        <li><a href="/portfolio/">Portfolio</a></li>
+        <li><a href="/custom-song/" class="active">Custom Song</a></li>
+        <li><a href="/contact/">Contact</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="/custom-song/" class="btn btn-primary header-cta">← Back to Song Page</a>
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+          <i class="fas fa-moon"></i>
+        </button>
+        <div class="hamburger" role="button" tabindex="0" aria-label="Open menu">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<!-- ============================================
+     MAIN
+============================================= -->
+<main class="of-page">
+  <div class="of-container">
+
+    <!-- ===== INTRO ===== -->
+    <div class="of-intro">
+      <h1 class="of-intro__title">अपना Professional Song बनवाने के लिए जानकारी दें</h1>
+      <p class="of-intro__sub">सिर्फ 2 मिनट में basic जानकारी भरें — बाकी काम हमारी Team करेगी।</p>
+      <span class="of-intro__trust">
+        <i class="fas fa-check-circle"></i>
+        ₹999 • Custom Song • Personal Team Assistance
+      </span>
+    </div>
+
+    <!-- ===== PROGRESS ===== -->
+    <nav class="of-progress" aria-label="Form progress">
+      <div class="of-progress__step is-active" data-step="1">
+        <span class="of-progress__num">01</span>
+        <span>आपकी जानकारी</span>
+      </div>
+      <i class="fas fa-chevron-right of-progress__arrow" aria-hidden="true"></i>
+      <div class="of-progress__step" data-step="2">
+        <span class="of-progress__num">02</span>
+        <span>Song की पसंद</span>
+      </div>
+      <i class="fas fa-chevron-right of-progress__arrow" aria-hidden="true"></i>
+      <div class="of-progress__step" data-step="3">
+        <span class="of-progress__num">03</span>
+        <span>Confirmation</span>
+      </div>
+    </nav>
+
+    <!-- ===== NETWORK ALERT ===== -->
+    <div class="of-alert of-alert--error" id="ofNetworkAlert" role="alert">
+      <i class="fas fa-exclamation-circle"></i>
+      <p id="ofNetworkAlertText">कुछ तकनीकी समस्या आ गई है। कृपया कुछ देर बाद दोबारा प्रयास करें।</p>
+    </div>
+
+    <!-- ===== FORM ===== -->
+    <form id="orderForm" novalidate>
+
+      <!-- ========== SECTION 01 ========== -->
+      <section class="of-card" id="section-1">
+        <header class="of-card__header">
+          <h2 class="of-card__title">
+            <span class="of-card__title-num">01</span>
+            आपकी जानकारी
+          </h2>
+          <p class="of-card__helper">बस कुछ basic जानकारी दें ताकि हम आपका Song सही तरीके से तैयार कर सकें।</p>
+        </header>
+
+        <!-- Name -->
+        <div class="of-field">
+          <label class="of-label" for="name">पूरा नाम <span class="of-required">*</span></label>
+          <input type="text" id="name" name="name" class="of-input"
+                 placeholder="जैसे — महेंद्र सिंह" autocomplete="name" required minlength="2">
+          <span class="of-error" id="name-error" role="alert">
+            <i class="fas fa-exclamation-circle"></i> कृपया अपना नाम दर्ज करें।
+          </span>
+        </div>
+
+        <!-- Role -->
+        <div class="of-field">
+          <label class="of-label" for="role">आप किस रूप में जुड़े हैं? <span class="of-required">*</span></label>
+          <div class="of-dropdown" id="role-dropdown">
+            <button type="button" class="of-dropdown__trigger" id="role-trigger"
+                    aria-haspopup="listbox" aria-expanded="false">
+              <span class="of-dropdown__trigger-text is-placeholder" id="role-trigger-text">अपनी भूमिका चुनें</span>
+              <i class="fas fa-chevron-down of-dropdown__arrow" aria-hidden="true"></i>
+            </button>
+            <div class="of-dropdown__menu" role="listbox" aria-label="भूमिका चुनें">
+              <div class="of-dropdown__search">
+                <input type="text" placeholder="भूमिका खोजें..." id="role-search" autocomplete="off">
+              </div>
+              <ul class="of-dropdown__list" id="role-list"></ul>
+            </div>
+          </div>
+          <input type="hidden" id="role" name="role">
+          <span class="of-error" id="role-error" role="alert">
+            <i class="fas fa-exclamation-circle"></i> कृपया अपनी भूमिका चुनें।
+          </span>
+        </div>
+
+        <!-- Gram Panchayat (Conditional) -->
+        <div class="of-field of-conditional" id="gram-panchayat-field">
+          <label class="of-label" for="gramPanchayat">ग्राम पंचायत <span class="of-required">*</span></label>
+          <input type="text" id="gramPanchayat" name="gramPanchayat" class="of-input"
+                 placeholder="जैसे — ग्राम पंचायत बगरू">
+          <span class="of-helper">जिस ग्राम पंचायत से आप जुड़े हैं उसका नाम लिखें।</span>
+          <span class="of-error" id="gramPanchayat-error" role="alert">
+            <i class="fas fa-exclamation-circle"></i> कृपया ग्राम पंचायत का नाम दर्ज करें।
+          </span>
+        </div>
+
+        <!-- Party (Conditional) -->
+        <div class="of-field of-conditional" id="party-field">
+          <label class="of-label" for="party">पार्टी / संगठन</label>
+          <div class="of-dropdown" id="party-dropdown">
+            <button type="button" class="of-dropdown__trigger" id="party-trigger"
+                    aria-haspopup="listbox" aria-expanded="false">
+              <span class="of-dropdown__trigger-text is-placeholder" id="party-trigger-text">पार्टी / संगठन चुनें</span>
+              <i class="fas fa-chevron-down of-dropdown__arrow" aria-hidden="true"></i>
+            </button>
+            <div class="of-dropdown__menu" role="listbox" aria-label="पार्टी या संगठन चुनें">
+              <div class="of-dropdown__search">
+                <input type="text" placeholder="पार्टी / संगठन खोजें..." id="party-search" autocomplete="off">
+              </div>
+              <ul class="of-dropdown__list" id="party-list"></ul>
+            </div>
+          </div>
+          <input type="hidden" id="party" name="party">
+        </div>
+
+        <!-- Other Party (Conditional) -->
+        <div class="of-field of-conditional" id="otherParty-field">
+          <label class="of-label" for="otherParty" id="otherParty-label">पार्टी का नाम</label>
+          <input type="text" id="otherParty" name="otherParty" class="of-input"
+                 placeholder="अपनी पार्टी का नाम लिखें">
+        </div>
+
+        <!-- Mobile -->
+        <div class="of-field">
+          <label class="of-label" for="mobile">मोबाइल नंबर <span class="of-required">*</span></label>
+          <input type="tel" id="mobile" name="mobile" class="of-input"
+                 placeholder="10 अंकों का मोबाइल नंबर" inputmode="numeric"
+                 autocomplete="tel" maxlength="10" required>
+          <span class="of-helper">इसी नंबर पर हमारी Team आपसे संपर्क करेगी।</span>
+          <span class="of-error" id="mobile-error" role="alert">
+            <i class="fas fa-exclamation-circle"></i> कृपया 10 अंकों का सही मोबाइल नंबर दर्ज करें।
+          </span>
+        </div>
+
+        <!-- Area -->
+        <div class="of-field">
+          <label class="of-label" for="area">आपका क्षेत्र</label>
+          <input type="text" id="area" name="area" class="of-input"
+                 placeholder="जैसे — जयपुर, राजस्थान">
+          <span class="of-helper">यह जानकारी आपके Song को ज्यादा personal बनाने में मदद करेगी।</span>
+        </div>
+      </section>
+
+      <!-- ========== SECTION 02 ========== -->
+      <section class="of-card" id="section-2">
+        <header class="of-card__header">
+          <h2 class="of-card__title">
+            <span class="of-card__title-num">02</span>
+            आपके Song की पसंद
+          </h2>
+          <p class="of-card__helper">अपनी पसंद बताएं — Lyrics और Music की बाकी जिम्मेदारी हमारी Team की है।</p>
+        </header>
+
+        <!-- Song Focus -->
+        <div class="of-field">
+          <label class="of-label">Song किस बात पर ज्यादा Focus करे? <span class="of-required">*</span></label>
+          <div class="of-cards" id="songFocus-cards" role="radiogroup" aria-label="Song Focus">
+            <div class="of-card-option" data-value="जनसेवा और जनता से जुड़ाव" role="radio" aria-checked="false" tabindex="0">
+              <i class="fas fa-hands-helping of-card-option__icon"></i>
+              <span class="of-card-option__label">जनसेवा</span>
+              <span class="of-card-option__desc">जनसेवा और जनता से जुड़ाव</span>
+              <span class="of-card-option__check"><i class="fas fa-check"></i></span>
+            </div>
+            <div class="of-card-option" data-value="विकास और क्षेत्र के काम" role="radio" aria-checked="false" tabindex="0">
+              <i class="fas fa-chart-line of-card-option__icon"></i>
+              <span class="of-card-option__label">विकास</span>
+              <span class="of-card-option__desc">विकास और क्षेत्र के काम</span>
+              <span class="of-card-option__check"><i class="fas fa-check"></i></span>
+            </div>
+            <div class="of-card-option" data-value="युवा और नई सोच" role="radio" aria-checked="false" tabindex="0">
+              <i class="fas fa-fire of-card-option__icon"></i>
+              <span class="of-card-option__label">युवा</span>
+              <span class="of-card-option__desc">युवा और नई सोच</span>
+              <span class="of-card-option__check"><i class="fas fa-check"></i></span>
+            </div>
+            <div class="of-card-option" data-value="नेतृत्व और पहचान" role="radio" aria-checked="false" tabindex="0">
+              <i class="fas fa-crown of-card-option__icon"></i>
+              <span class="of-card-option__label">नेतृत्व</span>
+              <span class="of-card-option__desc">नेतृत्व और पहचान</span>
+              <span class="of-card-option__check"><i class="fas fa-check"></i></span>
+            </div>
+            <div class="of-card-option" data-value="क्षेत्र की पहचान" role="radio" aria-checked="false" tabindex="0">
+              <i class="fas fa-map-marker-alt of-card-option__icon"></i>
+              <span class="of-card-option__label">क्षेत्र</span>
+              <span class="of-card-option__desc">क्षेत्र की पहचान</span>
+              <span class="of-card-option__check"><i class="fas fa-check"></i></span>
+            </div>
+            <div class="of-card-option" data-value="मेरी उपलब्धियां" role="radio" aria-checked="false" tabindex="0">
+              <i class="fas fa-trophy of-card-option__icon"></i>
+              <span class="of-card-option__label">उपलब्धियां</span>
+              <span class="of-card-option__desc">मेरी उपलब्धियां</span>
+              <span class="of-card-option__check"><i class="fas fa-check"></i></span>
+            </div>
+            <div class="of-card-option" data-value="हमारी Team तय करे" role="radio" aria-checked="false" tabindex="0">
+              <i class="fas fa-users-cog of-card-option__icon"></i>
+              <span class="of-card-option__label">टीम</span>
+              <span class="of-card-option__desc">हमारी Team तय करे</span>
+              <span class="of-card-option__check"><i class="fas fa-check"></i></span>
+            </div>
+          </div>
+          <input type="hidden" id="songFocus" name="songFocus">
+          <span class="of-error" id="songFocus-error" role="alert">
+            <i class="fas fa-exclamation-circle"></i> कृपया Song का Focus चुनें।
+          </span>
+        </div>
+
+        <!-- Song Style -->
+        <div class="of-field">
+          <label class="of-label">Song का Style <span class="of-required">*</span></label>
+          <div class="of-cards" id="songStyle-cards" role="radiogroup" aria-label="Song Style">
+            <div class="of-card-option" data-value="जोशीला" role="radio" aria-checked="false" tabindex="0">
+              <i class="fas fa-bolt of-card-option__icon"></i>
+              <span class="of-card-option__label">जोशीला</span>
+              <span class="of-card-option__check"><i class="fas fa-check"></i></span>
+            </div>
+            <div class="of-card-option" data-value="दमदार" role="radio" aria-checked="false" tabindex="0">
+              <i class="fas fa-fist-raised of-card-option__icon"></i>
+              <span class="of-card-option__label">दमदार</span>
+              <span class="of-card-option__check"><i class="fas fa-check"></i></span>
+            </div>
+            <div class="of-card-option" data-value="भावनात्मक" role="radio" aria-checked="false" tabindex="0">
+              <i class="fas fa-heart of-card-option__icon"></i>
+              <span class="of-card-option__label">भावनात्मक</span>
+              <span class="of-card-option__check"><i class="fas fa-check"></i></span>
+            </div>
+            <div class="of-card-option" data-value="प्रेरणादायक" role="radio" aria-checked="false" tabindex="0">
+              <i class="fas fa-star of-card-option__icon"></i>
+              <span class="of-card-option__label">प्रेरणादायक</span>
+              <span class="of-card-option__check"><i class="fas fa-check"></i></span>
+            </div>
+            <div class="of-card-option" data-value="राजस्थानी Touch" role="radio" aria-checked="false" tabindex="0">
+              <i class="fas fa-drum of-card-option__icon"></i>
+              <span class="of-card-option__label">राजस्थानी Touch</span>
+              <span class="of-card-option__check"><i class="fas fa-check"></i></span>
+            </div>
+            <div class="of-card-option" data-value="हमारी Team तय करे" role="radio" aria-checked="false" tabindex="0">
+              <i class="fas fa-users-cog of-card-option__icon"></i>
+              <span class="of-card-option__label">टीम तय करे</span>
+              <span class="of-card-option__check"><i class="fas fa-check"></i></span>
+            </div>
+          </div>
+          <input type="hidden" id="songStyle" name="songStyle">
+          <span class="of-error" id="songStyle-error" role="alert">
+            <i class="fas fa-exclamation-circle"></i> कृपया Song का Style चुनें।
+          </span>
+        </div>
+
+        <!-- Special Message -->
+        <div class="of-field">
+          <label class="of-label" for="specialMessage">कोई खास संदेश?</label>
+          <textarea id="specialMessage" name="specialMessage" class="of-textarea"
+                    placeholder="जैसे — कोई खास नारा, गांव का नाम या आपका संदेश..."
+                    maxlength="500" rows="3"></textarea>
+          <span class="of-counter"><span id="charCount">0</span>/500</span>
+          <span class="of-helper">अगर अभी कुछ तय नहीं है, तो इसे खाली छोड़ सकते हैं। हमारी Team Call पर आपसे पूछ लेगी।</span>
+        </div>
+      </section>
+
+      <!-- ===== REASSURE ===== -->
+      <div class="of-reassure">
+        <h3 class="of-reassure__title">
+          <i class="fas fa-music"></i>
+          बाकी काम हमारी Team करेगी 🎵
+        </h3>
+        <p class="of-reassure__text">आपको Lyrics लिखने या Music की जानकारी देने की जरूरत नहीं है। आपकी basic जानकारी के आधार पर हमारी Team आपके लिए Custom Song तैयार करेगी।</p>
+        <p class="of-reassure__text">Payment के बाद हमारी Team आपको Call करके जरूरी जानकारी लेगी और फिर Production शुरू किया जाएगा।</p>
+      </div>
+
+      <!-- ===== PRICE CARD ===== -->
+      <div class="of-price-card">
+        <span class="of-price-card__badge">Special Price</span>
+        <h3 class="of-price-card__title">₹999 में आपका Custom Professional Song</h3>
+        <div class="of-price-card__amount"><small>₹1,599</small> ₹999</div>
+        <ul class="of-price-card__features">
+          <li><i class="fas fa-check"></i> आपके नाम के अनुसार</li>
+          <li><i class="fas fa-check"></i> आपकी पहचान के अनुसार</li>
+          <li><i class="fas fa-check"></i> Custom Lyrics</li>
+          <li><i class="fas fa-check"></i> Professional Music & Voice</li>
+          <li><i class="fas fa-check"></i> Quality Checked Final Song</li>
+        </ul>
+      </div>
+
+      <!-- ========== SECTION 03 ========== -->
+      <section class="of-card" id="section-3">
+        <header class="of-card__header">
+          <h2 class="of-card__title">
+            <span class="of-card__title-num">03</span>
+            Order Confirmation
+          </h2>
+        </header>
+
+        <label class="of-consent" id="consent1-label">
+          <input type="checkbox" id="consent1" name="consent1">
+          <span class="of-consent__text">
+            मैंने दी गई जानकारी को सही माना है और मैं समझता/समझती हूं कि यह एक Custom Song Service है।
+          </span>
+        </label>
+
+        <label class="of-consent" id="consent2-label">
+          <input type="checkbox" id="consent2" name="consent2">
+          <span class="of-consent__text">
+            मैं सहमत हूं कि Payment के बाद मेरी दी गई जानकारी के आधार पर Custom Song Production शुरू किया जा सकता है।
+          </span>
+        </label>
+
+        <span class="of-error" id="consent-error" role="alert" style="margin-top:10px;">
+          <i class="fas fa-exclamation-circle"></i> आगे बढ़ने के लिए दोनों सहमतियां जरूरी हैं।
+        </span>
+
+        <p style="font-size:0.78rem;color:var(--of-mute);margin-top:14px;line-height:1.6;">
+          विस्तृत जानकारी के लिए देखें:
+          <a href="/legal/terms-condition/" style="color:var(--of-brand);text-decoration:underline;">Terms & Conditions</a> और
+          <a href="/legal/privacy-policy/" style="color:var(--of-brand);text-decoration:underline;">Privacy Policy</a>।
+        </p>
+
+        <div class="of-info-box">
+          <i class="fas fa-info-circle"></i>
+          <p>Custom Song की Production प्रक्रिया शुरू होने के बाद Order को सामान्य Product की तरह Cancel/Modify करना संभव नहीं हो सकता। Final Song बनाने से पहले हमारी Team जरूरी जानकारी के लिए आपसे संपर्क करेगी।</p>
+        </div>
+      </section>
+
+      <!-- ===== SUBMIT ===== -->
+      <button type="submit" class="of-submit" id="submitBtn">
+        <span id="submitBtnText">₹999 में अपना Song बनवाएं</span>
+        <i class="fas fa-arrow-right" id="submitBtnIcon"></i>
+        <i class="fas fa-spinner fa-spin" id="submitBtnSpinner" style="display:none;"></i>
+      </button>
+
+      <p class="of-submit__note">
+        <i class="fas fa-shield-alt"></i> Secure Payment
+        <span style="color:var(--of-line);">•</span>
+        Simple Process
+        <span style="color:var(--of-line);">•</span>
+        Personal Team Assistance
+      </p>
+
+    </form>
+
+    <!-- ===== SUCCESS (fallback if backend fails, keep legacy flow) ===== -->
+    <div class="of-success" id="successMessage">
+      <div class="of-success__icon">
+        <i class="fas fa-check"></i>
+      </div>
+      <h3 class="of-success__title">आपका Order तैयार है!</h3>
+      <p class="of-success__text">अगले Step में Payment करें। Payment के बाद हमारी Team आपको Call करके बाकी जानकारी लेगी।</p>
+      <div class="of-success__order" id="orderIdDisplay">IG-SNG-XXXX</div>
+    </div>
+
+  </div>
+</main>
+
+<!-- ============================================
+     FOOTER
+============================================= -->
+<footer id="contact">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-col">
+        <a href="/" aria-label="Go to Homepage">
+          <img src="/assets/footer-logo.png" alt="InfoGrip Solution" style="height:70px;margin-bottom:20px;">
+        </a>
+        <p>Helping Indian political leaders build digital influence.</p>
+        <p>Need Expert Help? We're Just a Message Away!</p>
+        <a href="/onboarding/" class="btn btn-outline">Let's Connect</a>
+        <div class="social-links">
+          <a href="https://www.facebook.com/profile.php?id=61582320555612" class="social-link" target="_blank" rel="noopener"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://www.instagram.com/infogrip.in/" class="social-link" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
+          <a href="https://www.linkedin.com/company/infogripsolution/?viewAsMember=true" class="social-link" target="_blank" rel="noopener"><i class="fab fa-linkedin-in"></i></a>
+          <a href="https://x.com/InfoGrip" class="social-link" target="_blank" rel="noopener"><i class="fab fa-twitter"></i></a>
+          <a href="https://in.pinterest.com/infogrip_solution/_profile/" class="social-link" target="_blank" rel="noopener"><i class="fab fa-pinterest-p"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h3>Company</h3>
+        <ul class="footer-links">
+          <li><a href="/about/">About Us</a></li>
+          <li><a href="/contact/">Contact Us</a></li>
+          <li><a href="/legal/privacy-policy/">Privacy Policy</a></li>
+          <li><a href="/legal/terms-condition/">Terms &amp; Conditions</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>Core Services</h3>
+        <ul class="footer-links">
+          <li><a href="/services/political-branding/">Political Branding Services</a></li>
+          <li><a href="/services/political-social-media-framework/">Social Media for Politicians</a></li>
+          <li><a href="/services/digital-election-campaign/">Election Campaign Digital Strategy</a></li>
+          <li><a href="/custom-song/">Custom Professional Song</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>Contact Info</h3>
+        <p><i class="fas fa-map-marker-alt"></i> Jaipur, Rajasthan, India</p>
+        <p><i class="fas fa-phone"></i> +91 9928140288</p>
+        <p><i class="fas fa-envelope"></i> info@infogrip.in</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; InfoGrip Solution Ltd. All Rights Reserved 2026</p>
+      <div class="footer-bottom-links">
+        <a href="/legal/privacy-policy/">Privacy Policy</a>
+        <a href="/legal/terms-condition/">Terms &amp; Conditions</a>
+        <a href="/legal/refund-policy/">Refund Policy</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ============================================
+     SCRIPTS
+============================================= -->
+<script src="/js/main.js" defer></script>
+<script src="/custom-song/order/order.js" defer></script>
+
+</body>
+</html>
