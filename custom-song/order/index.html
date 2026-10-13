@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5.0">
+
+<link rel="icon" type="image/png" sizes="64x64" href="/favicon.png">
+<link rel="apple-touch-icon" href="/favicon.png">
+<meta name="theme-color" content="#ffffff">
+
+<title>अपना Custom Song Order करें | InfoGrip Solution</title>
+<meta name="description" content="सिर्फ 2 मिनट में basic जानकारी भरें और अपना Professional Custom Song बनवाएं — ₹999/- में।">
+<meta name="robots" content="noindex, follow">
+<link rel="canonical" href="https://infogrip.in/custom-song/order/">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="अपना Custom Song Order करें | InfoGrip Solution">
+<meta property="og:description" content="सिर्फ 2 मिनट में basic जानकारी भरें — बाकी काम हमारी Team करेगी।">
+<meta property="og:url" content="https://infogrip.in/custom-song/order/">
+<meta property="og:image" content="https://infogrip.in/assets/logo.png">
+<meta property="og:locale" content="hi_IN">
+
+
+<link rel="stylesheet" href="/custom-song/order/order.css">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<!-- Google tag (reused) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Y9RP0K1L4V"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-Y9RP0K1L4V');
+</script>
+
+</head>
+
+<body>
+
+<!-- ===== STICKY TOP BAR (fixed, always visible) ===== -->
+<header class="of-sticky-bar" role="banner">
+  <div class="of-sticky-bar__inner">
+    <a href="/custom-song/" class="of-brand" aria-label="InfoGrip Custom Song">
+      <img src="/assets/new-svg-logo.svg" alt="InfoGrip" onerror="this.style.display='none';this.nextElementSibling.style.display='inline'">
+      <span class="of-brand-text" style="display:none;">Info<span>Grip</span></span>
+    </a>
+
+    <a href="/custom-song/" class="of-back-btn" aria-label="Back to Custom Song page">
+      <i class="fas fa-arrow-left" aria-hidden="true"></i>
+      <span class="of-back-btn__label">Song Page</span>
+    </a>
+  </div>
+</header>
+
+<!-- ===== MAIN ===== -->
+<main class="of-page">
+  <div class="of-container" id="ofFormTop">
+
+    <!-- INTRO -->
+    <div class="of-intro">
+      <span class="of-intro__badge">
+        <i class="fas fa-circle"></i>
+        ₹999 • Custom Song • Personal Team Assistance
+      </span>
+      <h1 class="of-intro__title">अपना Professional Song बनवाने के लिए जानकारी दें</h1>
+      <p class="of-intro__sub">सिर्फ 2 मिनट में basic जानकारी भरें — बाकी काम हमारी Team करेगी।</p>
+    </div>
+
+    <!-- DESKTOP PROGRESS -->
+    <nav class="of-steps" aria-label="Form progress">
+      <div class="of-step-indicator is-active" data-step="1">
+        <span class="of-step-indicator__num">01</span>
+        <span class="of-step-indicator__label">आपकी जानकारी</span>
+      </div>
+      <i class="fas fa-chevron-right of-steps__arrow" aria-hidden="true"></i>
+      <div class="of-step-indicator" data-step="2">
+        <span class="of-step-indicator__num">02</span>
+        <span class="of-step-indicator__label">Song की पसंद</span>
+      </div>
+      <i class="fas fa-chevron-right of-steps__arrow" aria-hidden="true"></i>
+      <div class="of-step-indicator" data-step="3">
+        <span class="of-step-indicator__num">03</span>
+        <span class="of-step-indicator__label">Confirm</span>
+      </div>
+    </nav>
+
+    <!-- MOBILE PROGRESS -->
+    <div class="of-steps--mobile" aria-hidden="true">
+      <div class="of-steps-mobile__head">
+        <span class="of-steps-mobile__count" id="ofMobileStepCount">01 / 03</span>
+        <span class="of-steps-mobile__label" id="ofMobileStepLabel">आपकी जानकारी</span>
+      </div>
+      <div class="of-steps-mobile__bar">
+        <div class="of-steps-mobile__fill" id="ofMobileStepFill"></div>
+      </div>
+    </div>
+
+    <!-- NETWORK ALERT -->
+    <div class="of-alert of-alert--error" id="ofNetworkAlert" role="alert">
+      <i class="fas fa-exclamation-circle"></i>
+      <p id="ofNetworkAlertText">कुछ तकनीकी समस्या आ गई है। कृपया कुछ देर बाद दोबारा प्रयास करें।</p>
+    </div>
+
+    <!-- ============================================================
+         FORM
+    ============================================================ -->
+    <form id="orderForm" novalidate>
+
+      <!-- ========== STEP 1 ========== -->
+      <section class="of-step-panel is-active" data-step="1" id="panel-1">
+        <div class="of-card">
+          <header class="of-card__header">
+            <h2 class="of-card__title">
+              <span class="of-card__title-num">01</span>
+              आपकी जानकारी
+            </h2>
+            <p class="of-card__helper">बस कुछ basic जानकारी दें ताकि हम आपका Song सही तरीके से तैयार कर सकें।</p>
+          </header>
+
+          <div class="of-field">
+            <label class="of-label" for="name">पूरा नाम <span class="of-required">*</span></label>
+            <input type="text" id="name" name="name" class="of-input"
+                   placeholder="जैसे — महेंद्र सिंह" autocomplete="name" required minlength="2">
+            <span class="of-error" id="name-error" role="alert">
+              <i class="fas fa-exclamation-circle"></i> कृपया अपना नाम दर्ज करें।
+            </span>
+          </div>
+
+          <div class="of-field">
+            <label class="of-label" for="role">आप किस रूप में जुड़े हैं? <span class="of-required">*</span></label>
+            <div class="of-dropdown" id="role-dropdown">
+              <button type="button" class="of-dropdown__trigger" id="role-trigger"
+                      aria-haspopup="listbox" aria-expanded="false">
+                <span class="of-dropdown__trigger-text is-placeholder" id="role-trigger-text">अपनी भूमिका चुनें</span>
+                <i class="fas fa-chevron-down of-dropdown__arrow" aria-hidden="true"></i>
+              </button>
+              <div class="of-dropdown__menu" role="listbox" aria-label="भूमिका चुनें">
+                <div class="of-dropdown__search">
+                  <input type="text" placeholder="भूमिका खोजें..." id="role-search" autocomplete="off">
+                </div>
+                <ul class="of-dropdown__list" id="role-list"></ul>
+              </div>
+            </div>
+            <input type="hidden" id="role" name="role">
+            <span class="of-error" id="role-error" role="alert">
+              <i class="fas fa-exclamation-circle"></i> कृपया अपनी भूमिका चुनें।
+            </span>
+          </div>
+
+          <div class="of-field of-conditional" id="gram-panchayat-field">
+            <label class="of-label" for="gramPanchayat">ग्राम पंचायत <span class="of-required">*</span></label>
+            <input type="text" id="gramPanchayat" name="gramPanchayat" class="of-input"
+                   placeholder="जैसे — ग्राम पंचायत बगरू">
+            <span class="of-helper">जिस ग्राम पंचायत से आप जुड़े हैं उसका नाम लिखें।</span>
+            <span class="of-error" id="gramPanchayat-error" role="alert">
+              <i class="fas fa-exclamation-circle"></i> कृपया ग्राम पंचायत का नाम दर्ज करें।
+            </span>
+          </div>
+
+          <div class="of-field of-conditional" id="party-field">
+            <label class="of-label" for="party">पार्टी / संगठन</label>
+            <div class="of-dropdown" id="party-dropdown">
+              <button type="button" class="of-dropdown__trigger" id="party-trigger"
+                      aria-haspopup="listbox" aria-expanded="false">
+                <span class="of-dropdown__trigger-text is-placeholder" id="party-trigger-text">पार्टी / संगठन चुनें</span>
+                <i class="fas fa-chevron-down of-dropdown__arrow" aria-hidden="true"></i>
+              </button>
+              <div class="of-dropdown__menu" role="listbox" aria-label="पार्टी या संगठन चुनें">
+                <div class="of-dropdown__search">
+                  <input type="text" placeholder="पार्टी / संगठन खोजें..." id="party-search" autocomplete="off">
+                </div>
+                <ul class="of-dropdown__list" id="party-list"></ul>
+              </div>
+            </div>
+            <input type="hidden" id="party" name="party">
+          </div>
+
+          <div class="of-field of-conditional" id="otherParty-field">
+            <label class="of-label" for="otherParty" id="otherParty-label">पार्टी का नाम</label>
+            <input type="text" id="otherParty" name="otherParty" class="of-input"
+                   placeholder="अपनी पार्टी का नाम लिखें">
+          </div>
+
+          <div class="of-field">
+            <label class="of-label" for="mobile">मोबाइल नंबर <span class="of-required">*</span></label>
+            <input type="tel" id="mobile" name="mobile" class="of-input"
+                   placeholder="10 अंकों का मोबाइल नंबर" inputmode="numeric"
+                   autocomplete="tel" maxlength="10" required>
+            <span class="of-helper">इसी नंबर पर हमारी Team आपसे संपर्क करेगी।</span>
+            <span class="of-error" id="mobile-error" role="alert">
+              <i class="fas fa-exclamation-circle"></i> कृपया 10 अंकों का सही मोबाइल नंबर दर्ज करें।
+            </span>
+          </div>
+
+          <div class="of-field">
+            <label class="of-label" for="area">आपका क्षेत्र</label>
+            <input type="text" id="area" name="area" class="of-input"
+                   placeholder="जैसे — जयपुर, राजस्थान">
+            <span class="of-helper">यह जानकारी आपके Song को ज्यादा personal बनाने में मदद करेगी।</span>
+          </div>
+        </div>
+
+        <div class="of-step-nav">
+          <button type="button" class="of-btn of-btn--primary" data-next="2">
+            आगे बढ़ें <i class="fas fa-arrow-right"></i>
+          </button>
+        </div>
+      </section>
+
+      <!-- ========== STEP 2 ========== -->
+      <section class="of-step-panel" data-step="2" id="panel-2">
+        <div class="of-card">
+          <header class="of-card__header">
+            <h2 class="of-card__title">
+              <span class="of-card__title-num">02</span>
+              Song की पसंद
+            </h2>
+            <p class="of-card__helper">अपनी पसंद बताएं — Lyrics और Music की बाकी जिम्मेदारी हमारी Team की है।</p>
+          </header>
+
+          <div class="of-field">
+            <label class="of-label">Song किस बात पर ज्यादा Focus करे? <span class="of-required">*</span></label>
+            <div class="of-cards" id="songFocus-cards" role="radiogroup" aria-label="Song Focus">
+              <div class="of-card-option" data-value="जनसेवा और जनता से जुड़ाव" role="radio" aria-checked="false" tabindex="0">
+                <i class="fas fa-hands-helping of-card-option__icon"></i>
+                <span class="of-card-option__label">जनसेवा</span>
+                <span class="of-card-option__desc">जनसेवा और जनता से जुड़ाव</span>
+                <span class="of-card-option__check"><i class="fas fa-check"></i></span>
+              </div>
+              <div class="of-card-option" data-value="विकास और क्षेत्र के काम" role="radio" aria-checked="false" tabindex="0">
+                <i class="fas fa-chart-line of-card-option__icon"></i>
+                <span class="of-card-option__label">विकास</span>
+                <span class="of-card-option__desc">विकास और क्षेत्र के काम</span>
+                <span class="of-card-option__check"><i class="fas fa-check"></i></span>
+              </div>
+              <div class="of-card-option" data-value="युवा और नई सोच" role="radio" aria-checked="false" tabindex="0">
+                <i class="fas fa-fire of-card-option__icon"></i>
+                <span class="of-card-option__label">युवा</span>
+                <span class="of-card-option__desc">युवा और नई सोच</span>
+                <span class="of-card-option__check"><i class="fas fa-check"></i></span>
+              </div>
+              <div class="of-card-option" data-value="नेतृत्व और पहचान" role="radio" aria-checked="false" tabindex="0">
+                <i class="fas fa-crown of-card-option__icon"></i>
+                <span class="of-card-option__label">नेतृत्व</span>
+                <span class="of-card-option__desc">नेतृत्व और पहचान</span>
+                <span class="of-card-option__check"><i class="fas fa-check"></i></span>
+              </div>
+              <div class="of-card-option" data-value="क्षेत्र की पहचान" role="radio" aria-checked="false" tabindex="0">
+                <i class="fas fa-map-marker-alt of-card-option__icon"></i>
+                <span class="of-card-option__label">क्षेत्र</span>
+                <span class="of-card-option__desc">क्षेत्र की पहचान</span>
+                <span class="of-card-option__check"><i class="fas fa-check"></i></span>
+              </div>
+              <div class="of-card-option" data-value="मेरी उपलब्धियां" role="radio" aria-checked="false" tabindex="0">
+                <i class="fas fa-trophy of-card-option__icon"></i>
+                <span class="of-card-option__label">उपलब्धियां</span>
+                <span class="of-card-option__desc">मेरी उपलब्धियां</span>
+                <span class="of-card-option__check"><i class="fas fa-check"></i></span>
+              </div>
+              <div class="of-card-option" data-value="हमारी Team तय करे" role="radio" aria-checked="false" tabindex="0">
+                <i class="fas fa-users-cog of-card-option__icon"></i>
+                <span class="of-card-option__label">टीम</span>
+                <span class="of-card-option__desc">हमारी Team तय करे</span>
+                <span class="of-card-option__check"><i class="fas fa-check"></i></span>
+              </div>
+            </div>
+            <input type="hidden" id="songFocus" name="songFocus">
+            <span class="of-error" id="songFocus-error" role="alert">
+              <i class="fas fa-exclamation-circle"></i> कृपया Song का Focus चुनें।
+            </span>
+          </div>
+
+          <div class="of-field">
+            <label class="of-label">Song का Style <span class="of-required">*</span></label>
+            <div class="of-cards" id="songStyle-cards" role="radiogroup" aria-label="Song Style">
+              <div class="of-card-option" data-value="जोशीला" role="radio" aria-checked="false" tabindex="0">
+                <i class="fas fa-bolt of-card-option__icon"></i>
+                <span class="of-card-option__label">जोशीला</span>
+                <span class="of-card-option__check"><i class="fas fa-check"></i></span>
+              </div>
+              <div class="of-card-option" data-value="दमदार" role="radio" aria-checked="false" tabindex="0">
+                <i class="fas fa-fist-raised of-card-option__icon"></i>
+                <span class="of-card-option__label">दमदार</span>
+                <span class="of-card-option__check"><i class="fas fa-check"></i></span>
+              </div>
+              <div class="of-card-option" data-value="भावनात्मक" role="radio" aria-checked="false" tabindex="0">
+                <i class="fas fa-heart of-card-option__icon"></i>
+                <span class="of-card-option__label">भावनात्मक</span>
+                <span class="of-card-option__check"><i class="fas fa-check"></i></span>
+              </div>
+              <div class="of-card-option" data-value="प्रेरणादायक" role="radio" aria-checked="false" tabindex="0">
+                <i class="fas fa-star of-card-option__icon"></i>
+                <span class="of-card-option__label">प्रेरणादायक</span>
+                <span class="of-card-option__check"><i class="fas fa-check"></i></span>
+              </div>
+              <div class="of-card-option" data-value="राजस्थानी Touch" role="radio" aria-checked="false" tabindex="0">
+                <i class="fas fa-drum of-card-option__icon"></i>
+                <span class="of-card-option__label">राजस्थानी Touch</span>
+                <span class="of-card-option__check"><i class="fas fa-check"></i></span>
+              </div>
+              <div class="of-card-option" data-value="हमारी Team तय करे" role="radio" aria-checked="false" tabindex="0">
+                <i class="fas fa-users-cog of-card-option__icon"></i>
+                <span class="of-card-option__label">टीम तय करे</span>
+                <span class="of-card-option__check"><i class="fas fa-check"></i></span>
+              </div>
+            </div>
+            <input type="hidden" id="songStyle" name="songStyle">
+            <span class="of-error" id="songStyle-error" role="alert">
+              <i class="fas fa-exclamation-circle"></i> कृपया Song का Style चुनें।
+            </span>
+          </div>
+
+          <div class="of-field">
+            <label class="of-label" for="specialMessage">कोई खास संदेश?</label>
+            <textarea id="specialMessage" name="specialMessage" class="of-textarea"
+                      placeholder="जैसे — कोई खास नारा, गांव का नाम या आपका संदेश..."
+                      maxlength="500" rows="3"></textarea>
+            <span class="of-counter"><span id="charCount">0</span>/500</span>
+            <span class="of-helper">अगर अभी कुछ तय नहीं है, तो इसे खाली छोड़ सकते हैं।</span>
+          </div>
+        </div>
+
+        <div class="of-step-nav">
+          <button type="button" class="of-btn of-btn--ghost" data-back="1">
+            <i class="fas fa-arrow-left"></i> वापस
+          </button>
+          <button type="button" class="of-btn of-btn--primary" data-next="3">
+            आगे बढ़ें <i class="fas fa-arrow-right"></i>
+          </button>
+        </div>
+      </section>
+
+      <!-- ========== STEP 3 ========== -->
+      <section class="of-step-panel" data-step="3" id="panel-3">
+        <div class="of-card">
+          <header class="of-card__header">
+            <h2 class="of-card__title">
+              <span class="of-card__title-num">03</span>
+              Review &amp; Confirm
+            </h2>
+            <p class="of-card__helper">Payment से पहले अपनी जानकारी एक बार जांच लें।</p>
+          </header>
+
+          <div class="of-review-section">
+            <div class="of-review-section__head">
+              <span class="of-review-section__title">
+                <span class="of-review-section__num">01</span> आपकी जानकारी
+              </span>
+              <button type="button" class="of-review-section__edit" data-goto="1">बदलें</button>
+            </div>
+            <div id="reviewInfoRows"></div>
+          </div>
+
+          <div class="of-review-section">
+            <div class="of-review-section__head">
+              <span class="of-review-section__title">
+                <span class="of-review-section__num">02</span> Song की पसंद
+              </span>
+              <button type="button" class="of-review-section__edit" data-goto="2">बदलें</button>
+            </div>
+            <div id="reviewSongRows"></div>
+          </div>
+        </div>
+
+        <div class="of-reassure">
+          <h3 class="of-reassure__title">
+            <i class="fas fa-music"></i> बाकी काम हमारी Team करेगी 🎵
+          </h3>
+          <p class="of-reassure__text">आपको Lyrics लिखने या Music की जानकारी देने की जरूरत नहीं है। आपकी basic जानकारी के आधार पर हमारी Team आपके लिए Custom Song तैयार करेगी।</p>
+          <p class="of-reassure__text">Payment के बाद हमारी Team आपको Call करके जरूरी जानकारी लेगी।</p>
+        </div>
+
+        <div class="of-price-card">
+          <span class="of-price-card__badge">Special Price</span>
+          <h3 class="of-price-card__title">₹999 में आपका Custom Professional Song</h3>
+          <div class="of-price-card__amount"><small>₹1,599</small> ₹999</div>
+          <ul class="of-price-card__features">
+            <li><i class="fas fa-check"></i> आपके नाम के अनुसार</li>
+            <li><i class="fas fa-check"></i> आपकी पहचान के अनुसार</li>
+            <li><i class="fas fa-check"></i> Custom Lyrics</li>
+            <li><i class="fas fa-check"></i> Professional Music &amp; Voice</li>
+            <li><i class="fas fa-check"></i> Quality Checked Final Song</li>
+          </ul>
+        </div>
+
+        <div class="of-card">
+          <label class="of-consent" id="consent1-label">
+            <input type="checkbox" id="consent1" name="consent1">
+            <span class="of-consent__text">
+              मैंने दी गई जानकारी को सही माना है और मैं समझता/समझती हूं कि यह एक Custom Song Service है।
+            </span>
+          </label>
+
+          <label class="of-consent" id="consent2-label">
+            <input type="checkbox" id="consent2" name="consent2">
+            <span class="of-consent__text">
+              मैं सहमत हूं कि Payment के बाद मेरी दी गई जानकारी के आधार पर Custom Song Production शुरू किया जा सकता है।
+            </span>
+          </label>
+
+          <span class="of-error" id="consent-error" role="alert" style="margin-top:10px;">
+            <i class="fas fa-exclamation-circle"></i> आगे बढ़ने के लिए दोनों सहमतियां जरूरी हैं।
+          </span>
+
+          <p style="font-size:0.76rem;color:var(--of-mute);margin-top:14px;line-height:1.6;">
+            विस्तृत जानकारी: <a href="/legal/terms-condition/" style="color:var(--of-brand);text-decoration:underline;font-weight:600;">Terms &amp; Conditions</a> और <a href="/legal/privacy-policy/" style="color:var(--of-brand);text-decoration:underline;font-weight:600;">Privacy Policy</a>।
+          </p>
+
+          <div class="of-info-box">
+            <i class="fas fa-info-circle"></i>
+            <p>Custom Song की Production शुरू होने के बाद Order को Cancel/Modify करना संभव नहीं हो सकता। Final Song बनाने से पहले Team जरूरी जानकारी लेगी।</p>
+          </div>
+        </div>
+
+        <div class="of-step-nav">
+          <button type="button" class="of-btn of-btn--ghost" data-back="2">
+            <i class="fas fa-arrow-left"></i> वापस
+          </button>
+        </div>
+
+        <button type="submit" class="of-btn of-btn--submit" id="submitBtn">
+          <span id="submitBtnText">₹999 में अपना Song बनवाएं</span>
+          <i class="fas fa-arrow-right" id="submitBtnIcon"></i>
+          <i class="fas fa-spinner fa-spin" id="submitBtnSpinner" style="display:none;"></i>
+        </button>
+
+        <p class="of-trust-line">
+          <i class="fas fa-shield-alt"></i> Secure Payment
+          <span class="of-dot">•</span> Simple Process
+          <span class="of-dot">•</span> Personal Team Assistance
+        </p>
+      </section>
+
+    </form>
+  </div>
+</main>
+<script src="../js/main.js"></script>
+<script src="/custom-song/order/order.js"></script>
+
+</body>
+</html>
